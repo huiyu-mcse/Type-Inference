@@ -1,0 +1,71 @@
+
+Constraints:
+  C01: response__global <= {}
+  C02: T1 <= bool
+  C03: T1 <= ok__global
+  C04: ok__global <= bool
+  C05: T2 <= num
+  C06: response__global <= {status: T2}
+  C07: T3 <= str
+  C08: response__global <= {body: T3}
+  C09: T4 <= num
+  C10: T4 <= x__f
+  C11: T5 <= num
+  C12: response__global <= {status: T5}
+  C13: T6 <= str
+  C14: response__global <= {aux: T6}
+
+──────────────────────────────────────────────────────
+Inicio:
+ response__global:bot, {}:bot, T1:bot, bool:bot, ok__global:bot, T2:bot, num:bot, {status: T2}:bot, T3:bot, str:bot, {body: T3}:bot, T4:bot, x__f:bot, T5:bot, {status: T5}:bot, T6:bot, {aux: T6}:bot
+
+1: [response__global <= {}]
+ response__global:{}, T1:bot, bool:bot, ok__global:bot, T2:bot, num:bot, {status: T2}:bot, T3:bot, str:bot, {body: T3}:bot, T4:bot, x__f:bot, T5:bot, {status: T5}:bot, T6:bot, {aux: T6}:bot
+
+2: [T1 <= bool]
+ response__global:{}, T1:bool, ok__global:bot, T2:bot, num:bot, {status: T2}:bot, T3:bot, str:bot, {body: T3}:bot, T4:bot, x__f:bot, T5:bot, {status: T5}:bot, T6:bot, {aux: T6}:bot
+
+3: [T1 <= ok__global]
+ response__global:{}, T1:bool, T2:bot, num:bot, {status: T2}:bot, T3:bot, str:bot, {body: T3}:bot, T4:bot, x__f:bot, T5:bot, {status: T5}:bot, T6:bot, {aux: T6}:bot
+
+4: [ok__global <= bool]
+ response__global:{}, T1:bool, T2:bot, num:bot, {status: T2}:bot, T3:bot, str:bot, {body: T3}:bot, T4:bot, x__f:bot, T5:bot, {status: T5}:bot, T6:bot, {aux: T6}:bot
+
+5: [T2 <= num]
+ response__global:{}, T1:bool, T2:num, {status: T2}:bot, T3:bot, str:bot, {body: T3}:bot, T4:bot, x__f:bot, T5:bot, {status: T5}:bot, T6:bot, {aux: T6}:bot
+
+6: [response__global <= {status: T2}]
+ (response__global: {status: T2}), T1:bool, T2:num, T3:bot, str:bot, {body: T3}:bot, T4:bot, x__f:bot, T5:bot, {status: T5}:bot, T6:bot, {aux: T6}:bot
+
+7: [T3 <= str]
+ (response__global: {status: T2}), T1:bool, T2:num, T3:str, {body: T3}:bot, T4:bot, x__f:bot, T5:bot, {status: T5}:bot, T6:bot, {aux: T6}:bot
+
+8: [response__global <= {body: T3}]
+ (response__global: {status: T2, body: T3}), T1:bool, T2:num, T3:str, T4:bot, x__f:bot, T5:bot, {status: T5}:bot, T6:bot, {aux: T6}:bot
+
+9: [T4 <= num]
+ (response__global: {status: T2, body: T3}), T1:bool, T2:num, T3:str, T4:num, x__f:bot, T5:bot, {status: T5}:bot, T6:bot, {aux: T6}:bot
+
+10: [T4 <= x__f]
+ (response__global: {status: T2, body: T3}), T1:bool, T2:num, T3:str, T4:num, T5:bot, {status: T5}:bot, T6:bot, {aux: T6}:bot
+
+11: [T5 <= num]
+ (response__global: {status: T2, body: T3}), T1:bool, T2:num, T3:str, T4:num, T5:num, {status: T5}:bot, T6:bot, {aux: T6}:bot
+
+12: [response__global <= {status: T5}]
+ (response__global: {status: T2|T5, body: T3}), T1:bool, T2:num, T3:str, T4:num, T5:num, T6:bot, {aux: T6}:bot
+
+13: [T6 <= str]
+ (response__global: {status: T2|T5, body: T3}), T1:bool, T2:num, T3:str, T4:num, T5:num, T6:str, {aux: T6}:bot
+
+14: [response__global <= {aux: T6}]
+ (response__global: {status: T2|T5, body: T3, aux: T6}), T1:bool, T2:num, T3:str, T4:num, T5:num, T6:str
+
+──────────────────────────────────────────────────────
+✓  Sem conflitos.
+
+FINAL:
+  ok__global        :  bool
+  response__global  :  {status: num, body: str, aux: str}
+  x__f              :  num
+

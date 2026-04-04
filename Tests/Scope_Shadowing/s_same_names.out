@@ -1,0 +1,48 @@
+
+Constraints:
+  C1: T1 <= num
+  C2: T1 <= x__global
+  C3: T2 <= str
+  C4: T2 <= msg__global
+  C5: T3 <= str
+  C6: T3 <= x__shadow
+  C7: T4 <= num
+  C8: T4 <= msg__shadow
+
+──────────────────────────────────────────────────────
+Inicio:
+ T1:bot, num:bot, x__global:bot, T2:bot, str:bot, msg__global:bot, T3:bot, x__shadow:bot, T4:bot, msg__shadow:bot
+
+1: [T1 <= num]
+ T1:num, x__global:bot, T2:bot, str:bot, msg__global:bot, T3:bot, x__shadow:bot, T4:bot, msg__shadow:bot
+
+2: [T1 <= x__global]
+ T1:num, T2:bot, str:bot, msg__global:bot, T3:bot, x__shadow:bot, T4:bot, msg__shadow:bot
+
+3: [T2 <= str]
+ T1:num, T2:str, msg__global:bot, T3:bot, x__shadow:bot, T4:bot, msg__shadow:bot
+
+4: [T2 <= msg__global]
+ T1:num, T2:str, T3:bot, x__shadow:bot, T4:bot, msg__shadow:bot
+
+5: [T3 <= str]
+ T1:num, T2:str, T3:str, x__shadow:bot, T4:bot, msg__shadow:bot
+
+6: [T3 <= x__shadow]
+ T1:num, T2:str, T3:str, T4:bot, msg__shadow:bot
+
+7: [T4 <= num]
+ T1:num, T2:str, T3:str, T4:num, msg__shadow:bot
+
+8: [T4 <= msg__shadow]
+ T1:num, T2:str, T3:str, T4:num
+
+──────────────────────────────────────────────────────
+✓  Sem conflitos.
+
+FINAL:
+  msg__global  :  str
+  msg__shadow  :  num
+  x__global    :  num
+  x__shadow    :  str
+
