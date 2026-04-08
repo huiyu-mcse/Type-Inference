@@ -1,0 +1,66 @@
+
+Constraints:
+  C01: T1 <= num
+  C02: T1 <= a__global
+  C03: T2 <= num
+  C04: T2 <= b__global
+  C05: a__global <= num
+  C06: b__global <= num
+  C07: T3 <= num
+  C08: T3 <= x__global
+  C09: T4 <= str
+  C10: x__global <= {label: T4}
+  C11: T5 <= y__global
+  C12: x__global <= {label: T5}
+
+──────────────────────────────────────────────────────
+Inicio:
+ T1:bot, num:bot, a__global:bot, T2:bot, b__global:bot, T3:bot, x__global:bot, T4:bot, str:bot, {label: T4}:bot, T5:bot, y__global:bot, {label: T5}:bot
+
+1: [T1 <= num]
+ T1:num, a__global:bot, T2:bot, b__global:bot, T3:bot, x__global:bot, T4:bot, str:bot, {label: T4}:bot, T5:bot, y__global:bot, {label: T5}:bot
+
+2: [T1 <= a__global]
+ T1:num, T2:bot, b__global:bot, T3:bot, x__global:bot, T4:bot, str:bot, {label: T4}:bot, T5:bot, y__global:bot, {label: T5}:bot
+
+3: [T2 <= num]
+ T1:num, T2:num, b__global:bot, T3:bot, x__global:bot, T4:bot, str:bot, {label: T4}:bot, T5:bot, y__global:bot, {label: T5}:bot
+
+4: [T2 <= b__global]
+ T1:num, T2:num, T3:bot, x__global:bot, T4:bot, str:bot, {label: T4}:bot, T5:bot, y__global:bot, {label: T5}:bot
+
+5: [a__global <= num]
+ T1:num, T2:num, T3:bot, x__global:bot, T4:bot, str:bot, {label: T4}:bot, T5:bot, y__global:bot, {label: T5}:bot
+
+6: [b__global <= num]
+ T1:num, T2:num, T3:bot, x__global:bot, T4:bot, str:bot, {label: T4}:bot, T5:bot, y__global:bot, {label: T5}:bot
+
+7: [T3 <= num]
+ T1:num, T2:num, T3:num, x__global:bot, T4:bot, str:bot, {label: T4}:bot, T5:bot, y__global:bot, {label: T5}:bot
+
+8: [T3 <= x__global]
+ T1:num, T2:num, T3:num, T4:bot, str:bot, {label: T4}:bot, T5:bot, y__global:bot, {label: T5}:bot
+
+9: [T4 <= str]
+ T1:num, T2:num, T3:num, T4:str, {label: T4}:bot, T5:bot, y__global:bot, {label: T5}:bot
+
+10: [x__global <= {label: T4}]
+ T1:num, T2:num, T3:num, T4:str, T5:bot, y__global:bot, {label: T5}:bot
+
+11: [T5 <= y__global]
+ T1:num, T2:num, T3:num, T4:str, T5:bot, {label: T5}:bot
+
+12: [x__global <= {label: T5}]
+ T1:num, T2:num, T3:num, T4:str, T5:bot
+
+──────────────────────────────────────────────────────
+⚠  ERROS DE TIPO:
+   CONFLICT: num vs obj
+   CONFLICT: num vs obj
+
+FINAL:
+  a__global  :  num
+  b__global  :  num
+  x__global  :  num
+  y__global  :  bot
+

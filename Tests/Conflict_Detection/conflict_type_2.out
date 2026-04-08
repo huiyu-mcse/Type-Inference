@@ -1,0 +1,42 @@
+
+Constraints:
+  C1: shared__global <= {}
+  C2: T1 <= num
+  C3: shared__global <= {value: T1}
+  C4: T2 <= str
+  C5: shared__global <= {value: T2}
+  C6: T3 <= v__global
+  C7: shared__global <= {value: T3}
+
+──────────────────────────────────────────────────────
+Inicio:
+ shared__global:bot, {}:bot, T1:bot, num:bot, {value: T1}:bot, T2:bot, str:bot, {value: T2}:bot, T3:bot, v__global:bot, {value: T3}:bot
+
+1: [shared__global <= {}]
+ shared__global:{}, T1:bot, num:bot, {value: T1}:bot, T2:bot, str:bot, {value: T2}:bot, T3:bot, v__global:bot, {value: T3}:bot
+
+2: [T1 <= num]
+ shared__global:{}, T1:num, {value: T1}:bot, T2:bot, str:bot, {value: T2}:bot, T3:bot, v__global:bot, {value: T3}:bot
+
+3: [shared__global <= {value: T1}]
+ (shared__global: {value: T1}), T1:num, T2:bot, str:bot, {value: T2}:bot, T3:bot, v__global:bot, {value: T3}:bot
+
+4: [T2 <= str]
+ (shared__global: {value: T1}), T1:num, T2:str, {value: T2}:bot, T3:bot, v__global:bot, {value: T3}:bot
+
+5: [shared__global <= {value: T2}]
+ (shared__global: {value: T1|T2}), T1:num, T2:str, T3:bot, v__global:bot, {value: T3}:bot
+
+6: [T3 <= v__global]
+ (shared__global: {value: T1|T2}), T1:num, T2:str, T3:bot, {value: T3}:bot
+
+7: [shared__global <= {value: T3}]
+ (shared__global: {value: T1|T2|T3}), T1:num, T2:str, T3:bot
+
+──────────────────────────────────────────────────────
+✓  Sem conflitos.
+
+FINAL:
+  shared__global  :  {value: num|str|bot}
+  v__global       :  bot
+

@@ -1,0 +1,39 @@
+
+Constraints:
+  C1: person__global <= {}
+  C2: T1 <= num
+  C3: person__global <= {age: T1}
+  C4: T2 <= a__global
+  C5: person__global <= {age: T2}
+  C6: a__global <= b__global
+
+──────────────────────────────────────────────────────
+Inicio:
+ person__global:bot, {}:bot, T1:bot, num:bot, {age: T1}:bot, T2:bot, a__global:bot, {age: T2}:bot, b__global:bot
+
+1: [person__global <= {}]
+ person__global:{}, T1:bot, num:bot, {age: T1}:bot, T2:bot, a__global:bot, {age: T2}:bot, b__global:bot
+
+2: [T1 <= num]
+ person__global:{}, T1:num, {age: T1}:bot, T2:bot, a__global:bot, {age: T2}:bot, b__global:bot
+
+3: [person__global <= {age: T1}]
+ (person__global: {age: T1}), T1:num, T2:bot, a__global:bot, {age: T2}:bot, b__global:bot
+
+4: [T2 <= a__global]
+ (person__global: {age: T1}), T1:num, T2:bot, {age: T2}:bot, b__global:bot
+
+5: [person__global <= {age: T2}]
+ (person__global: {age: T1|T2}), T1:num, T2:bot, b__global:bot
+
+6: [a__global <= b__global]
+ (person__global: {age: T1|T2}), T1:num, T2:bot
+
+──────────────────────────────────────────────────────
+✓  Sem conflitos.
+
+FINAL:
+  a__global       :  bot
+  b__global       :  bot
+  person__global  :  {age: num|bot}
+

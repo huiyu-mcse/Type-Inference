@@ -1,0 +1,83 @@
+
+Constraints:
+  C01: state__global <= {}
+  C02: T1 <= bool
+  C03: state__global <= {running: T1}
+  C04: T2 <= num
+  C05: state__global <= {count: T2}
+  C06: T3 <= flag__global
+  C07: state__global <= {running: T3}
+  C08: flag__global <= bool
+  C09: T4 <= c__global
+  C10: state__global <= {count: T4}
+  C11: T5 <= num
+  C12: c__global <= num
+  C13: T5 <= num
+  C14: T6 <= num
+  C15: state__global <= {count: T6}
+  C16: T7 <= flag__global
+  C17: state__global <= {running: T7}
+
+──────────────────────────────────────────────────────
+Inicio:
+ state__global:bot, {}:bot, T1:bot, bool:bot, {running: T1}:bot, T2:bot, num:bot, {count: T2}:bot, T3:bot, flag__global:bot, {running: T3}:bot, T4:bot, c__global:bot, {count: T4}:bot, T5:bot, T6:bot, {count: T6}:bot, T7:bot, {running: T7}:bot
+
+1: [state__global <= {}]
+ state__global:{}, T1:bot, bool:bot, {running: T1}:bot, T2:bot, num:bot, {count: T2}:bot, T3:bot, flag__global:bot, {running: T3}:bot, T4:bot, c__global:bot, {count: T4}:bot, T5:bot, T6:bot, {count: T6}:bot, T7:bot, {running: T7}:bot
+
+2: [T1 <= bool]
+ state__global:{}, T1:bool, {running: T1}:bot, T2:bot, num:bot, {count: T2}:bot, T3:bot, flag__global:bot, {running: T3}:bot, T4:bot, c__global:bot, {count: T4}:bot, T5:bot, T6:bot, {count: T6}:bot, T7:bot, {running: T7}:bot
+
+3: [state__global <= {running: T1}]
+ (state__global: {running: T1}), T1:bool, T2:bot, num:bot, {count: T2}:bot, T3:bot, flag__global:bot, {running: T3}:bot, T4:bot, c__global:bot, {count: T4}:bot, T5:bot, T6:bot, {count: T6}:bot, T7:bot, {running: T7}:bot
+
+4: [T2 <= num]
+ (state__global: {running: T1}), T1:bool, T2:num, {count: T2}:bot, T3:bot, flag__global:bot, {running: T3}:bot, T4:bot, c__global:bot, {count: T4}:bot, T5:bot, T6:bot, {count: T6}:bot, T7:bot, {running: T7}:bot
+
+5: [state__global <= {count: T2}]
+ (state__global: {running: T1, count: T2}), T1:bool, T2:num, T3:bot, flag__global:bot, {running: T3}:bot, T4:bot, c__global:bot, {count: T4}:bot, T5:bot, T6:bot, {count: T6}:bot, T7:bot, {running: T7}:bot
+
+6: [T3 <= flag__global]
+ (state__global: {running: T1, count: T2}), T1:bool, T2:num, T3:bot, {running: T3}:bot, T4:bot, c__global:bot, {count: T4}:bot, T5:bot, T6:bot, {count: T6}:bot, T7:bot, {running: T7}:bot
+
+7: [state__global <= {running: T3}]
+ (state__global: {running: T1|T3, count: T2}), T1:bool, T2:num, T3:bot, T4:bot, c__global:bot, {count: T4}:bot, T5:bot, T6:bot, {count: T6}:bot, T7:bot, {running: T7}:bot
+
+8: [flag__global <= bool]
+ (state__global: {running: T1|T3, count: T2}), T1:bool, T2:num, T3:bool, T4:bot, c__global:bot, {count: T4}:bot, T5:bot, T6:bot, {count: T6}:bot, T7:bot, {running: T7}:bot
+
+9: [T4 <= c__global]
+ (state__global: {running: T1|T3, count: T2}), T1:bool, T2:num, T3:bool, T4:bot, {count: T4}:bot, T5:bot, T6:bot, {count: T6}:bot, T7:bot, {running: T7}:bot
+
+10: [state__global <= {count: T4}]
+ (state__global: {running: T1|T3, count: T2|T4}), T1:bool, T2:num, T3:bool, T4:bot, T5:bot, T6:bot, {count: T6}:bot, T7:bot, {running: T7}:bot
+
+11: [T5 <= num]
+ (state__global: {running: T1|T3, count: T2|T4}), T1:bool, T2:num, T3:bool, T4:bot, T5:num, T6:bot, {count: T6}:bot, T7:bot, {running: T7}:bot
+
+12: [c__global <= num]
+ (state__global: {running: T1|T3, count: T2|T4}), T1:bool, T2:num, T3:bool, T4:num, T5:num, T6:bot, {count: T6}:bot, T7:bot, {running: T7}:bot
+
+13: [T5 <= num]
+ (state__global: {running: T1|T3, count: T2|T4}), T1:bool, T2:num, T3:bool, T4:num, T5:num, T6:bot, {count: T6}:bot, T7:bot, {running: T7}:bot
+
+14: [T6 <= num]
+ (state__global: {running: T1|T3, count: T2|T4}), T1:bool, T2:num, T3:bool, T4:num, T5:num, T6:num, {count: T6}:bot, T7:bot, {running: T7}:bot
+
+15: [state__global <= {count: T6}]
+ (state__global: {running: T1|T3, count: T2|T4|T6}), T1:bool, T2:num, T3:bool, T4:num, T5:num, T6:num, T7:bot, {running: T7}:bot
+
+16: [T7 <= flag__global]
+ (state__global: {running: T1|T3, count: T2|T4|T6}), T1:bool, T2:num, T3:bool, T4:num, T5:num, T6:num, {running: T7}:bot
+
+17: [state__global <= {running: T7}]
+ (state__global: {running: T1|T3|T7, count: T2|T4|T6}), T1:bool, T2:num, T3:bool, T4:num, T5:num, T6:num
+
+──────────────────────────────────────────────────────
+✓  Sem conflitos.
+
+FINAL:
+  c__global      :  num
+  flag__global   :  bool
+  state__global  :  {running: bool, count: num}
+
