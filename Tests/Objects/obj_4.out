@@ -31,39 +31,39 @@ Inicio:
  (obj1__global: {data: T1}), T1:num, obj2__global:{}, T2:bot, shared__global:bot, {data: T2}:bot, {data: shared__global}:bot, {data: T3}:bot, T4:bot, T3:bot, T5:bot, result__global:bot
 
 5: [T2 <= shared__global]
- (obj1__global: {data: T1}), T1:num, obj2__global:{}, T2:bot, {data: T2}:bot, {data: shared__global}:bot, {data: T3}:bot, T4:bot, T3:bot, T5:bot, result__global:bot
+ (obj1__global: {data: T1}), T1:num, obj2__global:{}, T2:bot, shared__global:bot, {data: T2}:bot, {data: shared__global}:bot, {data: T3}:bot, T4:bot, T3:bot, T5:bot, result__global:bot
 
 6: [obj1__global <= {data: T2}]
- (obj1__global: {data: T1|T2}), T1:num, obj2__global:{}, T2:bot, {data: shared__global}:bot, {data: T3}:bot, T4:bot, T3:bot, T5:bot, result__global:bot
+ (obj1__global: {data: T2}), T1:num, obj2__global:{}, T2:num, shared__global:num, {data: shared__global}:bot, {data: T3}:bot, T4:bot, T3:bot, T5:bot, result__global:bot
 
 7: [obj2__global <= {data: shared__global}]
- (obj1__global: {data: T1|T2}), T1:num, (obj2__global: {data: shared__global}), T2:bot, {data: T3}:bot, T4:bot, T3:bot, T5:bot, result__global:bot
+ (obj1__global: {data: T2}), T1:num, (obj2__global: {data: T2}), T2:num, shared__global:num, {data: T3}:bot, T4:bot, T3:bot, T5:bot, result__global:bot
 
 8: [obj2__global <= {data: T3}]
- (obj1__global: {data: T1|T2}), T1:num, (obj2__global: {data: shared__global|T3}), T2:bot, T4:bot, T3:bot, T5:bot, result__global:bot
+ (obj1__global: {data: T2}), T1:num, (obj2__global: {data: T2}), T2:num, shared__global:num, T4:bot, T3:num, T5:bot, result__global:bot
 
 9: [T4 <= num]
- (obj1__global: {data: T1|T2}), T1:num, (obj2__global: {data: shared__global|T3}), T2:bot, T4:num, T3:bot, T5:bot, result__global:bot
+ (obj1__global: {data: T2}), T1:num, (obj2__global: {data: T2}), T2:num, shared__global:num, T4:num, T3:num, T5:bot, result__global:bot
 
 10: [T3 <= num]
- (obj1__global: {data: T1|T2}), T1:num, (obj2__global: {data: shared__global|T3}), T2:bot, T4:num, T3:num, T5:bot, result__global:bot
+ (obj1__global: {data: T2}), T1:num, (obj2__global: {data: T2}), T2:num, shared__global:num, T4:num, T3:num, T5:bot, result__global:bot
 
 11: [T4 <= num]
- (obj1__global: {data: T1|T2}), T1:num, (obj2__global: {data: shared__global|T3}), T2:bot, T4:num, T3:num, T5:bot, result__global:bot
+ (obj1__global: {data: T2}), T1:num, (obj2__global: {data: T2}), T2:num, shared__global:num, T4:num, T3:num, T5:bot, result__global:bot
 
 12: [T5 <= num]
- (obj1__global: {data: T1|T2}), T1:num, (obj2__global: {data: shared__global|T3}), T2:bot, T4:num, T3:num, T5:num, result__global:bot
+ (obj1__global: {data: T2}), T1:num, (obj2__global: {data: T2}), T2:num, shared__global:num, T4:num, T3:num, T5:num, result__global:bot
 
 13: [T5 <= result__global]
- (obj1__global: {data: T1|T2}), T1:num, (obj2__global: {data: shared__global|T3}), T2:bot, T4:num, T3:num, T5:num
+ (obj1__global: {data: T2}), T1:num, (obj2__global: {data: T2}), T2:num, shared__global:num, T4:num, T3:num, T5:num, result__global:num
 
 ──────────────────────────────────────────────────────
 ✓  Sem conflitos.
 
 FINAL:
-  obj1__global            :  {data: num|bot}
-  obj2__global            :  {data: bot|num}
+  obj1__global            :  {data: num}
+  obj2__global            :  {data: num}
   result__global          :  num
-  shared__global          :  bot
+  shared__global          :  num
   {data: shared__global}  :  bot
 

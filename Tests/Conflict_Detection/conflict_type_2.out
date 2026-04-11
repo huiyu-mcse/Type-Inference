@@ -25,18 +25,19 @@ Inicio:
  (shared__global: {value: T1}), T1:num, T2:str, {value: T2}:bot, T3:bot, v__global:bot, {value: T3}:bot
 
 5: [shared__global <= {value: T2}]
- (shared__global: {value: T1|T2}), T1:num, T2:str, T3:bot, v__global:bot, {value: T3}:bot
+ (shared__global: {value: T1}), T1:num, T2:num, T3:bot, v__global:bot, {value: T3}:bot
 
 6: [T3 <= v__global]
- (shared__global: {value: T1|T2}), T1:num, T2:str, T3:bot, {value: T3}:bot
+ (shared__global: {value: T1}), T1:num, T2:num, T3:bot, v__global:bot, {value: T3}:bot
 
 7: [shared__global <= {value: T3}]
- (shared__global: {value: T1|T2|T3}), T1:num, T2:str, T3:bot
+ (shared__global: {value: T1}), T1:num, T2:num, T3:num, v__global:num
 
 ──────────────────────────────────────────────────────
-✓  Sem conflitos.
+⚠  ERROS DE TIPO:
+   CONFLICT: num vs str  (union(T1,T2))
 
 FINAL:
-  shared__global  :  {value: num|str|bot}
-  v__global       :  bot
+  shared__global  :  {value: num}
+  v__global       :  num
 

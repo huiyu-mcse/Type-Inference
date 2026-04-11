@@ -30,28 +30,28 @@ Inicio:
  (state__global: {count: T1}), T1:num, T2:bool, valid__global:bot, {count: T3}:bot, T4:bot, T3:bot, T5:bot, {count: T5}:bot
 
 5: [T2 <= valid__global]
- (state__global: {count: T1}), T1:num, T2:bool, {count: T3}:bot, T4:bot, T3:bot, T5:bot, {count: T5}:bot
+ (state__global: {count: T1}), T1:num, T2:bool, valid__global:bool, {count: T3}:bot, T4:bot, T3:bot, T5:bot, {count: T5}:bot
 
 6: [valid__global <= bool]
- (state__global: {count: T1}), T1:num, T2:bool, {count: T3}:bot, T4:bot, T3:bot, T5:bot, {count: T5}:bot
+ (state__global: {count: T1}), T1:num, T2:bool, valid__global:bool, {count: T3}:bot, T4:bot, T3:bot, T5:bot, {count: T5}:bot
 
 7: [state__global <= {count: T3}]
- (state__global: {count: T1|T3}), T1:num, T2:bool, T4:bot, T3:bot, T5:bot, {count: T5}:bot
+ (state__global: {count: T1}), T1:num, T2:bool, valid__global:bool, T4:bot, T3:num, T5:bot, {count: T5}:bot
 
 8: [T4 <= num]
- (state__global: {count: T1|T3}), T1:num, T2:bool, T4:num, T3:bot, T5:bot, {count: T5}:bot
+ (state__global: {count: T1}), T1:num, T2:bool, valid__global:bool, T4:num, T3:num, T5:bot, {count: T5}:bot
 
 9: [T3 <= num]
- (state__global: {count: T1|T3}), T1:num, T2:bool, T4:num, T3:num, T5:bot, {count: T5}:bot
+ (state__global: {count: T1}), T1:num, T2:bool, valid__global:bool, T4:num, T3:num, T5:bot, {count: T5}:bot
 
 10: [T4 <= num]
- (state__global: {count: T1|T3}), T1:num, T2:bool, T4:num, T3:num, T5:bot, {count: T5}:bot
+ (state__global: {count: T1}), T1:num, T2:bool, valid__global:bool, T4:num, T3:num, T5:bot, {count: T5}:bot
 
 11: [T5 <= num]
- (state__global: {count: T1|T3}), T1:num, T2:bool, T4:num, T3:num, T5:num, {count: T5}:bot
+ (state__global: {count: T1}), T1:num, T2:bool, valid__global:bool, T4:num, T3:num, T5:num, {count: T5}:bot
 
 12: [state__global <= {count: T5}]
- (state__global: {count: T1|T3|T5}), T1:num, T2:bool, T4:num, T3:num, T5:num
+ (state__global: {count: T1}), T1:num, T2:bool, valid__global:bool, T4:num, T3:num, T5:num
 
 ──────────────────────────────────────────────────────
 ✓  Sem conflitos.

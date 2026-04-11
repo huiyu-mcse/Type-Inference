@@ -62,22 +62,22 @@ Inicio:
  (config__global: {host: T1, secure: T2, port: T3, timeout: T4, version: T5, name: T6}), T1:str, T2:bool, T3:num, T4:num, T5:num, T6:str, T7:bot, h__global:bot, {host: T7}:bot, T8:bot, p__global:bot, {port: T8}:bot
 
 14: [T7 <= h__global]
- (config__global: {host: T1, secure: T2, port: T3, timeout: T4, version: T5, name: T6}), T1:str, T2:bool, T3:num, T4:num, T5:num, T6:str, T7:bot, {host: T7}:bot, T8:bot, p__global:bot, {port: T8}:bot
+ (config__global: {host: T1, secure: T2, port: T3, timeout: T4, version: T5, name: T6}), T1:str, T2:bool, T3:num, T4:num, T5:num, T6:str, T7:bot, h__global:bot, {host: T7}:bot, T8:bot, p__global:bot, {port: T8}:bot
 
 15: [config__global <= {host: T7}]
- (config__global: {host: T1|T7, secure: T2, port: T3, timeout: T4, version: T5, name: T6}), T1:str, T2:bool, T3:num, T4:num, T5:num, T6:str, T7:bot, T8:bot, p__global:bot, {port: T8}:bot
+ (config__global: {host: T7, secure: T2, port: T3, timeout: T4, version: T5, name: T6}), T1:str, T2:bool, T3:num, T4:num, T5:num, T6:str, T7:str, h__global:str, T8:bot, p__global:bot, {port: T8}:bot
 
 16: [T8 <= p__global]
- (config__global: {host: T1|T7, secure: T2, port: T3, timeout: T4, version: T5, name: T6}), T1:str, T2:bool, T3:num, T4:num, T5:num, T6:str, T7:bot, T8:bot, {port: T8}:bot
+ (config__global: {host: T7, secure: T2, port: T3, timeout: T4, version: T5, name: T6}), T1:str, T2:bool, T3:num, T4:num, T5:num, T6:str, T7:str, h__global:str, T8:bot, p__global:bot, {port: T8}:bot
 
 17: [config__global <= {port: T8}]
- (config__global: {host: T1|T7, secure: T2, port: T3|T8, timeout: T4, version: T5, name: T6}), T1:str, T2:bool, T3:num, T4:num, T5:num, T6:str, T7:bot, T8:bot
+ (config__global: {host: T7, secure: T2, port: T8, timeout: T4, version: T5, name: T6}), T1:str, T2:bool, T3:num, T4:num, T5:num, T6:str, T7:str, h__global:str, T8:num, p__global:num
 
 ──────────────────────────────────────────────────────
 ✓  Sem conflitos.
 
 FINAL:
-  config__global  :  {host: str|bot, secure: bool, port: num|bot, timeout: num, version: num, name: str}
-  h__global       :  bot
-  p__global       :  bot
+  config__global  :  {host: str, secure: bool, port: num, timeout: num, version: num, name: str}
+  h__global       :  str
+  p__global       :  num
 

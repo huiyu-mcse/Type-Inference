@@ -28,42 +28,42 @@ Inicio:
  (counter__global: {val: T1}), T1:num, T2:bot, cur__increment:bot, {val: T2}:bot, T3:bot, T4:bot, next__increment:bot, {val: next__increment}:bot, T5:bot, final__global:bot, {val: T5}:bot
 
 4: [T2 <= cur__increment]
- (counter__global: {val: T1}), T1:num, T2:bot, {val: T2}:bot, T3:bot, T4:bot, next__increment:bot, {val: next__increment}:bot, T5:bot, final__global:bot, {val: T5}:bot
+ (counter__global: {val: T1}), T1:num, T2:bot, cur__increment:bot, {val: T2}:bot, T3:bot, T4:bot, next__increment:bot, {val: next__increment}:bot, T5:bot, final__global:bot, {val: T5}:bot
 
 5: [counter__global <= {val: T2}]
- (counter__global: {val: T1|T2}), T1:num, T2:bot, T3:bot, T4:bot, next__increment:bot, {val: next__increment}:bot, T5:bot, final__global:bot, {val: T5}:bot
+ (counter__global: {val: T2}), T1:num, T2:num, cur__increment:num, T3:bot, T4:bot, next__increment:bot, {val: next__increment}:bot, T5:bot, final__global:bot, {val: T5}:bot
 
 6: [T3 <= num]
- (counter__global: {val: T1|T2}), T1:num, T2:bot, T3:num, T4:bot, next__increment:bot, {val: next__increment}:bot, T5:bot, final__global:bot, {val: T5}:bot
+ (counter__global: {val: T2}), T1:num, T2:num, cur__increment:num, T3:num, T4:bot, next__increment:bot, {val: next__increment}:bot, T5:bot, final__global:bot, {val: T5}:bot
 
 7: [cur__increment <= num]
- (counter__global: {val: T1|T2}), T1:num, T2:num, T3:num, T4:bot, next__increment:bot, {val: next__increment}:bot, T5:bot, final__global:bot, {val: T5}:bot
+ (counter__global: {val: T2}), T1:num, T2:num, cur__increment:num, T3:num, T4:bot, next__increment:bot, {val: next__increment}:bot, T5:bot, final__global:bot, {val: T5}:bot
 
 8: [T3 <= num]
- (counter__global: {val: T1|T2}), T1:num, T2:num, T3:num, T4:bot, next__increment:bot, {val: next__increment}:bot, T5:bot, final__global:bot, {val: T5}:bot
+ (counter__global: {val: T2}), T1:num, T2:num, cur__increment:num, T3:num, T4:bot, next__increment:bot, {val: next__increment}:bot, T5:bot, final__global:bot, {val: T5}:bot
 
 9: [T4 <= num]
- (counter__global: {val: T1|T2}), T1:num, T2:num, T3:num, T4:num, next__increment:bot, {val: next__increment}:bot, T5:bot, final__global:bot, {val: T5}:bot
+ (counter__global: {val: T2}), T1:num, T2:num, cur__increment:num, T3:num, T4:num, next__increment:bot, {val: next__increment}:bot, T5:bot, final__global:bot, {val: T5}:bot
 
 10: [T4 <= next__increment]
- (counter__global: {val: T1|T2}), T1:num, T2:num, T3:num, T4:num, {val: next__increment}:bot, T5:bot, final__global:bot, {val: T5}:bot
+ (counter__global: {val: T2}), T1:num, T2:num, cur__increment:num, T3:num, T4:num, next__increment:num, {val: next__increment}:bot, T5:bot, final__global:bot, {val: T5}:bot
 
 11: [counter__global <= {val: next__increment}]
- (counter__global: {val: T1|T2|next__increment}), T1:num, T2:num, T3:num, T4:num, T5:bot, final__global:bot, {val: T5}:bot
+ (counter__global: {val: T2}), T1:num, T2:num, cur__increment:num, T3:num, T4:num, next__increment:num, T5:bot, final__global:bot, {val: T5}:bot
 
 12: [T5 <= final__global]
- (counter__global: {val: T1|T2|next__increment}), T1:num, T2:num, T3:num, T4:num, T5:bot, {val: T5}:bot
+ (counter__global: {val: T2}), T1:num, T2:num, cur__increment:num, T3:num, T4:num, next__increment:num, T5:bot, final__global:bot, {val: T5}:bot
 
 13: [counter__global <= {val: T5}]
- (counter__global: {val: T1|T2|next__increment|T5}), T1:num, T2:num, T3:num, T4:num, T5:bot
+ (counter__global: {val: T2}), T1:num, T2:num, cur__increment:num, T3:num, T4:num, next__increment:num, T5:num, final__global:num
 
 ──────────────────────────────────────────────────────
 ✓  Sem conflitos.
 
 FINAL:
-  counter__global         :  {val: num|bot}
+  counter__global         :  {val: num}
   cur__increment          :  num
-  final__global           :  bot
+  final__global           :  num
   next__increment         :  num
   {val: next__increment}  :  bot
 

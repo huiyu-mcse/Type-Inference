@@ -17,7 +17,7 @@ find ./Tests -type f -name "*.js" -not -path '*/.*' | while read -r file; do
     
     # 执行并将结果保存为 [原名].out
     # 输出路径示例：./Tests/Objects/t1.out
-    node infer.js "$file" | node solver.js > "${dir_name}/${name_no_ext}.out"
+    node infer.js "$file" | node solver_new.js > "${dir_name}/${name_no_ext}.out"
     
 done
 

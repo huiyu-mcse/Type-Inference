@@ -30,64 +30,64 @@ Inicio:
  T1:num, a__global:bot, T2:bot, b__global:bot, T3:bot, bool:bot, running__global:bot, T4:bot, count__global:bot, T5:bot, T6:bot, T7:bot, T8:bot, done__global:bot
 
 2: [T1 <= a__global]
- T1:num, T2:bot, b__global:bot, T3:bot, bool:bot, running__global:bot, T4:bot, count__global:bot, T5:bot, T6:bot, T7:bot, T8:bot, done__global:bot
+ T1:num, a__global:num, T2:bot, b__global:bot, T3:bot, bool:bot, running__global:bot, T4:bot, count__global:bot, T5:bot, T6:bot, T7:bot, T8:bot, done__global:bot
 
 3: [T2 <= num]
- T1:num, T2:num, b__global:bot, T3:bot, bool:bot, running__global:bot, T4:bot, count__global:bot, T5:bot, T6:bot, T7:bot, T8:bot, done__global:bot
+ T1:num, a__global:num, T2:num, b__global:bot, T3:bot, bool:bot, running__global:bot, T4:bot, count__global:bot, T5:bot, T6:bot, T7:bot, T8:bot, done__global:bot
 
 4: [T2 <= b__global]
- T1:num, T2:num, T3:bot, bool:bot, running__global:bot, T4:bot, count__global:bot, T5:bot, T6:bot, T7:bot, T8:bot, done__global:bot
+ T1:num, a__global:num, T2:num, b__global:num, T3:bot, bool:bot, running__global:bot, T4:bot, count__global:bot, T5:bot, T6:bot, T7:bot, T8:bot, done__global:bot
 
 5: [a__global <= b__global]
- T1:num, T3:bot, bool:bot, running__global:bot, T4:bot, count__global:bot, T5:bot, T6:bot, T7:bot, T8:bot, done__global:bot
+ T1:num, a__global:num, T2:num, b__global:num, T3:bot, bool:bot, running__global:bot, T4:bot, count__global:bot, T5:bot, T6:bot, T7:bot, T8:bot, done__global:bot
 
 6: [b__global <= a__global]
- T1:num, T3:bot, bool:bot, running__global:bot, T4:bot, count__global:bot, T5:bot, T6:bot, T7:bot, T8:bot, done__global:bot
+ T1:num, a__global:num, T2:num, b__global:num, T3:bot, bool:bot, running__global:bot, T4:bot, count__global:bot, T5:bot, T6:bot, T7:bot, T8:bot, done__global:bot
 
 7: [T3 <= bool]
- T1:num, T3:bool, running__global:bot, T4:bot, count__global:bot, T5:bot, T6:bot, T7:bot, T8:bot, done__global:bot
+ T1:num, a__global:num, T2:num, b__global:num, T3:bool, running__global:bot, T4:bot, count__global:bot, T5:bot, T6:bot, T7:bot, T8:bot, done__global:bot
 
 8: [T3 <= running__global]
- T1:num, T3:bool, T4:bot, count__global:bot, T5:bot, T6:bot, T7:bot, T8:bot, done__global:bot
+ T1:num, a__global:num, T2:num, b__global:num, T3:bool, running__global:bool, T4:bot, count__global:bot, T5:bot, T6:bot, T7:bot, T8:bot, done__global:bot
 
 9: [T4 <= num]
- T1:num, T3:bool, T4:num, count__global:bot, T5:bot, T6:bot, T7:bot, T8:bot, done__global:bot
+ T1:num, a__global:num, T2:num, b__global:num, T3:bool, running__global:bool, T4:num, count__global:bot, T5:bot, T6:bot, T7:bot, T8:bot, done__global:bot
 
 10: [T4 <= count__global]
- T1:num, T3:bool, T4:num, T5:bot, T6:bot, T7:bot, T8:bot, done__global:bot
+ T1:num, a__global:num, T2:num, b__global:num, T3:bool, running__global:bool, T4:num, count__global:num, T5:bot, T6:bot, T7:bot, T8:bot, done__global:bot
 
 11: [running__global <= bool]
- T1:num, T3:bool, T4:num, T5:bot, T6:bot, T7:bot, T8:bot, done__global:bot
+ T1:num, a__global:num, T2:num, b__global:num, T3:bool, running__global:bool, T4:num, count__global:num, T5:bot, T6:bot, T7:bot, T8:bot, done__global:bot
 
 12: [T5 <= num]
- T1:num, T3:bool, T4:num, T5:num, T6:bot, T7:bot, T8:bot, done__global:bot
+ T1:num, a__global:num, T2:num, b__global:num, T3:bool, running__global:bool, T4:num, count__global:num, T5:num, T6:bot, T7:bot, T8:bot, done__global:bot
 
 13: [count__global <= num]
- T1:num, T3:bool, T4:num, T5:num, T6:bot, T7:bot, T8:bot, done__global:bot
+ T1:num, a__global:num, T2:num, b__global:num, T3:bool, running__global:bool, T4:num, count__global:num, T5:num, T6:bot, T7:bot, T8:bot, done__global:bot
 
 14: [T5 <= num]
- T1:num, T3:bool, T4:num, T5:num, T6:bot, T7:bot, T8:bot, done__global:bot
+ T1:num, a__global:num, T2:num, b__global:num, T3:bool, running__global:bool, T4:num, count__global:num, T5:num, T6:bot, T7:bot, T8:bot, done__global:bot
 
 15: [T6 <= num]
- T1:num, T3:bool, T4:num, T5:num, T6:num, T7:bot, T8:bot, done__global:bot
+ T1:num, a__global:num, T2:num, b__global:num, T3:bool, running__global:bool, T4:num, count__global:num, T5:num, T6:num, T7:bot, T8:bot, done__global:bot
 
 16: [T6 <= count__global]
- T1:num, T3:bool, T4:num, T5:num, T7:bot, T8:bot, done__global:bot
+ T1:num, a__global:num, T2:num, b__global:num, T3:bool, running__global:bool, T4:num, count__global:num, T5:num, T6:num, T7:bot, T8:bot, done__global:bot
 
 17: [T7 <= num]
- T1:num, T3:bool, T4:num, T5:num, T7:num, T8:bot, done__global:bot
+ T1:num, a__global:num, T2:num, b__global:num, T3:bool, running__global:bool, T4:num, count__global:num, T5:num, T6:num, T7:num, T8:bot, done__global:bot
 
 18: [count__global <= num]
- T1:num, T3:bool, T4:num, T5:num, T7:num, T8:bot, done__global:bot
+ T1:num, a__global:num, T2:num, b__global:num, T3:bool, running__global:bool, T4:num, count__global:num, T5:num, T6:num, T7:num, T8:bot, done__global:bot
 
 19: [T7 <= num]
- T1:num, T3:bool, T4:num, T5:num, T7:num, T8:bot, done__global:bot
+ T1:num, a__global:num, T2:num, b__global:num, T3:bool, running__global:bool, T4:num, count__global:num, T5:num, T6:num, T7:num, T8:bot, done__global:bot
 
 20: [T8 <= num]
- T1:num, T3:bool, T4:num, T5:num, T7:num, T8:num, done__global:bot
+ T1:num, a__global:num, T2:num, b__global:num, T3:bool, running__global:bool, T4:num, count__global:num, T5:num, T6:num, T7:num, T8:num, done__global:bot
 
 21: [T8 <= done__global]
- T1:num, T3:bool, T4:num, T5:num, T7:num, T8:num
+ T1:num, a__global:num, T2:num, b__global:num, T3:bool, running__global:bool, T4:num, count__global:num, T5:num, T6:num, T7:num, T8:num, done__global:num
 
 ──────────────────────────────────────────────────────
 ✓  Sem conflitos.

@@ -39,91 +39,91 @@ Inicio:
  T1:num, a__global:bot, T2:bot, b__global:bot, T3:bot, c__global:bot, T4:bot, T5:bot, T6:bot, d__global:bot, T7:bot, T8:bot, e__global:bot, T9:bot, tmp1__global:bot, T10:bot, tmp2__global:bot, T11:bot, T12:bot, final__global:bot
 
 2: [T1 <= a__global]
- T1:num, T2:bot, b__global:bot, T3:bot, c__global:bot, T4:bot, T5:bot, T6:bot, d__global:bot, T7:bot, T8:bot, e__global:bot, T9:bot, tmp1__global:bot, T10:bot, tmp2__global:bot, T11:bot, T12:bot, final__global:bot
+ T1:num, a__global:num, T2:bot, b__global:bot, T3:bot, c__global:bot, T4:bot, T5:bot, T6:bot, d__global:bot, T7:bot, T8:bot, e__global:bot, T9:bot, tmp1__global:bot, T10:bot, tmp2__global:bot, T11:bot, T12:bot, final__global:bot
 
 3: [T2 <= num]
- T1:num, T2:num, b__global:bot, T3:bot, c__global:bot, T4:bot, T5:bot, T6:bot, d__global:bot, T7:bot, T8:bot, e__global:bot, T9:bot, tmp1__global:bot, T10:bot, tmp2__global:bot, T11:bot, T12:bot, final__global:bot
+ T1:num, a__global:num, T2:num, b__global:bot, T3:bot, c__global:bot, T4:bot, T5:bot, T6:bot, d__global:bot, T7:bot, T8:bot, e__global:bot, T9:bot, tmp1__global:bot, T10:bot, tmp2__global:bot, T11:bot, T12:bot, final__global:bot
 
 4: [T2 <= b__global]
- T1:num, T2:num, T3:bot, c__global:bot, T4:bot, T5:bot, T6:bot, d__global:bot, T7:bot, T8:bot, e__global:bot, T9:bot, tmp1__global:bot, T10:bot, tmp2__global:bot, T11:bot, T12:bot, final__global:bot
+ T1:num, a__global:num, T2:num, b__global:num, T3:bot, c__global:bot, T4:bot, T5:bot, T6:bot, d__global:bot, T7:bot, T8:bot, e__global:bot, T9:bot, tmp1__global:bot, T10:bot, tmp2__global:bot, T11:bot, T12:bot, final__global:bot
 
 5: [T3 <= num]
- T1:num, T2:num, T3:num, c__global:bot, T4:bot, T5:bot, T6:bot, d__global:bot, T7:bot, T8:bot, e__global:bot, T9:bot, tmp1__global:bot, T10:bot, tmp2__global:bot, T11:bot, T12:bot, final__global:bot
+ T1:num, a__global:num, T2:num, b__global:num, T3:num, c__global:bot, T4:bot, T5:bot, T6:bot, d__global:bot, T7:bot, T8:bot, e__global:bot, T9:bot, tmp1__global:bot, T10:bot, tmp2__global:bot, T11:bot, T12:bot, final__global:bot
 
 6: [T3 <= c__global]
- T1:num, T2:num, T3:num, T4:bot, T5:bot, T6:bot, d__global:bot, T7:bot, T8:bot, e__global:bot, T9:bot, tmp1__global:bot, T10:bot, tmp2__global:bot, T11:bot, T12:bot, final__global:bot
+ T1:num, a__global:num, T2:num, b__global:num, T3:num, c__global:num, T4:bot, T5:bot, T6:bot, d__global:bot, T7:bot, T8:bot, e__global:bot, T9:bot, tmp1__global:bot, T10:bot, tmp2__global:bot, T11:bot, T12:bot, final__global:bot
 
 7: [T4 <= num]
- T1:num, T2:num, T3:num, T4:num, T5:bot, T6:bot, d__global:bot, T7:bot, T8:bot, e__global:bot, T9:bot, tmp1__global:bot, T10:bot, tmp2__global:bot, T11:bot, T12:bot, final__global:bot
+ T1:num, a__global:num, T2:num, b__global:num, T3:num, c__global:num, T4:num, T5:bot, T6:bot, d__global:bot, T7:bot, T8:bot, e__global:bot, T9:bot, tmp1__global:bot, T10:bot, tmp2__global:bot, T11:bot, T12:bot, final__global:bot
 
 8: [T5 <= num]
- T1:num, T2:num, T3:num, T4:num, T5:num, T6:bot, d__global:bot, T7:bot, T8:bot, e__global:bot, T9:bot, tmp1__global:bot, T10:bot, tmp2__global:bot, T11:bot, T12:bot, final__global:bot
+ T1:num, a__global:num, T2:num, b__global:num, T3:num, c__global:num, T4:num, T5:num, T6:bot, d__global:bot, T7:bot, T8:bot, e__global:bot, T9:bot, tmp1__global:bot, T10:bot, tmp2__global:bot, T11:bot, T12:bot, final__global:bot
 
 9: [T4 <= num]
- T1:num, T2:num, T3:num, T4:num, T5:num, T6:bot, d__global:bot, T7:bot, T8:bot, e__global:bot, T9:bot, tmp1__global:bot, T10:bot, tmp2__global:bot, T11:bot, T12:bot, final__global:bot
+ T1:num, a__global:num, T2:num, b__global:num, T3:num, c__global:num, T4:num, T5:num, T6:bot, d__global:bot, T7:bot, T8:bot, e__global:bot, T9:bot, tmp1__global:bot, T10:bot, tmp2__global:bot, T11:bot, T12:bot, final__global:bot
 
 10: [T5 <= num]
- T1:num, T2:num, T3:num, T4:num, T5:num, T6:bot, d__global:bot, T7:bot, T8:bot, e__global:bot, T9:bot, tmp1__global:bot, T10:bot, tmp2__global:bot, T11:bot, T12:bot, final__global:bot
+ T1:num, a__global:num, T2:num, b__global:num, T3:num, c__global:num, T4:num, T5:num, T6:bot, d__global:bot, T7:bot, T8:bot, e__global:bot, T9:bot, tmp1__global:bot, T10:bot, tmp2__global:bot, T11:bot, T12:bot, final__global:bot
 
 11: [T6 <= num]
- T1:num, T2:num, T3:num, T4:num, T5:num, T6:num, d__global:bot, T7:bot, T8:bot, e__global:bot, T9:bot, tmp1__global:bot, T10:bot, tmp2__global:bot, T11:bot, T12:bot, final__global:bot
+ T1:num, a__global:num, T2:num, b__global:num, T3:num, c__global:num, T4:num, T5:num, T6:num, d__global:bot, T7:bot, T8:bot, e__global:bot, T9:bot, tmp1__global:bot, T10:bot, tmp2__global:bot, T11:bot, T12:bot, final__global:bot
 
 12: [T6 <= d__global]
- T1:num, T2:num, T3:num, T4:num, T5:num, T6:num, T7:bot, T8:bot, e__global:bot, T9:bot, tmp1__global:bot, T10:bot, tmp2__global:bot, T11:bot, T12:bot, final__global:bot
+ T1:num, a__global:num, T2:num, b__global:num, T3:num, c__global:num, T4:num, T5:num, T6:num, d__global:num, T7:bot, T8:bot, e__global:bot, T9:bot, tmp1__global:bot, T10:bot, tmp2__global:bot, T11:bot, T12:bot, final__global:bot
 
 13: [T7 <= num]
- T1:num, T2:num, T3:num, T4:num, T5:num, T6:num, T7:num, T8:bot, e__global:bot, T9:bot, tmp1__global:bot, T10:bot, tmp2__global:bot, T11:bot, T12:bot, final__global:bot
+ T1:num, a__global:num, T2:num, b__global:num, T3:num, c__global:num, T4:num, T5:num, T6:num, d__global:num, T7:num, T8:bot, e__global:bot, T9:bot, tmp1__global:bot, T10:bot, tmp2__global:bot, T11:bot, T12:bot, final__global:bot
 
 14: [d__global <= num]
- T1:num, T2:num, T3:num, T4:num, T5:num, T6:num, T7:num, T8:bot, e__global:bot, T9:bot, tmp1__global:bot, T10:bot, tmp2__global:bot, T11:bot, T12:bot, final__global:bot
+ T1:num, a__global:num, T2:num, b__global:num, T3:num, c__global:num, T4:num, T5:num, T6:num, d__global:num, T7:num, T8:bot, e__global:bot, T9:bot, tmp1__global:bot, T10:bot, tmp2__global:bot, T11:bot, T12:bot, final__global:bot
 
 15: [T7 <= num]
- T1:num, T2:num, T3:num, T4:num, T5:num, T6:num, T7:num, T8:bot, e__global:bot, T9:bot, tmp1__global:bot, T10:bot, tmp2__global:bot, T11:bot, T12:bot, final__global:bot
+ T1:num, a__global:num, T2:num, b__global:num, T3:num, c__global:num, T4:num, T5:num, T6:num, d__global:num, T7:num, T8:bot, e__global:bot, T9:bot, tmp1__global:bot, T10:bot, tmp2__global:bot, T11:bot, T12:bot, final__global:bot
 
 16: [T8 <= num]
- T1:num, T2:num, T3:num, T4:num, T5:num, T6:num, T7:num, T8:num, e__global:bot, T9:bot, tmp1__global:bot, T10:bot, tmp2__global:bot, T11:bot, T12:bot, final__global:bot
+ T1:num, a__global:num, T2:num, b__global:num, T3:num, c__global:num, T4:num, T5:num, T6:num, d__global:num, T7:num, T8:num, e__global:bot, T9:bot, tmp1__global:bot, T10:bot, tmp2__global:bot, T11:bot, T12:bot, final__global:bot
 
 17: [T8 <= e__global]
- T1:num, T2:num, T3:num, T4:num, T5:num, T6:num, T7:num, T8:num, T9:bot, tmp1__global:bot, T10:bot, tmp2__global:bot, T11:bot, T12:bot, final__global:bot
+ T1:num, a__global:num, T2:num, b__global:num, T3:num, c__global:num, T4:num, T5:num, T6:num, d__global:num, T7:num, T8:num, e__global:num, T9:bot, tmp1__global:bot, T10:bot, tmp2__global:bot, T11:bot, T12:bot, final__global:bot
 
 18: [a__global <= num]
- T1:num, T2:num, T3:num, T4:num, T5:num, T6:num, T7:num, T8:num, T9:bot, tmp1__global:bot, T10:bot, tmp2__global:bot, T11:bot, T12:bot, final__global:bot
+ T1:num, a__global:num, T2:num, b__global:num, T3:num, c__global:num, T4:num, T5:num, T6:num, d__global:num, T7:num, T8:num, e__global:num, T9:bot, tmp1__global:bot, T10:bot, tmp2__global:bot, T11:bot, T12:bot, final__global:bot
 
 19: [b__global <= num]
- T1:num, T2:num, T3:num, T4:num, T5:num, T6:num, T7:num, T8:num, T9:bot, tmp1__global:bot, T10:bot, tmp2__global:bot, T11:bot, T12:bot, final__global:bot
+ T1:num, a__global:num, T2:num, b__global:num, T3:num, c__global:num, T4:num, T5:num, T6:num, d__global:num, T7:num, T8:num, e__global:num, T9:bot, tmp1__global:bot, T10:bot, tmp2__global:bot, T11:bot, T12:bot, final__global:bot
 
 20: [T9 <= num]
- T1:num, T2:num, T3:num, T4:num, T5:num, T6:num, T7:num, T8:num, T9:num, tmp1__global:bot, T10:bot, tmp2__global:bot, T11:bot, T12:bot, final__global:bot
+ T1:num, a__global:num, T2:num, b__global:num, T3:num, c__global:num, T4:num, T5:num, T6:num, d__global:num, T7:num, T8:num, e__global:num, T9:num, tmp1__global:bot, T10:bot, tmp2__global:bot, T11:bot, T12:bot, final__global:bot
 
 21: [T9 <= tmp1__global]
- T1:num, T2:num, T3:num, T4:num, T5:num, T6:num, T7:num, T8:num, T9:num, T10:bot, tmp2__global:bot, T11:bot, T12:bot, final__global:bot
+ T1:num, a__global:num, T2:num, b__global:num, T3:num, c__global:num, T4:num, T5:num, T6:num, d__global:num, T7:num, T8:num, e__global:num, T9:num, tmp1__global:num, T10:bot, tmp2__global:bot, T11:bot, T12:bot, final__global:bot
 
 22: [tmp1__global <= num]
- T1:num, T2:num, T3:num, T4:num, T5:num, T6:num, T7:num, T8:num, T9:num, T10:bot, tmp2__global:bot, T11:bot, T12:bot, final__global:bot
+ T1:num, a__global:num, T2:num, b__global:num, T3:num, c__global:num, T4:num, T5:num, T6:num, d__global:num, T7:num, T8:num, e__global:num, T9:num, tmp1__global:num, T10:bot, tmp2__global:bot, T11:bot, T12:bot, final__global:bot
 
 23: [c__global <= num]
- T1:num, T2:num, T3:num, T4:num, T5:num, T6:num, T7:num, T8:num, T9:num, T10:bot, tmp2__global:bot, T11:bot, T12:bot, final__global:bot
+ T1:num, a__global:num, T2:num, b__global:num, T3:num, c__global:num, T4:num, T5:num, T6:num, d__global:num, T7:num, T8:num, e__global:num, T9:num, tmp1__global:num, T10:bot, tmp2__global:bot, T11:bot, T12:bot, final__global:bot
 
 24: [T10 <= num]
- T1:num, T2:num, T3:num, T4:num, T5:num, T6:num, T7:num, T8:num, T9:num, T10:num, tmp2__global:bot, T11:bot, T12:bot, final__global:bot
+ T1:num, a__global:num, T2:num, b__global:num, T3:num, c__global:num, T4:num, T5:num, T6:num, d__global:num, T7:num, T8:num, e__global:num, T9:num, tmp1__global:num, T10:num, tmp2__global:bot, T11:bot, T12:bot, final__global:bot
 
 25: [T10 <= tmp2__global]
- T1:num, T2:num, T3:num, T4:num, T5:num, T6:num, T7:num, T8:num, T9:num, T10:num, T11:bot, T12:bot, final__global:bot
+ T1:num, a__global:num, T2:num, b__global:num, T3:num, c__global:num, T4:num, T5:num, T6:num, d__global:num, T7:num, T8:num, e__global:num, T9:num, tmp1__global:num, T10:num, tmp2__global:num, T11:bot, T12:bot, final__global:bot
 
 26: [T11 <= num]
- T1:num, T2:num, T3:num, T4:num, T5:num, T6:num, T7:num, T8:num, T9:num, T10:num, T11:num, T12:bot, final__global:bot
+ T1:num, a__global:num, T2:num, b__global:num, T3:num, c__global:num, T4:num, T5:num, T6:num, d__global:num, T7:num, T8:num, e__global:num, T9:num, tmp1__global:num, T10:num, tmp2__global:num, T11:num, T12:bot, final__global:bot
 
 27: [tmp2__global <= num]
- T1:num, T2:num, T3:num, T4:num, T5:num, T6:num, T7:num, T8:num, T9:num, T10:num, T11:num, T12:bot, final__global:bot
+ T1:num, a__global:num, T2:num, b__global:num, T3:num, c__global:num, T4:num, T5:num, T6:num, d__global:num, T7:num, T8:num, e__global:num, T9:num, tmp1__global:num, T10:num, tmp2__global:num, T11:num, T12:bot, final__global:bot
 
 28: [T11 <= num]
- T1:num, T2:num, T3:num, T4:num, T5:num, T6:num, T7:num, T8:num, T9:num, T10:num, T11:num, T12:bot, final__global:bot
+ T1:num, a__global:num, T2:num, b__global:num, T3:num, c__global:num, T4:num, T5:num, T6:num, d__global:num, T7:num, T8:num, e__global:num, T9:num, tmp1__global:num, T10:num, tmp2__global:num, T11:num, T12:bot, final__global:bot
 
 29: [T12 <= num]
- T1:num, T2:num, T3:num, T4:num, T5:num, T6:num, T7:num, T8:num, T9:num, T10:num, T11:num, T12:num, final__global:bot
+ T1:num, a__global:num, T2:num, b__global:num, T3:num, c__global:num, T4:num, T5:num, T6:num, d__global:num, T7:num, T8:num, e__global:num, T9:num, tmp1__global:num, T10:num, tmp2__global:num, T11:num, T12:num, final__global:bot
 
 30: [T12 <= final__global]
- T1:num, T2:num, T3:num, T4:num, T5:num, T6:num, T7:num, T8:num, T9:num, T10:num, T11:num, T12:num
+ T1:num, a__global:num, T2:num, b__global:num, T3:num, c__global:num, T4:num, T5:num, T6:num, d__global:num, T7:num, T8:num, e__global:num, T9:num, tmp1__global:num, T10:num, tmp2__global:num, T11:num, T12:num, final__global:num
 
 ──────────────────────────────────────────────────────
 ✓  Sem conflitos.

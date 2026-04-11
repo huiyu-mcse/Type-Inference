@@ -42,100 +42,100 @@ Inicio:
  T1:num, a__global:bot, T2:bot, b__global:bot, T3:bot, c__global:bot, T4:bot, d__global:bot, T5:bot, s1__global:bot, T6:bot, s2__global:bot, T7:bot, s3__global:bot, T8:bot, T9:bot, s4__global:bot, obj__global:bot, {}:bot, {total: s4__global}:bot, {total: T10}:bot, T11:bot, T10:bot, T12:bot, check__global:bot
 
 2: [T1 <= a__global]
- T1:num, T2:bot, b__global:bot, T3:bot, c__global:bot, T4:bot, d__global:bot, T5:bot, s1__global:bot, T6:bot, s2__global:bot, T7:bot, s3__global:bot, T8:bot, T9:bot, s4__global:bot, obj__global:bot, {}:bot, {total: s4__global}:bot, {total: T10}:bot, T11:bot, T10:bot, T12:bot, check__global:bot
+ T1:num, a__global:num, T2:bot, b__global:bot, T3:bot, c__global:bot, T4:bot, d__global:bot, T5:bot, s1__global:bot, T6:bot, s2__global:bot, T7:bot, s3__global:bot, T8:bot, T9:bot, s4__global:bot, obj__global:bot, {}:bot, {total: s4__global}:bot, {total: T10}:bot, T11:bot, T10:bot, T12:bot, check__global:bot
 
 3: [T2 <= num]
- T1:num, T2:num, b__global:bot, T3:bot, c__global:bot, T4:bot, d__global:bot, T5:bot, s1__global:bot, T6:bot, s2__global:bot, T7:bot, s3__global:bot, T8:bot, T9:bot, s4__global:bot, obj__global:bot, {}:bot, {total: s4__global}:bot, {total: T10}:bot, T11:bot, T10:bot, T12:bot, check__global:bot
+ T1:num, a__global:num, T2:num, b__global:bot, T3:bot, c__global:bot, T4:bot, d__global:bot, T5:bot, s1__global:bot, T6:bot, s2__global:bot, T7:bot, s3__global:bot, T8:bot, T9:bot, s4__global:bot, obj__global:bot, {}:bot, {total: s4__global}:bot, {total: T10}:bot, T11:bot, T10:bot, T12:bot, check__global:bot
 
 4: [T2 <= b__global]
- T1:num, T2:num, T3:bot, c__global:bot, T4:bot, d__global:bot, T5:bot, s1__global:bot, T6:bot, s2__global:bot, T7:bot, s3__global:bot, T8:bot, T9:bot, s4__global:bot, obj__global:bot, {}:bot, {total: s4__global}:bot, {total: T10}:bot, T11:bot, T10:bot, T12:bot, check__global:bot
+ T1:num, a__global:num, T2:num, b__global:num, T3:bot, c__global:bot, T4:bot, d__global:bot, T5:bot, s1__global:bot, T6:bot, s2__global:bot, T7:bot, s3__global:bot, T8:bot, T9:bot, s4__global:bot, obj__global:bot, {}:bot, {total: s4__global}:bot, {total: T10}:bot, T11:bot, T10:bot, T12:bot, check__global:bot
 
 5: [T3 <= num]
- T1:num, T2:num, T3:num, c__global:bot, T4:bot, d__global:bot, T5:bot, s1__global:bot, T6:bot, s2__global:bot, T7:bot, s3__global:bot, T8:bot, T9:bot, s4__global:bot, obj__global:bot, {}:bot, {total: s4__global}:bot, {total: T10}:bot, T11:bot, T10:bot, T12:bot, check__global:bot
+ T1:num, a__global:num, T2:num, b__global:num, T3:num, c__global:bot, T4:bot, d__global:bot, T5:bot, s1__global:bot, T6:bot, s2__global:bot, T7:bot, s3__global:bot, T8:bot, T9:bot, s4__global:bot, obj__global:bot, {}:bot, {total: s4__global}:bot, {total: T10}:bot, T11:bot, T10:bot, T12:bot, check__global:bot
 
 6: [T3 <= c__global]
- T1:num, T2:num, T3:num, T4:bot, d__global:bot, T5:bot, s1__global:bot, T6:bot, s2__global:bot, T7:bot, s3__global:bot, T8:bot, T9:bot, s4__global:bot, obj__global:bot, {}:bot, {total: s4__global}:bot, {total: T10}:bot, T11:bot, T10:bot, T12:bot, check__global:bot
+ T1:num, a__global:num, T2:num, b__global:num, T3:num, c__global:num, T4:bot, d__global:bot, T5:bot, s1__global:bot, T6:bot, s2__global:bot, T7:bot, s3__global:bot, T8:bot, T9:bot, s4__global:bot, obj__global:bot, {}:bot, {total: s4__global}:bot, {total: T10}:bot, T11:bot, T10:bot, T12:bot, check__global:bot
 
 7: [T4 <= num]
- T1:num, T2:num, T3:num, T4:num, d__global:bot, T5:bot, s1__global:bot, T6:bot, s2__global:bot, T7:bot, s3__global:bot, T8:bot, T9:bot, s4__global:bot, obj__global:bot, {}:bot, {total: s4__global}:bot, {total: T10}:bot, T11:bot, T10:bot, T12:bot, check__global:bot
+ T1:num, a__global:num, T2:num, b__global:num, T3:num, c__global:num, T4:num, d__global:bot, T5:bot, s1__global:bot, T6:bot, s2__global:bot, T7:bot, s3__global:bot, T8:bot, T9:bot, s4__global:bot, obj__global:bot, {}:bot, {total: s4__global}:bot, {total: T10}:bot, T11:bot, T10:bot, T12:bot, check__global:bot
 
 8: [T4 <= d__global]
- T1:num, T2:num, T3:num, T4:num, T5:bot, s1__global:bot, T6:bot, s2__global:bot, T7:bot, s3__global:bot, T8:bot, T9:bot, s4__global:bot, obj__global:bot, {}:bot, {total: s4__global}:bot, {total: T10}:bot, T11:bot, T10:bot, T12:bot, check__global:bot
+ T1:num, a__global:num, T2:num, b__global:num, T3:num, c__global:num, T4:num, d__global:num, T5:bot, s1__global:bot, T6:bot, s2__global:bot, T7:bot, s3__global:bot, T8:bot, T9:bot, s4__global:bot, obj__global:bot, {}:bot, {total: s4__global}:bot, {total: T10}:bot, T11:bot, T10:bot, T12:bot, check__global:bot
 
 9: [a__global <= num]
- T1:num, T2:num, T3:num, T4:num, T5:bot, s1__global:bot, T6:bot, s2__global:bot, T7:bot, s3__global:bot, T8:bot, T9:bot, s4__global:bot, obj__global:bot, {}:bot, {total: s4__global}:bot, {total: T10}:bot, T11:bot, T10:bot, T12:bot, check__global:bot
+ T1:num, a__global:num, T2:num, b__global:num, T3:num, c__global:num, T4:num, d__global:num, T5:bot, s1__global:bot, T6:bot, s2__global:bot, T7:bot, s3__global:bot, T8:bot, T9:bot, s4__global:bot, obj__global:bot, {}:bot, {total: s4__global}:bot, {total: T10}:bot, T11:bot, T10:bot, T12:bot, check__global:bot
 
 10: [b__global <= num]
- T1:num, T2:num, T3:num, T4:num, T5:bot, s1__global:bot, T6:bot, s2__global:bot, T7:bot, s3__global:bot, T8:bot, T9:bot, s4__global:bot, obj__global:bot, {}:bot, {total: s4__global}:bot, {total: T10}:bot, T11:bot, T10:bot, T12:bot, check__global:bot
+ T1:num, a__global:num, T2:num, b__global:num, T3:num, c__global:num, T4:num, d__global:num, T5:bot, s1__global:bot, T6:bot, s2__global:bot, T7:bot, s3__global:bot, T8:bot, T9:bot, s4__global:bot, obj__global:bot, {}:bot, {total: s4__global}:bot, {total: T10}:bot, T11:bot, T10:bot, T12:bot, check__global:bot
 
 11: [T5 <= num]
- T1:num, T2:num, T3:num, T4:num, T5:num, s1__global:bot, T6:bot, s2__global:bot, T7:bot, s3__global:bot, T8:bot, T9:bot, s4__global:bot, obj__global:bot, {}:bot, {total: s4__global}:bot, {total: T10}:bot, T11:bot, T10:bot, T12:bot, check__global:bot
+ T1:num, a__global:num, T2:num, b__global:num, T3:num, c__global:num, T4:num, d__global:num, T5:num, s1__global:bot, T6:bot, s2__global:bot, T7:bot, s3__global:bot, T8:bot, T9:bot, s4__global:bot, obj__global:bot, {}:bot, {total: s4__global}:bot, {total: T10}:bot, T11:bot, T10:bot, T12:bot, check__global:bot
 
 12: [T5 <= s1__global]
- T1:num, T2:num, T3:num, T4:num, T5:num, T6:bot, s2__global:bot, T7:bot, s3__global:bot, T8:bot, T9:bot, s4__global:bot, obj__global:bot, {}:bot, {total: s4__global}:bot, {total: T10}:bot, T11:bot, T10:bot, T12:bot, check__global:bot
+ T1:num, a__global:num, T2:num, b__global:num, T3:num, c__global:num, T4:num, d__global:num, T5:num, s1__global:num, T6:bot, s2__global:bot, T7:bot, s3__global:bot, T8:bot, T9:bot, s4__global:bot, obj__global:bot, {}:bot, {total: s4__global}:bot, {total: T10}:bot, T11:bot, T10:bot, T12:bot, check__global:bot
 
 13: [s1__global <= num]
- T1:num, T2:num, T3:num, T4:num, T5:num, T6:bot, s2__global:bot, T7:bot, s3__global:bot, T8:bot, T9:bot, s4__global:bot, obj__global:bot, {}:bot, {total: s4__global}:bot, {total: T10}:bot, T11:bot, T10:bot, T12:bot, check__global:bot
+ T1:num, a__global:num, T2:num, b__global:num, T3:num, c__global:num, T4:num, d__global:num, T5:num, s1__global:num, T6:bot, s2__global:bot, T7:bot, s3__global:bot, T8:bot, T9:bot, s4__global:bot, obj__global:bot, {}:bot, {total: s4__global}:bot, {total: T10}:bot, T11:bot, T10:bot, T12:bot, check__global:bot
 
 14: [c__global <= num]
- T1:num, T2:num, T3:num, T4:num, T5:num, T6:bot, s2__global:bot, T7:bot, s3__global:bot, T8:bot, T9:bot, s4__global:bot, obj__global:bot, {}:bot, {total: s4__global}:bot, {total: T10}:bot, T11:bot, T10:bot, T12:bot, check__global:bot
+ T1:num, a__global:num, T2:num, b__global:num, T3:num, c__global:num, T4:num, d__global:num, T5:num, s1__global:num, T6:bot, s2__global:bot, T7:bot, s3__global:bot, T8:bot, T9:bot, s4__global:bot, obj__global:bot, {}:bot, {total: s4__global}:bot, {total: T10}:bot, T11:bot, T10:bot, T12:bot, check__global:bot
 
 15: [T6 <= num]
- T1:num, T2:num, T3:num, T4:num, T5:num, T6:num, s2__global:bot, T7:bot, s3__global:bot, T8:bot, T9:bot, s4__global:bot, obj__global:bot, {}:bot, {total: s4__global}:bot, {total: T10}:bot, T11:bot, T10:bot, T12:bot, check__global:bot
+ T1:num, a__global:num, T2:num, b__global:num, T3:num, c__global:num, T4:num, d__global:num, T5:num, s1__global:num, T6:num, s2__global:bot, T7:bot, s3__global:bot, T8:bot, T9:bot, s4__global:bot, obj__global:bot, {}:bot, {total: s4__global}:bot, {total: T10}:bot, T11:bot, T10:bot, T12:bot, check__global:bot
 
 16: [T6 <= s2__global]
- T1:num, T2:num, T3:num, T4:num, T5:num, T6:num, T7:bot, s3__global:bot, T8:bot, T9:bot, s4__global:bot, obj__global:bot, {}:bot, {total: s4__global}:bot, {total: T10}:bot, T11:bot, T10:bot, T12:bot, check__global:bot
+ T1:num, a__global:num, T2:num, b__global:num, T3:num, c__global:num, T4:num, d__global:num, T5:num, s1__global:num, T6:num, s2__global:num, T7:bot, s3__global:bot, T8:bot, T9:bot, s4__global:bot, obj__global:bot, {}:bot, {total: s4__global}:bot, {total: T10}:bot, T11:bot, T10:bot, T12:bot, check__global:bot
 
 17: [s2__global <= num]
- T1:num, T2:num, T3:num, T4:num, T5:num, T6:num, T7:bot, s3__global:bot, T8:bot, T9:bot, s4__global:bot, obj__global:bot, {}:bot, {total: s4__global}:bot, {total: T10}:bot, T11:bot, T10:bot, T12:bot, check__global:bot
+ T1:num, a__global:num, T2:num, b__global:num, T3:num, c__global:num, T4:num, d__global:num, T5:num, s1__global:num, T6:num, s2__global:num, T7:bot, s3__global:bot, T8:bot, T9:bot, s4__global:bot, obj__global:bot, {}:bot, {total: s4__global}:bot, {total: T10}:bot, T11:bot, T10:bot, T12:bot, check__global:bot
 
 18: [d__global <= num]
- T1:num, T2:num, T3:num, T4:num, T5:num, T6:num, T7:bot, s3__global:bot, T8:bot, T9:bot, s4__global:bot, obj__global:bot, {}:bot, {total: s4__global}:bot, {total: T10}:bot, T11:bot, T10:bot, T12:bot, check__global:bot
+ T1:num, a__global:num, T2:num, b__global:num, T3:num, c__global:num, T4:num, d__global:num, T5:num, s1__global:num, T6:num, s2__global:num, T7:bot, s3__global:bot, T8:bot, T9:bot, s4__global:bot, obj__global:bot, {}:bot, {total: s4__global}:bot, {total: T10}:bot, T11:bot, T10:bot, T12:bot, check__global:bot
 
 19: [T7 <= num]
- T1:num, T2:num, T3:num, T4:num, T5:num, T6:num, T7:num, s3__global:bot, T8:bot, T9:bot, s4__global:bot, obj__global:bot, {}:bot, {total: s4__global}:bot, {total: T10}:bot, T11:bot, T10:bot, T12:bot, check__global:bot
+ T1:num, a__global:num, T2:num, b__global:num, T3:num, c__global:num, T4:num, d__global:num, T5:num, s1__global:num, T6:num, s2__global:num, T7:num, s3__global:bot, T8:bot, T9:bot, s4__global:bot, obj__global:bot, {}:bot, {total: s4__global}:bot, {total: T10}:bot, T11:bot, T10:bot, T12:bot, check__global:bot
 
 20: [T7 <= s3__global]
- T1:num, T2:num, T3:num, T4:num, T5:num, T6:num, T7:num, T8:bot, T9:bot, s4__global:bot, obj__global:bot, {}:bot, {total: s4__global}:bot, {total: T10}:bot, T11:bot, T10:bot, T12:bot, check__global:bot
+ T1:num, a__global:num, T2:num, b__global:num, T3:num, c__global:num, T4:num, d__global:num, T5:num, s1__global:num, T6:num, s2__global:num, T7:num, s3__global:num, T8:bot, T9:bot, s4__global:bot, obj__global:bot, {}:bot, {total: s4__global}:bot, {total: T10}:bot, T11:bot, T10:bot, T12:bot, check__global:bot
 
 21: [T8 <= num]
- T1:num, T2:num, T3:num, T4:num, T5:num, T6:num, T7:num, T8:num, T9:bot, s4__global:bot, obj__global:bot, {}:bot, {total: s4__global}:bot, {total: T10}:bot, T11:bot, T10:bot, T12:bot, check__global:bot
+ T1:num, a__global:num, T2:num, b__global:num, T3:num, c__global:num, T4:num, d__global:num, T5:num, s1__global:num, T6:num, s2__global:num, T7:num, s3__global:num, T8:num, T9:bot, s4__global:bot, obj__global:bot, {}:bot, {total: s4__global}:bot, {total: T10}:bot, T11:bot, T10:bot, T12:bot, check__global:bot
 
 22: [s3__global <= num]
- T1:num, T2:num, T3:num, T4:num, T5:num, T6:num, T7:num, T8:num, T9:bot, s4__global:bot, obj__global:bot, {}:bot, {total: s4__global}:bot, {total: T10}:bot, T11:bot, T10:bot, T12:bot, check__global:bot
+ T1:num, a__global:num, T2:num, b__global:num, T3:num, c__global:num, T4:num, d__global:num, T5:num, s1__global:num, T6:num, s2__global:num, T7:num, s3__global:num, T8:num, T9:bot, s4__global:bot, obj__global:bot, {}:bot, {total: s4__global}:bot, {total: T10}:bot, T11:bot, T10:bot, T12:bot, check__global:bot
 
 23: [T8 <= num]
- T1:num, T2:num, T3:num, T4:num, T5:num, T6:num, T7:num, T8:num, T9:bot, s4__global:bot, obj__global:bot, {}:bot, {total: s4__global}:bot, {total: T10}:bot, T11:bot, T10:bot, T12:bot, check__global:bot
+ T1:num, a__global:num, T2:num, b__global:num, T3:num, c__global:num, T4:num, d__global:num, T5:num, s1__global:num, T6:num, s2__global:num, T7:num, s3__global:num, T8:num, T9:bot, s4__global:bot, obj__global:bot, {}:bot, {total: s4__global}:bot, {total: T10}:bot, T11:bot, T10:bot, T12:bot, check__global:bot
 
 24: [T9 <= num]
- T1:num, T2:num, T3:num, T4:num, T5:num, T6:num, T7:num, T8:num, T9:num, s4__global:bot, obj__global:bot, {}:bot, {total: s4__global}:bot, {total: T10}:bot, T11:bot, T10:bot, T12:bot, check__global:bot
+ T1:num, a__global:num, T2:num, b__global:num, T3:num, c__global:num, T4:num, d__global:num, T5:num, s1__global:num, T6:num, s2__global:num, T7:num, s3__global:num, T8:num, T9:num, s4__global:bot, obj__global:bot, {}:bot, {total: s4__global}:bot, {total: T10}:bot, T11:bot, T10:bot, T12:bot, check__global:bot
 
 25: [T9 <= s4__global]
- T1:num, T2:num, T3:num, T4:num, T5:num, T6:num, T7:num, T8:num, T9:num, obj__global:bot, {}:bot, {total: s4__global}:bot, {total: T10}:bot, T11:bot, T10:bot, T12:bot, check__global:bot
+ T1:num, a__global:num, T2:num, b__global:num, T3:num, c__global:num, T4:num, d__global:num, T5:num, s1__global:num, T6:num, s2__global:num, T7:num, s3__global:num, T8:num, T9:num, s4__global:num, obj__global:bot, {}:bot, {total: s4__global}:bot, {total: T10}:bot, T11:bot, T10:bot, T12:bot, check__global:bot
 
 26: [obj__global <= {}]
- T1:num, T2:num, T3:num, T4:num, T5:num, T6:num, T7:num, T8:num, T9:num, obj__global:{}, {total: s4__global}:bot, {total: T10}:bot, T11:bot, T10:bot, T12:bot, check__global:bot
+ T1:num, a__global:num, T2:num, b__global:num, T3:num, c__global:num, T4:num, d__global:num, T5:num, s1__global:num, T6:num, s2__global:num, T7:num, s3__global:num, T8:num, T9:num, s4__global:num, obj__global:{}, {total: s4__global}:bot, {total: T10}:bot, T11:bot, T10:bot, T12:bot, check__global:bot
 
 27: [obj__global <= {total: s4__global}]
- T1:num, T2:num, T3:num, T4:num, T5:num, T6:num, T7:num, T8:num, T9:num, (obj__global: {total: s4__global}), {total: T10}:bot, T11:bot, T10:bot, T12:bot, check__global:bot
+ T1:num, a__global:num, T2:num, b__global:num, T3:num, c__global:num, T4:num, d__global:num, T5:num, s1__global:num, T6:num, s2__global:num, T7:num, s3__global:num, T8:num, T9:num, s4__global:num, (obj__global: {total: T9}), {total: T10}:bot, T11:bot, T10:bot, T12:bot, check__global:bot
 
 28: [obj__global <= {total: T10}]
- T1:num, T2:num, T3:num, T4:num, T5:num, T6:num, T7:num, T8:num, T9:num, (obj__global: {total: s4__global|T10}), T11:bot, T10:bot, T12:bot, check__global:bot
+ T1:num, a__global:num, T2:num, b__global:num, T3:num, c__global:num, T4:num, d__global:num, T5:num, s1__global:num, T6:num, s2__global:num, T7:num, s3__global:num, T8:num, T9:num, s4__global:num, (obj__global: {total: T9}), T11:bot, T10:num, T12:bot, check__global:bot
 
 29: [T11 <= num]
- T1:num, T2:num, T3:num, T4:num, T5:num, T6:num, T7:num, T8:num, T9:num, (obj__global: {total: s4__global|T10}), T11:num, T10:bot, T12:bot, check__global:bot
+ T1:num, a__global:num, T2:num, b__global:num, T3:num, c__global:num, T4:num, d__global:num, T5:num, s1__global:num, T6:num, s2__global:num, T7:num, s3__global:num, T8:num, T9:num, s4__global:num, (obj__global: {total: T9}), T11:num, T10:num, T12:bot, check__global:bot
 
 30: [T10 <= num]
- T1:num, T2:num, T3:num, T4:num, T5:num, T6:num, T7:num, T8:num, T9:num, (obj__global: {total: s4__global|T10}), T11:num, T10:num, T12:bot, check__global:bot
+ T1:num, a__global:num, T2:num, b__global:num, T3:num, c__global:num, T4:num, d__global:num, T5:num, s1__global:num, T6:num, s2__global:num, T7:num, s3__global:num, T8:num, T9:num, s4__global:num, (obj__global: {total: T9}), T11:num, T10:num, T12:bot, check__global:bot
 
 31: [T11 <= num]
- T1:num, T2:num, T3:num, T4:num, T5:num, T6:num, T7:num, T8:num, T9:num, (obj__global: {total: s4__global|T10}), T11:num, T10:num, T12:bot, check__global:bot
+ T1:num, a__global:num, T2:num, b__global:num, T3:num, c__global:num, T4:num, d__global:num, T5:num, s1__global:num, T6:num, s2__global:num, T7:num, s3__global:num, T8:num, T9:num, s4__global:num, (obj__global: {total: T9}), T11:num, T10:num, T12:bot, check__global:bot
 
 32: [T12 <= num]
- T1:num, T2:num, T3:num, T4:num, T5:num, T6:num, T7:num, T8:num, T9:num, (obj__global: {total: s4__global|T10}), T11:num, T10:num, T12:num, check__global:bot
+ T1:num, a__global:num, T2:num, b__global:num, T3:num, c__global:num, T4:num, d__global:num, T5:num, s1__global:num, T6:num, s2__global:num, T7:num, s3__global:num, T8:num, T9:num, s4__global:num, (obj__global: {total: T9}), T11:num, T10:num, T12:num, check__global:bot
 
 33: [T12 <= check__global]
- T1:num, T2:num, T3:num, T4:num, T5:num, T6:num, T7:num, T8:num, T9:num, (obj__global: {total: s4__global|T10}), T11:num, T10:num, T12:num
+ T1:num, a__global:num, T2:num, b__global:num, T3:num, c__global:num, T4:num, d__global:num, T5:num, s1__global:num, T6:num, s2__global:num, T7:num, s3__global:num, T8:num, T9:num, s4__global:num, (obj__global: {total: T9}), T11:num, T10:num, T12:num, check__global:num
 
 ──────────────────────────────────────────────────────
 ✓  Sem conflitos.

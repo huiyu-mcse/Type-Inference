@@ -17,25 +17,25 @@ Inicio:
  T1:num, x__global:bot, T2:bot, str:bot, msg__global:bot, T3:bot, x__shadow:bot, T4:bot, msg__shadow:bot
 
 2: [T1 <= x__global]
- T1:num, T2:bot, str:bot, msg__global:bot, T3:bot, x__shadow:bot, T4:bot, msg__shadow:bot
+ T1:num, x__global:num, T2:bot, str:bot, msg__global:bot, T3:bot, x__shadow:bot, T4:bot, msg__shadow:bot
 
 3: [T2 <= str]
- T1:num, T2:str, msg__global:bot, T3:bot, x__shadow:bot, T4:bot, msg__shadow:bot
+ T1:num, x__global:num, T2:str, msg__global:bot, T3:bot, x__shadow:bot, T4:bot, msg__shadow:bot
 
 4: [T2 <= msg__global]
- T1:num, T2:str, T3:bot, x__shadow:bot, T4:bot, msg__shadow:bot
+ T1:num, x__global:num, T2:str, msg__global:str, T3:bot, x__shadow:bot, T4:bot, msg__shadow:bot
 
 5: [T3 <= str]
- T1:num, T2:str, T3:str, x__shadow:bot, T4:bot, msg__shadow:bot
+ T1:num, x__global:num, T2:str, msg__global:str, T3:str, x__shadow:bot, T4:bot, msg__shadow:bot
 
 6: [T3 <= x__shadow]
- T1:num, T2:str, T3:str, T4:bot, msg__shadow:bot
+ T1:num, x__global:num, T2:str, msg__global:str, T3:str, x__shadow:str, T4:bot, msg__shadow:bot
 
 7: [T4 <= num]
- T1:num, T2:str, T3:str, T4:num, msg__shadow:bot
+ T1:num, x__global:num, T2:str, msg__global:str, T3:str, x__shadow:str, T4:num, msg__shadow:bot
 
 8: [T4 <= msg__shadow]
- T1:num, T2:str, T3:str, T4:num
+ T1:num, x__global:num, T2:str, msg__global:str, T3:str, x__shadow:str, T4:num, msg__shadow:num
 
 ──────────────────────────────────────────────────────
 ✓  Sem conflitos.

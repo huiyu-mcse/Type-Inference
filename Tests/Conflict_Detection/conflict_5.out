@@ -17,25 +17,25 @@ Inicio:
  T1:num, count__global:bot, bool:bot, T2:bot, T3:bot
 
 2: [T1 <= count__global]
- T1:num, bool:bot, T2:bot, T3:bot
+ T1:num, count__global:num, bool:bot, T2:bot, T3:bot
 
 3: [count__global <= bool]
- T1:num, T2:bot, T3:bot
+ T1:num, count__global:num, T2:bot, T3:bot
 
 4: [T2 <= num]
- T1:num, T2:num, T3:bot
+ T1:num, count__global:num, T2:num, T3:bot
 
 5: [count__global <= num]
- T1:num, T2:num, T3:bot
+ T1:num, count__global:num, T2:num, T3:bot
 
 6: [T2 <= num]
- T1:num, T2:num, T3:bot
+ T1:num, count__global:num, T2:num, T3:bot
 
 7: [T3 <= num]
- T1:num, T2:num, T3:num
+ T1:num, count__global:num, T2:num, T3:num
 
 8: [T3 <= count__global]
- T1:num, T2:num
+ T1:num, count__global:num, T2:num, T3:num
 
 ──────────────────────────────────────────────────────
 ⚠  ERROS DE TIPO:

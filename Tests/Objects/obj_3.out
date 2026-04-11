@@ -39,38 +39,38 @@ Inicio:
  (node__global: {value: T1, next: T2}), T1:num, T2:{}, T3:num, T4:bot, n__global:bot, {next: T4}:bot, T5:bot, v__global:bot, {value: T5}:bot, T6:bot, T7:bot, sum__global:bot
 
 7: [T4 <= n__global]
- (node__global: {value: T1, next: T2}), T1:num, T2:{}, T3:num, T4:bot, {next: T4}:bot, T5:bot, v__global:bot, {value: T5}:bot, T6:bot, T7:bot, sum__global:bot
+ (node__global: {value: T1, next: T2}), T1:num, T2:{}, T3:num, T4:bot, n__global:bot, {next: T4}:bot, T5:bot, v__global:bot, {value: T5}:bot, T6:bot, T7:bot, sum__global:bot
 
 8: [node__global <= {next: T4}]
- (node__global: {value: T1, next: T2|T4}), T1:num, T2:{}, T3:num, T4:bot, T5:bot, v__global:bot, {value: T5}:bot, T6:bot, T7:bot, sum__global:bot
+ (node__global: {value: T1, next: T4}), T1:num, T2:{}, T3:num, T4:{}, n__global:{}, T5:bot, v__global:bot, {value: T5}:bot, T6:bot, T7:bot, sum__global:bot
 
 9: [T5 <= v__global]
- (node__global: {value: T1, next: T2|T4}), T1:num, T2:{}, T3:num, T4:bot, T5:bot, {value: T5}:bot, T6:bot, T7:bot, sum__global:bot
+ (node__global: {value: T1, next: T4}), T1:num, T2:{}, T3:num, T4:{}, n__global:{}, T5:bot, v__global:bot, {value: T5}:bot, T6:bot, T7:bot, sum__global:bot
 
 10: [n__global <= {value: T5}]
- (node__global: {value: T1, next: T2|T4}), T1:num, T2:{}, T3:num, (T4: {value: T5}), T5:bot, T6:bot, T7:bot, sum__global:bot
+ (node__global: {value: T1, next: T4}), T1:num, (T2: {value: T5}), T3:num, (T4: {value: T5}), (n__global: {value: T5}), T5:bot, v__global:bot, T6:bot, T7:bot, sum__global:bot
 
 11: [T6 <= num]
- (node__global: {value: T1, next: T2|T4}), T1:num, T2:{}, T3:num, (T4: {value: T5}), T5:bot, T6:num, T7:bot, sum__global:bot
+ (node__global: {value: T1, next: T4}), T1:num, (T2: {value: T5}), T3:num, (T4: {value: T5}), (n__global: {value: T5}), T5:bot, v__global:bot, T6:num, T7:bot, sum__global:bot
 
 12: [v__global <= num]
- (node__global: {value: T1, next: T2|T4}), T1:num, T2:{}, T3:num, (T4: {value: T5}), T5:num, T6:num, T7:bot, sum__global:bot
+ (node__global: {value: T1, next: T4}), T1:num, (T2: {value: T5}), T3:num, (T4: {value: T5}), (n__global: {value: T5}), T5:num, v__global:num, T6:num, T7:bot, sum__global:bot
 
 13: [T6 <= num]
- (node__global: {value: T1, next: T2|T4}), T1:num, T2:{}, T3:num, (T4: {value: T5}), T5:num, T6:num, T7:bot, sum__global:bot
+ (node__global: {value: T1, next: T4}), T1:num, (T2: {value: T5}), T3:num, (T4: {value: T5}), (n__global: {value: T5}), T5:num, v__global:num, T6:num, T7:bot, sum__global:bot
 
 14: [T7 <= num]
- (node__global: {value: T1, next: T2|T4}), T1:num, T2:{}, T3:num, (T4: {value: T5}), T5:num, T6:num, T7:num, sum__global:bot
+ (node__global: {value: T1, next: T4}), T1:num, (T2: {value: T5}), T3:num, (T4: {value: T5}), (n__global: {value: T5}), T5:num, v__global:num, T6:num, T7:num, sum__global:bot
 
 15: [T7 <= sum__global]
- (node__global: {value: T1, next: T2|T4}), T1:num, T2:{}, T3:num, (T4: {value: T5}), T5:num, T6:num, T7:num
+ (node__global: {value: T1, next: T4}), T1:num, (T2: {value: T5}), T3:num, (T4: {value: T5}), (n__global: {value: T5}), T5:num, v__global:num, T6:num, T7:num, sum__global:num
 
 ──────────────────────────────────────────────────────
 ✓  Sem conflitos.
 
 FINAL:
   n__global     :  {value: num}
-  node__global  :  {value: num, next: {}|{value: num}}
+  node__global  :  {value: num, next: {value: num}}
   sum__global   :  num
   v__global     :  num
 

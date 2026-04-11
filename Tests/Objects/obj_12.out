@@ -38,35 +38,35 @@ Inicio:
  (a__global: {id: T1}), T1:num, (b__global: {id: T2}), T2:str, {id: T3}:bot, T4:bot, T3:bot, T5:bot, numId__global:bot, T6:bot, strId__global:bot, {id: T6}:bot
 
 7: [a__global <= {id: T3}]
- (a__global: {id: T1|T3}), T1:num, (b__global: {id: T2}), T2:str, T4:bot, T3:bot, T5:bot, numId__global:bot, T6:bot, strId__global:bot, {id: T6}:bot
+ (a__global: {id: T1}), T1:num, (b__global: {id: T2}), T2:str, T4:bot, T3:num, T5:bot, numId__global:bot, T6:bot, strId__global:bot, {id: T6}:bot
 
 8: [T4 <= num]
- (a__global: {id: T1|T3}), T1:num, (b__global: {id: T2}), T2:str, T4:num, T3:bot, T5:bot, numId__global:bot, T6:bot, strId__global:bot, {id: T6}:bot
+ (a__global: {id: T1}), T1:num, (b__global: {id: T2}), T2:str, T4:num, T3:num, T5:bot, numId__global:bot, T6:bot, strId__global:bot, {id: T6}:bot
 
 9: [T3 <= num]
- (a__global: {id: T1|T3}), T1:num, (b__global: {id: T2}), T2:str, T4:num, T3:num, T5:bot, numId__global:bot, T6:bot, strId__global:bot, {id: T6}:bot
+ (a__global: {id: T1}), T1:num, (b__global: {id: T2}), T2:str, T4:num, T3:num, T5:bot, numId__global:bot, T6:bot, strId__global:bot, {id: T6}:bot
 
 10: [T4 <= num]
- (a__global: {id: T1|T3}), T1:num, (b__global: {id: T2}), T2:str, T4:num, T3:num, T5:bot, numId__global:bot, T6:bot, strId__global:bot, {id: T6}:bot
+ (a__global: {id: T1}), T1:num, (b__global: {id: T2}), T2:str, T4:num, T3:num, T5:bot, numId__global:bot, T6:bot, strId__global:bot, {id: T6}:bot
 
 11: [T5 <= num]
- (a__global: {id: T1|T3}), T1:num, (b__global: {id: T2}), T2:str, T4:num, T3:num, T5:num, numId__global:bot, T6:bot, strId__global:bot, {id: T6}:bot
+ (a__global: {id: T1}), T1:num, (b__global: {id: T2}), T2:str, T4:num, T3:num, T5:num, numId__global:bot, T6:bot, strId__global:bot, {id: T6}:bot
 
 12: [T5 <= numId__global]
- (a__global: {id: T1|T3}), T1:num, (b__global: {id: T2}), T2:str, T4:num, T3:num, T5:num, T6:bot, strId__global:bot, {id: T6}:bot
+ (a__global: {id: T1}), T1:num, (b__global: {id: T2}), T2:str, T4:num, T3:num, T5:num, numId__global:num, T6:bot, strId__global:bot, {id: T6}:bot
 
 13: [T6 <= strId__global]
- (a__global: {id: T1|T3}), T1:num, (b__global: {id: T2}), T2:str, T4:num, T3:num, T5:num, T6:bot, {id: T6}:bot
+ (a__global: {id: T1}), T1:num, (b__global: {id: T2}), T2:str, T4:num, T3:num, T5:num, numId__global:num, T6:bot, strId__global:bot, {id: T6}:bot
 
 14: [b__global <= {id: T6}]
- (a__global: {id: T1|T3}), T1:num, (b__global: {id: T2|T6}), T2:str, T4:num, T3:num, T5:num, T6:bot
+ (a__global: {id: T1}), T1:num, (b__global: {id: T6}), T2:str, T4:num, T3:num, T5:num, numId__global:num, T6:str, strId__global:str
 
 ──────────────────────────────────────────────────────
 ✓  Sem conflitos.
 
 FINAL:
   a__global      :  {id: num}
-  b__global      :  {id: str|bot}
+  b__global      :  {id: str}
   numId__global  :  num
-  strId__global  :  bot
+  strId__global  :  str
 

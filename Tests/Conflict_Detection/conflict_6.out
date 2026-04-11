@@ -29,30 +29,31 @@ Inicio:
  (stats__global: {value: T1}), T1:num, T2:str, {value: T2}:bot, {value: T3}:bot, T4:bot, T3:bot, T5:bot, safe__global:bot
 
 5: [stats__global <= {value: T2}]
- (stats__global: {value: T1|T2}), T1:num, T2:str, {value: T3}:bot, T4:bot, T3:bot, T5:bot, safe__global:bot
+ (stats__global: {value: T1}), T1:num, T2:num, {value: T3}:bot, T4:bot, T3:bot, T5:bot, safe__global:bot
 
 6: [stats__global <= {value: T3}]
- (stats__global: {value: T1|T2|T3}), T1:num, T2:str, T4:bot, T3:bot, T5:bot, safe__global:bot
+ (stats__global: {value: T1}), T1:num, T2:num, T4:bot, T3:num, T5:bot, safe__global:bot
 
 7: [T4 <= num]
- (stats__global: {value: T1|T2|T3}), T1:num, T2:str, T4:num, T3:bot, T5:bot, safe__global:bot
+ (stats__global: {value: T1}), T1:num, T2:num, T4:num, T3:num, T5:bot, safe__global:bot
 
 8: [T3 <= num]
- (stats__global: {value: T1|T2|T3}), T1:num, T2:str, T4:num, T3:num, T5:bot, safe__global:bot
+ (stats__global: {value: T1}), T1:num, T2:num, T4:num, T3:num, T5:bot, safe__global:bot
 
 9: [T4 <= num]
- (stats__global: {value: T1|T2|T3}), T1:num, T2:str, T4:num, T3:num, T5:bot, safe__global:bot
+ (stats__global: {value: T1}), T1:num, T2:num, T4:num, T3:num, T5:bot, safe__global:bot
 
 10: [T5 <= num]
- (stats__global: {value: T1|T2|T3}), T1:num, T2:str, T4:num, T3:num, T5:num, safe__global:bot
+ (stats__global: {value: T1}), T1:num, T2:num, T4:num, T3:num, T5:num, safe__global:bot
 
 11: [T5 <= safe__global]
- (stats__global: {value: T1|T2|T3}), T1:num, T2:str, T4:num, T3:num, T5:num
+ (stats__global: {value: T1}), T1:num, T2:num, T4:num, T3:num, T5:num, safe__global:num
 
 ──────────────────────────────────────────────────────
-✓  Sem conflitos.
+⚠  ERROS DE TIPO:
+   CONFLICT: num vs str  (union(T1,T2))
 
 FINAL:
   safe__global   :  num
-  stats__global  :  {value: num|str}
+  stats__global  :  {value: num}
 

@@ -26,52 +26,52 @@ Inicio:
  T1:num, base__outer:bot, obj__outer:bot, {}:bot, {x: base__outer}:bot, T2:bot, copied__inner:bot, {x: T2}:bot, T3:bot, T4:bot, result__inner:bot, {x: T5}:bot, T6:bot, T5:bot, T7:bot, check__outer:bot
 
 2: [T1 <= base__outer]
- T1:num, obj__outer:bot, {}:bot, {x: base__outer}:bot, T2:bot, copied__inner:bot, {x: T2}:bot, T3:bot, T4:bot, result__inner:bot, {x: T5}:bot, T6:bot, T5:bot, T7:bot, check__outer:bot
+ T1:num, base__outer:num, obj__outer:bot, {}:bot, {x: base__outer}:bot, T2:bot, copied__inner:bot, {x: T2}:bot, T3:bot, T4:bot, result__inner:bot, {x: T5}:bot, T6:bot, T5:bot, T7:bot, check__outer:bot
 
 3: [obj__outer <= {}]
- T1:num, obj__outer:{}, {x: base__outer}:bot, T2:bot, copied__inner:bot, {x: T2}:bot, T3:bot, T4:bot, result__inner:bot, {x: T5}:bot, T6:bot, T5:bot, T7:bot, check__outer:bot
+ T1:num, base__outer:num, obj__outer:{}, {x: base__outer}:bot, T2:bot, copied__inner:bot, {x: T2}:bot, T3:bot, T4:bot, result__inner:bot, {x: T5}:bot, T6:bot, T5:bot, T7:bot, check__outer:bot
 
 4: [obj__outer <= {x: base__outer}]
- T1:num, (obj__outer: {x: base__outer}), T2:bot, copied__inner:bot, {x: T2}:bot, T3:bot, T4:bot, result__inner:bot, {x: T5}:bot, T6:bot, T5:bot, T7:bot, check__outer:bot
+ T1:num, base__outer:num, (obj__outer: {x: T1}), T2:bot, copied__inner:bot, {x: T2}:bot, T3:bot, T4:bot, result__inner:bot, {x: T5}:bot, T6:bot, T5:bot, T7:bot, check__outer:bot
 
 5: [T2 <= copied__inner]
- T1:num, (obj__outer: {x: base__outer}), T2:bot, {x: T2}:bot, T3:bot, T4:bot, result__inner:bot, {x: T5}:bot, T6:bot, T5:bot, T7:bot, check__outer:bot
+ T1:num, base__outer:num, (obj__outer: {x: T1}), T2:bot, copied__inner:bot, {x: T2}:bot, T3:bot, T4:bot, result__inner:bot, {x: T5}:bot, T6:bot, T5:bot, T7:bot, check__outer:bot
 
 6: [obj__outer <= {x: T2}]
- T1:num, (obj__outer: {x: base__outer|T2}), T2:bot, T3:bot, T4:bot, result__inner:bot, {x: T5}:bot, T6:bot, T5:bot, T7:bot, check__outer:bot
+ T1:num, base__outer:num, (obj__outer: {x: T1}), T2:num, copied__inner:num, T3:bot, T4:bot, result__inner:bot, {x: T5}:bot, T6:bot, T5:bot, T7:bot, check__outer:bot
 
 7: [T3 <= num]
- T1:num, (obj__outer: {x: base__outer|T2}), T2:bot, T3:num, T4:bot, result__inner:bot, {x: T5}:bot, T6:bot, T5:bot, T7:bot, check__outer:bot
+ T1:num, base__outer:num, (obj__outer: {x: T1}), T2:num, copied__inner:num, T3:num, T4:bot, result__inner:bot, {x: T5}:bot, T6:bot, T5:bot, T7:bot, check__outer:bot
 
 8: [copied__inner <= num]
- T1:num, (obj__outer: {x: base__outer|T2}), T2:num, T3:num, T4:bot, result__inner:bot, {x: T5}:bot, T6:bot, T5:bot, T7:bot, check__outer:bot
+ T1:num, base__outer:num, (obj__outer: {x: T1}), T2:num, copied__inner:num, T3:num, T4:bot, result__inner:bot, {x: T5}:bot, T6:bot, T5:bot, T7:bot, check__outer:bot
 
 9: [T3 <= num]
- T1:num, (obj__outer: {x: base__outer|T2}), T2:num, T3:num, T4:bot, result__inner:bot, {x: T5}:bot, T6:bot, T5:bot, T7:bot, check__outer:bot
+ T1:num, base__outer:num, (obj__outer: {x: T1}), T2:num, copied__inner:num, T3:num, T4:bot, result__inner:bot, {x: T5}:bot, T6:bot, T5:bot, T7:bot, check__outer:bot
 
 10: [T4 <= num]
- T1:num, (obj__outer: {x: base__outer|T2}), T2:num, T3:num, T4:num, result__inner:bot, {x: T5}:bot, T6:bot, T5:bot, T7:bot, check__outer:bot
+ T1:num, base__outer:num, (obj__outer: {x: T1}), T2:num, copied__inner:num, T3:num, T4:num, result__inner:bot, {x: T5}:bot, T6:bot, T5:bot, T7:bot, check__outer:bot
 
 11: [T4 <= result__inner]
- T1:num, (obj__outer: {x: base__outer|T2}), T2:num, T3:num, T4:num, {x: T5}:bot, T6:bot, T5:bot, T7:bot, check__outer:bot
+ T1:num, base__outer:num, (obj__outer: {x: T1}), T2:num, copied__inner:num, T3:num, T4:num, result__inner:num, {x: T5}:bot, T6:bot, T5:bot, T7:bot, check__outer:bot
 
 12: [obj__outer <= {x: T5}]
- T1:num, (obj__outer: {x: base__outer|T2|T5}), T2:num, T3:num, T4:num, T6:bot, T5:bot, T7:bot, check__outer:bot
+ T1:num, base__outer:num, (obj__outer: {x: T1}), T2:num, copied__inner:num, T3:num, T4:num, result__inner:num, T6:bot, T5:num, T7:bot, check__outer:bot
 
 13: [T6 <= num]
- T1:num, (obj__outer: {x: base__outer|T2|T5}), T2:num, T3:num, T4:num, T6:num, T5:bot, T7:bot, check__outer:bot
+ T1:num, base__outer:num, (obj__outer: {x: T1}), T2:num, copied__inner:num, T3:num, T4:num, result__inner:num, T6:num, T5:num, T7:bot, check__outer:bot
 
 14: [T5 <= num]
- T1:num, (obj__outer: {x: base__outer|T2|T5}), T2:num, T3:num, T4:num, T6:num, T5:num, T7:bot, check__outer:bot
+ T1:num, base__outer:num, (obj__outer: {x: T1}), T2:num, copied__inner:num, T3:num, T4:num, result__inner:num, T6:num, T5:num, T7:bot, check__outer:bot
 
 15: [T6 <= num]
- T1:num, (obj__outer: {x: base__outer|T2|T5}), T2:num, T3:num, T4:num, T6:num, T5:num, T7:bot, check__outer:bot
+ T1:num, base__outer:num, (obj__outer: {x: T1}), T2:num, copied__inner:num, T3:num, T4:num, result__inner:num, T6:num, T5:num, T7:bot, check__outer:bot
 
 16: [T7 <= num]
- T1:num, (obj__outer: {x: base__outer|T2|T5}), T2:num, T3:num, T4:num, T6:num, T5:num, T7:num, check__outer:bot
+ T1:num, base__outer:num, (obj__outer: {x: T1}), T2:num, copied__inner:num, T3:num, T4:num, result__inner:num, T6:num, T5:num, T7:num, check__outer:bot
 
 17: [T7 <= check__outer]
- T1:num, (obj__outer: {x: base__outer|T2|T5}), T2:num, T3:num, T4:num, T6:num, T5:num, T7:num
+ T1:num, base__outer:num, (obj__outer: {x: T1}), T2:num, copied__inner:num, T3:num, T4:num, result__inner:num, T6:num, T5:num, T7:num, check__outer:num
 
 ──────────────────────────────────────────────────────
 ✓  Sem conflitos.

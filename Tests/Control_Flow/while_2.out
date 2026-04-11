@@ -38,40 +38,40 @@ Inicio:
  (state__global: {running: T1, count: T2}), T1:bool, T2:num, T3:bot, flag__global:bot, {running: T3}:bot, T4:bot, c__global:bot, {count: T4}:bot, T5:bot, T6:bot, {count: T6}:bot, T7:bot, {running: T7}:bot
 
 6: [T3 <= flag__global]
- (state__global: {running: T1, count: T2}), T1:bool, T2:num, T3:bot, {running: T3}:bot, T4:bot, c__global:bot, {count: T4}:bot, T5:bot, T6:bot, {count: T6}:bot, T7:bot, {running: T7}:bot
+ (state__global: {running: T1, count: T2}), T1:bool, T2:num, T3:bot, flag__global:bot, {running: T3}:bot, T4:bot, c__global:bot, {count: T4}:bot, T5:bot, T6:bot, {count: T6}:bot, T7:bot, {running: T7}:bot
 
 7: [state__global <= {running: T3}]
- (state__global: {running: T1|T3, count: T2}), T1:bool, T2:num, T3:bot, T4:bot, c__global:bot, {count: T4}:bot, T5:bot, T6:bot, {count: T6}:bot, T7:bot, {running: T7}:bot
+ (state__global: {running: T3, count: T2}), T1:bool, T2:num, T3:bool, flag__global:bool, T4:bot, c__global:bot, {count: T4}:bot, T5:bot, T6:bot, {count: T6}:bot, T7:bot, {running: T7}:bot
 
 8: [flag__global <= bool]
- (state__global: {running: T1|T3, count: T2}), T1:bool, T2:num, T3:bool, T4:bot, c__global:bot, {count: T4}:bot, T5:bot, T6:bot, {count: T6}:bot, T7:bot, {running: T7}:bot
+ (state__global: {running: T3, count: T2}), T1:bool, T2:num, T3:bool, flag__global:bool, T4:bot, c__global:bot, {count: T4}:bot, T5:bot, T6:bot, {count: T6}:bot, T7:bot, {running: T7}:bot
 
 9: [T4 <= c__global]
- (state__global: {running: T1|T3, count: T2}), T1:bool, T2:num, T3:bool, T4:bot, {count: T4}:bot, T5:bot, T6:bot, {count: T6}:bot, T7:bot, {running: T7}:bot
+ (state__global: {running: T3, count: T2}), T1:bool, T2:num, T3:bool, flag__global:bool, T4:bot, c__global:bot, {count: T4}:bot, T5:bot, T6:bot, {count: T6}:bot, T7:bot, {running: T7}:bot
 
 10: [state__global <= {count: T4}]
- (state__global: {running: T1|T3, count: T2|T4}), T1:bool, T2:num, T3:bool, T4:bot, T5:bot, T6:bot, {count: T6}:bot, T7:bot, {running: T7}:bot
+ (state__global: {running: T3, count: T4}), T1:bool, T2:num, T3:bool, flag__global:bool, T4:num, c__global:num, T5:bot, T6:bot, {count: T6}:bot, T7:bot, {running: T7}:bot
 
 11: [T5 <= num]
- (state__global: {running: T1|T3, count: T2|T4}), T1:bool, T2:num, T3:bool, T4:bot, T5:num, T6:bot, {count: T6}:bot, T7:bot, {running: T7}:bot
+ (state__global: {running: T3, count: T4}), T1:bool, T2:num, T3:bool, flag__global:bool, T4:num, c__global:num, T5:num, T6:bot, {count: T6}:bot, T7:bot, {running: T7}:bot
 
 12: [c__global <= num]
- (state__global: {running: T1|T3, count: T2|T4}), T1:bool, T2:num, T3:bool, T4:num, T5:num, T6:bot, {count: T6}:bot, T7:bot, {running: T7}:bot
+ (state__global: {running: T3, count: T4}), T1:bool, T2:num, T3:bool, flag__global:bool, T4:num, c__global:num, T5:num, T6:bot, {count: T6}:bot, T7:bot, {running: T7}:bot
 
 13: [T5 <= num]
- (state__global: {running: T1|T3, count: T2|T4}), T1:bool, T2:num, T3:bool, T4:num, T5:num, T6:bot, {count: T6}:bot, T7:bot, {running: T7}:bot
+ (state__global: {running: T3, count: T4}), T1:bool, T2:num, T3:bool, flag__global:bool, T4:num, c__global:num, T5:num, T6:bot, {count: T6}:bot, T7:bot, {running: T7}:bot
 
 14: [T6 <= num]
- (state__global: {running: T1|T3, count: T2|T4}), T1:bool, T2:num, T3:bool, T4:num, T5:num, T6:num, {count: T6}:bot, T7:bot, {running: T7}:bot
+ (state__global: {running: T3, count: T4}), T1:bool, T2:num, T3:bool, flag__global:bool, T4:num, c__global:num, T5:num, T6:num, {count: T6}:bot, T7:bot, {running: T7}:bot
 
 15: [state__global <= {count: T6}]
- (state__global: {running: T1|T3, count: T2|T4|T6}), T1:bool, T2:num, T3:bool, T4:num, T5:num, T6:num, T7:bot, {running: T7}:bot
+ (state__global: {running: T3, count: T4}), T1:bool, T2:num, T3:bool, flag__global:bool, T4:num, c__global:num, T5:num, T6:num, T7:bot, {running: T7}:bot
 
 16: [T7 <= flag__global]
- (state__global: {running: T1|T3, count: T2|T4|T6}), T1:bool, T2:num, T3:bool, T4:num, T5:num, T6:num, {running: T7}:bot
+ (state__global: {running: T3, count: T4}), T1:bool, T2:num, T3:bool, flag__global:bool, T4:num, c__global:num, T5:num, T6:num, T7:bool, {running: T7}:bot
 
 17: [state__global <= {running: T7}]
- (state__global: {running: T1|T3|T7, count: T2|T4|T6}), T1:bool, T2:num, T3:bool, T4:num, T5:num, T6:num
+ (state__global: {running: T3, count: T4}), T1:bool, T2:num, T3:bool, flag__global:bool, T4:num, c__global:num, T5:num, T6:num, T7:bool
 
 ──────────────────────────────────────────────────────
 ✓  Sem conflitos.

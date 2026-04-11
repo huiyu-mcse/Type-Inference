@@ -43,43 +43,43 @@ Inicio:
  (src__global: {low: T1, high: T2}), T1:num, T2:num, T3:bool, flag__global:bot, T4:bot, pick__global:bot, T5:bot, {low: T5}:bot, T6:bot, {high: T6}:bot, T7:bot, T8:bot, result__global:bot
 
 7: [T3 <= flag__global]
- (src__global: {low: T1, high: T2}), T1:num, T2:num, T3:bool, T4:bot, pick__global:bot, T5:bot, {low: T5}:bot, T6:bot, {high: T6}:bot, T7:bot, T8:bot, result__global:bot
+ (src__global: {low: T1, high: T2}), T1:num, T2:num, T3:bool, flag__global:bool, T4:bot, pick__global:bot, T5:bot, {low: T5}:bot, T6:bot, {high: T6}:bot, T7:bot, T8:bot, result__global:bot
 
 8: [T4 <= num]
- (src__global: {low: T1, high: T2}), T1:num, T2:num, T3:bool, T4:num, pick__global:bot, T5:bot, {low: T5}:bot, T6:bot, {high: T6}:bot, T7:bot, T8:bot, result__global:bot
+ (src__global: {low: T1, high: T2}), T1:num, T2:num, T3:bool, flag__global:bool, T4:num, pick__global:bot, T5:bot, {low: T5}:bot, T6:bot, {high: T6}:bot, T7:bot, T8:bot, result__global:bot
 
 9: [T4 <= pick__global]
- (src__global: {low: T1, high: T2}), T1:num, T2:num, T3:bool, T4:num, T5:bot, {low: T5}:bot, T6:bot, {high: T6}:bot, T7:bot, T8:bot, result__global:bot
+ (src__global: {low: T1, high: T2}), T1:num, T2:num, T3:bool, flag__global:bool, T4:num, pick__global:num, T5:bot, {low: T5}:bot, T6:bot, {high: T6}:bot, T7:bot, T8:bot, result__global:bot
 
 10: [flag__global <= bool]
- (src__global: {low: T1, high: T2}), T1:num, T2:num, T3:bool, T4:num, T5:bot, {low: T5}:bot, T6:bot, {high: T6}:bot, T7:bot, T8:bot, result__global:bot
+ (src__global: {low: T1, high: T2}), T1:num, T2:num, T3:bool, flag__global:bool, T4:num, pick__global:num, T5:bot, {low: T5}:bot, T6:bot, {high: T6}:bot, T7:bot, T8:bot, result__global:bot
 
 11: [T5 <= pick__global]
- (src__global: {low: T1, high: T2}), T1:num, T2:num, T3:bool, T4:num, {low: T5}:bot, T6:bot, {high: T6}:bot, T7:bot, T8:bot, result__global:bot
+ (src__global: {low: T1, high: T2}), T1:num, T2:num, T3:bool, flag__global:bool, T4:num, pick__global:num, T5:num, {low: T5}:bot, T6:bot, {high: T6}:bot, T7:bot, T8:bot, result__global:bot
 
 12: [src__global <= {low: T5}]
- (src__global: {low: T1|T5, high: T2}), T1:num, T2:num, T3:bool, T4:num, T6:bot, {high: T6}:bot, T7:bot, T8:bot, result__global:bot
+ (src__global: {low: T4, high: T2}), T1:num, T2:num, T3:bool, flag__global:bool, T4:num, pick__global:num, T5:num, T6:bot, {high: T6}:bot, T7:bot, T8:bot, result__global:bot
 
 13: [T6 <= pick__global]
- (src__global: {low: T1|T5, high: T2}), T1:num, T2:num, T3:bool, T4:num, {high: T6}:bot, T7:bot, T8:bot, result__global:bot
+ (src__global: {low: T4, high: T2}), T1:num, T2:num, T3:bool, flag__global:bool, T4:num, pick__global:num, T5:num, T6:num, {high: T6}:bot, T7:bot, T8:bot, result__global:bot
 
 14: [src__global <= {high: T6}]
- (src__global: {low: T1|T5, high: T2|T6}), T1:num, T2:num, T3:bool, T4:num, T7:bot, T8:bot, result__global:bot
+ (src__global: {low: T4, high: T4}), T1:num, T2:num, T3:bool, flag__global:bool, T4:num, pick__global:num, T5:num, T6:num, T7:bot, T8:bot, result__global:bot
 
 15: [T7 <= num]
- (src__global: {low: T1|T5, high: T2|T6}), T1:num, T2:num, T3:bool, T4:num, T7:num, T8:bot, result__global:bot
+ (src__global: {low: T4, high: T4}), T1:num, T2:num, T3:bool, flag__global:bool, T4:num, pick__global:num, T5:num, T6:num, T7:num, T8:bot, result__global:bot
 
 16: [pick__global <= num]
- (src__global: {low: T1|T5, high: T2|T6}), T1:num, T2:num, T3:bool, T4:num, T7:num, T8:bot, result__global:bot
+ (src__global: {low: T4, high: T4}), T1:num, T2:num, T3:bool, flag__global:bool, T4:num, pick__global:num, T5:num, T6:num, T7:num, T8:bot, result__global:bot
 
 17: [T7 <= num]
- (src__global: {low: T1|T5, high: T2|T6}), T1:num, T2:num, T3:bool, T4:num, T7:num, T8:bot, result__global:bot
+ (src__global: {low: T4, high: T4}), T1:num, T2:num, T3:bool, flag__global:bool, T4:num, pick__global:num, T5:num, T6:num, T7:num, T8:bot, result__global:bot
 
 18: [T8 <= num]
- (src__global: {low: T1|T5, high: T2|T6}), T1:num, T2:num, T3:bool, T4:num, T7:num, T8:num, result__global:bot
+ (src__global: {low: T4, high: T4}), T1:num, T2:num, T3:bool, flag__global:bool, T4:num, pick__global:num, T5:num, T6:num, T7:num, T8:num, result__global:bot
 
 19: [T8 <= result__global]
- (src__global: {low: T1|T5, high: T2|T6}), T1:num, T2:num, T3:bool, T4:num, T7:num, T8:num
+ (src__global: {low: T4, high: T4}), T1:num, T2:num, T3:bool, flag__global:bool, T4:num, pick__global:num, T5:num, T6:num, T7:num, T8:num, result__global:num
 
 ──────────────────────────────────────────────────────
 ✓  Sem conflitos.

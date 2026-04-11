@@ -51,67 +51,67 @@ Inicio:
  (state__global: {score: T1, bonus: T2}), T1:num, T2:num, T3:bool, active__global:bot, T4:bot, cur__global:bot, {score: T4}:bot, {bonus: T5}:bot, T5:bot, T6:bot, {score: T6}:bot, T7:bot, T8:bot, {score: T8}:bot, {score: T9}:bot, T10:bot, T9:bot, T11:bot, total__global:bot
 
 7: [T3 <= active__global]
- (state__global: {score: T1, bonus: T2}), T1:num, T2:num, T3:bool, T4:bot, cur__global:bot, {score: T4}:bot, {bonus: T5}:bot, T5:bot, T6:bot, {score: T6}:bot, T7:bot, T8:bot, {score: T8}:bot, {score: T9}:bot, T10:bot, T9:bot, T11:bot, total__global:bot
+ (state__global: {score: T1, bonus: T2}), T1:num, T2:num, T3:bool, active__global:bool, T4:bot, cur__global:bot, {score: T4}:bot, {bonus: T5}:bot, T5:bot, T6:bot, {score: T6}:bot, T7:bot, T8:bot, {score: T8}:bot, {score: T9}:bot, T10:bot, T9:bot, T11:bot, total__global:bot
 
 8: [active__global <= bool]
- (state__global: {score: T1, bonus: T2}), T1:num, T2:num, T3:bool, T4:bot, cur__global:bot, {score: T4}:bot, {bonus: T5}:bot, T5:bot, T6:bot, {score: T6}:bot, T7:bot, T8:bot, {score: T8}:bot, {score: T9}:bot, T10:bot, T9:bot, T11:bot, total__global:bot
+ (state__global: {score: T1, bonus: T2}), T1:num, T2:num, T3:bool, active__global:bool, T4:bot, cur__global:bot, {score: T4}:bot, {bonus: T5}:bot, T5:bot, T6:bot, {score: T6}:bot, T7:bot, T8:bot, {score: T8}:bot, {score: T9}:bot, T10:bot, T9:bot, T11:bot, total__global:bot
 
 9: [T4 <= cur__global]
- (state__global: {score: T1, bonus: T2}), T1:num, T2:num, T3:bool, T4:bot, {score: T4}:bot, {bonus: T5}:bot, T5:bot, T6:bot, {score: T6}:bot, T7:bot, T8:bot, {score: T8}:bot, {score: T9}:bot, T10:bot, T9:bot, T11:bot, total__global:bot
+ (state__global: {score: T1, bonus: T2}), T1:num, T2:num, T3:bool, active__global:bool, T4:bot, cur__global:bot, {score: T4}:bot, {bonus: T5}:bot, T5:bot, T6:bot, {score: T6}:bot, T7:bot, T8:bot, {score: T8}:bot, {score: T9}:bot, T10:bot, T9:bot, T11:bot, total__global:bot
 
 10: [state__global <= {score: T4}]
- (state__global: {score: T1|T4, bonus: T2}), T1:num, T2:num, T3:bool, T4:bot, {bonus: T5}:bot, T5:bot, T6:bot, {score: T6}:bot, T7:bot, T8:bot, {score: T8}:bot, {score: T9}:bot, T10:bot, T9:bot, T11:bot, total__global:bot
+ (state__global: {score: T4, bonus: T2}), T1:num, T2:num, T3:bool, active__global:bool, T4:num, cur__global:num, {bonus: T5}:bot, T5:bot, T6:bot, {score: T6}:bot, T7:bot, T8:bot, {score: T8}:bot, {score: T9}:bot, T10:bot, T9:bot, T11:bot, total__global:bot
 
 11: [active__global <= bool]
- (state__global: {score: T1|T4, bonus: T2}), T1:num, T2:num, T3:bool, T4:bot, {bonus: T5}:bot, T5:bot, T6:bot, {score: T6}:bot, T7:bot, T8:bot, {score: T8}:bot, {score: T9}:bot, T10:bot, T9:bot, T11:bot, total__global:bot
+ (state__global: {score: T4, bonus: T2}), T1:num, T2:num, T3:bool, active__global:bool, T4:num, cur__global:num, {bonus: T5}:bot, T5:bot, T6:bot, {score: T6}:bot, T7:bot, T8:bot, {score: T8}:bot, {score: T9}:bot, T10:bot, T9:bot, T11:bot, total__global:bot
 
 12: [state__global <= {bonus: T5}]
- (state__global: {score: T1|T4, bonus: T2|T5}), T1:num, T2:num, T3:bool, T4:bot, T5:bot, T6:bot, {score: T6}:bot, T7:bot, T8:bot, {score: T8}:bot, {score: T9}:bot, T10:bot, T9:bot, T11:bot, total__global:bot
+ (state__global: {score: T4, bonus: T2}), T1:num, T2:num, T3:bool, active__global:bool, T4:num, cur__global:num, T5:num, T6:bot, {score: T6}:bot, T7:bot, T8:bot, {score: T8}:bot, {score: T9}:bot, T10:bot, T9:bot, T11:bot, total__global:bot
 
 13: [cur__global <= num]
- (state__global: {score: T1|T4, bonus: T2|T5}), T1:num, T2:num, T3:bool, T4:num, T5:bot, T6:bot, {score: T6}:bot, T7:bot, T8:bot, {score: T8}:bot, {score: T9}:bot, T10:bot, T9:bot, T11:bot, total__global:bot
+ (state__global: {score: T4, bonus: T2}), T1:num, T2:num, T3:bool, active__global:bool, T4:num, cur__global:num, T5:num, T6:bot, {score: T6}:bot, T7:bot, T8:bot, {score: T8}:bot, {score: T9}:bot, T10:bot, T9:bot, T11:bot, total__global:bot
 
 14: [T5 <= num]
- (state__global: {score: T1|T4, bonus: T2|T5}), T1:num, T2:num, T3:bool, T4:num, T5:num, T6:bot, {score: T6}:bot, T7:bot, T8:bot, {score: T8}:bot, {score: T9}:bot, T10:bot, T9:bot, T11:bot, total__global:bot
+ (state__global: {score: T4, bonus: T2}), T1:num, T2:num, T3:bool, active__global:bool, T4:num, cur__global:num, T5:num, T6:bot, {score: T6}:bot, T7:bot, T8:bot, {score: T8}:bot, {score: T9}:bot, T10:bot, T9:bot, T11:bot, total__global:bot
 
 15: [T6 <= num]
- (state__global: {score: T1|T4, bonus: T2|T5}), T1:num, T2:num, T3:bool, T4:num, T5:num, T6:num, {score: T6}:bot, T7:bot, T8:bot, {score: T8}:bot, {score: T9}:bot, T10:bot, T9:bot, T11:bot, total__global:bot
+ (state__global: {score: T4, bonus: T2}), T1:num, T2:num, T3:bool, active__global:bool, T4:num, cur__global:num, T5:num, T6:num, {score: T6}:bot, T7:bot, T8:bot, {score: T8}:bot, {score: T9}:bot, T10:bot, T9:bot, T11:bot, total__global:bot
 
 16: [state__global <= {score: T6}]
- (state__global: {score: T1|T4|T6, bonus: T2|T5}), T1:num, T2:num, T3:bool, T4:num, T5:num, T6:num, T7:bot, T8:bot, {score: T8}:bot, {score: T9}:bot, T10:bot, T9:bot, T11:bot, total__global:bot
+ (state__global: {score: T4, bonus: T2}), T1:num, T2:num, T3:bool, active__global:bool, T4:num, cur__global:num, T5:num, T6:num, T7:bot, T8:bot, {score: T8}:bot, {score: T9}:bot, T10:bot, T9:bot, T11:bot, total__global:bot
 
 17: [T7 <= num]
- (state__global: {score: T1|T4|T6, bonus: T2|T5}), T1:num, T2:num, T3:bool, T4:num, T5:num, T6:num, T7:num, T8:bot, {score: T8}:bot, {score: T9}:bot, T10:bot, T9:bot, T11:bot, total__global:bot
+ (state__global: {score: T4, bonus: T2}), T1:num, T2:num, T3:bool, active__global:bool, T4:num, cur__global:num, T5:num, T6:num, T7:num, T8:bot, {score: T8}:bot, {score: T9}:bot, T10:bot, T9:bot, T11:bot, total__global:bot
 
 18: [cur__global <= num]
- (state__global: {score: T1|T4|T6, bonus: T2|T5}), T1:num, T2:num, T3:bool, T4:num, T5:num, T6:num, T7:num, T8:bot, {score: T8}:bot, {score: T9}:bot, T10:bot, T9:bot, T11:bot, total__global:bot
+ (state__global: {score: T4, bonus: T2}), T1:num, T2:num, T3:bool, active__global:bool, T4:num, cur__global:num, T5:num, T6:num, T7:num, T8:bot, {score: T8}:bot, {score: T9}:bot, T10:bot, T9:bot, T11:bot, total__global:bot
 
 19: [T7 <= num]
- (state__global: {score: T1|T4|T6, bonus: T2|T5}), T1:num, T2:num, T3:bool, T4:num, T5:num, T6:num, T7:num, T8:bot, {score: T8}:bot, {score: T9}:bot, T10:bot, T9:bot, T11:bot, total__global:bot
+ (state__global: {score: T4, bonus: T2}), T1:num, T2:num, T3:bool, active__global:bool, T4:num, cur__global:num, T5:num, T6:num, T7:num, T8:bot, {score: T8}:bot, {score: T9}:bot, T10:bot, T9:bot, T11:bot, total__global:bot
 
 20: [T8 <= num]
- (state__global: {score: T1|T4|T6, bonus: T2|T5}), T1:num, T2:num, T3:bool, T4:num, T5:num, T6:num, T7:num, T8:num, {score: T8}:bot, {score: T9}:bot, T10:bot, T9:bot, T11:bot, total__global:bot
+ (state__global: {score: T4, bonus: T2}), T1:num, T2:num, T3:bool, active__global:bool, T4:num, cur__global:num, T5:num, T6:num, T7:num, T8:num, {score: T8}:bot, {score: T9}:bot, T10:bot, T9:bot, T11:bot, total__global:bot
 
 21: [state__global <= {score: T8}]
- (state__global: {score: T1|T4|T6|T8, bonus: T2|T5}), T1:num, T2:num, T3:bool, T4:num, T5:num, T6:num, T7:num, T8:num, {score: T9}:bot, T10:bot, T9:bot, T11:bot, total__global:bot
+ (state__global: {score: T4, bonus: T2}), T1:num, T2:num, T3:bool, active__global:bool, T4:num, cur__global:num, T5:num, T6:num, T7:num, T8:num, {score: T9}:bot, T10:bot, T9:bot, T11:bot, total__global:bot
 
 22: [state__global <= {score: T9}]
- (state__global: {score: T1|T4|T6|T8|T9, bonus: T2|T5}), T1:num, T2:num, T3:bool, T4:num, T5:num, T6:num, T7:num, T8:num, T10:bot, T9:bot, T11:bot, total__global:bot
+ (state__global: {score: T4, bonus: T2}), T1:num, T2:num, T3:bool, active__global:bool, T4:num, cur__global:num, T5:num, T6:num, T7:num, T8:num, T10:bot, T9:num, T11:bot, total__global:bot
 
 23: [T10 <= num]
- (state__global: {score: T1|T4|T6|T8|T9, bonus: T2|T5}), T1:num, T2:num, T3:bool, T4:num, T5:num, T6:num, T7:num, T8:num, T10:num, T9:bot, T11:bot, total__global:bot
+ (state__global: {score: T4, bonus: T2}), T1:num, T2:num, T3:bool, active__global:bool, T4:num, cur__global:num, T5:num, T6:num, T7:num, T8:num, T10:num, T9:num, T11:bot, total__global:bot
 
 24: [T9 <= num]
- (state__global: {score: T1|T4|T6|T8|T9, bonus: T2|T5}), T1:num, T2:num, T3:bool, T4:num, T5:num, T6:num, T7:num, T8:num, T10:num, T9:num, T11:bot, total__global:bot
+ (state__global: {score: T4, bonus: T2}), T1:num, T2:num, T3:bool, active__global:bool, T4:num, cur__global:num, T5:num, T6:num, T7:num, T8:num, T10:num, T9:num, T11:bot, total__global:bot
 
 25: [T10 <= num]
- (state__global: {score: T1|T4|T6|T8|T9, bonus: T2|T5}), T1:num, T2:num, T3:bool, T4:num, T5:num, T6:num, T7:num, T8:num, T10:num, T9:num, T11:bot, total__global:bot
+ (state__global: {score: T4, bonus: T2}), T1:num, T2:num, T3:bool, active__global:bool, T4:num, cur__global:num, T5:num, T6:num, T7:num, T8:num, T10:num, T9:num, T11:bot, total__global:bot
 
 26: [T11 <= num]
- (state__global: {score: T1|T4|T6|T8|T9, bonus: T2|T5}), T1:num, T2:num, T3:bool, T4:num, T5:num, T6:num, T7:num, T8:num, T10:num, T9:num, T11:num, total__global:bot
+ (state__global: {score: T4, bonus: T2}), T1:num, T2:num, T3:bool, active__global:bool, T4:num, cur__global:num, T5:num, T6:num, T7:num, T8:num, T10:num, T9:num, T11:num, total__global:bot
 
 27: [T11 <= total__global]
- (state__global: {score: T1|T4|T6|T8|T9, bonus: T2|T5}), T1:num, T2:num, T3:bool, T4:num, T5:num, T6:num, T7:num, T8:num, T10:num, T9:num, T11:num
+ (state__global: {score: T4, bonus: T2}), T1:num, T2:num, T3:bool, active__global:bool, T4:num, cur__global:num, T5:num, T6:num, T7:num, T8:num, T10:num, T9:num, T11:num, total__global:num
 
 ──────────────────────────────────────────────────────
 ✓  Sem conflitos.

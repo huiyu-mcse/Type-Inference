@@ -53,13 +53,13 @@ Inicio:
  (x__global: {age: T1, name: T2}), T1:num, T2:str, (config__global: {port: T3, host: T4}), T3:num, T4:str, T5:str, config__setup:bot, T6:bot, {host: T6}:bot
 
 12: [T5 <= config__setup]
- (x__global: {age: T1, name: T2}), T1:num, T2:str, (config__global: {port: T3, host: T4}), T3:num, T4:str, T5:str, T6:bot, {host: T6}:bot
+ (x__global: {age: T1, name: T2}), T1:num, T2:str, (config__global: {port: T3, host: T4}), T3:num, T4:str, T5:str, config__setup:str, T6:bot, {host: T6}:bot
 
 13: [T6 <= str]
- (x__global: {age: T1, name: T2}), T1:num, T2:str, (config__global: {port: T3, host: T4}), T3:num, T4:str, T5:str, T6:str, {host: T6}:bot
+ (x__global: {age: T1, name: T2}), T1:num, T2:str, (config__global: {port: T3, host: T4}), T3:num, T4:str, T5:str, config__setup:str, T6:str, {host: T6}:bot
 
 14: [config__setup <= {host: T6}]
- (x__global: {age: T1, name: T2}), T1:num, T2:str, (config__global: {port: T3, host: T4}), T3:num, T4:str, T5:str, T6:str
+ (x__global: {age: T1, name: T2}), T1:num, T2:str, (config__global: {port: T3, host: T4}), T3:num, T4:str, T5:str, config__setup:str, T6:str
 
 ──────────────────────────────────────────────────────
 ⚠  ERROS DE TIPO:

@@ -21,19 +21,19 @@ Inicio:
  (person__global: {age: T1}), T1:num, T2:bot, a__global:bot, {age: T2}:bot, b__global:bot
 
 4: [T2 <= a__global]
- (person__global: {age: T1}), T1:num, T2:bot, {age: T2}:bot, b__global:bot
+ (person__global: {age: T1}), T1:num, T2:bot, a__global:bot, {age: T2}:bot, b__global:bot
 
 5: [person__global <= {age: T2}]
- (person__global: {age: T1|T2}), T1:num, T2:bot, b__global:bot
+ (person__global: {age: T2}), T1:num, T2:num, a__global:num, b__global:bot
 
 6: [a__global <= b__global]
- (person__global: {age: T1|T2}), T1:num, T2:bot
+ (person__global: {age: T2}), T1:num, T2:num, a__global:num, b__global:num
 
 ──────────────────────────────────────────────────────
 ✓  Sem conflitos.
 
 FINAL:
-  a__global       :  bot
-  b__global       :  bot
-  person__global  :  {age: num|bot}
+  a__global       :  num
+  b__global       :  num
+  person__global  :  {age: num}
 

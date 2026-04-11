@@ -35,7 +35,7 @@ Inicio:
  (box__global: {val: T1}), T1:num, T2:num, T3:num, total__global:bot
 
 8: [T3 <= total__global]
- (box__global: {val: T1}), T1:num, T2:num, T3:num
+ (box__global: {val: T1}), T1:num, T2:num, T3:num, total__global:num
 
 ──────────────────────────────────────────────────────
 ⚠  ERROS DE TIPO:

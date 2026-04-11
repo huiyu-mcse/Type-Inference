@@ -40,42 +40,42 @@ Inicio:
  (data__global: {x: T1}), T1:num, (store__global: {log: T2}), T2:num, local__outer:bot, T3:bot, cur__inner:bot, {log: T3}:bot, T4:bot, T5:bot, {log: T5}:bot, T6:bot, check__outer:bot, {log: T6}:bot
 
 7: [data__global <= local__outer]
- (data__global: {x: T1}), T1:num, (store__global: {log: T2}), T2:num, T3:bot, cur__inner:bot, {log: T3}:bot, T4:bot, T5:bot, {log: T5}:bot, T6:bot, check__outer:bot, {log: T6}:bot
+ (data__global: {x: T1}), T1:num, (store__global: {log: T2}), T2:num, (local__outer: {x: T1}), T3:bot, cur__inner:bot, {log: T3}:bot, T4:bot, T5:bot, {log: T5}:bot, T6:bot, check__outer:bot, {log: T6}:bot
 
 8: [T3 <= cur__inner]
- (data__global: {x: T1}), T1:num, (store__global: {log: T2}), T2:num, T3:bot, {log: T3}:bot, T4:bot, T5:bot, {log: T5}:bot, T6:bot, check__outer:bot, {log: T6}:bot
+ (data__global: {x: T1}), T1:num, (store__global: {log: T2}), T2:num, (local__outer: {x: T1}), T3:bot, cur__inner:bot, {log: T3}:bot, T4:bot, T5:bot, {log: T5}:bot, T6:bot, check__outer:bot, {log: T6}:bot
 
 9: [store__global <= {log: T3}]
- (data__global: {x: T1}), T1:num, (store__global: {log: T2|T3}), T2:num, T3:bot, T4:bot, T5:bot, {log: T5}:bot, T6:bot, check__outer:bot, {log: T6}:bot
+ (data__global: {x: T1}), T1:num, (store__global: {log: T3}), T2:num, (local__outer: {x: T1}), T3:num, cur__inner:num, T4:bot, T5:bot, {log: T5}:bot, T6:bot, check__outer:bot, {log: T6}:bot
 
 10: [T4 <= num]
- (data__global: {x: T1}), T1:num, (store__global: {log: T2|T3}), T2:num, T3:bot, T4:num, T5:bot, {log: T5}:bot, T6:bot, check__outer:bot, {log: T6}:bot
+ (data__global: {x: T1}), T1:num, (store__global: {log: T3}), T2:num, (local__outer: {x: T1}), T3:num, cur__inner:num, T4:num, T5:bot, {log: T5}:bot, T6:bot, check__outer:bot, {log: T6}:bot
 
 11: [cur__inner <= num]
- (data__global: {x: T1}), T1:num, (store__global: {log: T2|T3}), T2:num, T3:num, T4:num, T5:bot, {log: T5}:bot, T6:bot, check__outer:bot, {log: T6}:bot
+ (data__global: {x: T1}), T1:num, (store__global: {log: T3}), T2:num, (local__outer: {x: T1}), T3:num, cur__inner:num, T4:num, T5:bot, {log: T5}:bot, T6:bot, check__outer:bot, {log: T6}:bot
 
 12: [T4 <= num]
- (data__global: {x: T1}), T1:num, (store__global: {log: T2|T3}), T2:num, T3:num, T4:num, T5:bot, {log: T5}:bot, T6:bot, check__outer:bot, {log: T6}:bot
+ (data__global: {x: T1}), T1:num, (store__global: {log: T3}), T2:num, (local__outer: {x: T1}), T3:num, cur__inner:num, T4:num, T5:bot, {log: T5}:bot, T6:bot, check__outer:bot, {log: T6}:bot
 
 13: [T5 <= num]
- (data__global: {x: T1}), T1:num, (store__global: {log: T2|T3}), T2:num, T3:num, T4:num, T5:num, {log: T5}:bot, T6:bot, check__outer:bot, {log: T6}:bot
+ (data__global: {x: T1}), T1:num, (store__global: {log: T3}), T2:num, (local__outer: {x: T1}), T3:num, cur__inner:num, T4:num, T5:num, {log: T5}:bot, T6:bot, check__outer:bot, {log: T6}:bot
 
 14: [store__global <= {log: T5}]
- (data__global: {x: T1}), T1:num, (store__global: {log: T2|T3|T5}), T2:num, T3:num, T4:num, T5:num, T6:bot, check__outer:bot, {log: T6}:bot
+ (data__global: {x: T1}), T1:num, (store__global: {log: T3}), T2:num, (local__outer: {x: T1}), T3:num, cur__inner:num, T4:num, T5:num, T6:bot, check__outer:bot, {log: T6}:bot
 
 15: [T6 <= check__outer]
- (data__global: {x: T1}), T1:num, (store__global: {log: T2|T3|T5}), T2:num, T3:num, T4:num, T5:num, T6:bot, {log: T6}:bot
+ (data__global: {x: T1}), T1:num, (store__global: {log: T3}), T2:num, (local__outer: {x: T1}), T3:num, cur__inner:num, T4:num, T5:num, T6:bot, check__outer:bot, {log: T6}:bot
 
 16: [store__global <= {log: T6}]
- (data__global: {x: T1}), T1:num, (store__global: {log: T2|T3|T5|T6}), T2:num, T3:num, T4:num, T5:num, T6:bot
+ (data__global: {x: T1}), T1:num, (store__global: {log: T3}), T2:num, (local__outer: {x: T1}), T3:num, cur__inner:num, T4:num, T5:num, T6:num, check__outer:num
 
 ──────────────────────────────────────────────────────
 ✓  Sem conflitos.
 
 FINAL:
-  check__outer   :  bot
+  check__outer   :  num
   cur__inner     :  num
   data__global   :  {x: num}
   local__outer   :  {x: num}
-  store__global  :  {log: num|bot}
+  store__global  :  {log: num}
 

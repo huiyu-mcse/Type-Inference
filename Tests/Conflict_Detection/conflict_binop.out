@@ -28,64 +28,65 @@ Inicio:
  T1:num, a__global:bot, T2:bot, b__global:bot, T3:bot, x__global:bot, T4:bot, str:bot, {label: T4}:bot, T5:bot, y__global:bot, T6:bot, {p: T6}:bot, {p: T7}:bot, T7:bot, T8:bot, hui__global:bot
 
 2: [T1 <= a__global]
- T1:num, T2:bot, b__global:bot, T3:bot, x__global:bot, T4:bot, str:bot, {label: T4}:bot, T5:bot, y__global:bot, T6:bot, {p: T6}:bot, {p: T7}:bot, T7:bot, T8:bot, hui__global:bot
+ T1:num, a__global:num, T2:bot, b__global:bot, T3:bot, x__global:bot, T4:bot, str:bot, {label: T4}:bot, T5:bot, y__global:bot, T6:bot, {p: T6}:bot, {p: T7}:bot, T7:bot, T8:bot, hui__global:bot
 
 3: [T2 <= num]
- T1:num, T2:num, b__global:bot, T3:bot, x__global:bot, T4:bot, str:bot, {label: T4}:bot, T5:bot, y__global:bot, T6:bot, {p: T6}:bot, {p: T7}:bot, T7:bot, T8:bot, hui__global:bot
+ T1:num, a__global:num, T2:num, b__global:bot, T3:bot, x__global:bot, T4:bot, str:bot, {label: T4}:bot, T5:bot, y__global:bot, T6:bot, {p: T6}:bot, {p: T7}:bot, T7:bot, T8:bot, hui__global:bot
 
 4: [T2 <= b__global]
- T1:num, T2:num, T3:bot, x__global:bot, T4:bot, str:bot, {label: T4}:bot, T5:bot, y__global:bot, T6:bot, {p: T6}:bot, {p: T7}:bot, T7:bot, T8:bot, hui__global:bot
+ T1:num, a__global:num, T2:num, b__global:num, T3:bot, x__global:bot, T4:bot, str:bot, {label: T4}:bot, T5:bot, y__global:bot, T6:bot, {p: T6}:bot, {p: T7}:bot, T7:bot, T8:bot, hui__global:bot
 
 5: [a__global <= num]
- T1:num, T2:num, T3:bot, x__global:bot, T4:bot, str:bot, {label: T4}:bot, T5:bot, y__global:bot, T6:bot, {p: T6}:bot, {p: T7}:bot, T7:bot, T8:bot, hui__global:bot
+ T1:num, a__global:num, T2:num, b__global:num, T3:bot, x__global:bot, T4:bot, str:bot, {label: T4}:bot, T5:bot, y__global:bot, T6:bot, {p: T6}:bot, {p: T7}:bot, T7:bot, T8:bot, hui__global:bot
 
 6: [b__global <= num]
- T1:num, T2:num, T3:bot, x__global:bot, T4:bot, str:bot, {label: T4}:bot, T5:bot, y__global:bot, T6:bot, {p: T6}:bot, {p: T7}:bot, T7:bot, T8:bot, hui__global:bot
+ T1:num, a__global:num, T2:num, b__global:num, T3:bot, x__global:bot, T4:bot, str:bot, {label: T4}:bot, T5:bot, y__global:bot, T6:bot, {p: T6}:bot, {p: T7}:bot, T7:bot, T8:bot, hui__global:bot
 
 7: [T3 <= num]
- T1:num, T2:num, T3:num, x__global:bot, T4:bot, str:bot, {label: T4}:bot, T5:bot, y__global:bot, T6:bot, {p: T6}:bot, {p: T7}:bot, T7:bot, T8:bot, hui__global:bot
+ T1:num, a__global:num, T2:num, b__global:num, T3:num, x__global:bot, T4:bot, str:bot, {label: T4}:bot, T5:bot, y__global:bot, T6:bot, {p: T6}:bot, {p: T7}:bot, T7:bot, T8:bot, hui__global:bot
 
 8: [T3 <= x__global]
- T1:num, T2:num, T3:num, T4:bot, str:bot, {label: T4}:bot, T5:bot, y__global:bot, T6:bot, {p: T6}:bot, {p: T7}:bot, T7:bot, T8:bot, hui__global:bot
+ T1:num, a__global:num, T2:num, b__global:num, T3:num, x__global:num, T4:bot, str:bot, {label: T4}:bot, T5:bot, y__global:bot, T6:bot, {p: T6}:bot, {p: T7}:bot, T7:bot, T8:bot, hui__global:bot
 
 9: [T4 <= str]
- T1:num, T2:num, T3:num, T4:str, {label: T4}:bot, T5:bot, y__global:bot, T6:bot, {p: T6}:bot, {p: T7}:bot, T7:bot, T8:bot, hui__global:bot
+ T1:num, a__global:num, T2:num, b__global:num, T3:num, x__global:num, T4:str, {label: T4}:bot, T5:bot, y__global:bot, T6:bot, {p: T6}:bot, {p: T7}:bot, T7:bot, T8:bot, hui__global:bot
 
 10: [x__global <= {label: T4}]
- T1:num, T2:num, T3:num, T4:str, T5:bot, y__global:bot, T6:bot, {p: T6}:bot, {p: T7}:bot, T7:bot, T8:bot, hui__global:bot
+ T1:num, a__global:num, T2:num, b__global:num, T3:num, x__global:num, T4:str, T5:bot, y__global:bot, T6:bot, {p: T6}:bot, {p: T7}:bot, T7:bot, T8:bot, hui__global:bot
 
 11: [T5 <= num]
- T1:num, T2:num, T3:num, T4:str, T5:num, y__global:bot, T6:bot, {p: T6}:bot, {p: T7}:bot, T7:bot, T8:bot, hui__global:bot
+ T1:num, a__global:num, T2:num, b__global:num, T3:num, x__global:num, T4:str, T5:num, y__global:bot, T6:bot, {p: T6}:bot, {p: T7}:bot, T7:bot, T8:bot, hui__global:bot
 
 12: [T5 <= y__global]
- T1:num, T2:num, T3:num, T4:str, T5:num, T6:bot, {p: T6}:bot, {p: T7}:bot, T7:bot, T8:bot, hui__global:bot
+ T1:num, a__global:num, T2:num, b__global:num, T3:num, x__global:num, T4:str, T5:num, y__global:num, T6:bot, {p: T6}:bot, {p: T7}:bot, T7:bot, T8:bot, hui__global:bot
 
 13: [T6 <= str]
- T1:num, T2:num, T3:num, T4:str, T5:num, T6:str, {p: T6}:bot, {p: T7}:bot, T7:bot, T8:bot, hui__global:bot
+ T1:num, a__global:num, T2:num, b__global:num, T3:num, x__global:num, T4:str, T5:num, y__global:num, T6:str, {p: T6}:bot, {p: T7}:bot, T7:bot, T8:bot, hui__global:bot
 
 14: [y__global <= {p: T6}]
- T1:num, T2:num, T3:num, T4:str, T5:num, T6:str, {p: T7}:bot, T7:bot, T8:bot, hui__global:bot
+ T1:num, a__global:num, T2:num, b__global:num, T3:num, x__global:num, T4:str, T5:num, y__global:num, T6:str, {p: T7}:bot, T7:bot, T8:bot, hui__global:bot
 
 15: [y__global <= {p: T7}]
- T1:num, T2:num, T3:num, T4:str, T5:num, T6:str, T7:bot, T8:bot, hui__global:bot
+ T1:num, a__global:num, T2:num, b__global:num, T3:num, x__global:num, T4:str, T5:num, y__global:num, T6:str, T7:str, T8:bot, hui__global:bot
 
 16: [y__global <= num]
- T1:num, T2:num, T3:num, T4:str, T5:num, T6:str, T7:bot, T8:bot, hui__global:bot
+ T1:num, a__global:num, T2:num, b__global:num, T3:num, x__global:num, T4:str, T5:num, y__global:num, T6:str, T7:str, T8:bot, hui__global:bot
 
 17: [T7 <= num]
- T1:num, T2:num, T3:num, T4:str, T5:num, T6:str, T7:num, T8:bot, hui__global:bot
+ T1:num, a__global:num, T2:num, b__global:num, T3:num, x__global:num, T4:str, T5:num, y__global:num, T6:str, T7:str, T8:bot, hui__global:bot
 
 18: [T8 <= num]
- T1:num, T2:num, T3:num, T4:str, T5:num, T6:str, T7:num, T8:num, hui__global:bot
+ T1:num, a__global:num, T2:num, b__global:num, T3:num, x__global:num, T4:str, T5:num, y__global:num, T6:str, T7:str, T8:num, hui__global:bot
 
 19: [T8 <= hui__global]
- T1:num, T2:num, T3:num, T4:str, T5:num, T6:str, T7:num, T8:num
+ T1:num, a__global:num, T2:num, b__global:num, T3:num, x__global:num, T4:str, T5:num, y__global:num, T6:str, T7:str, T8:num, hui__global:num
 
 ──────────────────────────────────────────────────────
 ⚠  ERROS DE TIPO:
    CONFLICT: num vs obj
    CONFLICT: num vs obj
    CONFLICT: num vs obj
+   CONFLICT: str vs num  (T7 <= num)
 
 FINAL:
   a__global    :  num

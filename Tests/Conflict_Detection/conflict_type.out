@@ -29,13 +29,13 @@ Inicio:
  (flag__global: {active: T1}), T1:bool, T2:num, x__global:bot, T3:bot
 
 6: [T2 <= x__global]
- (flag__global: {active: T1}), T1:bool, T2:num, T3:bot
+ (flag__global: {active: T1}), T1:bool, T2:num, x__global:num, T3:bot
 
 7: [T3 <= num]
- (flag__global: {active: T1}), T1:bool, T2:num, T3:num
+ (flag__global: {active: T1}), T1:bool, T2:num, x__global:num, T3:num
 
 8: [T3 <= x__global]
- (flag__global: {active: T1}), T1:bool, T2:num
+ (flag__global: {active: T1}), T1:bool, T2:num, x__global:num, T3:num
 
 ──────────────────────────────────────────────────────
 ⚠  ERROS DE TIPO:
