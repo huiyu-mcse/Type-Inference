@@ -1,5 +1,4 @@
 
-
 Constraints:
   C01: T1 <= bool
   C02: T1 <= x__global
