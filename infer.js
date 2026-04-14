@@ -128,6 +128,21 @@ function inferExpr(node, env, scope) {
       return Xobj;
     }
 
+    // ── C-Call : f(e1, …, en) as sub-expression ────────────────────────────
+    case "CallExpression": {
+      const fname =
+        node.callee.type === "Identifier" ? node.callee.name : null;
+      if (!fname) {
+        for (const arg of node.arguments) inferExpr(arg, env, scope);
+        return fresh();
+      }
+      node.arguments.forEach((arg, i) => {
+        const Xi = inferExpr(arg, env, scope);
+        addCons(Xi, `p${i + 1}__${fname}`);
+      });
+      return `ret__${fname}`;
+    }
+
     // Update expression used as sub-expression (x++, --x)
     case "UpdateExpression": {
       const Xa = inferExpr(node.argument, env, scope);
@@ -232,6 +247,14 @@ function inferStmt(node, env, scope) {
       break;
     }
 
+    // ── C-DoWhile ───────────────────────────────────────────────────────────
+    case "DoWhileStatement": {
+      inferStmt(node.body, env, scope);
+      const Xcond = inferExpr(node.test, env, scope);
+      addCons(Xcond, "bool");
+      break;
+    }
+
     /*
     // ── For loop  (desugar: init ; while(test){ body ; update }) ────────────
     case 'ForStatement': {
@@ -250,15 +273,19 @@ function inferStmt(node, env, scope) {
     case "FunctionDeclaration": {
       const fnName = node.id ? node.id.name : `anon${fresh()}`;
       const fnEnv = new Map(env); // inherit outer env (closure semantics)
-      for (const p of node.params) envGet(fnEnv, p.name, fnName);
-      //for (const p of node.params) envDeclare(fnEnv, p.name, fnName);
+      node.params.forEach((p, i) => {
+        fnEnv.set(p.name, `p${i + 1}__${fnName}`);
+      });
       inferStmt(node.body, fnEnv, fnName);
       break;
     }
 
-    // ── Return statement ─────────────────────────────────────────────────────
+    // ── C-Return ─────────────────────────────────────────────────────────────
     case "ReturnStatement":
-      if (node.argument) inferExpr(node.argument, env, scope);
+      if (node.argument) {
+        const X1 = inferExpr(node.argument, env, scope);
+        addCons(X1, `ret__${scope}`);
+      }
       break;
 
     default:
