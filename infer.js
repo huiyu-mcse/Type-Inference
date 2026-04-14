@@ -130,8 +130,7 @@ function inferExpr(node, env, scope) {
 
     // ── C-Call : f(e1, …, en) as sub-expression ────────────────────────────
     case "CallExpression": {
-      const fname =
-        node.callee.type === "Identifier" ? node.callee.name : null;
+      const fname = node.callee.type === "Identifier" ? node.callee.name : null;
       if (!fname) {
         for (const arg of node.arguments) inferExpr(arg, env, scope);
         return fresh();
@@ -252,6 +251,26 @@ function inferStmt(node, env, scope) {
       inferStmt(node.body, env, scope);
       const Xcond = inferExpr(node.test, env, scope);
       addCons(Xcond, "bool");
+      break;
+    }
+
+    // ── C-Switch ────────────────────────────────────────────────────────────
+    case "SwitchStatement": {
+      // Infer the discriminant — its type variable is registered but not
+      // constrained to any particular base type (switch works over any type).
+      const Xdisc = inferExpr(node.discriminant, env, scope);
+      // Each case test is compared to the discriminant via strict equality,
+      // so we unify their type variables (same rule as ===).
+      for (const cas of node.cases) {
+        if (cas.test) {
+          const Xtest = inferExpr(cas.test, env, scope);
+          addCons(Xdisc, Xtest);
+          addCons(Xtest, Xdisc);
+        }
+        // Process the body of each case (including break statements, which
+        // are ignored — they have no type-inference significance).
+        for (const s of cas.consequent) inferStmt(s, env, scope);
+      }
       break;
     }
 
