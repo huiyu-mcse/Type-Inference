@@ -1,4 +1,3 @@
 function f(x) {
-  return x++; 
+  return x++;
 }
-

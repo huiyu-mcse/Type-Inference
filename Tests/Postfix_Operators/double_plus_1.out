@@ -1,0 +1,26 @@
+
+Constraints:
+  C1: p1__f <= num
+  C2: T1 <= num
+  C3: T1 <= ret__f
+
+──────────────────────────────────────────────────────
+Inicio:
+ p1__f:bot, num:bot, T1:bot, ret__f:bot
+
+1: [p1__f <= num]
+ p1__f:num, T1:bot, ret__f:bot
+
+2: [T1 <= num]
+ p1__f:num, T1:num, ret__f:bot
+
+3: [T1 <= ret__f]
+ p1__f:num, T1:num, ret__f:num
+
+──────────────────────────────────────────────────────
+✓  Sem conflitos.
+
+FINAL:
+  p1__f   :  num
+  ret__f  :  num
+

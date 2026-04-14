@@ -15,7 +15,7 @@ while IFS= read -r js_file; do
     continue
   fi
 
-  actual=$(node infer.js "$js_file" | node solver_new.js 2>&1)
+  actual=$(node infer.js "$js_file" | node solver.js 2>&1)
   expected=$(cat "$out_file")
 
   if [ "$actual" = "$expected" ]; then
