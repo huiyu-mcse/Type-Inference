@@ -274,19 +274,33 @@ function inferStmt(node, env, scope) {
       break;
     }
 
-    /*
     // ── For loop  (desugar: init ; while(test){ body ; update }) ────────────
-    case 'ForStatement': {
-      if (node.init)   inferStmt(node.init, env, scope);
-      if (node.test) {
-        const Xc = inferExpr(node.test, env, scope);
-        addCons(Xc, 'bool');
+    case "ForStatement": {
+      // 1. Initialize
+      if (node.init) {
+        if (node.init.type === "VariableDeclaration") {
+          inferStmt(node.init, env, scope);
+        } else {
+          // If it's an expression like `i = 0`
+          inferExprStmt(node.init, env, scope);
+        }
       }
+
+      // 2. Loop Condition
+      if (node.test) {
+        const Xcond = inferExpr(node.test, env, scope);
+        addCons(Xcond, "bool"); // The condition must evaluate to a boolean
+      }
+
+      // 3. Loop Body
       inferStmt(node.body, env, scope);
-      if (node.update) inferExprStmt(node.update, env, scope);
+
+      // 4. Update Expression (e.g., i++)
+      if (node.update) {
+        inferExprStmt(node.update, env, scope);
+      }
       break;
     }
-      */
 
     // ── Function declaration  →  new scope ──────────────────────────────────
     case "FunctionDeclaration": {
