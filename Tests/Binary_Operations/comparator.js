@@ -11,8 +11,9 @@ if (cmp) {
 
 function add(a, b) {
   var x = a + b;
-  var cmp = x === (a + b);
+  var cmp = x === a + b;
   return x;
 }
 
 // var a = add(1, 1); not rule for function application
+

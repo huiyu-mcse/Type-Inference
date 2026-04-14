@@ -1,0 +1,28 @@
+
+Constraints:
+  C1: p1__f <= num
+  C2: p1__h <= p1__f
+  C3: module__global <= {exports: h__global}
+
+──────────────────────────────────────────────────────
+Inicio:
+ p1__f:bot, num:bot, p1__h:bot, module__global:bot, {exports: h__global}:bot
+
+1: [p1__f <= num]
+ p1__f:num, p1__h:bot, module__global:bot, {exports: h__global}:bot
+
+2: [p1__h <= p1__f]
+ p1__f:num, p1__h:num, module__global:bot, {exports: h__global}:bot
+
+3: [module__global <= {exports: h__global}]
+ p1__f:num, p1__h:num, (module__global: {exports: h__global})
+
+──────────────────────────────────────────────────────
+✓  Sem conflitos.
+
+FINAL:
+  module__global        :  {exports: bot}
+  p1__f                 :  num
+  p1__h                 :  num
+  {exports: h__global}  :  bot
+
