@@ -130,8 +130,7 @@ function inferExpr(node, env, scope) {
 
     // ── C-Call : f(e1, …, en) as sub-expression ────────────────────────────
     case "CallExpression": {
-      const fname =
-        node.callee.type === "Identifier" ? node.callee.name : null;
+      const fname = node.callee.type === "Identifier" ? node.callee.name : null;
       if (!fname) {
         for (const arg of node.arguments) inferExpr(arg, env, scope);
         return fresh();
@@ -255,19 +254,53 @@ function inferStmt(node, env, scope) {
       break;
     }
 
-    /*
-    // ── For loop  (desugar: init ; while(test){ body ; update }) ────────────
-    case 'ForStatement': {
-      if (node.init)   inferStmt(node.init, env, scope);
-      if (node.test) {
-        const Xc = inferExpr(node.test, env, scope);
-        addCons(Xc, 'bool');
+    // ── C-Switch ────────────────────────────────────────────────────────────
+    case "SwitchStatement": {
+      // Infer the discriminant — its type variable is registered but not
+      // constrained to any particular base type (switch works over any type).
+      const Xdisc = inferExpr(node.discriminant, env, scope);
+      // Each case test is compared to the discriminant via strict equality,
+      // so we unify their type variables (same rule as ===).
+      for (const cas of node.cases) {
+        if (cas.test) {
+          const Xtest = inferExpr(cas.test, env, scope);
+          addCons(Xdisc, Xtest);
+          addCons(Xtest, Xdisc);
+        }
+        // Process the body of each case (including break statements, which
+        // are ignored — they have no type-inference significance).
+        for (const s of cas.consequent) inferStmt(s, env, scope);
       }
-      inferStmt(node.body, env, scope);
-      if (node.update) inferExprStmt(node.update, env, scope);
       break;
     }
-      */
+
+    // ── For loop  (desugar: init ; while(test){ body ; update }) ────────────
+    case "ForStatement": {
+      // 1. Initialize
+      if (node.init) {
+        if (node.init.type === "VariableDeclaration") {
+          inferStmt(node.init, env, scope);
+        } else {
+          // If it's an expression like `i = 0`
+          inferExprStmt(node.init, env, scope);
+        }
+      }
+
+      // 2. Loop Condition
+      if (node.test) {
+        const Xcond = inferExpr(node.test, env, scope);
+        addCons(Xcond, "bool"); // The condition must evaluate to a boolean
+      }
+
+      // 3. Loop Body
+      inferStmt(node.body, env, scope);
+
+      // 4. Update Expression (e.g., i++)
+      if (node.update) {
+        inferExprStmt(node.update, env, scope);
+      }
+      break;
+    }
 
     // ── Function declaration  →  new scope ──────────────────────────────────
     case "FunctionDeclaration": {

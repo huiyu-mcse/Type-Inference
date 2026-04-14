@@ -1,0 +1,82 @@
+
+Constraints:
+  C01: T1 <= num
+  C02: p1__f <= T1
+  C03: T1 <= p1__f
+  C04: T2 <= num
+  C05: T2 <= z__f
+  C06: p1__f <= num
+  C07: T3 <= num
+  C08: p1__f <= T3
+  C09: T3 <= p1__f
+  C10: p1__f <= num
+  C11: T4 <= num
+  C12: p1__f <= T4
+  C13: T4 <= p1__f
+  C14: T5 <= num
+  C15: T5 <= p1__f
+  C16: T6 <= num
+  C17: T6 <= p1__f
+
+──────────────────────────────────────────────────────
+Inicio:
+ T1:bot, num:bot, p1__f:bot, T2:bot, z__f:bot, T3:bot, T4:bot, T5:bot, T6:bot
+
+1: [T1 <= num]
+ T1:num, p1__f:bot, T2:bot, z__f:bot, T3:bot, T4:bot, T5:bot, T6:bot
+
+2: [p1__f <= T1]
+ T1:num, p1__f:num, T2:bot, z__f:bot, T3:bot, T4:bot, T5:bot, T6:bot
+
+3: [T1 <= p1__f]
+ T1:num, p1__f:num, T2:bot, z__f:bot, T3:bot, T4:bot, T5:bot, T6:bot
+
+4: [T2 <= num]
+ T1:num, p1__f:num, T2:num, z__f:bot, T3:bot, T4:bot, T5:bot, T6:bot
+
+5: [T2 <= z__f]
+ T1:num, p1__f:num, T2:num, z__f:num, T3:bot, T4:bot, T5:bot, T6:bot
+
+6: [p1__f <= num]
+ T1:num, p1__f:num, T2:num, z__f:num, T3:bot, T4:bot, T5:bot, T6:bot
+
+7: [T3 <= num]
+ T1:num, p1__f:num, T2:num, z__f:num, T3:num, T4:bot, T5:bot, T6:bot
+
+8: [p1__f <= T3]
+ T1:num, p1__f:num, T2:num, z__f:num, T3:num, T4:bot, T5:bot, T6:bot
+
+9: [T3 <= p1__f]
+ T1:num, p1__f:num, T2:num, z__f:num, T3:num, T4:bot, T5:bot, T6:bot
+
+10: [p1__f <= num]
+ T1:num, p1__f:num, T2:num, z__f:num, T3:num, T4:bot, T5:bot, T6:bot
+
+11: [T4 <= num]
+ T1:num, p1__f:num, T2:num, z__f:num, T3:num, T4:num, T5:bot, T6:bot
+
+12: [p1__f <= T4]
+ T1:num, p1__f:num, T2:num, z__f:num, T3:num, T4:num, T5:bot, T6:bot
+
+13: [T4 <= p1__f]
+ T1:num, p1__f:num, T2:num, z__f:num, T3:num, T4:num, T5:bot, T6:bot
+
+14: [T5 <= num]
+ T1:num, p1__f:num, T2:num, z__f:num, T3:num, T4:num, T5:num, T6:bot
+
+15: [T5 <= p1__f]
+ T1:num, p1__f:num, T2:num, z__f:num, T3:num, T4:num, T5:num, T6:bot
+
+16: [T6 <= num]
+ T1:num, p1__f:num, T2:num, z__f:num, T3:num, T4:num, T5:num, T6:num
+
+17: [T6 <= p1__f]
+ T1:num, p1__f:num, T2:num, z__f:num, T3:num, T4:num, T5:num, T6:num
+
+──────────────────────────────────────────────────────
+✓  Sem conflitos.
+
+FINAL:
+  p1__f  :  num
+  z__f   :  num
+
