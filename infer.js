@@ -313,6 +313,31 @@ function inferStmt(node, env, scope) {
       break;
     }
 
+    // ── C-ForOf ─────────────────────────────────────────────────────────────
+    case "ForOfStatement": {
+      console.log("Passo por aqui!");
+      // 1. Right side (the iterable array, string, etc.)
+      inferExpr(node.right, env, scope);
+
+      // 2. Left side (the loop variable)
+      let valVar;
+      if (node.left.type === "VariableDeclaration") {
+        // e.g., for (const item of iterable)
+        const decl = node.left.declarations[0];
+        valVar = envDeclare(env, decl.id.name, scope);
+      } else if (node.left.type === "Identifier") {
+        // e.g., for (item of iterable)
+        valVar = envGet(env, node.left.name, scope);
+      }
+
+      // TODO: Once Array types are added, add something like
+      // addCons(Xiterable, `Array<${valVar}>`) to this part of the code
+
+      // 3. Loop Body
+      inferStmt(node.body, env, scope);
+      break;
+    }
+
     // ── C-Return ─────────────────────────────────────────────────────────────
     case "ReturnStatement":
       if (node.argument) {
