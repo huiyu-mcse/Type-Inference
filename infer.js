@@ -302,6 +302,33 @@ function inferStmt(node, env, scope) {
       break;
     }
 
+    // ── C-ForIn ─────────────────────────────────────────────────────────────
+    case "ForInStatement": {
+      // 1. Right side (the object/array being iterated over)
+      // We evaluate it to generate any constraints from its sub-expressions
+      inferExpr(node.right, env, scope);
+
+      // 2. Left side (the key variable)
+      let keyVar;
+      if (node.left.type === "VariableDeclaration") {
+        // e.g., for (var key in obj)
+        const decl = node.left.declarations[0];
+        keyVar = envDeclare(env, decl.id.name, scope);
+      } else if (node.left.type === "Identifier") {
+        // e.g., for (key in obj)
+        keyVar = envGet(env, node.left.name, scope);
+      }
+
+      // Constrain the iteration key to be a string
+      if (keyVar) {
+        addCons(keyVar, "str");
+      }
+
+      // 3. Loop Body
+      inferStmt(node.body, env, scope);
+      break;
+    }
+
     // ── Function declaration  →  new scope ──────────────────────────────────
     case "FunctionDeclaration": {
       const fnName = node.id ? node.id.name : `anon${fresh()}`;
