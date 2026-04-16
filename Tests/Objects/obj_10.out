@@ -11,51 +11,55 @@ Constraints:
   C09: T4 <= num
   C10: T4 <= next__increment
   C11: counter__global <= {val: next__increment}
-  C12: T5 <= final__global
-  C13: counter__global <= {val: T5}
+  C12: undefined <= ret__increment
+  C13: T5 <= final__global
+  C14: counter__global <= {val: T5}
 
 ──────────────────────────────────────────────────────
 Inicio:
- counter__global:bot, {}:bot, T1:bot, num:bot, {val: T1}:bot, T2:bot, cur__increment:bot, {val: T2}:bot, T3:bot, T4:bot, next__increment:bot, {val: next__increment}:bot, T5:bot, final__global:bot, {val: T5}:bot
+ counter__global:bot, {}:bot, T1:bot, num:bot, {val: T1}:bot, T2:bot, cur__increment:bot, {val: T2}:bot, T3:bot, T4:bot, next__increment:bot, {val: next__increment}:bot, undefined:bot, ret__increment:bot, T5:bot, final__global:bot, {val: T5}:bot
 
 1: [counter__global <= {}]
- counter__global:{}, T1:bot, num:bot, {val: T1}:bot, T2:bot, cur__increment:bot, {val: T2}:bot, T3:bot, T4:bot, next__increment:bot, {val: next__increment}:bot, T5:bot, final__global:bot, {val: T5}:bot
+ counter__global:{}, T1:bot, num:bot, {val: T1}:bot, T2:bot, cur__increment:bot, {val: T2}:bot, T3:bot, T4:bot, next__increment:bot, {val: next__increment}:bot, undefined:bot, ret__increment:bot, T5:bot, final__global:bot, {val: T5}:bot
 
 2: [T1 <= num]
- counter__global:{}, T1:num, {val: T1}:bot, T2:bot, cur__increment:bot, {val: T2}:bot, T3:bot, T4:bot, next__increment:bot, {val: next__increment}:bot, T5:bot, final__global:bot, {val: T5}:bot
+ counter__global:{}, T1:num, {val: T1}:bot, T2:bot, cur__increment:bot, {val: T2}:bot, T3:bot, T4:bot, next__increment:bot, {val: next__increment}:bot, undefined:bot, ret__increment:bot, T5:bot, final__global:bot, {val: T5}:bot
 
 3: [counter__global <= {val: T1}]
- (counter__global: {val: T1}), T1:num, T2:bot, cur__increment:bot, {val: T2}:bot, T3:bot, T4:bot, next__increment:bot, {val: next__increment}:bot, T5:bot, final__global:bot, {val: T5}:bot
+ (counter__global: {val: T1}), T1:num, T2:bot, cur__increment:bot, {val: T2}:bot, T3:bot, T4:bot, next__increment:bot, {val: next__increment}:bot, undefined:bot, ret__increment:bot, T5:bot, final__global:bot, {val: T5}:bot
 
 4: [T2 <= cur__increment]
- (counter__global: {val: T1}), T1:num, T2:bot, cur__increment:bot, {val: T2}:bot, T3:bot, T4:bot, next__increment:bot, {val: next__increment}:bot, T5:bot, final__global:bot, {val: T5}:bot
+ (counter__global: {val: T1}), T1:num, T2:bot, cur__increment:bot, {val: T2}:bot, T3:bot, T4:bot, next__increment:bot, {val: next__increment}:bot, undefined:bot, ret__increment:bot, T5:bot, final__global:bot, {val: T5}:bot
 
 5: [counter__global <= {val: T2}]
- (counter__global: {val: T2}), T1:num, T2:num, cur__increment:num, T3:bot, T4:bot, next__increment:bot, {val: next__increment}:bot, T5:bot, final__global:bot, {val: T5}:bot
+ (counter__global: {val: T2}), T1:num, T2:num, cur__increment:num, T3:bot, T4:bot, next__increment:bot, {val: next__increment}:bot, undefined:bot, ret__increment:bot, T5:bot, final__global:bot, {val: T5}:bot
 
 6: [T3 <= num]
- (counter__global: {val: T2}), T1:num, T2:num, cur__increment:num, T3:num, T4:bot, next__increment:bot, {val: next__increment}:bot, T5:bot, final__global:bot, {val: T5}:bot
+ (counter__global: {val: T2}), T1:num, T2:num, cur__increment:num, T3:num, T4:bot, next__increment:bot, {val: next__increment}:bot, undefined:bot, ret__increment:bot, T5:bot, final__global:bot, {val: T5}:bot
 
 7: [cur__increment <= num]
- (counter__global: {val: T2}), T1:num, T2:num, cur__increment:num, T3:num, T4:bot, next__increment:bot, {val: next__increment}:bot, T5:bot, final__global:bot, {val: T5}:bot
+ (counter__global: {val: T2}), T1:num, T2:num, cur__increment:num, T3:num, T4:bot, next__increment:bot, {val: next__increment}:bot, undefined:bot, ret__increment:bot, T5:bot, final__global:bot, {val: T5}:bot
 
 8: [T3 <= num]
- (counter__global: {val: T2}), T1:num, T2:num, cur__increment:num, T3:num, T4:bot, next__increment:bot, {val: next__increment}:bot, T5:bot, final__global:bot, {val: T5}:bot
+ (counter__global: {val: T2}), T1:num, T2:num, cur__increment:num, T3:num, T4:bot, next__increment:bot, {val: next__increment}:bot, undefined:bot, ret__increment:bot, T5:bot, final__global:bot, {val: T5}:bot
 
 9: [T4 <= num]
- (counter__global: {val: T2}), T1:num, T2:num, cur__increment:num, T3:num, T4:num, next__increment:bot, {val: next__increment}:bot, T5:bot, final__global:bot, {val: T5}:bot
+ (counter__global: {val: T2}), T1:num, T2:num, cur__increment:num, T3:num, T4:num, next__increment:bot, {val: next__increment}:bot, undefined:bot, ret__increment:bot, T5:bot, final__global:bot, {val: T5}:bot
 
 10: [T4 <= next__increment]
- (counter__global: {val: T2}), T1:num, T2:num, cur__increment:num, T3:num, T4:num, next__increment:num, {val: next__increment}:bot, T5:bot, final__global:bot, {val: T5}:bot
+ (counter__global: {val: T2}), T1:num, T2:num, cur__increment:num, T3:num, T4:num, next__increment:num, {val: next__increment}:bot, undefined:bot, ret__increment:bot, T5:bot, final__global:bot, {val: T5}:bot
 
 11: [counter__global <= {val: next__increment}]
- (counter__global: {val: T2}), T1:num, T2:num, cur__increment:num, T3:num, T4:num, next__increment:num, T5:bot, final__global:bot, {val: T5}:bot
+ (counter__global: {val: T2}), T1:num, T2:num, cur__increment:num, T3:num, T4:num, next__increment:num, undefined:bot, ret__increment:bot, T5:bot, final__global:bot, {val: T5}:bot
 
-12: [T5 <= final__global]
- (counter__global: {val: T2}), T1:num, T2:num, cur__increment:num, T3:num, T4:num, next__increment:num, T5:bot, final__global:bot, {val: T5}:bot
+12: [undefined <= ret__increment]
+ (counter__global: {val: T2}), T1:num, T2:num, cur__increment:num, T3:num, T4:num, next__increment:num, undefined:bot, ret__increment:bot, T5:bot, final__global:bot, {val: T5}:bot
 
-13: [counter__global <= {val: T5}]
- (counter__global: {val: T2}), T1:num, T2:num, cur__increment:num, T3:num, T4:num, next__increment:num, T5:num, final__global:num
+13: [T5 <= final__global]
+ (counter__global: {val: T2}), T1:num, T2:num, cur__increment:num, T3:num, T4:num, next__increment:num, undefined:bot, ret__increment:bot, T5:bot, final__global:bot, {val: T5}:bot
+
+14: [counter__global <= {val: T5}]
+ (counter__global: {val: T2}), T1:num, T2:num, cur__increment:num, T3:num, T4:num, next__increment:num, undefined:bot, ret__increment:bot, T5:num, final__global:num
 
 ──────────────────────────────────────────────────────
 ✓  Sem conflitos.
@@ -65,5 +69,6 @@ FINAL:
   cur__increment          :  num
   final__global           :  num
   next__increment         :  num
+  ret__increment          :  bot
   {val: next__increment}  :  bot
 

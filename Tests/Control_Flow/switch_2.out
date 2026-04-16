@@ -1,82 +1,87 @@
 
 Constraints:
   C01: T1 <= num
-  C02: p1__f <= T1
-  C03: T1 <= p1__f
+  C02: x__f <= T1
+  C03: T1 <= x__f
   C04: T2 <= num
   C05: T2 <= z__f
-  C06: p1__f <= num
+  C06: x__f <= num
   C07: T3 <= num
-  C08: p1__f <= T3
-  C09: T3 <= p1__f
-  C10: p1__f <= num
+  C08: x__f <= T3
+  C09: T3 <= x__f
+  C10: x__f <= num
   C11: T4 <= num
-  C12: p1__f <= T4
-  C13: T4 <= p1__f
+  C12: x__f <= T4
+  C13: T4 <= x__f
   C14: T5 <= num
-  C15: T5 <= p1__f
+  C15: T5 <= x__f
   C16: T6 <= num
-  C17: T6 <= p1__f
+  C17: T6 <= x__f
+  C18: undefined <= ret__f
 
 ──────────────────────────────────────────────────────
 Inicio:
- T1:bot, num:bot, p1__f:bot, T2:bot, z__f:bot, T3:bot, T4:bot, T5:bot, T6:bot
+ T1:bot, num:bot, x__f:bot, T2:bot, z__f:bot, T3:bot, T4:bot, T5:bot, T6:bot, undefined:bot, ret__f:bot
 
 1: [T1 <= num]
- T1:num, p1__f:bot, T2:bot, z__f:bot, T3:bot, T4:bot, T5:bot, T6:bot
+ T1:num, x__f:bot, T2:bot, z__f:bot, T3:bot, T4:bot, T5:bot, T6:bot, undefined:bot, ret__f:bot
 
-2: [p1__f <= T1]
- T1:num, p1__f:num, T2:bot, z__f:bot, T3:bot, T4:bot, T5:bot, T6:bot
+2: [x__f <= T1]
+ T1:num, x__f:num, T2:bot, z__f:bot, T3:bot, T4:bot, T5:bot, T6:bot, undefined:bot, ret__f:bot
 
-3: [T1 <= p1__f]
- T1:num, p1__f:num, T2:bot, z__f:bot, T3:bot, T4:bot, T5:bot, T6:bot
+3: [T1 <= x__f]
+ T1:num, x__f:num, T2:bot, z__f:bot, T3:bot, T4:bot, T5:bot, T6:bot, undefined:bot, ret__f:bot
 
 4: [T2 <= num]
- T1:num, p1__f:num, T2:num, z__f:bot, T3:bot, T4:bot, T5:bot, T6:bot
+ T1:num, x__f:num, T2:num, z__f:bot, T3:bot, T4:bot, T5:bot, T6:bot, undefined:bot, ret__f:bot
 
 5: [T2 <= z__f]
- T1:num, p1__f:num, T2:num, z__f:num, T3:bot, T4:bot, T5:bot, T6:bot
+ T1:num, x__f:num, T2:num, z__f:num, T3:bot, T4:bot, T5:bot, T6:bot, undefined:bot, ret__f:bot
 
-6: [p1__f <= num]
- T1:num, p1__f:num, T2:num, z__f:num, T3:bot, T4:bot, T5:bot, T6:bot
+6: [x__f <= num]
+ T1:num, x__f:num, T2:num, z__f:num, T3:bot, T4:bot, T5:bot, T6:bot, undefined:bot, ret__f:bot
 
 7: [T3 <= num]
- T1:num, p1__f:num, T2:num, z__f:num, T3:num, T4:bot, T5:bot, T6:bot
+ T1:num, x__f:num, T2:num, z__f:num, T3:num, T4:bot, T5:bot, T6:bot, undefined:bot, ret__f:bot
 
-8: [p1__f <= T3]
- T1:num, p1__f:num, T2:num, z__f:num, T3:num, T4:bot, T5:bot, T6:bot
+8: [x__f <= T3]
+ T1:num, x__f:num, T2:num, z__f:num, T3:num, T4:bot, T5:bot, T6:bot, undefined:bot, ret__f:bot
 
-9: [T3 <= p1__f]
- T1:num, p1__f:num, T2:num, z__f:num, T3:num, T4:bot, T5:bot, T6:bot
+9: [T3 <= x__f]
+ T1:num, x__f:num, T2:num, z__f:num, T3:num, T4:bot, T5:bot, T6:bot, undefined:bot, ret__f:bot
 
-10: [p1__f <= num]
- T1:num, p1__f:num, T2:num, z__f:num, T3:num, T4:bot, T5:bot, T6:bot
+10: [x__f <= num]
+ T1:num, x__f:num, T2:num, z__f:num, T3:num, T4:bot, T5:bot, T6:bot, undefined:bot, ret__f:bot
 
 11: [T4 <= num]
- T1:num, p1__f:num, T2:num, z__f:num, T3:num, T4:num, T5:bot, T6:bot
+ T1:num, x__f:num, T2:num, z__f:num, T3:num, T4:num, T5:bot, T6:bot, undefined:bot, ret__f:bot
 
-12: [p1__f <= T4]
- T1:num, p1__f:num, T2:num, z__f:num, T3:num, T4:num, T5:bot, T6:bot
+12: [x__f <= T4]
+ T1:num, x__f:num, T2:num, z__f:num, T3:num, T4:num, T5:bot, T6:bot, undefined:bot, ret__f:bot
 
-13: [T4 <= p1__f]
- T1:num, p1__f:num, T2:num, z__f:num, T3:num, T4:num, T5:bot, T6:bot
+13: [T4 <= x__f]
+ T1:num, x__f:num, T2:num, z__f:num, T3:num, T4:num, T5:bot, T6:bot, undefined:bot, ret__f:bot
 
 14: [T5 <= num]
- T1:num, p1__f:num, T2:num, z__f:num, T3:num, T4:num, T5:num, T6:bot
+ T1:num, x__f:num, T2:num, z__f:num, T3:num, T4:num, T5:num, T6:bot, undefined:bot, ret__f:bot
 
-15: [T5 <= p1__f]
- T1:num, p1__f:num, T2:num, z__f:num, T3:num, T4:num, T5:num, T6:bot
+15: [T5 <= x__f]
+ T1:num, x__f:num, T2:num, z__f:num, T3:num, T4:num, T5:num, T6:bot, undefined:bot, ret__f:bot
 
 16: [T6 <= num]
- T1:num, p1__f:num, T2:num, z__f:num, T3:num, T4:num, T5:num, T6:num
+ T1:num, x__f:num, T2:num, z__f:num, T3:num, T4:num, T5:num, T6:num, undefined:bot, ret__f:bot
 
-17: [T6 <= p1__f]
- T1:num, p1__f:num, T2:num, z__f:num, T3:num, T4:num, T5:num, T6:num
+17: [T6 <= x__f]
+ T1:num, x__f:num, T2:num, z__f:num, T3:num, T4:num, T5:num, T6:num, undefined:bot, ret__f:bot
+
+18: [undefined <= ret__f]
+ T1:num, x__f:num, T2:num, z__f:num, T3:num, T4:num, T5:num, T6:num, undefined:bot, ret__f:bot
 
 ──────────────────────────────────────────────────────
 ✓  Sem conflitos.
 
 FINAL:
-  p1__f  :  num
-  z__f   :  num
+  ret__f  :  bot
+  x__f    :  num
+  z__f    :  num
 

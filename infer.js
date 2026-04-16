@@ -14,6 +14,12 @@ const constraints = [];
 
 const addCons = (a, b) => constraints.push(`${a} <= ${b}`);
 
+//function parameter names: used for function call type vriable mapping
+const functionParams = new Map();
+// f -> ["x", "y"]
+// type binding, to save function type variables
+const functionTypes = new Map();
+
 // environment helpers
 const mkTV = (name, scope) => `${name}__${scope}`; //env = { "x" => "x__global" }
 
@@ -135,20 +141,32 @@ function inferExpr(node, env, scope) {
         for (const arg of node.arguments) inferExpr(arg, env, scope);
         return fresh();
       }
+
+      const paramNames = functionParams.get(fname);
+
+
       node.arguments.forEach((arg, i) => {
         const Xi = inferExpr(arg, env, scope);
-        addCons(Xi, `p${i + 1}__${fname}`);
+
+        if (paramNames && paramNames[i]) {
+          const paramTV = `${paramNames[i]}__${fname}`;
+          addCons(Xi, paramTV);
+        }
       });
       return `ret__${fname}`;
     }
+
 
     // Update expression used as sub-expression (x++, --x)
     case "UpdateExpression": {
       const Xa = inferExpr(node.argument, env, scope);
       addCons(Xa, "num");
-      const Xr = fresh();
-      addCons(Xr, "num");
-      return Xr;
+
+      //TODO: check
+      //const Xr = fresh();
+      //addCons(Xr, "num");
+      //return Xr;
+      return Xa;
     }
 
     default:
@@ -207,13 +225,21 @@ function handleRHS(xTarget, rhs, env, scope) {
 function inferStmt(node, env, scope) {
   if (!node) return;
 
+  let hasReturn = false;
+
   switch (node.type) {
     // ── Program root / block ────────────────────────────────────────────────
     case "Program":
     case "BlockStatement":
       // C-Seq applied repeatedly
-      for (const s of node.body) inferStmt(s, env, scope);
-      break;
+      for (const s of node.body) {
+        if(inferStmt(s, env, scope)) {
+          hasReturn = true;
+        };
+      }
+      return hasReturn;
+      //break;
+
 
     // ── Variable declaration  (var / let / const) ───────────────────────────
     case "VariableDeclaration":
@@ -331,14 +357,49 @@ function inferStmt(node, env, scope) {
 
     // ── Function declaration  →  new scope ──────────────────────────────────
     case "FunctionDeclaration": {
-      const fnName = node.id ? node.id.name : `anon${fresh()}`;
+      //const fnName = node.id ? node.id.name : `anon${fresh()}`;
+      const fnName = node.id.name;
+
+      const paramNames = node.params.map(p => p.name);
+      functionParams.set(fnName, paramNames);
+
+      const paramTVs = [];
+
       const fnEnv = new Map(env); // inherit outer env (closure semantics)
+      //for (const p of node.params) envGet(fnEnv, p.name, fnName);  // TODO:check
+      for (const p of node.params) {
+        //envDeclare(fnEnv, p.name, fnName); // TODO:problem
+        const tv = envDeclare(fnEnv, p.name, fnName);
+        paramTVs.push(tv);
+
+      }
+
+      /*
       node.params.forEach((p, i) => {
         fnEnv.set(p.name, `p${i + 1}__${fnName}`);
       });
-      inferStmt(node.body, fnEnv, fnName);
+      */
+      //inferStmt(node.body, fnEnv, fnName);
+
+
+
+      // 3. return type
+      const retTV = `ret__${fnName}`;
+
+      const hasReturn = inferStmt(node.body, fnEnv, fnName);
+
+      if (!hasReturn) {
+        addCons("undefined", retTV);
+      }
+
+      // 4. function type
+      functionTypes.set(fnName, {
+        params: paramTVs,
+        ret: retTV
+      });
       break;
     }
+
 
     // ── C-ForOf ─────────────────────────────────────────────────────────────
     case "ForOfStatement": {
@@ -371,10 +432,15 @@ function inferStmt(node, env, scope) {
         const X1 = inferExpr(node.argument, env, scope);
         addCons(X1, `ret__${scope}`);
       }
-      break;
+      else {
+        addCons("void", `ret__${scope}`);
+      }
+      return true;
+      //break;
 
     default:
-      break;
+      return hasReturn;
+      //break;
   }
 }
 
@@ -493,3 +559,11 @@ if (constraints.length === 0) {
 
 console.log(SEP);
 console.log(`Total: ${constraints.length} constraint(s)\n`);
+
+console.log("\nFunction Types");
+console.log(SEP);
+
+for (const [f, t] of functionTypes.entries()) {
+  const params = t.params.join(", ");
+  console.log(`  ${f} : (${params}) -> ${t.ret}`);
+}

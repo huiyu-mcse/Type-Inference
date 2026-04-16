@@ -5,55 +5,60 @@ Constraints:
   C03: stats__global <= {value: T1}
   C04: T2 <= str
   C05: stats__global <= {value: T2}
-  C06: stats__global <= {value: T3}
-  C07: T4 <= num
-  C08: T3 <= num
-  C09: T4 <= num
-  C10: T5 <= num
-  C11: T5 <= safe__global
+  C06: undefined <= ret__corrupt
+  C07: stats__global <= {value: T3}
+  C08: T4 <= num
+  C09: T3 <= num
+  C10: T4 <= num
+  C11: T5 <= num
+  C12: T5 <= safe__global
 
 ──────────────────────────────────────────────────────
 Inicio:
- stats__global:bot, {}:bot, T1:bot, num:bot, {value: T1}:bot, T2:bot, str:bot, {value: T2}:bot, {value: T3}:bot, T4:bot, T3:bot, T5:bot, safe__global:bot
+ stats__global:bot, {}:bot, T1:bot, num:bot, {value: T1}:bot, T2:bot, str:bot, {value: T2}:bot, undefined:bot, ret__corrupt:bot, {value: T3}:bot, T4:bot, T3:bot, T5:bot, safe__global:bot
 
 1: [stats__global <= {}]
- stats__global:{}, T1:bot, num:bot, {value: T1}:bot, T2:bot, str:bot, {value: T2}:bot, {value: T3}:bot, T4:bot, T3:bot, T5:bot, safe__global:bot
+ stats__global:{}, T1:bot, num:bot, {value: T1}:bot, T2:bot, str:bot, {value: T2}:bot, undefined:bot, ret__corrupt:bot, {value: T3}:bot, T4:bot, T3:bot, T5:bot, safe__global:bot
 
 2: [T1 <= num]
- stats__global:{}, T1:num, {value: T1}:bot, T2:bot, str:bot, {value: T2}:bot, {value: T3}:bot, T4:bot, T3:bot, T5:bot, safe__global:bot
+ stats__global:{}, T1:num, {value: T1}:bot, T2:bot, str:bot, {value: T2}:bot, undefined:bot, ret__corrupt:bot, {value: T3}:bot, T4:bot, T3:bot, T5:bot, safe__global:bot
 
 3: [stats__global <= {value: T1}]
- (stats__global: {value: T1}), T1:num, T2:bot, str:bot, {value: T2}:bot, {value: T3}:bot, T4:bot, T3:bot, T5:bot, safe__global:bot
+ (stats__global: {value: T1}), T1:num, T2:bot, str:bot, {value: T2}:bot, undefined:bot, ret__corrupt:bot, {value: T3}:bot, T4:bot, T3:bot, T5:bot, safe__global:bot
 
 4: [T2 <= str]
- (stats__global: {value: T1}), T1:num, T2:str, {value: T2}:bot, {value: T3}:bot, T4:bot, T3:bot, T5:bot, safe__global:bot
+ (stats__global: {value: T1}), T1:num, T2:str, {value: T2}:bot, undefined:bot, ret__corrupt:bot, {value: T3}:bot, T4:bot, T3:bot, T5:bot, safe__global:bot
 
 5: [stats__global <= {value: T2}]
- (stats__global: {value: T1}), T1:num, T2:num, {value: T3}:bot, T4:bot, T3:bot, T5:bot, safe__global:bot
+ (stats__global: {value: T1}), T1:num, T2:num, undefined:bot, ret__corrupt:bot, {value: T3}:bot, T4:bot, T3:bot, T5:bot, safe__global:bot
 
-6: [stats__global <= {value: T3}]
- (stats__global: {value: T1}), T1:num, T2:num, T4:bot, T3:num, T5:bot, safe__global:bot
+6: [undefined <= ret__corrupt]
+ (stats__global: {value: T1}), T1:num, T2:num, undefined:bot, ret__corrupt:bot, {value: T3}:bot, T4:bot, T3:bot, T5:bot, safe__global:bot
 
-7: [T4 <= num]
- (stats__global: {value: T1}), T1:num, T2:num, T4:num, T3:num, T5:bot, safe__global:bot
+7: [stats__global <= {value: T3}]
+ (stats__global: {value: T1}), T1:num, T2:num, undefined:bot, ret__corrupt:bot, T4:bot, T3:num, T5:bot, safe__global:bot
 
-8: [T3 <= num]
- (stats__global: {value: T1}), T1:num, T2:num, T4:num, T3:num, T5:bot, safe__global:bot
+8: [T4 <= num]
+ (stats__global: {value: T1}), T1:num, T2:num, undefined:bot, ret__corrupt:bot, T4:num, T3:num, T5:bot, safe__global:bot
 
-9: [T4 <= num]
- (stats__global: {value: T1}), T1:num, T2:num, T4:num, T3:num, T5:bot, safe__global:bot
+9: [T3 <= num]
+ (stats__global: {value: T1}), T1:num, T2:num, undefined:bot, ret__corrupt:bot, T4:num, T3:num, T5:bot, safe__global:bot
 
-10: [T5 <= num]
- (stats__global: {value: T1}), T1:num, T2:num, T4:num, T3:num, T5:num, safe__global:bot
+10: [T4 <= num]
+ (stats__global: {value: T1}), T1:num, T2:num, undefined:bot, ret__corrupt:bot, T4:num, T3:num, T5:bot, safe__global:bot
 
-11: [T5 <= safe__global]
- (stats__global: {value: T1}), T1:num, T2:num, T4:num, T3:num, T5:num, safe__global:num
+11: [T5 <= num]
+ (stats__global: {value: T1}), T1:num, T2:num, undefined:bot, ret__corrupt:bot, T4:num, T3:num, T5:num, safe__global:bot
+
+12: [T5 <= safe__global]
+ (stats__global: {value: T1}), T1:num, T2:num, undefined:bot, ret__corrupt:bot, T4:num, T3:num, T5:num, safe__global:num
 
 ──────────────────────────────────────────────────────
 ⚠  ERROS DE TIPO:
    CONFLICT: num vs str  (union(T1,T2))
 
 FINAL:
+  ret__corrupt   :  bot
   safe__global   :  num
   stats__global  :  {value: num}
 

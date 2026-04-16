@@ -1,28 +1,38 @@
 
 Constraints:
-  C1: p1__f <= num
-  C2: p1__h <= p1__f
-  C3: module__global <= {exports: h__global}
+  C1: x__f <= num
+  C2: undefined <= ret__f
+  C3: y__h <= x__f
+  C4: undefined <= ret__h
+  C5: module__global <= {exports: h__global}
 
 ──────────────────────────────────────────────────────
 Inicio:
- p1__f:bot, num:bot, p1__h:bot, module__global:bot, {exports: h__global}:bot
+ x__f:bot, num:bot, undefined:bot, ret__f:bot, y__h:bot, ret__h:bot, module__global:bot, {exports: h__global}:bot
 
-1: [p1__f <= num]
- p1__f:num, p1__h:bot, module__global:bot, {exports: h__global}:bot
+1: [x__f <= num]
+ x__f:num, undefined:bot, ret__f:bot, y__h:bot, ret__h:bot, module__global:bot, {exports: h__global}:bot
 
-2: [p1__h <= p1__f]
- p1__f:num, p1__h:num, module__global:bot, {exports: h__global}:bot
+2: [undefined <= ret__f]
+ x__f:num, undefined:bot, ret__f:bot, y__h:bot, ret__h:bot, module__global:bot, {exports: h__global}:bot
 
-3: [module__global <= {exports: h__global}]
- p1__f:num, p1__h:num, (module__global: {exports: h__global})
+3: [y__h <= x__f]
+ x__f:num, undefined:bot, ret__f:bot, y__h:num, ret__h:bot, module__global:bot, {exports: h__global}:bot
+
+4: [undefined <= ret__h]
+ x__f:num, undefined:bot, ret__f:bot, y__h:num, ret__h:bot, module__global:bot, {exports: h__global}:bot
+
+5: [module__global <= {exports: h__global}]
+ x__f:num, undefined:bot, ret__f:bot, y__h:num, ret__h:bot, (module__global: {exports: h__global})
 
 ──────────────────────────────────────────────────────
 ✓  Sem conflitos.
 
 FINAL:
   module__global        :  {exports: bot}
-  p1__f                 :  num
-  p1__h                 :  num
+  ret__f                :  bot
+  ret__h                :  bot
+  x__f                  :  num
+  y__h                  :  num
   {exports: h__global}  :  bot
 

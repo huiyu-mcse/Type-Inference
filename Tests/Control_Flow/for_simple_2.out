@@ -3,10 +3,10 @@ Constraints:
   C01: T1 <= num
   C02: T1 <= count__global
   C03: T2 <= num
-  C04: T2 <= p1__f
+  C04: T2 <= j__f
   C05: T3 <= num
-  C06: p1__f <= T3
-  C07: T3 <= p1__f
+  C06: j__f <= T3
+  C07: T3 <= j__f
   C08: T4 <= bool
   C09: T4 <= bool
   C10: T5 <= num
@@ -15,79 +15,83 @@ Constraints:
   C13: T6 <= num
   C14: T6 <= count__global
   C15: T7 <= num
-  C16: p1__f <= num
+  C16: j__f <= num
   C17: T7 <= num
   C18: T8 <= num
-  C19: T8 <= p1__f
-  C20: T9 <= bool
-  C21: T9 <= done__global
+  C19: T8 <= j__f
+  C20: undefined <= ret__f
+  C21: T9 <= bool
+  C22: T9 <= done__global
 
 ──────────────────────────────────────────────────────
 Inicio:
- T1:bot, num:bot, count__global:bot, T2:bot, p1__f:bot, T3:bot, T4:bot, bool:bot, T5:bot, T6:bot, T7:bot, T8:bot, T9:bot, done__global:bot
+ T1:bot, num:bot, count__global:bot, T2:bot, j__f:bot, T3:bot, T4:bot, bool:bot, T5:bot, T6:bot, T7:bot, T8:bot, undefined:bot, ret__f:bot, T9:bot, done__global:bot
 
 1: [T1 <= num]
- T1:num, count__global:bot, T2:bot, p1__f:bot, T3:bot, T4:bot, bool:bot, T5:bot, T6:bot, T7:bot, T8:bot, T9:bot, done__global:bot
+ T1:num, count__global:bot, T2:bot, j__f:bot, T3:bot, T4:bot, bool:bot, T5:bot, T6:bot, T7:bot, T8:bot, undefined:bot, ret__f:bot, T9:bot, done__global:bot
 
 2: [T1 <= count__global]
- T1:num, count__global:num, T2:bot, p1__f:bot, T3:bot, T4:bot, bool:bot, T5:bot, T6:bot, T7:bot, T8:bot, T9:bot, done__global:bot
+ T1:num, count__global:num, T2:bot, j__f:bot, T3:bot, T4:bot, bool:bot, T5:bot, T6:bot, T7:bot, T8:bot, undefined:bot, ret__f:bot, T9:bot, done__global:bot
 
 3: [T2 <= num]
- T1:num, count__global:num, T2:num, p1__f:bot, T3:bot, T4:bot, bool:bot, T5:bot, T6:bot, T7:bot, T8:bot, T9:bot, done__global:bot
+ T1:num, count__global:num, T2:num, j__f:bot, T3:bot, T4:bot, bool:bot, T5:bot, T6:bot, T7:bot, T8:bot, undefined:bot, ret__f:bot, T9:bot, done__global:bot
 
-4: [T2 <= p1__f]
- T1:num, count__global:num, T2:num, p1__f:num, T3:bot, T4:bot, bool:bot, T5:bot, T6:bot, T7:bot, T8:bot, T9:bot, done__global:bot
+4: [T2 <= j__f]
+ T1:num, count__global:num, T2:num, j__f:num, T3:bot, T4:bot, bool:bot, T5:bot, T6:bot, T7:bot, T8:bot, undefined:bot, ret__f:bot, T9:bot, done__global:bot
 
 5: [T3 <= num]
- T1:num, count__global:num, T2:num, p1__f:num, T3:num, T4:bot, bool:bot, T5:bot, T6:bot, T7:bot, T8:bot, T9:bot, done__global:bot
+ T1:num, count__global:num, T2:num, j__f:num, T3:num, T4:bot, bool:bot, T5:bot, T6:bot, T7:bot, T8:bot, undefined:bot, ret__f:bot, T9:bot, done__global:bot
 
-6: [p1__f <= T3]
- T1:num, count__global:num, T2:num, p1__f:num, T3:num, T4:bot, bool:bot, T5:bot, T6:bot, T7:bot, T8:bot, T9:bot, done__global:bot
+6: [j__f <= T3]
+ T1:num, count__global:num, T2:num, j__f:num, T3:num, T4:bot, bool:bot, T5:bot, T6:bot, T7:bot, T8:bot, undefined:bot, ret__f:bot, T9:bot, done__global:bot
 
-7: [T3 <= p1__f]
- T1:num, count__global:num, T2:num, p1__f:num, T3:num, T4:bot, bool:bot, T5:bot, T6:bot, T7:bot, T8:bot, T9:bot, done__global:bot
+7: [T3 <= j__f]
+ T1:num, count__global:num, T2:num, j__f:num, T3:num, T4:bot, bool:bot, T5:bot, T6:bot, T7:bot, T8:bot, undefined:bot, ret__f:bot, T9:bot, done__global:bot
 
 8: [T4 <= bool]
- T1:num, count__global:num, T2:num, p1__f:num, T3:num, T4:bool, T5:bot, T6:bot, T7:bot, T8:bot, T9:bot, done__global:bot
+ T1:num, count__global:num, T2:num, j__f:num, T3:num, T4:bool, T5:bot, T6:bot, T7:bot, T8:bot, undefined:bot, ret__f:bot, T9:bot, done__global:bot
 
 9: [T4 <= bool]
- T1:num, count__global:num, T2:num, p1__f:num, T3:num, T4:bool, T5:bot, T6:bot, T7:bot, T8:bot, T9:bot, done__global:bot
+ T1:num, count__global:num, T2:num, j__f:num, T3:num, T4:bool, T5:bot, T6:bot, T7:bot, T8:bot, undefined:bot, ret__f:bot, T9:bot, done__global:bot
 
 10: [T5 <= num]
- T1:num, count__global:num, T2:num, p1__f:num, T3:num, T4:bool, T5:num, T6:bot, T7:bot, T8:bot, T9:bot, done__global:bot
+ T1:num, count__global:num, T2:num, j__f:num, T3:num, T4:bool, T5:num, T6:bot, T7:bot, T8:bot, undefined:bot, ret__f:bot, T9:bot, done__global:bot
 
 11: [count__global <= num]
- T1:num, count__global:num, T2:num, p1__f:num, T3:num, T4:bool, T5:num, T6:bot, T7:bot, T8:bot, T9:bot, done__global:bot
+ T1:num, count__global:num, T2:num, j__f:num, T3:num, T4:bool, T5:num, T6:bot, T7:bot, T8:bot, undefined:bot, ret__f:bot, T9:bot, done__global:bot
 
 12: [T5 <= num]
- T1:num, count__global:num, T2:num, p1__f:num, T3:num, T4:bool, T5:num, T6:bot, T7:bot, T8:bot, T9:bot, done__global:bot
+ T1:num, count__global:num, T2:num, j__f:num, T3:num, T4:bool, T5:num, T6:bot, T7:bot, T8:bot, undefined:bot, ret__f:bot, T9:bot, done__global:bot
 
 13: [T6 <= num]
- T1:num, count__global:num, T2:num, p1__f:num, T3:num, T4:bool, T5:num, T6:num, T7:bot, T8:bot, T9:bot, done__global:bot
+ T1:num, count__global:num, T2:num, j__f:num, T3:num, T4:bool, T5:num, T6:num, T7:bot, T8:bot, undefined:bot, ret__f:bot, T9:bot, done__global:bot
 
 14: [T6 <= count__global]
- T1:num, count__global:num, T2:num, p1__f:num, T3:num, T4:bool, T5:num, T6:num, T7:bot, T8:bot, T9:bot, done__global:bot
+ T1:num, count__global:num, T2:num, j__f:num, T3:num, T4:bool, T5:num, T6:num, T7:bot, T8:bot, undefined:bot, ret__f:bot, T9:bot, done__global:bot
 
 15: [T7 <= num]
- T1:num, count__global:num, T2:num, p1__f:num, T3:num, T4:bool, T5:num, T6:num, T7:num, T8:bot, T9:bot, done__global:bot
+ T1:num, count__global:num, T2:num, j__f:num, T3:num, T4:bool, T5:num, T6:num, T7:num, T8:bot, undefined:bot, ret__f:bot, T9:bot, done__global:bot
 
-16: [p1__f <= num]
- T1:num, count__global:num, T2:num, p1__f:num, T3:num, T4:bool, T5:num, T6:num, T7:num, T8:bot, T9:bot, done__global:bot
+16: [j__f <= num]
+ T1:num, count__global:num, T2:num, j__f:num, T3:num, T4:bool, T5:num, T6:num, T7:num, T8:bot, undefined:bot, ret__f:bot, T9:bot, done__global:bot
 
 17: [T7 <= num]
- T1:num, count__global:num, T2:num, p1__f:num, T3:num, T4:bool, T5:num, T6:num, T7:num, T8:bot, T9:bot, done__global:bot
+ T1:num, count__global:num, T2:num, j__f:num, T3:num, T4:bool, T5:num, T6:num, T7:num, T8:bot, undefined:bot, ret__f:bot, T9:bot, done__global:bot
 
 18: [T8 <= num]
- T1:num, count__global:num, T2:num, p1__f:num, T3:num, T4:bool, T5:num, T6:num, T7:num, T8:num, T9:bot, done__global:bot
+ T1:num, count__global:num, T2:num, j__f:num, T3:num, T4:bool, T5:num, T6:num, T7:num, T8:num, undefined:bot, ret__f:bot, T9:bot, done__global:bot
 
-19: [T8 <= p1__f]
- T1:num, count__global:num, T2:num, p1__f:num, T3:num, T4:bool, T5:num, T6:num, T7:num, T8:num, T9:bot, done__global:bot
+19: [T8 <= j__f]
+ T1:num, count__global:num, T2:num, j__f:num, T3:num, T4:bool, T5:num, T6:num, T7:num, T8:num, undefined:bot, ret__f:bot, T9:bot, done__global:bot
 
-20: [T9 <= bool]
- T1:num, count__global:num, T2:num, p1__f:num, T3:num, T4:bool, T5:num, T6:num, T7:num, T8:num, T9:bool, done__global:bot
+20: [undefined <= ret__f]
+ T1:num, count__global:num, T2:num, j__f:num, T3:num, T4:bool, T5:num, T6:num, T7:num, T8:num, undefined:bot, ret__f:bot, T9:bot, done__global:bot
 
-21: [T9 <= done__global]
- T1:num, count__global:num, T2:num, p1__f:num, T3:num, T4:bool, T5:num, T6:num, T7:num, T8:num, T9:bool, done__global:bool
+21: [T9 <= bool]
+ T1:num, count__global:num, T2:num, j__f:num, T3:num, T4:bool, T5:num, T6:num, T7:num, T8:num, undefined:bot, ret__f:bot, T9:bool, done__global:bot
+
+22: [T9 <= done__global]
+ T1:num, count__global:num, T2:num, j__f:num, T3:num, T4:bool, T5:num, T6:num, T7:num, T8:num, undefined:bot, ret__f:bot, T9:bool, done__global:bool
 
 ──────────────────────────────────────────────────────
 ✓  Sem conflitos.
@@ -95,5 +99,6 @@ Inicio:
 FINAL:
   count__global  :  num
   done__global   :  bool
-  p1__f          :  num
+  j__f           :  num
+  ret__f         :  bot
 

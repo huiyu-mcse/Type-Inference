@@ -11,67 +11,75 @@ Constraints:
   C09: T3 <= num
   C10: T4 <= num
   C11: T4 <= result__inner
-  C12: obj__outer <= {x: T5}
-  C13: T6 <= num
-  C14: T5 <= num
-  C15: T6 <= num
-  C16: T7 <= num
-  C17: T7 <= check__outer
+  C12: undefined <= ret__inner
+  C13: obj__outer <= {x: T5}
+  C14: T6 <= num
+  C15: T5 <= num
+  C16: T6 <= num
+  C17: T7 <= num
+  C18: T7 <= check__outer
+  C19: undefined <= ret__outer
 
 ──────────────────────────────────────────────────────
 Inicio:
- T1:bot, num:bot, base__outer:bot, obj__outer:bot, {}:bot, {x: base__outer}:bot, T2:bot, copied__inner:bot, {x: T2}:bot, T3:bot, T4:bot, result__inner:bot, {x: T5}:bot, T6:bot, T5:bot, T7:bot, check__outer:bot
+ T1:bot, num:bot, base__outer:bot, obj__outer:bot, {}:bot, {x: base__outer}:bot, T2:bot, copied__inner:bot, {x: T2}:bot, T3:bot, T4:bot, result__inner:bot, undefined:bot, ret__inner:bot, {x: T5}:bot, T6:bot, T5:bot, T7:bot, check__outer:bot, ret__outer:bot
 
 1: [T1 <= num]
- T1:num, base__outer:bot, obj__outer:bot, {}:bot, {x: base__outer}:bot, T2:bot, copied__inner:bot, {x: T2}:bot, T3:bot, T4:bot, result__inner:bot, {x: T5}:bot, T6:bot, T5:bot, T7:bot, check__outer:bot
+ T1:num, base__outer:bot, obj__outer:bot, {}:bot, {x: base__outer}:bot, T2:bot, copied__inner:bot, {x: T2}:bot, T3:bot, T4:bot, result__inner:bot, undefined:bot, ret__inner:bot, {x: T5}:bot, T6:bot, T5:bot, T7:bot, check__outer:bot, ret__outer:bot
 
 2: [T1 <= base__outer]
- T1:num, base__outer:num, obj__outer:bot, {}:bot, {x: base__outer}:bot, T2:bot, copied__inner:bot, {x: T2}:bot, T3:bot, T4:bot, result__inner:bot, {x: T5}:bot, T6:bot, T5:bot, T7:bot, check__outer:bot
+ T1:num, base__outer:num, obj__outer:bot, {}:bot, {x: base__outer}:bot, T2:bot, copied__inner:bot, {x: T2}:bot, T3:bot, T4:bot, result__inner:bot, undefined:bot, ret__inner:bot, {x: T5}:bot, T6:bot, T5:bot, T7:bot, check__outer:bot, ret__outer:bot
 
 3: [obj__outer <= {}]
- T1:num, base__outer:num, obj__outer:{}, {x: base__outer}:bot, T2:bot, copied__inner:bot, {x: T2}:bot, T3:bot, T4:bot, result__inner:bot, {x: T5}:bot, T6:bot, T5:bot, T7:bot, check__outer:bot
+ T1:num, base__outer:num, obj__outer:{}, {x: base__outer}:bot, T2:bot, copied__inner:bot, {x: T2}:bot, T3:bot, T4:bot, result__inner:bot, undefined:bot, ret__inner:bot, {x: T5}:bot, T6:bot, T5:bot, T7:bot, check__outer:bot, ret__outer:bot
 
 4: [obj__outer <= {x: base__outer}]
- T1:num, base__outer:num, (obj__outer: {x: T1}), T2:bot, copied__inner:bot, {x: T2}:bot, T3:bot, T4:bot, result__inner:bot, {x: T5}:bot, T6:bot, T5:bot, T7:bot, check__outer:bot
+ T1:num, base__outer:num, (obj__outer: {x: T1}), T2:bot, copied__inner:bot, {x: T2}:bot, T3:bot, T4:bot, result__inner:bot, undefined:bot, ret__inner:bot, {x: T5}:bot, T6:bot, T5:bot, T7:bot, check__outer:bot, ret__outer:bot
 
 5: [T2 <= copied__inner]
- T1:num, base__outer:num, (obj__outer: {x: T1}), T2:bot, copied__inner:bot, {x: T2}:bot, T3:bot, T4:bot, result__inner:bot, {x: T5}:bot, T6:bot, T5:bot, T7:bot, check__outer:bot
+ T1:num, base__outer:num, (obj__outer: {x: T1}), T2:bot, copied__inner:bot, {x: T2}:bot, T3:bot, T4:bot, result__inner:bot, undefined:bot, ret__inner:bot, {x: T5}:bot, T6:bot, T5:bot, T7:bot, check__outer:bot, ret__outer:bot
 
 6: [obj__outer <= {x: T2}]
- T1:num, base__outer:num, (obj__outer: {x: T1}), T2:num, copied__inner:num, T3:bot, T4:bot, result__inner:bot, {x: T5}:bot, T6:bot, T5:bot, T7:bot, check__outer:bot
+ T1:num, base__outer:num, (obj__outer: {x: T1}), T2:num, copied__inner:num, T3:bot, T4:bot, result__inner:bot, undefined:bot, ret__inner:bot, {x: T5}:bot, T6:bot, T5:bot, T7:bot, check__outer:bot, ret__outer:bot
 
 7: [T3 <= num]
- T1:num, base__outer:num, (obj__outer: {x: T1}), T2:num, copied__inner:num, T3:num, T4:bot, result__inner:bot, {x: T5}:bot, T6:bot, T5:bot, T7:bot, check__outer:bot
+ T1:num, base__outer:num, (obj__outer: {x: T1}), T2:num, copied__inner:num, T3:num, T4:bot, result__inner:bot, undefined:bot, ret__inner:bot, {x: T5}:bot, T6:bot, T5:bot, T7:bot, check__outer:bot, ret__outer:bot
 
 8: [copied__inner <= num]
- T1:num, base__outer:num, (obj__outer: {x: T1}), T2:num, copied__inner:num, T3:num, T4:bot, result__inner:bot, {x: T5}:bot, T6:bot, T5:bot, T7:bot, check__outer:bot
+ T1:num, base__outer:num, (obj__outer: {x: T1}), T2:num, copied__inner:num, T3:num, T4:bot, result__inner:bot, undefined:bot, ret__inner:bot, {x: T5}:bot, T6:bot, T5:bot, T7:bot, check__outer:bot, ret__outer:bot
 
 9: [T3 <= num]
- T1:num, base__outer:num, (obj__outer: {x: T1}), T2:num, copied__inner:num, T3:num, T4:bot, result__inner:bot, {x: T5}:bot, T6:bot, T5:bot, T7:bot, check__outer:bot
+ T1:num, base__outer:num, (obj__outer: {x: T1}), T2:num, copied__inner:num, T3:num, T4:bot, result__inner:bot, undefined:bot, ret__inner:bot, {x: T5}:bot, T6:bot, T5:bot, T7:bot, check__outer:bot, ret__outer:bot
 
 10: [T4 <= num]
- T1:num, base__outer:num, (obj__outer: {x: T1}), T2:num, copied__inner:num, T3:num, T4:num, result__inner:bot, {x: T5}:bot, T6:bot, T5:bot, T7:bot, check__outer:bot
+ T1:num, base__outer:num, (obj__outer: {x: T1}), T2:num, copied__inner:num, T3:num, T4:num, result__inner:bot, undefined:bot, ret__inner:bot, {x: T5}:bot, T6:bot, T5:bot, T7:bot, check__outer:bot, ret__outer:bot
 
 11: [T4 <= result__inner]
- T1:num, base__outer:num, (obj__outer: {x: T1}), T2:num, copied__inner:num, T3:num, T4:num, result__inner:num, {x: T5}:bot, T6:bot, T5:bot, T7:bot, check__outer:bot
+ T1:num, base__outer:num, (obj__outer: {x: T1}), T2:num, copied__inner:num, T3:num, T4:num, result__inner:num, undefined:bot, ret__inner:bot, {x: T5}:bot, T6:bot, T5:bot, T7:bot, check__outer:bot, ret__outer:bot
 
-12: [obj__outer <= {x: T5}]
- T1:num, base__outer:num, (obj__outer: {x: T1}), T2:num, copied__inner:num, T3:num, T4:num, result__inner:num, T6:bot, T5:num, T7:bot, check__outer:bot
+12: [undefined <= ret__inner]
+ T1:num, base__outer:num, (obj__outer: {x: T1}), T2:num, copied__inner:num, T3:num, T4:num, result__inner:num, undefined:bot, ret__inner:bot, {x: T5}:bot, T6:bot, T5:bot, T7:bot, check__outer:bot, ret__outer:bot
 
-13: [T6 <= num]
- T1:num, base__outer:num, (obj__outer: {x: T1}), T2:num, copied__inner:num, T3:num, T4:num, result__inner:num, T6:num, T5:num, T7:bot, check__outer:bot
+13: [obj__outer <= {x: T5}]
+ T1:num, base__outer:num, (obj__outer: {x: T1}), T2:num, copied__inner:num, T3:num, T4:num, result__inner:num, undefined:bot, ret__inner:bot, T6:bot, T5:num, T7:bot, check__outer:bot, ret__outer:bot
 
-14: [T5 <= num]
- T1:num, base__outer:num, (obj__outer: {x: T1}), T2:num, copied__inner:num, T3:num, T4:num, result__inner:num, T6:num, T5:num, T7:bot, check__outer:bot
+14: [T6 <= num]
+ T1:num, base__outer:num, (obj__outer: {x: T1}), T2:num, copied__inner:num, T3:num, T4:num, result__inner:num, undefined:bot, ret__inner:bot, T6:num, T5:num, T7:bot, check__outer:bot, ret__outer:bot
 
-15: [T6 <= num]
- T1:num, base__outer:num, (obj__outer: {x: T1}), T2:num, copied__inner:num, T3:num, T4:num, result__inner:num, T6:num, T5:num, T7:bot, check__outer:bot
+15: [T5 <= num]
+ T1:num, base__outer:num, (obj__outer: {x: T1}), T2:num, copied__inner:num, T3:num, T4:num, result__inner:num, undefined:bot, ret__inner:bot, T6:num, T5:num, T7:bot, check__outer:bot, ret__outer:bot
 
-16: [T7 <= num]
- T1:num, base__outer:num, (obj__outer: {x: T1}), T2:num, copied__inner:num, T3:num, T4:num, result__inner:num, T6:num, T5:num, T7:num, check__outer:bot
+16: [T6 <= num]
+ T1:num, base__outer:num, (obj__outer: {x: T1}), T2:num, copied__inner:num, T3:num, T4:num, result__inner:num, undefined:bot, ret__inner:bot, T6:num, T5:num, T7:bot, check__outer:bot, ret__outer:bot
 
-17: [T7 <= check__outer]
- T1:num, base__outer:num, (obj__outer: {x: T1}), T2:num, copied__inner:num, T3:num, T4:num, result__inner:num, T6:num, T5:num, T7:num, check__outer:num
+17: [T7 <= num]
+ T1:num, base__outer:num, (obj__outer: {x: T1}), T2:num, copied__inner:num, T3:num, T4:num, result__inner:num, undefined:bot, ret__inner:bot, T6:num, T5:num, T7:num, check__outer:bot, ret__outer:bot
+
+18: [T7 <= check__outer]
+ T1:num, base__outer:num, (obj__outer: {x: T1}), T2:num, copied__inner:num, T3:num, T4:num, result__inner:num, undefined:bot, ret__inner:bot, T6:num, T5:num, T7:num, check__outer:num, ret__outer:bot
+
+19: [undefined <= ret__outer]
+ T1:num, base__outer:num, (obj__outer: {x: T1}), T2:num, copied__inner:num, T3:num, T4:num, result__inner:num, undefined:bot, ret__inner:bot, T6:num, T5:num, T7:num, check__outer:num, ret__outer:bot
 
 ──────────────────────────────────────────────────────
 ✓  Sem conflitos.
@@ -82,5 +90,7 @@ FINAL:
   copied__inner     :  num
   obj__outer        :  {x: num}
   result__inner     :  num
+  ret__inner        :  bot
+  ret__outer        :  bot
   {x: base__outer}  :  bot
 
