@@ -1,0 +1,52 @@
+
+Constraints:
+  C1: x__f <= num
+  C2: y__f <= num
+  C3: T1 <= num
+  C4: T1 <= ret__f
+  C5: T2 <= num
+  C6: T2 <= x__f
+  C7: T3 <= num
+  C8: T3 <= y__f
+  C9: ret__f <= a__global
+
+──────────────────────────────────────────────────────
+Inicio:
+ x__f:bot, num:bot, y__f:bot, T1:bot, ret__f:bot, T2:bot, T3:bot, a__global:bot
+
+1: [x__f <= num]
+ x__f:num, y__f:bot, T1:bot, ret__f:bot, T2:bot, T3:bot, a__global:bot
+
+2: [y__f <= num]
+ x__f:num, y__f:num, T1:bot, ret__f:bot, T2:bot, T3:bot, a__global:bot
+
+3: [T1 <= num]
+ x__f:num, y__f:num, T1:num, ret__f:bot, T2:bot, T3:bot, a__global:bot
+
+4: [T1 <= ret__f]
+ x__f:num, y__f:num, T1:num, ret__f:num, T2:bot, T3:bot, a__global:bot
+
+5: [T2 <= num]
+ x__f:num, y__f:num, T1:num, ret__f:num, T2:num, T3:bot, a__global:bot
+
+6: [T2 <= x__f]
+ x__f:num, y__f:num, T1:num, ret__f:num, T2:num, T3:bot, a__global:bot
+
+7: [T3 <= num]
+ x__f:num, y__f:num, T1:num, ret__f:num, T2:num, T3:num, a__global:bot
+
+8: [T3 <= y__f]
+ x__f:num, y__f:num, T1:num, ret__f:num, T2:num, T3:num, a__global:bot
+
+9: [ret__f <= a__global]
+ x__f:num, y__f:num, T1:num, ret__f:num, T2:num, T3:num, a__global:num
+
+──────────────────────────────────────────────────────
+✓  Sem conflitos.
+
+FINAL:
+  a__global  :  num
+  ret__f     :  num
+  x__f       :  num
+  y__f       :  num
+

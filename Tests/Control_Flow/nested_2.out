@@ -10,87 +10,92 @@ Constraints:
   C08: T4 <= flag__h
   C09: flag__h <= bool
   C10: flag__h <= bool
-  C11: p2__h <= num
-  C12: p1__h <= num
+  C11: output__h <= num
+  C12: delta__h <= num
   C13: T5 <= num
-  C14: T5 <= p2__h
+  C14: T5 <= output__h
   C15: T6 <= num
-  C16: p2__h <= num
+  C16: output__h <= num
   C17: T6 <= num
   C18: T7 <= num
-  C19: T7 <= p2__h
+  C19: T7 <= output__h
   C20: T8 <= str
   C21: T8 <= delta__h
+  C22: undefined <= ret__h
 
 ──────────────────────────────────────────────────────
 Inicio:
- T1:bot, bool:bot, flag__global:bot, T2:bot, num:bot, output__global:bot, T3:bot, delta__global:bot, T4:bot, flag__h:bot, p2__h:bot, p1__h:bot, T5:bot, T6:bot, T7:bot, T8:bot, str:bot, delta__h:bot
+ T1:bot, bool:bot, flag__global:bot, T2:bot, num:bot, output__global:bot, T3:bot, delta__global:bot, T4:bot, flag__h:bot, output__h:bot, delta__h:bot, T5:bot, T6:bot, T7:bot, T8:bot, str:bot, undefined:bot, ret__h:bot
 
 1: [T1 <= bool]
- T1:bool, flag__global:bot, T2:bot, num:bot, output__global:bot, T3:bot, delta__global:bot, T4:bot, flag__h:bot, p2__h:bot, p1__h:bot, T5:bot, T6:bot, T7:bot, T8:bot, str:bot, delta__h:bot
+ T1:bool, flag__global:bot, T2:bot, num:bot, output__global:bot, T3:bot, delta__global:bot, T4:bot, flag__h:bot, output__h:bot, delta__h:bot, T5:bot, T6:bot, T7:bot, T8:bot, str:bot, undefined:bot, ret__h:bot
 
 2: [T1 <= flag__global]
- T1:bool, flag__global:bool, T2:bot, num:bot, output__global:bot, T3:bot, delta__global:bot, T4:bot, flag__h:bot, p2__h:bot, p1__h:bot, T5:bot, T6:bot, T7:bot, T8:bot, str:bot, delta__h:bot
+ T1:bool, flag__global:bool, T2:bot, num:bot, output__global:bot, T3:bot, delta__global:bot, T4:bot, flag__h:bot, output__h:bot, delta__h:bot, T5:bot, T6:bot, T7:bot, T8:bot, str:bot, undefined:bot, ret__h:bot
 
 3: [T2 <= num]
- T1:bool, flag__global:bool, T2:num, output__global:bot, T3:bot, delta__global:bot, T4:bot, flag__h:bot, p2__h:bot, p1__h:bot, T5:bot, T6:bot, T7:bot, T8:bot, str:bot, delta__h:bot
+ T1:bool, flag__global:bool, T2:num, output__global:bot, T3:bot, delta__global:bot, T4:bot, flag__h:bot, output__h:bot, delta__h:bot, T5:bot, T6:bot, T7:bot, T8:bot, str:bot, undefined:bot, ret__h:bot
 
 4: [T2 <= output__global]
- T1:bool, flag__global:bool, T2:num, output__global:num, T3:bot, delta__global:bot, T4:bot, flag__h:bot, p2__h:bot, p1__h:bot, T5:bot, T6:bot, T7:bot, T8:bot, str:bot, delta__h:bot
+ T1:bool, flag__global:bool, T2:num, output__global:num, T3:bot, delta__global:bot, T4:bot, flag__h:bot, output__h:bot, delta__h:bot, T5:bot, T6:bot, T7:bot, T8:bot, str:bot, undefined:bot, ret__h:bot
 
 5: [T3 <= num]
- T1:bool, flag__global:bool, T2:num, output__global:num, T3:num, delta__global:bot, T4:bot, flag__h:bot, p2__h:bot, p1__h:bot, T5:bot, T6:bot, T7:bot, T8:bot, str:bot, delta__h:bot
+ T1:bool, flag__global:bool, T2:num, output__global:num, T3:num, delta__global:bot, T4:bot, flag__h:bot, output__h:bot, delta__h:bot, T5:bot, T6:bot, T7:bot, T8:bot, str:bot, undefined:bot, ret__h:bot
 
 6: [T3 <= delta__global]
- T1:bool, flag__global:bool, T2:num, output__global:num, T3:num, delta__global:num, T4:bot, flag__h:bot, p2__h:bot, p1__h:bot, T5:bot, T6:bot, T7:bot, T8:bot, str:bot, delta__h:bot
+ T1:bool, flag__global:bool, T2:num, output__global:num, T3:num, delta__global:num, T4:bot, flag__h:bot, output__h:bot, delta__h:bot, T5:bot, T6:bot, T7:bot, T8:bot, str:bot, undefined:bot, ret__h:bot
 
 7: [T4 <= bool]
- T1:bool, flag__global:bool, T2:num, output__global:num, T3:num, delta__global:num, T4:bool, flag__h:bot, p2__h:bot, p1__h:bot, T5:bot, T6:bot, T7:bot, T8:bot, str:bot, delta__h:bot
+ T1:bool, flag__global:bool, T2:num, output__global:num, T3:num, delta__global:num, T4:bool, flag__h:bot, output__h:bot, delta__h:bot, T5:bot, T6:bot, T7:bot, T8:bot, str:bot, undefined:bot, ret__h:bot
 
 8: [T4 <= flag__h]
- T1:bool, flag__global:bool, T2:num, output__global:num, T3:num, delta__global:num, T4:bool, flag__h:bool, p2__h:bot, p1__h:bot, T5:bot, T6:bot, T7:bot, T8:bot, str:bot, delta__h:bot
+ T1:bool, flag__global:bool, T2:num, output__global:num, T3:num, delta__global:num, T4:bool, flag__h:bool, output__h:bot, delta__h:bot, T5:bot, T6:bot, T7:bot, T8:bot, str:bot, undefined:bot, ret__h:bot
 
 9: [flag__h <= bool]
- T1:bool, flag__global:bool, T2:num, output__global:num, T3:num, delta__global:num, T4:bool, flag__h:bool, p2__h:bot, p1__h:bot, T5:bot, T6:bot, T7:bot, T8:bot, str:bot, delta__h:bot
+ T1:bool, flag__global:bool, T2:num, output__global:num, T3:num, delta__global:num, T4:bool, flag__h:bool, output__h:bot, delta__h:bot, T5:bot, T6:bot, T7:bot, T8:bot, str:bot, undefined:bot, ret__h:bot
 
 10: [flag__h <= bool]
- T1:bool, flag__global:bool, T2:num, output__global:num, T3:num, delta__global:num, T4:bool, flag__h:bool, p2__h:bot, p1__h:bot, T5:bot, T6:bot, T7:bot, T8:bot, str:bot, delta__h:bot
+ T1:bool, flag__global:bool, T2:num, output__global:num, T3:num, delta__global:num, T4:bool, flag__h:bool, output__h:bot, delta__h:bot, T5:bot, T6:bot, T7:bot, T8:bot, str:bot, undefined:bot, ret__h:bot
 
-11: [p2__h <= num]
- T1:bool, flag__global:bool, T2:num, output__global:num, T3:num, delta__global:num, T4:bool, flag__h:bool, p2__h:num, p1__h:bot, T5:bot, T6:bot, T7:bot, T8:bot, str:bot, delta__h:bot
+11: [output__h <= num]
+ T1:bool, flag__global:bool, T2:num, output__global:num, T3:num, delta__global:num, T4:bool, flag__h:bool, output__h:num, delta__h:bot, T5:bot, T6:bot, T7:bot, T8:bot, str:bot, undefined:bot, ret__h:bot
 
-12: [p1__h <= num]
- T1:bool, flag__global:bool, T2:num, output__global:num, T3:num, delta__global:num, T4:bool, flag__h:bool, p2__h:num, p1__h:num, T5:bot, T6:bot, T7:bot, T8:bot, str:bot, delta__h:bot
+12: [delta__h <= num]
+ T1:bool, flag__global:bool, T2:num, output__global:num, T3:num, delta__global:num, T4:bool, flag__h:bool, output__h:num, delta__h:num, T5:bot, T6:bot, T7:bot, T8:bot, str:bot, undefined:bot, ret__h:bot
 
 13: [T5 <= num]
- T1:bool, flag__global:bool, T2:num, output__global:num, T3:num, delta__global:num, T4:bool, flag__h:bool, p2__h:num, p1__h:num, T5:num, T6:bot, T7:bot, T8:bot, str:bot, delta__h:bot
+ T1:bool, flag__global:bool, T2:num, output__global:num, T3:num, delta__global:num, T4:bool, flag__h:bool, output__h:num, delta__h:num, T5:num, T6:bot, T7:bot, T8:bot, str:bot, undefined:bot, ret__h:bot
 
-14: [T5 <= p2__h]
- T1:bool, flag__global:bool, T2:num, output__global:num, T3:num, delta__global:num, T4:bool, flag__h:bool, p2__h:num, p1__h:num, T5:num, T6:bot, T7:bot, T8:bot, str:bot, delta__h:bot
+14: [T5 <= output__h]
+ T1:bool, flag__global:bool, T2:num, output__global:num, T3:num, delta__global:num, T4:bool, flag__h:bool, output__h:num, delta__h:num, T5:num, T6:bot, T7:bot, T8:bot, str:bot, undefined:bot, ret__h:bot
 
 15: [T6 <= num]
- T1:bool, flag__global:bool, T2:num, output__global:num, T3:num, delta__global:num, T4:bool, flag__h:bool, p2__h:num, p1__h:num, T5:num, T6:num, T7:bot, T8:bot, str:bot, delta__h:bot
+ T1:bool, flag__global:bool, T2:num, output__global:num, T3:num, delta__global:num, T4:bool, flag__h:bool, output__h:num, delta__h:num, T5:num, T6:num, T7:bot, T8:bot, str:bot, undefined:bot, ret__h:bot
 
-16: [p2__h <= num]
- T1:bool, flag__global:bool, T2:num, output__global:num, T3:num, delta__global:num, T4:bool, flag__h:bool, p2__h:num, p1__h:num, T5:num, T6:num, T7:bot, T8:bot, str:bot, delta__h:bot
+16: [output__h <= num]
+ T1:bool, flag__global:bool, T2:num, output__global:num, T3:num, delta__global:num, T4:bool, flag__h:bool, output__h:num, delta__h:num, T5:num, T6:num, T7:bot, T8:bot, str:bot, undefined:bot, ret__h:bot
 
 17: [T6 <= num]
- T1:bool, flag__global:bool, T2:num, output__global:num, T3:num, delta__global:num, T4:bool, flag__h:bool, p2__h:num, p1__h:num, T5:num, T6:num, T7:bot, T8:bot, str:bot, delta__h:bot
+ T1:bool, flag__global:bool, T2:num, output__global:num, T3:num, delta__global:num, T4:bool, flag__h:bool, output__h:num, delta__h:num, T5:num, T6:num, T7:bot, T8:bot, str:bot, undefined:bot, ret__h:bot
 
 18: [T7 <= num]
- T1:bool, flag__global:bool, T2:num, output__global:num, T3:num, delta__global:num, T4:bool, flag__h:bool, p2__h:num, p1__h:num, T5:num, T6:num, T7:num, T8:bot, str:bot, delta__h:bot
+ T1:bool, flag__global:bool, T2:num, output__global:num, T3:num, delta__global:num, T4:bool, flag__h:bool, output__h:num, delta__h:num, T5:num, T6:num, T7:num, T8:bot, str:bot, undefined:bot, ret__h:bot
 
-19: [T7 <= p2__h]
- T1:bool, flag__global:bool, T2:num, output__global:num, T3:num, delta__global:num, T4:bool, flag__h:bool, p2__h:num, p1__h:num, T5:num, T6:num, T7:num, T8:bot, str:bot, delta__h:bot
+19: [T7 <= output__h]
+ T1:bool, flag__global:bool, T2:num, output__global:num, T3:num, delta__global:num, T4:bool, flag__h:bool, output__h:num, delta__h:num, T5:num, T6:num, T7:num, T8:bot, str:bot, undefined:bot, ret__h:bot
 
 20: [T8 <= str]
- T1:bool, flag__global:bool, T2:num, output__global:num, T3:num, delta__global:num, T4:bool, flag__h:bool, p2__h:num, p1__h:num, T5:num, T6:num, T7:num, T8:str, delta__h:bot
+ T1:bool, flag__global:bool, T2:num, output__global:num, T3:num, delta__global:num, T4:bool, flag__h:bool, output__h:num, delta__h:num, T5:num, T6:num, T7:num, T8:str, undefined:bot, ret__h:bot
 
 21: [T8 <= delta__h]
- T1:bool, flag__global:bool, T2:num, output__global:num, T3:num, delta__global:num, T4:bool, flag__h:bool, p2__h:num, p1__h:num, T5:num, T6:num, T7:num, T8:str, delta__h:str
+ T1:bool, flag__global:bool, T2:num, output__global:num, T3:num, delta__global:num, T4:bool, flag__h:bool, output__h:num, delta__h:str, T5:num, T6:num, T7:num, T8:str, undefined:bot, ret__h:bot
+
+22: [undefined <= ret__h]
+ T1:bool, flag__global:bool, T2:num, output__global:num, T3:num, delta__global:num, T4:bool, flag__h:bool, output__h:num, delta__h:str, T5:num, T6:num, T7:num, T8:str, undefined:bot, ret__h:bot
 
 ──────────────────────────────────────────────────────
-✓  Sem conflitos.
+⚠  ERROS DE TIPO:
+   CONFLICT: str vs num  (union(T8,delta__h))
 
 FINAL:
   delta__global   :  num
@@ -98,6 +103,6 @@ FINAL:
   flag__global    :  bool
   flag__h         :  bool
   output__global  :  num
-  p1__h           :  num
-  p2__h           :  num
+  output__h       :  num
+  ret__h          :  bot
 

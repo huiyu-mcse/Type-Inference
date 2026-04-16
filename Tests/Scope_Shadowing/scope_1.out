@@ -2,64 +2,76 @@
 Constraints:
   C01: T1 <= num
   C02: T1 <= val__global
-  C03: p1__transform <= local__transform
+  C03: val__transform <= local__transform
   C04: local__transform <= out__transform
-  C05: val__global <= copy__global
-  C06: settings__global <= {}
-  C07: T2 <= str
-  C08: settings__global <= {host: T2}
-  C09: T3 <= num
-  C10: settings__global <= {port: T3}
-  C11: T4 <= bool
-  C12: settings__global <= {debug: T4}
-  C13: T5 <= num
-  C14: settings__global <= {version: T5}
+  C05: undefined <= ret__transform
+  C06: val__global <= copy__global
+  C07: settings__global <= {}
+  C08: T2 <= str
+  C09: settings__global <= {host: T2}
+  C10: T3 <= num
+  C11: settings__global <= {port: T3}
+  C12: undefined <= ret__setNetwork
+  C13: T4 <= bool
+  C14: settings__global <= {debug: T4}
+  C15: T5 <= num
+  C16: settings__global <= {version: T5}
+  C17: undefined <= ret__setApp
 
 ──────────────────────────────────────────────────────
 Inicio:
- T1:bot, num:bot, val__global:bot, p1__transform:bot, local__transform:bot, out__transform:bot, copy__global:bot, settings__global:bot, {}:bot, T2:bot, str:bot, {host: T2}:bot, T3:bot, {port: T3}:bot, T4:bot, bool:bot, {debug: T4}:bot, T5:bot, {version: T5}:bot
+ T1:bot, num:bot, val__global:bot, val__transform:bot, local__transform:bot, out__transform:bot, undefined:bot, ret__transform:bot, copy__global:bot, settings__global:bot, {}:bot, T2:bot, str:bot, {host: T2}:bot, T3:bot, {port: T3}:bot, ret__setNetwork:bot, T4:bot, bool:bot, {debug: T4}:bot, T5:bot, {version: T5}:bot, ret__setApp:bot
 
 1: [T1 <= num]
- T1:num, val__global:bot, p1__transform:bot, local__transform:bot, out__transform:bot, copy__global:bot, settings__global:bot, {}:bot, T2:bot, str:bot, {host: T2}:bot, T3:bot, {port: T3}:bot, T4:bot, bool:bot, {debug: T4}:bot, T5:bot, {version: T5}:bot
+ T1:num, val__global:bot, val__transform:bot, local__transform:bot, out__transform:bot, undefined:bot, ret__transform:bot, copy__global:bot, settings__global:bot, {}:bot, T2:bot, str:bot, {host: T2}:bot, T3:bot, {port: T3}:bot, ret__setNetwork:bot, T4:bot, bool:bot, {debug: T4}:bot, T5:bot, {version: T5}:bot, ret__setApp:bot
 
 2: [T1 <= val__global]
- T1:num, val__global:num, p1__transform:bot, local__transform:bot, out__transform:bot, copy__global:bot, settings__global:bot, {}:bot, T2:bot, str:bot, {host: T2}:bot, T3:bot, {port: T3}:bot, T4:bot, bool:bot, {debug: T4}:bot, T5:bot, {version: T5}:bot
+ T1:num, val__global:num, val__transform:bot, local__transform:bot, out__transform:bot, undefined:bot, ret__transform:bot, copy__global:bot, settings__global:bot, {}:bot, T2:bot, str:bot, {host: T2}:bot, T3:bot, {port: T3}:bot, ret__setNetwork:bot, T4:bot, bool:bot, {debug: T4}:bot, T5:bot, {version: T5}:bot, ret__setApp:bot
 
-3: [p1__transform <= local__transform]
- T1:num, val__global:num, p1__transform:bot, local__transform:bot, out__transform:bot, copy__global:bot, settings__global:bot, {}:bot, T2:bot, str:bot, {host: T2}:bot, T3:bot, {port: T3}:bot, T4:bot, bool:bot, {debug: T4}:bot, T5:bot, {version: T5}:bot
+3: [val__transform <= local__transform]
+ T1:num, val__global:num, val__transform:bot, local__transform:bot, out__transform:bot, undefined:bot, ret__transform:bot, copy__global:bot, settings__global:bot, {}:bot, T2:bot, str:bot, {host: T2}:bot, T3:bot, {port: T3}:bot, ret__setNetwork:bot, T4:bot, bool:bot, {debug: T4}:bot, T5:bot, {version: T5}:bot, ret__setApp:bot
 
 4: [local__transform <= out__transform]
- T1:num, val__global:num, p1__transform:bot, local__transform:bot, out__transform:bot, copy__global:bot, settings__global:bot, {}:bot, T2:bot, str:bot, {host: T2}:bot, T3:bot, {port: T3}:bot, T4:bot, bool:bot, {debug: T4}:bot, T5:bot, {version: T5}:bot
+ T1:num, val__global:num, val__transform:bot, local__transform:bot, out__transform:bot, undefined:bot, ret__transform:bot, copy__global:bot, settings__global:bot, {}:bot, T2:bot, str:bot, {host: T2}:bot, T3:bot, {port: T3}:bot, ret__setNetwork:bot, T4:bot, bool:bot, {debug: T4}:bot, T5:bot, {version: T5}:bot, ret__setApp:bot
 
-5: [val__global <= copy__global]
- T1:num, val__global:num, p1__transform:bot, local__transform:bot, out__transform:bot, copy__global:num, settings__global:bot, {}:bot, T2:bot, str:bot, {host: T2}:bot, T3:bot, {port: T3}:bot, T4:bot, bool:bot, {debug: T4}:bot, T5:bot, {version: T5}:bot
+5: [undefined <= ret__transform]
+ T1:num, val__global:num, val__transform:bot, local__transform:bot, out__transform:bot, undefined:bot, ret__transform:bot, copy__global:bot, settings__global:bot, {}:bot, T2:bot, str:bot, {host: T2}:bot, T3:bot, {port: T3}:bot, ret__setNetwork:bot, T4:bot, bool:bot, {debug: T4}:bot, T5:bot, {version: T5}:bot, ret__setApp:bot
 
-6: [settings__global <= {}]
- T1:num, val__global:num, p1__transform:bot, local__transform:bot, out__transform:bot, copy__global:num, settings__global:{}, T2:bot, str:bot, {host: T2}:bot, T3:bot, {port: T3}:bot, T4:bot, bool:bot, {debug: T4}:bot, T5:bot, {version: T5}:bot
+6: [val__global <= copy__global]
+ T1:num, val__global:num, val__transform:bot, local__transform:bot, out__transform:bot, undefined:bot, ret__transform:bot, copy__global:num, settings__global:bot, {}:bot, T2:bot, str:bot, {host: T2}:bot, T3:bot, {port: T3}:bot, ret__setNetwork:bot, T4:bot, bool:bot, {debug: T4}:bot, T5:bot, {version: T5}:bot, ret__setApp:bot
 
-7: [T2 <= str]
- T1:num, val__global:num, p1__transform:bot, local__transform:bot, out__transform:bot, copy__global:num, settings__global:{}, T2:str, {host: T2}:bot, T3:bot, {port: T3}:bot, T4:bot, bool:bot, {debug: T4}:bot, T5:bot, {version: T5}:bot
+7: [settings__global <= {}]
+ T1:num, val__global:num, val__transform:bot, local__transform:bot, out__transform:bot, undefined:bot, ret__transform:bot, copy__global:num, settings__global:{}, T2:bot, str:bot, {host: T2}:bot, T3:bot, {port: T3}:bot, ret__setNetwork:bot, T4:bot, bool:bot, {debug: T4}:bot, T5:bot, {version: T5}:bot, ret__setApp:bot
 
-8: [settings__global <= {host: T2}]
- T1:num, val__global:num, p1__transform:bot, local__transform:bot, out__transform:bot, copy__global:num, (settings__global: {host: T2}), T2:str, T3:bot, {port: T3}:bot, T4:bot, bool:bot, {debug: T4}:bot, T5:bot, {version: T5}:bot
+8: [T2 <= str]
+ T1:num, val__global:num, val__transform:bot, local__transform:bot, out__transform:bot, undefined:bot, ret__transform:bot, copy__global:num, settings__global:{}, T2:str, {host: T2}:bot, T3:bot, {port: T3}:bot, ret__setNetwork:bot, T4:bot, bool:bot, {debug: T4}:bot, T5:bot, {version: T5}:bot, ret__setApp:bot
 
-9: [T3 <= num]
- T1:num, val__global:num, p1__transform:bot, local__transform:bot, out__transform:bot, copy__global:num, (settings__global: {host: T2}), T2:str, T3:num, {port: T3}:bot, T4:bot, bool:bot, {debug: T4}:bot, T5:bot, {version: T5}:bot
+9: [settings__global <= {host: T2}]
+ T1:num, val__global:num, val__transform:bot, local__transform:bot, out__transform:bot, undefined:bot, ret__transform:bot, copy__global:num, (settings__global: {host: T2}), T2:str, T3:bot, {port: T3}:bot, ret__setNetwork:bot, T4:bot, bool:bot, {debug: T4}:bot, T5:bot, {version: T5}:bot, ret__setApp:bot
 
-10: [settings__global <= {port: T3}]
- T1:num, val__global:num, p1__transform:bot, local__transform:bot, out__transform:bot, copy__global:num, (settings__global: {host: T2, port: T3}), T2:str, T3:num, T4:bot, bool:bot, {debug: T4}:bot, T5:bot, {version: T5}:bot
+10: [T3 <= num]
+ T1:num, val__global:num, val__transform:bot, local__transform:bot, out__transform:bot, undefined:bot, ret__transform:bot, copy__global:num, (settings__global: {host: T2}), T2:str, T3:num, {port: T3}:bot, ret__setNetwork:bot, T4:bot, bool:bot, {debug: T4}:bot, T5:bot, {version: T5}:bot, ret__setApp:bot
 
-11: [T4 <= bool]
- T1:num, val__global:num, p1__transform:bot, local__transform:bot, out__transform:bot, copy__global:num, (settings__global: {host: T2, port: T3}), T2:str, T3:num, T4:bool, {debug: T4}:bot, T5:bot, {version: T5}:bot
+11: [settings__global <= {port: T3}]
+ T1:num, val__global:num, val__transform:bot, local__transform:bot, out__transform:bot, undefined:bot, ret__transform:bot, copy__global:num, (settings__global: {host: T2, port: T3}), T2:str, T3:num, ret__setNetwork:bot, T4:bot, bool:bot, {debug: T4}:bot, T5:bot, {version: T5}:bot, ret__setApp:bot
 
-12: [settings__global <= {debug: T4}]
- T1:num, val__global:num, p1__transform:bot, local__transform:bot, out__transform:bot, copy__global:num, (settings__global: {host: T2, port: T3, debug: T4}), T2:str, T3:num, T4:bool, T5:bot, {version: T5}:bot
+12: [undefined <= ret__setNetwork]
+ T1:num, val__global:num, val__transform:bot, local__transform:bot, out__transform:bot, undefined:bot, ret__transform:bot, copy__global:num, (settings__global: {host: T2, port: T3}), T2:str, T3:num, ret__setNetwork:bot, T4:bot, bool:bot, {debug: T4}:bot, T5:bot, {version: T5}:bot, ret__setApp:bot
 
-13: [T5 <= num]
- T1:num, val__global:num, p1__transform:bot, local__transform:bot, out__transform:bot, copy__global:num, (settings__global: {host: T2, port: T3, debug: T4}), T2:str, T3:num, T4:bool, T5:num, {version: T5}:bot
+13: [T4 <= bool]
+ T1:num, val__global:num, val__transform:bot, local__transform:bot, out__transform:bot, undefined:bot, ret__transform:bot, copy__global:num, (settings__global: {host: T2, port: T3}), T2:str, T3:num, ret__setNetwork:bot, T4:bool, {debug: T4}:bot, T5:bot, {version: T5}:bot, ret__setApp:bot
 
-14: [settings__global <= {version: T5}]
- T1:num, val__global:num, p1__transform:bot, local__transform:bot, out__transform:bot, copy__global:num, (settings__global: {host: T2, port: T3, debug: T4, version: T5}), T2:str, T3:num, T4:bool, T5:num
+14: [settings__global <= {debug: T4}]
+ T1:num, val__global:num, val__transform:bot, local__transform:bot, out__transform:bot, undefined:bot, ret__transform:bot, copy__global:num, (settings__global: {host: T2, port: T3, debug: T4}), T2:str, T3:num, ret__setNetwork:bot, T4:bool, T5:bot, {version: T5}:bot, ret__setApp:bot
+
+15: [T5 <= num]
+ T1:num, val__global:num, val__transform:bot, local__transform:bot, out__transform:bot, undefined:bot, ret__transform:bot, copy__global:num, (settings__global: {host: T2, port: T3, debug: T4}), T2:str, T3:num, ret__setNetwork:bot, T4:bool, T5:num, {version: T5}:bot, ret__setApp:bot
+
+16: [settings__global <= {version: T5}]
+ T1:num, val__global:num, val__transform:bot, local__transform:bot, out__transform:bot, undefined:bot, ret__transform:bot, copy__global:num, (settings__global: {host: T2, port: T3, debug: T4, version: T5}), T2:str, T3:num, ret__setNetwork:bot, T4:bool, T5:num, ret__setApp:bot
+
+17: [undefined <= ret__setApp]
+ T1:num, val__global:num, val__transform:bot, local__transform:bot, out__transform:bot, undefined:bot, ret__transform:bot, copy__global:num, (settings__global: {host: T2, port: T3, debug: T4, version: T5}), T2:str, T3:num, ret__setNetwork:bot, T4:bool, T5:num, ret__setApp:bot
 
 ──────────────────────────────────────────────────────
 ✓  Sem conflitos.
@@ -68,7 +80,10 @@ FINAL:
   copy__global      :  num
   local__transform  :  bot
   out__transform    :  bot
-  p1__transform     :  bot
+  ret__setApp       :  bot
+  ret__setNetwork   :  bot
+  ret__transform    :  bot
   settings__global  :  {host: str, port: num, debug: bool, version: num}
   val__global       :  num
+  val__transform    :  bot
 
