@@ -155,6 +155,15 @@ function inferExpr(node, env, scope) {
       return `ret__${fname}`;
     }
 
+    // ── C-Seq : (e1, e2, …, en)  (comma / sequence expression) ──────────
+    case "SequenceExpression": {
+      let Xlast;
+      for (const expr of node.expressions) {
+        Xlast = inferExpr(expr, env, scope);
+      }
+      return Xlast;
+    }
+
     // ── C-Cond : e1 ? e2 : e3  (ternary / conditional expression) ────────
     case "ConditionalExpression": {
       const Xcond = inferExpr(node.test, env, scope);
