@@ -13,7 +13,7 @@
 - [x] LogicalExpression
 - [x] UnaryExpression
 - [x] UpdateExpression
-- [ ] ConditionalExpression
+- [x] ConditionalExpression
 - [ ] SequenceExpression
 
 ### Objects, Arrays and Functions

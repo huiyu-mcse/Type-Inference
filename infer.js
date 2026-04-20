@@ -144,7 +144,6 @@ function inferExpr(node, env, scope) {
 
       const paramNames = functionParams.get(fname);
 
-
       node.arguments.forEach((arg, i) => {
         const Xi = inferExpr(arg, env, scope);
 
@@ -156,6 +155,18 @@ function inferExpr(node, env, scope) {
       return `ret__${fname}`;
     }
 
+    // ── C-Cond : e1 ? e2 : e3  (ternary / conditional expression) ────────
+    case "ConditionalExpression": {
+      const Xcond = inferExpr(node.test, env, scope);
+      addCons(Xcond, "bool");
+      const X2 = inferExpr(node.consequent, env, scope);
+      const X3 = inferExpr(node.alternate, env, scope);
+      const Xr = fresh();
+      // Unify the types of both branches
+      addCons(X2, Xr);
+      addCons(X3, Xr);
+      return Xr;
+    }
 
     // Update expression used as sub-expression (x++, --x)
     case "UpdateExpression": {
@@ -233,13 +244,12 @@ function inferStmt(node, env, scope) {
     case "BlockStatement":
       // C-Seq applied repeatedly
       for (const s of node.body) {
-        if(inferStmt(s, env, scope)) {
+        if (inferStmt(s, env, scope)) {
           hasReturn = true;
-        };
+        }
       }
       return hasReturn;
-      //break;
-
+    //break;
 
     // ── Variable declaration  (var / let / const) ───────────────────────────
     case "VariableDeclaration":
@@ -360,7 +370,7 @@ function inferStmt(node, env, scope) {
       //const fnName = node.id ? node.id.name : `anon${fresh()}`;
       const fnName = node.id.name;
 
-      const paramNames = node.params.map(p => p.name);
+      const paramNames = node.params.map((p) => p.name);
       functionParams.set(fnName, paramNames);
 
       const paramTVs = [];
@@ -371,7 +381,6 @@ function inferStmt(node, env, scope) {
         //envDeclare(fnEnv, p.name, fnName); // TODO:problem
         const tv = envDeclare(fnEnv, p.name, fnName);
         paramTVs.push(tv);
-
       }
 
       /*
@@ -380,8 +389,6 @@ function inferStmt(node, env, scope) {
       });
       */
       //inferStmt(node.body, fnEnv, fnName);
-
-
 
       // 3. return type
       const retTV = `ret__${fnName}`;
@@ -395,11 +402,10 @@ function inferStmt(node, env, scope) {
       // 4. function type
       functionTypes.set(fnName, {
         params: paramTVs,
-        ret: retTV
+        ret: retTV,
       });
       break;
     }
-
 
     // ── C-ForOf ─────────────────────────────────────────────────────────────
     case "ForOfStatement": {
@@ -431,16 +437,15 @@ function inferStmt(node, env, scope) {
       if (node.argument) {
         const X1 = inferExpr(node.argument, env, scope);
         addCons(X1, `ret__${scope}`);
-      }
-      else {
+      } else {
         addCons("void", `ret__${scope}`);
       }
       return true;
-      //break;
+    //break;
 
     default:
       return hasReturn;
-      //break;
+    //break;
   }
 }
 

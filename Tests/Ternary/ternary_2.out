@@ -1,0 +1,100 @@
+
+Constraints:
+  C01: T1 <= num
+  C02: T1 <= a__global
+  C03: T2 <= num
+  C04: T2 <= b__global
+  C05: a__global <= b__global
+  C06: b__global <= a__global
+  C07: T3 <= bool
+  C08: T3 <= bool
+  C09: a__global <= T4
+  C10: b__global <= T4
+  C11: T4 <= max__global
+  C12: T5 <= num
+  C13: max__global <= T5
+  C14: T5 <= max__global
+  C15: T6 <= bool
+  C16: T6 <= bool
+  C17: T7 <= str
+  C18: T8 <= str
+  C19: T7 <= T9
+  C20: T8 <= T9
+  C21: T9 <= label__global
+
+──────────────────────────────────────────────────────
+Inicio:
+ T1:bot, num:bot, a__global:bot, T2:bot, b__global:bot, T3:bot, bool:bot, T4:bot, max__global:bot, T5:bot, T6:bot, T7:bot, str:bot, T8:bot, T9:bot, label__global:bot
+
+1: [T1 <= num]
+ T1:num, a__global:bot, T2:bot, b__global:bot, T3:bot, bool:bot, T4:bot, max__global:bot, T5:bot, T6:bot, T7:bot, str:bot, T8:bot, T9:bot, label__global:bot
+
+2: [T1 <= a__global]
+ T1:num, a__global:num, T2:bot, b__global:bot, T3:bot, bool:bot, T4:bot, max__global:bot, T5:bot, T6:bot, T7:bot, str:bot, T8:bot, T9:bot, label__global:bot
+
+3: [T2 <= num]
+ T1:num, a__global:num, T2:num, b__global:bot, T3:bot, bool:bot, T4:bot, max__global:bot, T5:bot, T6:bot, T7:bot, str:bot, T8:bot, T9:bot, label__global:bot
+
+4: [T2 <= b__global]
+ T1:num, a__global:num, T2:num, b__global:num, T3:bot, bool:bot, T4:bot, max__global:bot, T5:bot, T6:bot, T7:bot, str:bot, T8:bot, T9:bot, label__global:bot
+
+5: [a__global <= b__global]
+ T1:num, a__global:num, T2:num, b__global:num, T3:bot, bool:bot, T4:bot, max__global:bot, T5:bot, T6:bot, T7:bot, str:bot, T8:bot, T9:bot, label__global:bot
+
+6: [b__global <= a__global]
+ T1:num, a__global:num, T2:num, b__global:num, T3:bot, bool:bot, T4:bot, max__global:bot, T5:bot, T6:bot, T7:bot, str:bot, T8:bot, T9:bot, label__global:bot
+
+7: [T3 <= bool]
+ T1:num, a__global:num, T2:num, b__global:num, T3:bool, T4:bot, max__global:bot, T5:bot, T6:bot, T7:bot, str:bot, T8:bot, T9:bot, label__global:bot
+
+8: [T3 <= bool]
+ T1:num, a__global:num, T2:num, b__global:num, T3:bool, T4:bot, max__global:bot, T5:bot, T6:bot, T7:bot, str:bot, T8:bot, T9:bot, label__global:bot
+
+9: [a__global <= T4]
+ T1:num, a__global:num, T2:num, b__global:num, T3:bool, T4:num, max__global:bot, T5:bot, T6:bot, T7:bot, str:bot, T8:bot, T9:bot, label__global:bot
+
+10: [b__global <= T4]
+ T1:num, a__global:num, T2:num, b__global:num, T3:bool, T4:num, max__global:bot, T5:bot, T6:bot, T7:bot, str:bot, T8:bot, T9:bot, label__global:bot
+
+11: [T4 <= max__global]
+ T1:num, a__global:num, T2:num, b__global:num, T3:bool, T4:num, max__global:num, T5:bot, T6:bot, T7:bot, str:bot, T8:bot, T9:bot, label__global:bot
+
+12: [T5 <= num]
+ T1:num, a__global:num, T2:num, b__global:num, T3:bool, T4:num, max__global:num, T5:num, T6:bot, T7:bot, str:bot, T8:bot, T9:bot, label__global:bot
+
+13: [max__global <= T5]
+ T1:num, a__global:num, T2:num, b__global:num, T3:bool, T4:num, max__global:num, T5:num, T6:bot, T7:bot, str:bot, T8:bot, T9:bot, label__global:bot
+
+14: [T5 <= max__global]
+ T1:num, a__global:num, T2:num, b__global:num, T3:bool, T4:num, max__global:num, T5:num, T6:bot, T7:bot, str:bot, T8:bot, T9:bot, label__global:bot
+
+15: [T6 <= bool]
+ T1:num, a__global:num, T2:num, b__global:num, T3:bool, T4:num, max__global:num, T5:num, T6:bool, T7:bot, str:bot, T8:bot, T9:bot, label__global:bot
+
+16: [T6 <= bool]
+ T1:num, a__global:num, T2:num, b__global:num, T3:bool, T4:num, max__global:num, T5:num, T6:bool, T7:bot, str:bot, T8:bot, T9:bot, label__global:bot
+
+17: [T7 <= str]
+ T1:num, a__global:num, T2:num, b__global:num, T3:bool, T4:num, max__global:num, T5:num, T6:bool, T7:str, T8:bot, T9:bot, label__global:bot
+
+18: [T8 <= str]
+ T1:num, a__global:num, T2:num, b__global:num, T3:bool, T4:num, max__global:num, T5:num, T6:bool, T7:str, T8:str, T9:bot, label__global:bot
+
+19: [T7 <= T9]
+ T1:num, a__global:num, T2:num, b__global:num, T3:bool, T4:num, max__global:num, T5:num, T6:bool, T7:str, T8:str, T9:str, label__global:bot
+
+20: [T8 <= T9]
+ T1:num, a__global:num, T2:num, b__global:num, T3:bool, T4:num, max__global:num, T5:num, T6:bool, T7:str, T8:str, T9:str, label__global:bot
+
+21: [T9 <= label__global]
+ T1:num, a__global:num, T2:num, b__global:num, T3:bool, T4:num, max__global:num, T5:num, T6:bool, T7:str, T8:str, T9:str, label__global:str
+
+──────────────────────────────────────────────────────
+✓  Sem conflitos.
+
+FINAL:
+  a__global      :  num
+  b__global      :  num
+  label__global  :  str
+  max__global    :  num
+
