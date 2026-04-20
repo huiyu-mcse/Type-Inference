@@ -14,7 +14,7 @@
 - [x] UnaryExpression
 - [x] UpdateExpression
 - [x] ConditionalExpression
-- [ ] SequenceExpression
+- [x] SequenceExpression
 
 ### Objects, Arrays and Functions
 
