@@ -465,8 +465,6 @@ function inferStmt(node, env, scope) {
 function inferExprStmt(node, env, scope) {
   if (!node) return;
 
-  console.log("Chegas aqui com tipo: ", node.type);
-
   switch (node.type) {
     // ── x = rhs  or  x.p = rhs ──────────────────────────────────────────
     case "AssignmentExpression": {
