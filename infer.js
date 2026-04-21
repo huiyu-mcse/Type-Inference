@@ -159,7 +159,7 @@ function inferExpr(node, env, scope) {
     case "SequenceExpression": {
       let Xlast;
       for (const expr of node.expressions) {
-        Xlast = inferExpr(expr, env, scope);
+        Xlast = inferExprStmt(expr, env, scope);
       }
       return Xlast;
     }
@@ -524,8 +524,8 @@ function inferExprStmt(node, env, scope) {
 
     // ── Anything else (call expressions, etc.) ────────────────────────────
     default:
-      inferExpr(node, env, scope);
-      break;
+      return inferExpr(node, env, scope);
+    // break;
   }
 }
 
