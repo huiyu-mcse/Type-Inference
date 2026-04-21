@@ -155,7 +155,6 @@ function inferExpr(node, env, scope) {
       return `ret__${fname}`;
     }
 
-    /*
     // ── C-Seq : (e1, e2, …, en)  (comma / sequence expression) ──────────
     case "SequenceExpression": {
       let Xlast;
@@ -164,7 +163,6 @@ function inferExpr(node, env, scope) {
       }
       return Xlast;
     }
-      */
 
     // ── C-Cond : e1 ? e2 : e3  (ternary / conditional expression) ────────
     case "ConditionalExpression": {
@@ -233,17 +231,6 @@ function handleRHS(xTarget, rhs, env, scope) {
     // { X3 ↔ X2 ,  X1 ↔ {p : X3} }   where X2 = xTarget = Γ(x)
     addCons(X3, xTarget);
     addCons(X1, `{${prop}: ${X3}}`);
-    return;
-  }
-      // ── C-Seq : (e1, e2, …, en)  (comma / sequence expression) ──────────
-  if (rhs.type === "SequenceExpression") {
-    let Xlast;
-    for (const expr of rhs.expressions) {
-      Xlast = inferExprStmt(expr, env, scope);
-    }
-    console.log(xTarget);
-    console.log(Xlast);
-    addCons(Xlast, xTarget);
     return;
   }
 
@@ -538,7 +525,7 @@ function inferExprStmt(node, env, scope) {
     // ── Anything else (call expressions, etc.) ────────────────────────────
     default:
       return inferExpr(node, env, scope);
-      break;
+    // break;
   }
 }
 
