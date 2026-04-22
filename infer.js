@@ -107,15 +107,30 @@ function inferExpr(node, env, scope) {
       return Xa;
     }
 
-    // TODO: is this correct?
-    // ── Member expression used inside a larger expression (C-PropRead) ─────
+    // ── Member expression used inside a larger expression
+    // ── Can be object property or Array index lookup
     case "MemberExpression": {
       const Xobj = inferExpr(node.object, env, scope);
       const X3 = fresh();
-      const prop = node.computed
-        ? String(node.property.name ?? node.property.value)
-        : node.property.name;
-      addCons(Xobj, `{${prop}: ${X3}}`);
+
+      if (
+        node.computed &&
+        !(
+          node.property.type === "Literal" &&
+          typeof node.property.value === "string"
+        )
+      ) {
+        // e.g. arr[i] or arr[0] → array index access
+        const Xidx = inferExpr(node.property, env, scope);
+        addCons(Xidx, "num");
+        addCons(Xobj, `Array<${X3}>`);
+      } else {
+        // e.g. obj.prop or obj["prop"] → object property access
+        const prop = node.computed
+          ? String(node.property.value)
+          : node.property.name;
+        addCons(Xobj, `{${prop}: ${X3}}`);
+      }
       return X3;
     }
 

@@ -101,14 +101,24 @@ class State {
 
     // Propaga objShape do child para o root
     if (this.isObj.get(child)) {
+      const rootWasObj = this.isObj.get(root);
       this._initObj(root);
       const sc = this.objShape.get(child) ?? new Map();
       const sr = this.objShape.get(root);
-      for (const [f, tv] of sc) {
-        if (sr.has(f)) {
-          // Campo já existe no root → unifica as duas type vars
-          this.union(sr.get(f), tv);
-        } else {
+
+      if (rootWasObj) {
+        // Both were already objects → intersection: keep only common fields
+        for (const [f, tv] of sc) {
+          if (sr.has(f)) {
+            this.union(sr.get(f), tv);
+          }
+        }
+        for (const f of sr.keys()) {
+          if (!sc.has(f)) sr.delete(f);
+        }
+      } else {
+        // Root was a plain type var → copy all fields from child
+        for (const [f, tv] of sc) {
           sr.set(f, tv);
         }
       }
