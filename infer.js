@@ -36,6 +36,49 @@ function envDeclare(env, name, scope) {
   return tv;
 }
 
+// ── function node helper ──────────────────────────────────────────────────────
+// inferFuncNode(funcNode, fnName, env, scope) → typeVar
+// for FunctionExpression, ArrowFunctionExpression, and the FunctionExpression-as-property case inside ObjectExpression.
+//   const f = function(){}    → variable name "f"       (from handleRHS)
+//   { add: function(){} }     → property key  "add"     (from ObjectExpression)
+
+function inferFuncNode(funcNode, fnName, env, scope) {
+  // register param names for forward calls
+  const paramNames = funcNode.params.map((p) => p.name);
+  functionParams.set(fnName, paramNames);
+
+  const fnEnv = new Map(env);
+  const paramTVs = [];
+  for (const p of funcNode.params) {
+    paramTVs.push(envDeclare(fnEnv, p.name, fnName));
+  }
+
+  // no block for arrowfunc -> implicit return
+  let hasReturn;
+  if (
+    funcNode.type === "ArrowFunctionExpression" &&
+    funcNode.body.type !== "BlockStatement"
+  ) {
+    const Xbody = inferExpr(funcNode.body, fnEnv, fnName);
+    addCons(Xbody, `ret__${fnName}`);
+    hasReturn = true;
+  } else {
+    hasReturn = inferStmt(funcNode.body, fnEnv, fnName);
+  }
+
+  if (!hasReturn) {
+    addCons("void", `ret__${fnName}`);
+  }
+
+  const retTV = `ret__${fnName}`;
+  functionTypes.set(fnName, { params: paramTVs, ret: retTV });
+
+  // function value itself
+  const Xfn = fresh();
+  addCons(Xfn, `fun__${fnName}`);
+  return Xfn;
+}
+
 // ── Expression inference ──────────────────────────────────────────────────────
 // inferExpr(node, env, scope) → typeVar
 // Generates constraints for the expression and returns its type variable.
@@ -141,8 +184,21 @@ function inferExpr(node, env, scope) {
         addCons(Xobj, "{}");
       } else {
         for (const p of node.properties) {
-          const Xval = inferExpr(p.value, env, scope);
           const key = String(p.key.name ?? p.key.value);
+          let Xval;
+
+          // When a property value is a function, use the property key as the
+          // function name so that param/return type vars get readable names
+          if (
+            p.value.type === "FunctionExpression" ||
+            p.value.type === "ArrowFunctionExpression"
+          ) {
+            const fnName = p.value.id?.name ?? key;
+            Xval = inferFuncNode(p.value, fnName, env, scope);
+          } else {
+            Xval = inferExpr(p.value, env, scope);
+          }
+
           addCons(Xobj, `{${key}: ${Xval}}`);
         }
       }
@@ -206,16 +262,36 @@ function inferExpr(node, env, scope) {
       return Xr;
     }
 
-    // Update expression used as sub-expression (x++, --x)
+    // Update expression used as sub-expression (x++, --x) //TODO: check
     case "UpdateExpression": {
       const Xa = inferExpr(node.argument, env, scope);
       addCons(Xa, "num");
-
-      //TODO: check
-      //const Xr = fresh();
-      //addCons(Xr, "num");
-      //return Xr;
       return Xa;
+    }
+
+    // ── C-FuncExpr / C-Arrow : function expression used as a value ───────────
+    //
+    // This case handles all the places where a function appears as an
+    // expression that is NOT a direct  x = function(){}  assignment:
+    //
+    //   { add: function(x,y){} }   ← object property  (key = "add" passed by ObjectExpression)
+    //   foo(function(x){})         ← argument to a call
+    //   (function(x){ return x })  ← IIFE / grouping
+    //   arr.map(x => x + 1)        ← arrow as argument
+    //
+    // Name resolution priority:
+    //   1. node.id.name  – named function expression  (function foo(){})
+    //   2. fresh anon    – truly anonymous; the caller (ObjectExpression)
+    //                      is responsible for passing a hint via a wrapper
+    //                      — see ObjectExpression case below.
+    //
+    // For the  const f = function(){}  pattern the name comes from handleRHS,
+    // which calls inferFuncNode directly with the variable name "f", so that
+    // path does NOT come through here.
+    case "FunctionExpression":
+    case "ArrowFunctionExpression": {
+      const fnName = node.id?.name ?? `anon__${fresh()}`;
+      return inferFuncNode(node, fnName, env, scope);
     }
 
     default:
@@ -228,7 +304,9 @@ function inferExpr(node, env, scope) {
  * Handle  xTarget = rhs  where xTarget is already a resolved type variable.
  * Dispatches to C-EmptyObj / C-BinOp / C-PropRead / C-Assign.
  */
-function handleRHS(xTarget, rhs, env, scope) {
+function handleRHS(name, rhs, env, scope) {
+  const xTarget = envGet(env, name, scope);
+  
   // ── C-EmptyObj :  x = {} ────────────────────────────────────────────────
   if (rhs.type === "ObjectExpression" && rhs.properties.length === 0) {
     addCons(xTarget, "{}");
@@ -262,6 +340,15 @@ function handleRHS(xTarget, rhs, env, scope) {
     addCons(X1, `{${prop}: ${X3}}`);
     return;
   }
+  
+  if (rhs.type === "FunctionExpression" || rhs.type === "ArrowFunctionExpression") {
+    // use the variable name as the function name so that
+    const fnName = rhs.id?.name ?? name;
+    const Xfn = inferFuncNode(rhs, fnName, env, scope);
+    // link the function value type var to the assignment target
+    addCons(Xfn, xTarget);
+    return;
+  }
 
   // ── C-Assign  :  x = e  (general case) ──────────────────────────────────
   const X1 = inferExpr(rhs, env, scope);
@@ -293,8 +380,10 @@ function inferStmt(node, env, scope) {
     case "VariableDeclaration":
       for (const decl of node.declarations) {
         //const xVar = envGet(env, decl.id.name, scope);
-        const xVar = envDeclare(env, decl.id.name, scope);
-        if (decl.init) handleRHS(xVar, decl.init, env, scope);
+        //const xVar = envDeclare(env, decl.id.name, scope);
+        //if (decl.init) handleRHS(xVar, decl.init, env, scope);
+        envDeclare(env, decl.id.name, scope);
+        if (decl.init) handleRHS(decl.id.name, decl.init, env, scope);
       }
       break;
 
@@ -518,8 +607,9 @@ function inferExprStmt(node, env, scope) {
 
       // x = rhs
       if (lhs.type === "Identifier") {
-        const xVar = envGet(env, lhs.name, scope);
-        handleRHS(xVar, rhs, env, scope);
+        //const xVar = envGet(env, lhs.name, scope);
+        //handleRHS(xVar, rhs, env, scope);
+        handleRHS(lhs.name, rhs, env, scope);
         return;
       }
 
