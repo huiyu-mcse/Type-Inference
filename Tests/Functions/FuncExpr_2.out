@@ -1,0 +1,41 @@
+
+Constraints:
+  C1: a__multiply <= num
+  C2: b__multiply <= num
+  C3: T1 <= num
+  C4: T1 <= ret__multiply
+  C5: T2 <= fun__multiply
+  C6: T2 <= multiply__global
+
+──────────────────────────────────────────────────────
+Inicio:
+ a__multiply:bot, num:bot, b__multiply:bot, T1:bot, ret__multiply:bot, T2:bot, fun__multiply:bot, multiply__global:bot
+
+1: [a__multiply <= num]
+ a__multiply:num, b__multiply:bot, T1:bot, ret__multiply:bot, T2:bot, fun__multiply:bot, multiply__global:bot
+
+2: [b__multiply <= num]
+ a__multiply:num, b__multiply:num, T1:bot, ret__multiply:bot, T2:bot, fun__multiply:bot, multiply__global:bot
+
+3: [T1 <= num]
+ a__multiply:num, b__multiply:num, T1:num, ret__multiply:bot, T2:bot, fun__multiply:bot, multiply__global:bot
+
+4: [T1 <= ret__multiply]
+ a__multiply:num, b__multiply:num, T1:num, ret__multiply:num, T2:bot, fun__multiply:bot, multiply__global:bot
+
+5: [T2 <= fun__multiply]
+ a__multiply:num, b__multiply:num, T1:num, ret__multiply:num, T2:bot, fun__multiply:bot, multiply__global:bot
+
+6: [T2 <= multiply__global]
+ a__multiply:num, b__multiply:num, T1:num, ret__multiply:num, T2:bot, fun__multiply:bot, multiply__global:bot
+
+──────────────────────────────────────────────────────
+✓  Sem conflitos.
+
+FINAL:
+  a__multiply       :  num
+  b__multiply       :  num
+  fun__multiply     :  bot
+  multiply__global  :  bot
+  ret__multiply     :  num
+

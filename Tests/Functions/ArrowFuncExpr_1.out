@@ -1,0 +1,44 @@
+
+Constraints:
+  C1: T1 <= num
+  C2: n__double <= num
+  C3: T1 <= num
+  C4: T2 <= num
+  C5: T2 <= ret__double
+  C6: T3 <= fun__double
+  C7: T3 <= double__global
+
+──────────────────────────────────────────────────────
+Inicio:
+ T1:bot, num:bot, n__double:bot, T2:bot, ret__double:bot, T3:bot, fun__double:bot, double__global:bot
+
+1: [T1 <= num]
+ T1:num, n__double:bot, T2:bot, ret__double:bot, T3:bot, fun__double:bot, double__global:bot
+
+2: [n__double <= num]
+ T1:num, n__double:num, T2:bot, ret__double:bot, T3:bot, fun__double:bot, double__global:bot
+
+3: [T1 <= num]
+ T1:num, n__double:num, T2:bot, ret__double:bot, T3:bot, fun__double:bot, double__global:bot
+
+4: [T2 <= num]
+ T1:num, n__double:num, T2:num, ret__double:bot, T3:bot, fun__double:bot, double__global:bot
+
+5: [T2 <= ret__double]
+ T1:num, n__double:num, T2:num, ret__double:num, T3:bot, fun__double:bot, double__global:bot
+
+6: [T3 <= fun__double]
+ T1:num, n__double:num, T2:num, ret__double:num, T3:bot, fun__double:bot, double__global:bot
+
+7: [T3 <= double__global]
+ T1:num, n__double:num, T2:num, ret__double:num, T3:bot, fun__double:bot, double__global:bot
+
+──────────────────────────────────────────────────────
+✓  Sem conflitos.
+
+FINAL:
+  double__global  :  bot
+  fun__double     :  bot
+  n__double       :  num
+  ret__double     :  num
+

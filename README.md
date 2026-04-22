@@ -22,8 +22,8 @@
 - [x] MemberExpression
 - [x] CallExpression
 - [x] ArrayExpression
-- [ ] FunctionExpression
-- [ ] ArrowFunctionExpression
+- [x] FunctionExpression
+- [x] ArrowFunctionExpression
 - [ ] NewExpression
 - [ ] ThisExpression
 - [ ] ClassExpression
