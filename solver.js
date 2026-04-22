@@ -5,7 +5,10 @@ const BASE_TYPES = new Set(["str", "num", "bool"]);
 const isBaseType = (t) => BASE_TYPES.has(t);
 const isEmptyObj = (t) => t === "{}";
 const isObjWithFlds = (t) => t.startsWith("{") && t !== "{}";
-const isLiteral = (t) => isBaseType(t) || isEmptyObj(t) || isObjWithFlds(t);
+const isArray = (t) => t.startsWith("Array<") && t.endsWith(">");
+const parseArrayElem = (t) => t.slice(6, -1).trim();
+const isLiteral = (t) =>
+  isBaseType(t) || isEmptyObj(t) || isObjWithFlds(t) || isArray(t);
 const isTypeVar = (t) => !isLiteral(t);
 
 function parseFields(t) {
@@ -38,6 +41,8 @@ class State {
     this.baseType = new Map(); // rep → 'str'|'num'|'bool'
     this.isObj = new Map(); // rep → true
     this.objShape = new Map(); // rep → Map<field, typeVar>  ← UMA var por campo
+    this.isArr = new Map(); // rep → true
+    this.arrElem = new Map(); // rep → typeVar for element type
     this.errors = [];
 
     this.displayList = []; // todos os nós em ordem de aparição
@@ -108,6 +113,17 @@ class State {
         }
       }
     }
+
+    // Propaga arrElem do child para o root
+    if (this.isArr.get(child)) {
+      const childElem = this.arrElem.get(child);
+      if (this.isArr.get(root)) {
+        // Ambos arrays → unifica element types
+        this.union(this.arrElem.get(root), childElem);
+      } else {
+        this._initArr(root, childElem);
+      }
+    }
   }
 
   // ── Tipos concretos ────────────────────────────────────────────────────────
@@ -118,6 +134,8 @@ class State {
     else if (!cur) {
       if (this.isObj.get(rx))
         this.errors.push(`CONFLICT: obj vs ${type}  (${ctx})`);
+      else if (this.isArr.get(rx))
+        this.errors.push(`CONFLICT: Array vs ${type}  (${ctx})`);
       else this.baseType.set(rx, type);
     }
   }
@@ -127,8 +145,29 @@ class State {
       this.errors.push(`CONFLICT: ${this.baseType.get(rx)} vs obj`);
       return;
     }
+    if (this.isArr.get(rx)) {
+      this.errors.push(`CONFLICT: Array vs obj`);
+      return;
+    }
     this.isObj.set(rx, true);
     if (!this.objShape.has(rx)) this.objShape.set(rx, new Map());
+  }
+
+  _initArr(rx, elemTV) {
+    if (this.baseType.has(rx)) {
+      this.errors.push(`CONFLICT: ${this.baseType.get(rx)} vs Array`);
+      return;
+    }
+    if (this.isObj.get(rx)) {
+      this.errors.push(`CONFLICT: obj vs Array`);
+      return;
+    }
+    this.isArr.set(rx, true);
+    if (this.arrElem.has(rx)) {
+      this.union(this.arrElem.get(rx), elemTV);
+    } else {
+      this.arrElem.set(rx, elemTV);
+    }
   }
 
   // ── Processa uma constraint ────────────────────────────────────────────────
@@ -138,6 +177,11 @@ class State {
       this.consumedLits.add(rhs);
     } else if (isEmptyObj(rhs)) {
       this._initObj(this.find(lhs));
+      this.consumedLits.add(rhs);
+    } else if (isArray(rhs)) {
+      const rx = this.find(lhs);
+      const elemTV = parseArrayElem(rhs);
+      this._initArr(rx, elemTV);
       this.consumedLits.add(rhs);
     } else if (isObjWithFlds(rhs)) {
       const rx = this.find(lhs);
@@ -164,6 +208,10 @@ class State {
     const rep = this.find(node);
     const bt = this.baseType.get(rep);
     if (bt) return bt;
+    if (this.isArr.get(rep)) {
+      const elem = this.arrElem.get(rep);
+      return `Array<${this.find(elem)}>`;
+    }
     if (this.isObj.get(rep)) {
       const shape = this.objShape.get(rep) ?? new Map();
       if (shape.size === 0) return "{}";
@@ -182,6 +230,10 @@ class State {
     visited.add(rep);
     const bt = this.baseType.get(rep);
     if (bt) return bt;
+    if (this.isArr.get(rep)) {
+      const elem = this.arrElem.get(rep);
+      return `Array<${this.resolveType(elem, new Set(visited))}>`;
+    }
     if (this.isObj.get(rep)) {
       const shape = this.objShape.get(rep) ?? new Map();
       if (shape.size === 0) return "{}";

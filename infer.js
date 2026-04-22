@@ -134,6 +134,20 @@ function inferExpr(node, env, scope) {
       return Xobj;
     }
 
+    // ── C-Array : [e1, …, en] ─────────────────────────────────────────────
+    case "ArrayExpression": {
+      const Xelem = fresh();
+      const Xarr = fresh();
+      for (const elem of node.elements) {
+        if (elem) {
+          const Xi = inferExpr(elem, env, scope);
+          addCons(Xi, Xelem);
+        }
+      }
+      addCons(Xarr, `Array<${Xelem}>`);
+      return Xarr;
+    }
+
     // ── C-Call : f(e1, …, en) as sub-expression ────────────────────────────
     case "CallExpression": {
       const fname = node.callee.type === "Identifier" ? node.callee.name : null;
@@ -418,7 +432,6 @@ function inferStmt(node, env, scope) {
 
     // ── C-ForOf ─────────────────────────────────────────────────────────────
     case "ForOfStatement": {
-      console.log("Passo por aqui!");
       // 1. Right side (the iterable array, string, etc.)
       inferExpr(node.right, env, scope);
 
@@ -433,8 +446,8 @@ function inferStmt(node, env, scope) {
         valVar = envGet(env, node.left.name, scope);
       }
 
-      // TODO: Once Array types are added, add something like
-      // addCons(Xiterable, `Array<${valVar}>`) to this part of the code
+      // TODO: Constrain valVar by the iterable's element type once
+      // the solver supports Iterable<T> for both Array<T> and str.
 
       // 3. Loop Body
       inferStmt(node.body, env, scope);
