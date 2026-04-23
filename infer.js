@@ -107,15 +107,30 @@ function inferExpr(node, env, scope) {
       return Xa;
     }
 
-    // TODO: is this correct?
-    // ── Member expression used inside a larger expression (C-PropRead) ─────
+    // ── Member expression used inside a larger expression
+    // ── Can be object property or Array index lookup
     case "MemberExpression": {
       const Xobj = inferExpr(node.object, env, scope);
       const X3 = fresh();
-      const prop = node.computed
-        ? String(node.property.name ?? node.property.value)
-        : node.property.name;
-      addCons(Xobj, `{${prop}: ${X3}}`);
+
+      if (
+        node.computed &&
+        !(
+          node.property.type === "Literal" &&
+          typeof node.property.value === "string"
+        )
+      ) {
+        // e.g. arr[i] or arr[0] → array index access
+        const Xidx = inferExpr(node.property, env, scope);
+        addCons(Xidx, "num");
+        addCons(Xobj, `Array<${X3}>`);
+      } else {
+        // e.g. obj.prop or obj["prop"] → object property access
+        const prop = node.computed
+          ? String(node.property.value)
+          : node.property.name;
+        addCons(Xobj, `{${prop}: ${X3}}`);
+      }
       return X3;
     }
 
@@ -132,6 +147,20 @@ function inferExpr(node, env, scope) {
         }
       }
       return Xobj;
+    }
+
+    // ── C-Array : [e1, …, en] ─────────────────────────────────────────────
+    case "ArrayExpression": {
+      const Xelem = fresh();
+      const Xarr = fresh();
+      for (const elem of node.elements) {
+        if (elem) {
+          const Xi = inferExpr(elem, env, scope);
+          addCons(Xi, Xelem);
+        }
+      }
+      addCons(Xarr, `Array<${Xelem}>`);
+      return Xarr;
     }
 
     // ── C-Call : f(e1, …, en) as sub-expression ────────────────────────────
@@ -418,7 +447,6 @@ function inferStmt(node, env, scope) {
 
     // ── C-ForOf ─────────────────────────────────────────────────────────────
     case "ForOfStatement": {
-      console.log("Passo por aqui!");
       // 1. Right side (the iterable array, string, etc.)
       inferExpr(node.right, env, scope);
 
@@ -433,8 +461,8 @@ function inferStmt(node, env, scope) {
         valVar = envGet(env, node.left.name, scope);
       }
 
-      // TODO: Once Array types are added, add something like
-      // addCons(Xiterable, `Array<${valVar}>`) to this part of the code
+      // TODO: Constrain valVar by the iterable's element type once
+      // the solver supports Iterable<T> for both Array<T> and str.
 
       // 3. Loop Body
       inferStmt(node.body, env, scope);
