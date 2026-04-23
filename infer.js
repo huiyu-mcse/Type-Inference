@@ -452,6 +452,19 @@ function inferStmt(node, env, scope) {
       return true;
     //break;
 
+    // ── C-Try ─────────────────────────────────────────────────────────────
+    case "TryStatement": {
+      inferStmt(node.block, env, scope);
+      if (node.handler) {
+        if (node.handler.param) {
+          envDeclare(env, node.handler.param.name, scope);
+        }
+        inferStmt(node.handler.body, env, scope);
+      }
+      if (node.finalizer) inferStmt(node.finalizer, env, scope);
+      break;
+    }
+
     default:
       return hasReturn;
     //break;
