@@ -452,6 +452,11 @@ function inferStmt(node, env, scope) {
       return true;
     //break;
 
+    // ── C-Throw ─────────────────────────────────────────────────────────────
+    case "ThrowStatement":
+      inferExpr(node.argument, env, scope);
+      break;
+
     default:
       return hasReturn;
     //break;
