@@ -128,6 +128,15 @@ function inferExpr(node, env, scope) {
       return X;
     }
 
+    // Templates are always strings. Tagged templates not so, but that is a different case
+    case "TemplateLiteral": {
+      const X = fresh();
+      addCons(X, "str");
+      return X;
+    }
+
+    // TODO: TaggedTemplateExpression
+
     // var
     case "Identifier": {
       // Γ(x)
