@@ -48,8 +48,8 @@
 - [x] For
 - [x] ForIn
 - [ ] ForOf
-- [ ] Break
-- [ ] Continue
+- [x] Break
+- [x] Continue
 
 Provavelmente o break e o continue não são precisos porque não têm nenhuma relevância para a análise de tipos.
 
@@ -64,7 +64,6 @@ Provavelmente o break e o continue não são precisos porque não têm nenhuma r
 - [x] ReturnStatement
 - [x] ThrowStatement
 - [x] TryStatement
-- [ ] ThrowStatement
 - [ ] LabeledStatement
 - [ ] EmptyStatement
 - [ ] DebuggerStatement
