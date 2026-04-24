@@ -9,4 +9,3 @@ function corrupt() {
 
 var safe = stats.value + 1;
 
-//TODO: solver failed

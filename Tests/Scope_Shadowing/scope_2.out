@@ -1,53 +1,58 @@
 
 Constraints:
-  C1: T1 <= num
-  C2: T1 <= x__global
-  C3: T2 <= str
-  C4: T2 <= msg__global
-  C5: T3 <= str
-  C6: T3 <= x__shadow
-  C7: T4 <= num
-  C8: T4 <= msg__shadow
-  C9: undefined <= ret__shadow
+  C01: T1 <= num
+  C02: T1 <= x__global
+  C03: T2 <= str
+  C04: T2 <= msg__global
+  C05: T3 <= str
+  C06: T3 <= x__shadow__global
+  C07: T4 <= num
+  C08: T4 <= msg__shadow__global
+  C09: void <= ret__shadow__global
+  C10: shadow__global <= function
 
 ──────────────────────────────────────────────────────
 Inicio:
- T1:bot, num:bot, x__global:bot, T2:bot, str:bot, msg__global:bot, T3:bot, x__shadow:bot, T4:bot, msg__shadow:bot, undefined:bot, ret__shadow:bot
+ T1:bot, num:bot, x__global:bot, T2:bot, str:bot, msg__global:bot, T3:bot, x__shadow__global:bot, T4:bot, msg__shadow__global:bot, void:bot, ret__shadow__global:bot, shadow__global:bot, function:bot
 
 1: [T1 <= num]
- T1:num, x__global:bot, T2:bot, str:bot, msg__global:bot, T3:bot, x__shadow:bot, T4:bot, msg__shadow:bot, undefined:bot, ret__shadow:bot
+ T1:num, x__global:bot, T2:bot, str:bot, msg__global:bot, T3:bot, x__shadow__global:bot, T4:bot, msg__shadow__global:bot, void:bot, ret__shadow__global:bot, shadow__global:bot, function:bot
 
 2: [T1 <= x__global]
- T1:num, x__global:num, T2:bot, str:bot, msg__global:bot, T3:bot, x__shadow:bot, T4:bot, msg__shadow:bot, undefined:bot, ret__shadow:bot
+ T1:num, x__global:num, T2:bot, str:bot, msg__global:bot, T3:bot, x__shadow__global:bot, T4:bot, msg__shadow__global:bot, void:bot, ret__shadow__global:bot, shadow__global:bot, function:bot
 
 3: [T2 <= str]
- T1:num, x__global:num, T2:str, msg__global:bot, T3:bot, x__shadow:bot, T4:bot, msg__shadow:bot, undefined:bot, ret__shadow:bot
+ T1:num, x__global:num, T2:str, msg__global:bot, T3:bot, x__shadow__global:bot, T4:bot, msg__shadow__global:bot, void:bot, ret__shadow__global:bot, shadow__global:bot, function:bot
 
 4: [T2 <= msg__global]
- T1:num, x__global:num, T2:str, msg__global:str, T3:bot, x__shadow:bot, T4:bot, msg__shadow:bot, undefined:bot, ret__shadow:bot
+ T1:num, x__global:num, T2:str, msg__global:str, T3:bot, x__shadow__global:bot, T4:bot, msg__shadow__global:bot, void:bot, ret__shadow__global:bot, shadow__global:bot, function:bot
 
 5: [T3 <= str]
- T1:num, x__global:num, T2:str, msg__global:str, T3:str, x__shadow:bot, T4:bot, msg__shadow:bot, undefined:bot, ret__shadow:bot
+ T1:num, x__global:num, T2:str, msg__global:str, T3:str, x__shadow__global:bot, T4:bot, msg__shadow__global:bot, void:bot, ret__shadow__global:bot, shadow__global:bot, function:bot
 
-6: [T3 <= x__shadow]
- T1:num, x__global:num, T2:str, msg__global:str, T3:str, x__shadow:str, T4:bot, msg__shadow:bot, undefined:bot, ret__shadow:bot
+6: [T3 <= x__shadow__global]
+ T1:num, x__global:num, T2:str, msg__global:str, T3:str, x__shadow__global:str, T4:bot, msg__shadow__global:bot, void:bot, ret__shadow__global:bot, shadow__global:bot, function:bot
 
 7: [T4 <= num]
- T1:num, x__global:num, T2:str, msg__global:str, T3:str, x__shadow:str, T4:num, msg__shadow:bot, undefined:bot, ret__shadow:bot
+ T1:num, x__global:num, T2:str, msg__global:str, T3:str, x__shadow__global:str, T4:num, msg__shadow__global:bot, void:bot, ret__shadow__global:bot, shadow__global:bot, function:bot
 
-8: [T4 <= msg__shadow]
- T1:num, x__global:num, T2:str, msg__global:str, T3:str, x__shadow:str, T4:num, msg__shadow:num, undefined:bot, ret__shadow:bot
+8: [T4 <= msg__shadow__global]
+ T1:num, x__global:num, T2:str, msg__global:str, T3:str, x__shadow__global:str, T4:num, msg__shadow__global:num, void:bot, ret__shadow__global:bot, shadow__global:bot, function:bot
 
-9: [undefined <= ret__shadow]
- T1:num, x__global:num, T2:str, msg__global:str, T3:str, x__shadow:str, T4:num, msg__shadow:num, undefined:bot, ret__shadow:bot
+9: [void <= ret__shadow__global]
+ T1:num, x__global:num, T2:str, msg__global:str, T3:str, x__shadow__global:str, T4:num, msg__shadow__global:num, void:bot, ret__shadow__global:void, shadow__global:bot, function:bot
+
+10: [shadow__global <= function]
+ T1:num, x__global:num, T2:str, msg__global:str, T3:str, x__shadow__global:str, T4:num, msg__shadow__global:num, void:bot, ret__shadow__global:void, shadow__global:function
 
 ──────────────────────────────────────────────────────
 ✓  Sem conflitos.
 
 FINAL:
-  msg__global  :  str
-  msg__shadow  :  num
-  ret__shadow  :  bot
-  x__global    :  num
-  x__shadow    :  str
+  msg__global          :  str
+  msg__shadow__global  :  num
+  ret__shadow__global  :  void
+  shadow__global       :  function
+  x__global            :  num
+  x__shadow__global    :  str
 

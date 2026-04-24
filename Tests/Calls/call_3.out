@@ -1,74 +1,83 @@
 
 Constraints:
   C01: T1 <= num
-  C02: T1 <= y__f
-  C03: void <= ret__f
-  C04: T2 <= num
-  C05: x__global <= {a: T2}
-  C06: T3 <= num
-  C07: T3 <= y__global
-  C08: x__global <= {a: T4}
-  C09: T5 <= num
-  C10: T4 <= num
+  C02: T1 <= y__f__global
+  C03: void <= ret__f__global
+  C04: f__global <= function
+  C05: T2 <= num
+  C06: x__global <= {a: T2}
+  C07: T3 <= num
+  C08: T3 <= y__global
+  C09: f__global <= function
+  C10: x__global <= {a: T4}
   C11: T5 <= num
-  C12: T6 <= num
-  C13: T6 <= x__f
-  C14: x__global <= {b: ret__f}
+  C12: T4 <= num
+  C13: T5 <= num
+  C14: T6 <= num
+  C15: T6 <= x__f__global
+  C16: x__global <= {b: ret__f__global}
 
 ──────────────────────────────────────────────────────
 Inicio:
- T1:bot, num:bot, y__f:bot, void:bot, ret__f:bot, T2:bot, x__global:bot, {a: T2}:bot, T3:bot, y__global:bot, {a: T4}:bot, T5:bot, T4:bot, T6:bot, x__f:bot, {b: ret__f}:bot
+ T1:bot, num:bot, y__f__global:bot, void:bot, ret__f__global:bot, f__global:bot, function:bot, T2:bot, x__global:bot, {a: T2}:bot, T3:bot, y__global:bot, {a: T4}:bot, T5:bot, T4:bot, T6:bot, x__f__global:bot, {b: ret__f__global}:bot
 
 1: [T1 <= num]
- T1:num, y__f:bot, void:bot, ret__f:bot, T2:bot, x__global:bot, {a: T2}:bot, T3:bot, y__global:bot, {a: T4}:bot, T5:bot, T4:bot, T6:bot, x__f:bot, {b: ret__f}:bot
+ T1:num, y__f__global:bot, void:bot, ret__f__global:bot, f__global:bot, function:bot, T2:bot, x__global:bot, {a: T2}:bot, T3:bot, y__global:bot, {a: T4}:bot, T5:bot, T4:bot, T6:bot, x__f__global:bot, {b: ret__f__global}:bot
 
-2: [T1 <= y__f]
- T1:num, y__f:num, void:bot, ret__f:bot, T2:bot, x__global:bot, {a: T2}:bot, T3:bot, y__global:bot, {a: T4}:bot, T5:bot, T4:bot, T6:bot, x__f:bot, {b: ret__f}:bot
+2: [T1 <= y__f__global]
+ T1:num, y__f__global:num, void:bot, ret__f__global:bot, f__global:bot, function:bot, T2:bot, x__global:bot, {a: T2}:bot, T3:bot, y__global:bot, {a: T4}:bot, T5:bot, T4:bot, T6:bot, x__f__global:bot, {b: ret__f__global}:bot
 
-3: [void <= ret__f]
- T1:num, y__f:num, void:bot, ret__f:bot, T2:bot, x__global:bot, {a: T2}:bot, T3:bot, y__global:bot, {a: T4}:bot, T5:bot, T4:bot, T6:bot, x__f:bot, {b: ret__f}:bot
+3: [void <= ret__f__global]
+ T1:num, y__f__global:num, void:bot, ret__f__global:void, f__global:bot, function:bot, T2:bot, x__global:bot, {a: T2}:bot, T3:bot, y__global:bot, {a: T4}:bot, T5:bot, T4:bot, T6:bot, x__f__global:bot, {b: ret__f__global}:bot
 
-4: [T2 <= num]
- T1:num, y__f:num, void:bot, ret__f:bot, T2:num, x__global:bot, {a: T2}:bot, T3:bot, y__global:bot, {a: T4}:bot, T5:bot, T4:bot, T6:bot, x__f:bot, {b: ret__f}:bot
+4: [f__global <= function]
+ T1:num, y__f__global:num, void:bot, ret__f__global:void, f__global:function, T2:bot, x__global:bot, {a: T2}:bot, T3:bot, y__global:bot, {a: T4}:bot, T5:bot, T4:bot, T6:bot, x__f__global:bot, {b: ret__f__global}:bot
 
-5: [x__global <= {a: T2}]
- T1:num, y__f:num, void:bot, ret__f:bot, T2:num, (x__global: {a: T2}), T3:bot, y__global:bot, {a: T4}:bot, T5:bot, T4:bot, T6:bot, x__f:bot, {b: ret__f}:bot
+5: [T2 <= num]
+ T1:num, y__f__global:num, void:bot, ret__f__global:void, f__global:function, T2:num, x__global:bot, {a: T2}:bot, T3:bot, y__global:bot, {a: T4}:bot, T5:bot, T4:bot, T6:bot, x__f__global:bot, {b: ret__f__global}:bot
 
-6: [T3 <= num]
- T1:num, y__f:num, void:bot, ret__f:bot, T2:num, (x__global: {a: T2}), T3:num, y__global:bot, {a: T4}:bot, T5:bot, T4:bot, T6:bot, x__f:bot, {b: ret__f}:bot
+6: [x__global <= {a: T2}]
+ T1:num, y__f__global:num, void:bot, ret__f__global:void, f__global:function, T2:num, (x__global: {a: T2}), T3:bot, y__global:bot, {a: T4}:bot, T5:bot, T4:bot, T6:bot, x__f__global:bot, {b: ret__f__global}:bot
 
-7: [T3 <= y__global]
- T1:num, y__f:num, void:bot, ret__f:bot, T2:num, (x__global: {a: T2}), T3:num, y__global:num, {a: T4}:bot, T5:bot, T4:bot, T6:bot, x__f:bot, {b: ret__f}:bot
+7: [T3 <= num]
+ T1:num, y__f__global:num, void:bot, ret__f__global:void, f__global:function, T2:num, (x__global: {a: T2}), T3:num, y__global:bot, {a: T4}:bot, T5:bot, T4:bot, T6:bot, x__f__global:bot, {b: ret__f__global}:bot
 
-8: [x__global <= {a: T4}]
- T1:num, y__f:num, void:bot, ret__f:bot, T2:num, (x__global: {a: T2}), T3:num, y__global:num, T5:bot, T4:num, T6:bot, x__f:bot, {b: ret__f}:bot
+8: [T3 <= y__global]
+ T1:num, y__f__global:num, void:bot, ret__f__global:void, f__global:function, T2:num, (x__global: {a: T2}), T3:num, y__global:num, {a: T4}:bot, T5:bot, T4:bot, T6:bot, x__f__global:bot, {b: ret__f__global}:bot
 
-9: [T5 <= num]
- T1:num, y__f:num, void:bot, ret__f:bot, T2:num, (x__global: {a: T2}), T3:num, y__global:num, T5:num, T4:num, T6:bot, x__f:bot, {b: ret__f}:bot
+9: [f__global <= function]
+ T1:num, y__f__global:num, void:bot, ret__f__global:void, f__global:function, T2:num, (x__global: {a: T2}), T3:num, y__global:num, {a: T4}:bot, T5:bot, T4:bot, T6:bot, x__f__global:bot, {b: ret__f__global}:bot
 
-10: [T4 <= num]
- T1:num, y__f:num, void:bot, ret__f:bot, T2:num, (x__global: {a: T2}), T3:num, y__global:num, T5:num, T4:num, T6:bot, x__f:bot, {b: ret__f}:bot
+10: [x__global <= {a: T4}]
+ T1:num, y__f__global:num, void:bot, ret__f__global:void, f__global:function, T2:num, (x__global: {a: T2}), T3:num, y__global:num, T5:bot, T4:num, T6:bot, x__f__global:bot, {b: ret__f__global}:bot
 
 11: [T5 <= num]
- T1:num, y__f:num, void:bot, ret__f:bot, T2:num, (x__global: {a: T2}), T3:num, y__global:num, T5:num, T4:num, T6:bot, x__f:bot, {b: ret__f}:bot
+ T1:num, y__f__global:num, void:bot, ret__f__global:void, f__global:function, T2:num, (x__global: {a: T2}), T3:num, y__global:num, T5:num, T4:num, T6:bot, x__f__global:bot, {b: ret__f__global}:bot
 
-12: [T6 <= num]
- T1:num, y__f:num, void:bot, ret__f:bot, T2:num, (x__global: {a: T2}), T3:num, y__global:num, T5:num, T4:num, T6:num, x__f:bot, {b: ret__f}:bot
+12: [T4 <= num]
+ T1:num, y__f__global:num, void:bot, ret__f__global:void, f__global:function, T2:num, (x__global: {a: T2}), T3:num, y__global:num, T5:num, T4:num, T6:bot, x__f__global:bot, {b: ret__f__global}:bot
 
-13: [T6 <= x__f]
- T1:num, y__f:num, void:bot, ret__f:bot, T2:num, (x__global: {a: T2}), T3:num, y__global:num, T5:num, T4:num, T6:num, x__f:num, {b: ret__f}:bot
+13: [T5 <= num]
+ T1:num, y__f__global:num, void:bot, ret__f__global:void, f__global:function, T2:num, (x__global: {a: T2}), T3:num, y__global:num, T5:num, T4:num, T6:bot, x__f__global:bot, {b: ret__f__global}:bot
 
-14: [x__global <= {b: ret__f}]
- T1:num, y__f:num, void:bot, ret__f:bot, T2:num, (x__global: {a: T2, b: void}), T3:num, y__global:num, T5:num, T4:num, T6:num, x__f:num
+14: [T6 <= num]
+ T1:num, y__f__global:num, void:bot, ret__f__global:void, f__global:function, T2:num, (x__global: {a: T2}), T3:num, y__global:num, T5:num, T4:num, T6:num, x__f__global:bot, {b: ret__f__global}:bot
+
+15: [T6 <= x__f__global]
+ T1:num, y__f__global:num, void:bot, ret__f__global:void, f__global:function, T2:num, (x__global: {a: T2}), T3:num, y__global:num, T5:num, T4:num, T6:num, x__f__global:num, {b: ret__f__global}:bot
+
+16: [x__global <= {b: ret__f__global}]
+ T1:num, y__f__global:num, void:bot, ret__f__global:void, f__global:function, T2:num, (x__global: {a: T2, b: ret__f__global}), T3:num, y__global:num, T5:num, T4:num, T6:num, x__f__global:num
 
 ──────────────────────────────────────────────────────
 ✓  Sem conflitos.
 
 FINAL:
-  ret__f       :  bot
-  x__f         :  num
-  x__global    :  {a: num, b: bot}
-  y__f         :  num
-  y__global    :  num
-  {b: ret__f}  :  bot
+  f__global            :  function
+  ret__f__global       :  void
+  x__f__global         :  num
+  x__global            :  {a: num, b: void}
+  y__f__global         :  num
+  y__global            :  num
+  {b: ret__f__global}  :  bot
 

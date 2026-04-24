@@ -1,87 +1,92 @@
 
 Constraints:
   C01: T1 <= num
-  C02: x__f <= T1
-  C03: T1 <= x__f
+  C02: x__f__global <= T1
+  C03: T1 <= x__f__global
   C04: T2 <= num
-  C05: T2 <= z__f
-  C06: x__f <= num
+  C05: T2 <= z__f__global
+  C06: x__f__global <= num
   C07: T3 <= num
-  C08: x__f <= T3
-  C09: T3 <= x__f
-  C10: x__f <= num
+  C08: x__f__global <= T3
+  C09: T3 <= x__f__global
+  C10: x__f__global <= num
   C11: T4 <= num
-  C12: x__f <= T4
-  C13: T4 <= x__f
+  C12: x__f__global <= T4
+  C13: T4 <= x__f__global
   C14: T5 <= num
-  C15: T5 <= x__f
+  C15: T5 <= x__f__global
   C16: T6 <= num
-  C17: T6 <= x__f
-  C18: undefined <= ret__f
+  C17: T6 <= x__f__global
+  C18: void <= ret__f__global
+  C19: f__global <= function
 
 ──────────────────────────────────────────────────────
 Inicio:
- T1:bot, num:bot, x__f:bot, T2:bot, z__f:bot, T3:bot, T4:bot, T5:bot, T6:bot, undefined:bot, ret__f:bot
+ T1:bot, num:bot, x__f__global:bot, T2:bot, z__f__global:bot, T3:bot, T4:bot, T5:bot, T6:bot, void:bot, ret__f__global:bot, f__global:bot, function:bot
 
 1: [T1 <= num]
- T1:num, x__f:bot, T2:bot, z__f:bot, T3:bot, T4:bot, T5:bot, T6:bot, undefined:bot, ret__f:bot
+ T1:num, x__f__global:bot, T2:bot, z__f__global:bot, T3:bot, T4:bot, T5:bot, T6:bot, void:bot, ret__f__global:bot, f__global:bot, function:bot
 
-2: [x__f <= T1]
- T1:num, x__f:num, T2:bot, z__f:bot, T3:bot, T4:bot, T5:bot, T6:bot, undefined:bot, ret__f:bot
+2: [x__f__global <= T1]
+ T1:num, x__f__global:num, T2:bot, z__f__global:bot, T3:bot, T4:bot, T5:bot, T6:bot, void:bot, ret__f__global:bot, f__global:bot, function:bot
 
-3: [T1 <= x__f]
- T1:num, x__f:num, T2:bot, z__f:bot, T3:bot, T4:bot, T5:bot, T6:bot, undefined:bot, ret__f:bot
+3: [T1 <= x__f__global]
+ T1:num, x__f__global:num, T2:bot, z__f__global:bot, T3:bot, T4:bot, T5:bot, T6:bot, void:bot, ret__f__global:bot, f__global:bot, function:bot
 
 4: [T2 <= num]
- T1:num, x__f:num, T2:num, z__f:bot, T3:bot, T4:bot, T5:bot, T6:bot, undefined:bot, ret__f:bot
+ T1:num, x__f__global:num, T2:num, z__f__global:bot, T3:bot, T4:bot, T5:bot, T6:bot, void:bot, ret__f__global:bot, f__global:bot, function:bot
 
-5: [T2 <= z__f]
- T1:num, x__f:num, T2:num, z__f:num, T3:bot, T4:bot, T5:bot, T6:bot, undefined:bot, ret__f:bot
+5: [T2 <= z__f__global]
+ T1:num, x__f__global:num, T2:num, z__f__global:num, T3:bot, T4:bot, T5:bot, T6:bot, void:bot, ret__f__global:bot, f__global:bot, function:bot
 
-6: [x__f <= num]
- T1:num, x__f:num, T2:num, z__f:num, T3:bot, T4:bot, T5:bot, T6:bot, undefined:bot, ret__f:bot
+6: [x__f__global <= num]
+ T1:num, x__f__global:num, T2:num, z__f__global:num, T3:bot, T4:bot, T5:bot, T6:bot, void:bot, ret__f__global:bot, f__global:bot, function:bot
 
 7: [T3 <= num]
- T1:num, x__f:num, T2:num, z__f:num, T3:num, T4:bot, T5:bot, T6:bot, undefined:bot, ret__f:bot
+ T1:num, x__f__global:num, T2:num, z__f__global:num, T3:num, T4:bot, T5:bot, T6:bot, void:bot, ret__f__global:bot, f__global:bot, function:bot
 
-8: [x__f <= T3]
- T1:num, x__f:num, T2:num, z__f:num, T3:num, T4:bot, T5:bot, T6:bot, undefined:bot, ret__f:bot
+8: [x__f__global <= T3]
+ T1:num, x__f__global:num, T2:num, z__f__global:num, T3:num, T4:bot, T5:bot, T6:bot, void:bot, ret__f__global:bot, f__global:bot, function:bot
 
-9: [T3 <= x__f]
- T1:num, x__f:num, T2:num, z__f:num, T3:num, T4:bot, T5:bot, T6:bot, undefined:bot, ret__f:bot
+9: [T3 <= x__f__global]
+ T1:num, x__f__global:num, T2:num, z__f__global:num, T3:num, T4:bot, T5:bot, T6:bot, void:bot, ret__f__global:bot, f__global:bot, function:bot
 
-10: [x__f <= num]
- T1:num, x__f:num, T2:num, z__f:num, T3:num, T4:bot, T5:bot, T6:bot, undefined:bot, ret__f:bot
+10: [x__f__global <= num]
+ T1:num, x__f__global:num, T2:num, z__f__global:num, T3:num, T4:bot, T5:bot, T6:bot, void:bot, ret__f__global:bot, f__global:bot, function:bot
 
 11: [T4 <= num]
- T1:num, x__f:num, T2:num, z__f:num, T3:num, T4:num, T5:bot, T6:bot, undefined:bot, ret__f:bot
+ T1:num, x__f__global:num, T2:num, z__f__global:num, T3:num, T4:num, T5:bot, T6:bot, void:bot, ret__f__global:bot, f__global:bot, function:bot
 
-12: [x__f <= T4]
- T1:num, x__f:num, T2:num, z__f:num, T3:num, T4:num, T5:bot, T6:bot, undefined:bot, ret__f:bot
+12: [x__f__global <= T4]
+ T1:num, x__f__global:num, T2:num, z__f__global:num, T3:num, T4:num, T5:bot, T6:bot, void:bot, ret__f__global:bot, f__global:bot, function:bot
 
-13: [T4 <= x__f]
- T1:num, x__f:num, T2:num, z__f:num, T3:num, T4:num, T5:bot, T6:bot, undefined:bot, ret__f:bot
+13: [T4 <= x__f__global]
+ T1:num, x__f__global:num, T2:num, z__f__global:num, T3:num, T4:num, T5:bot, T6:bot, void:bot, ret__f__global:bot, f__global:bot, function:bot
 
 14: [T5 <= num]
- T1:num, x__f:num, T2:num, z__f:num, T3:num, T4:num, T5:num, T6:bot, undefined:bot, ret__f:bot
+ T1:num, x__f__global:num, T2:num, z__f__global:num, T3:num, T4:num, T5:num, T6:bot, void:bot, ret__f__global:bot, f__global:bot, function:bot
 
-15: [T5 <= x__f]
- T1:num, x__f:num, T2:num, z__f:num, T3:num, T4:num, T5:num, T6:bot, undefined:bot, ret__f:bot
+15: [T5 <= x__f__global]
+ T1:num, x__f__global:num, T2:num, z__f__global:num, T3:num, T4:num, T5:num, T6:bot, void:bot, ret__f__global:bot, f__global:bot, function:bot
 
 16: [T6 <= num]
- T1:num, x__f:num, T2:num, z__f:num, T3:num, T4:num, T5:num, T6:num, undefined:bot, ret__f:bot
+ T1:num, x__f__global:num, T2:num, z__f__global:num, T3:num, T4:num, T5:num, T6:num, void:bot, ret__f__global:bot, f__global:bot, function:bot
 
-17: [T6 <= x__f]
- T1:num, x__f:num, T2:num, z__f:num, T3:num, T4:num, T5:num, T6:num, undefined:bot, ret__f:bot
+17: [T6 <= x__f__global]
+ T1:num, x__f__global:num, T2:num, z__f__global:num, T3:num, T4:num, T5:num, T6:num, void:bot, ret__f__global:bot, f__global:bot, function:bot
 
-18: [undefined <= ret__f]
- T1:num, x__f:num, T2:num, z__f:num, T3:num, T4:num, T5:num, T6:num, undefined:bot, ret__f:bot
+18: [void <= ret__f__global]
+ T1:num, x__f__global:num, T2:num, z__f__global:num, T3:num, T4:num, T5:num, T6:num, void:bot, ret__f__global:void, f__global:bot, function:bot
+
+19: [f__global <= function]
+ T1:num, x__f__global:num, T2:num, z__f__global:num, T3:num, T4:num, T5:num, T6:num, void:bot, ret__f__global:void, f__global:function
 
 ──────────────────────────────────────────────────────
 ✓  Sem conflitos.
 
 FINAL:
-  ret__f  :  bot
-  x__f    :  num
-  z__f    :  num
+  f__global       :  function
+  ret__f__global  :  void
+  x__f__global    :  num
+  z__f__global    :  num
 

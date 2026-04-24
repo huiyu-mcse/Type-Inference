@@ -3,76 +3,81 @@ Constraints:
   C01: response__global <= {}
   C02: T1 <= bool
   C03: T1 <= ok__global
-  C04: ok__f <= bool
+  C04: ok__f__global <= bool
   C05: T2 <= num
-  C06: response__f <= {status: T2}
+  C06: response__f__global <= {status: T2}
   C07: T3 <= str
-  C08: response__f <= {body: T3}
+  C08: response__f__global <= {body: T3}
   C09: T4 <= num
-  C10: T4 <= x__f
+  C10: T4 <= x__f__global
   C11: T5 <= num
-  C12: response__f <= {status: T5}
+  C12: response__f__global <= {status: T5}
   C13: T6 <= str
-  C14: response__f <= {aux: T6}
-  C15: undefined <= ret__f
+  C14: response__f__global <= {aux: T6}
+  C15: void <= ret__f__global
+  C16: f__global <= function
 
 ──────────────────────────────────────────────────────
 Inicio:
- response__global:bot, {}:bot, T1:bot, bool:bot, ok__global:bot, ok__f:bot, T2:bot, num:bot, response__f:bot, {status: T2}:bot, T3:bot, str:bot, {body: T3}:bot, T4:bot, x__f:bot, T5:bot, {status: T5}:bot, T6:bot, {aux: T6}:bot, undefined:bot, ret__f:bot
+ response__global:bot, {}:bot, T1:bot, bool:bot, ok__global:bot, ok__f__global:bot, T2:bot, num:bot, response__f__global:bot, {status: T2}:bot, T3:bot, str:bot, {body: T3}:bot, T4:bot, x__f__global:bot, T5:bot, {status: T5}:bot, T6:bot, {aux: T6}:bot, void:bot, ret__f__global:bot, f__global:bot, function:bot
 
 1: [response__global <= {}]
- response__global:{}, T1:bot, bool:bot, ok__global:bot, ok__f:bot, T2:bot, num:bot, response__f:bot, {status: T2}:bot, T3:bot, str:bot, {body: T3}:bot, T4:bot, x__f:bot, T5:bot, {status: T5}:bot, T6:bot, {aux: T6}:bot, undefined:bot, ret__f:bot
+ response__global:{}, T1:bot, bool:bot, ok__global:bot, ok__f__global:bot, T2:bot, num:bot, response__f__global:bot, {status: T2}:bot, T3:bot, str:bot, {body: T3}:bot, T4:bot, x__f__global:bot, T5:bot, {status: T5}:bot, T6:bot, {aux: T6}:bot, void:bot, ret__f__global:bot, f__global:bot, function:bot
 
 2: [T1 <= bool]
- response__global:{}, T1:bool, ok__global:bot, ok__f:bot, T2:bot, num:bot, response__f:bot, {status: T2}:bot, T3:bot, str:bot, {body: T3}:bot, T4:bot, x__f:bot, T5:bot, {status: T5}:bot, T6:bot, {aux: T6}:bot, undefined:bot, ret__f:bot
+ response__global:{}, T1:bool, ok__global:bot, ok__f__global:bot, T2:bot, num:bot, response__f__global:bot, {status: T2}:bot, T3:bot, str:bot, {body: T3}:bot, T4:bot, x__f__global:bot, T5:bot, {status: T5}:bot, T6:bot, {aux: T6}:bot, void:bot, ret__f__global:bot, f__global:bot, function:bot
 
 3: [T1 <= ok__global]
- response__global:{}, T1:bool, ok__global:bool, ok__f:bot, T2:bot, num:bot, response__f:bot, {status: T2}:bot, T3:bot, str:bot, {body: T3}:bot, T4:bot, x__f:bot, T5:bot, {status: T5}:bot, T6:bot, {aux: T6}:bot, undefined:bot, ret__f:bot
+ response__global:{}, T1:bool, ok__global:bool, ok__f__global:bot, T2:bot, num:bot, response__f__global:bot, {status: T2}:bot, T3:bot, str:bot, {body: T3}:bot, T4:bot, x__f__global:bot, T5:bot, {status: T5}:bot, T6:bot, {aux: T6}:bot, void:bot, ret__f__global:bot, f__global:bot, function:bot
 
-4: [ok__f <= bool]
- response__global:{}, T1:bool, ok__global:bool, ok__f:bool, T2:bot, num:bot, response__f:bot, {status: T2}:bot, T3:bot, str:bot, {body: T3}:bot, T4:bot, x__f:bot, T5:bot, {status: T5}:bot, T6:bot, {aux: T6}:bot, undefined:bot, ret__f:bot
+4: [ok__f__global <= bool]
+ response__global:{}, T1:bool, ok__global:bool, ok__f__global:bool, T2:bot, num:bot, response__f__global:bot, {status: T2}:bot, T3:bot, str:bot, {body: T3}:bot, T4:bot, x__f__global:bot, T5:bot, {status: T5}:bot, T6:bot, {aux: T6}:bot, void:bot, ret__f__global:bot, f__global:bot, function:bot
 
 5: [T2 <= num]
- response__global:{}, T1:bool, ok__global:bool, ok__f:bool, T2:num, response__f:bot, {status: T2}:bot, T3:bot, str:bot, {body: T3}:bot, T4:bot, x__f:bot, T5:bot, {status: T5}:bot, T6:bot, {aux: T6}:bot, undefined:bot, ret__f:bot
+ response__global:{}, T1:bool, ok__global:bool, ok__f__global:bool, T2:num, response__f__global:bot, {status: T2}:bot, T3:bot, str:bot, {body: T3}:bot, T4:bot, x__f__global:bot, T5:bot, {status: T5}:bot, T6:bot, {aux: T6}:bot, void:bot, ret__f__global:bot, f__global:bot, function:bot
 
-6: [response__f <= {status: T2}]
- response__global:{}, T1:bool, ok__global:bool, ok__f:bool, T2:num, (response__f: {status: T2}), T3:bot, str:bot, {body: T3}:bot, T4:bot, x__f:bot, T5:bot, {status: T5}:bot, T6:bot, {aux: T6}:bot, undefined:bot, ret__f:bot
+6: [response__f__global <= {status: T2}]
+ response__global:{}, T1:bool, ok__global:bool, ok__f__global:bool, T2:num, (response__f__global: {status: T2}), T3:bot, str:bot, {body: T3}:bot, T4:bot, x__f__global:bot, T5:bot, {status: T5}:bot, T6:bot, {aux: T6}:bot, void:bot, ret__f__global:bot, f__global:bot, function:bot
 
 7: [T3 <= str]
- response__global:{}, T1:bool, ok__global:bool, ok__f:bool, T2:num, (response__f: {status: T2}), T3:str, {body: T3}:bot, T4:bot, x__f:bot, T5:bot, {status: T5}:bot, T6:bot, {aux: T6}:bot, undefined:bot, ret__f:bot
+ response__global:{}, T1:bool, ok__global:bool, ok__f__global:bool, T2:num, (response__f__global: {status: T2}), T3:str, {body: T3}:bot, T4:bot, x__f__global:bot, T5:bot, {status: T5}:bot, T6:bot, {aux: T6}:bot, void:bot, ret__f__global:bot, f__global:bot, function:bot
 
-8: [response__f <= {body: T3}]
- response__global:{}, T1:bool, ok__global:bool, ok__f:bool, T2:num, (response__f: {status: T2, body: T3}), T3:str, T4:bot, x__f:bot, T5:bot, {status: T5}:bot, T6:bot, {aux: T6}:bot, undefined:bot, ret__f:bot
+8: [response__f__global <= {body: T3}]
+ response__global:{}, T1:bool, ok__global:bool, ok__f__global:bool, T2:num, (response__f__global: {status: T2, body: T3}), T3:str, T4:bot, x__f__global:bot, T5:bot, {status: T5}:bot, T6:bot, {aux: T6}:bot, void:bot, ret__f__global:bot, f__global:bot, function:bot
 
 9: [T4 <= num]
- response__global:{}, T1:bool, ok__global:bool, ok__f:bool, T2:num, (response__f: {status: T2, body: T3}), T3:str, T4:num, x__f:bot, T5:bot, {status: T5}:bot, T6:bot, {aux: T6}:bot, undefined:bot, ret__f:bot
+ response__global:{}, T1:bool, ok__global:bool, ok__f__global:bool, T2:num, (response__f__global: {status: T2, body: T3}), T3:str, T4:num, x__f__global:bot, T5:bot, {status: T5}:bot, T6:bot, {aux: T6}:bot, void:bot, ret__f__global:bot, f__global:bot, function:bot
 
-10: [T4 <= x__f]
- response__global:{}, T1:bool, ok__global:bool, ok__f:bool, T2:num, (response__f: {status: T2, body: T3}), T3:str, T4:num, x__f:num, T5:bot, {status: T5}:bot, T6:bot, {aux: T6}:bot, undefined:bot, ret__f:bot
+10: [T4 <= x__f__global]
+ response__global:{}, T1:bool, ok__global:bool, ok__f__global:bool, T2:num, (response__f__global: {status: T2, body: T3}), T3:str, T4:num, x__f__global:num, T5:bot, {status: T5}:bot, T6:bot, {aux: T6}:bot, void:bot, ret__f__global:bot, f__global:bot, function:bot
 
 11: [T5 <= num]
- response__global:{}, T1:bool, ok__global:bool, ok__f:bool, T2:num, (response__f: {status: T2, body: T3}), T3:str, T4:num, x__f:num, T5:num, {status: T5}:bot, T6:bot, {aux: T6}:bot, undefined:bot, ret__f:bot
+ response__global:{}, T1:bool, ok__global:bool, ok__f__global:bool, T2:num, (response__f__global: {status: T2, body: T3}), T3:str, T4:num, x__f__global:num, T5:num, {status: T5}:bot, T6:bot, {aux: T6}:bot, void:bot, ret__f__global:bot, f__global:bot, function:bot
 
-12: [response__f <= {status: T5}]
- response__global:{}, T1:bool, ok__global:bool, ok__f:bool, T2:num, (response__f: {status: T2, body: T3}), T3:str, T4:num, x__f:num, T5:num, T6:bot, {aux: T6}:bot, undefined:bot, ret__f:bot
+12: [response__f__global <= {status: T5}]
+ response__global:{}, T1:bool, ok__global:bool, ok__f__global:bool, T2:num, (response__f__global: {status: T2, body: T3}), T3:str, T4:num, x__f__global:num, T5:num, T6:bot, {aux: T6}:bot, void:bot, ret__f__global:bot, f__global:bot, function:bot
 
 13: [T6 <= str]
- response__global:{}, T1:bool, ok__global:bool, ok__f:bool, T2:num, (response__f: {status: T2, body: T3}), T3:str, T4:num, x__f:num, T5:num, T6:str, {aux: T6}:bot, undefined:bot, ret__f:bot
+ response__global:{}, T1:bool, ok__global:bool, ok__f__global:bool, T2:num, (response__f__global: {status: T2, body: T3}), T3:str, T4:num, x__f__global:num, T5:num, T6:str, {aux: T6}:bot, void:bot, ret__f__global:bot, f__global:bot, function:bot
 
-14: [response__f <= {aux: T6}]
- response__global:{}, T1:bool, ok__global:bool, ok__f:bool, T2:num, (response__f: {status: T2, body: T3, aux: T6}), T3:str, T4:num, x__f:num, T5:num, T6:str, undefined:bot, ret__f:bot
+14: [response__f__global <= {aux: T6}]
+ response__global:{}, T1:bool, ok__global:bool, ok__f__global:bool, T2:num, (response__f__global: {status: T2, body: T3, aux: T6}), T3:str, T4:num, x__f__global:num, T5:num, T6:str, void:bot, ret__f__global:bot, f__global:bot, function:bot
 
-15: [undefined <= ret__f]
- response__global:{}, T1:bool, ok__global:bool, ok__f:bool, T2:num, (response__f: {status: T2, body: T3, aux: T6}), T3:str, T4:num, x__f:num, T5:num, T6:str, undefined:bot, ret__f:bot
+15: [void <= ret__f__global]
+ response__global:{}, T1:bool, ok__global:bool, ok__f__global:bool, T2:num, (response__f__global: {status: T2, body: T3, aux: T6}), T3:str, T4:num, x__f__global:num, T5:num, T6:str, void:bot, ret__f__global:void, f__global:bot, function:bot
+
+16: [f__global <= function]
+ response__global:{}, T1:bool, ok__global:bool, ok__f__global:bool, T2:num, (response__f__global: {status: T2, body: T3, aux: T6}), T3:str, T4:num, x__f__global:num, T5:num, T6:str, void:bot, ret__f__global:void, f__global:function
 
 ──────────────────────────────────────────────────────
 ✓  Sem conflitos.
 
 FINAL:
-  ok__f             :  bool
-  ok__global        :  bool
-  response__f       :  {status: num, body: str, aux: str}
-  response__global  :  {}
-  ret__f            :  bot
-  x__f              :  num
+  f__global            :  function
+  ok__f__global        :  bool
+  ok__global           :  bool
+  response__f__global  :  {status: num, body: str, aux: str}
+  response__global     :  {}
+  ret__f__global       :  void
+  x__f__global         :  num
 
