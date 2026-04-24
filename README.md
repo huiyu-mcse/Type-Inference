@@ -64,7 +64,6 @@ Provavelmente o break e o continue não são precisos porque não têm nenhuma r
 - [x] ReturnStatement
 - [x] ThrowStatement
 - [x] TryStatement
-- [ ] ThrowStatement
 - [ ] LabeledStatement
 - [ ] EmptyStatement
 - [ ] DebuggerStatement
