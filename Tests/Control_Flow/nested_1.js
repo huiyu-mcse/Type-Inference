@@ -1,7 +1,7 @@
 var state = {};
 state.score = 0;
 state.bonus = 10;
-var active  = true;
+var active = true;
 
 while (active) {
   var cur = state.score;

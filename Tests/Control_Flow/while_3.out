@@ -5,64 +5,69 @@ Constraints:
   C03: state__global <= {count: T1}
   C04: T2 <= bool
   C05: T2 <= valid__global
-  C06: valid__g <= bool
+  C06: valid__g__global <= bool
   C07: state__global <= {count: T3}
   C08: T4 <= num
   C09: T3 <= num
   C10: T4 <= num
   C11: T5 <= num
   C12: state__global <= {count: T5}
-  C13: undefined <= ret__g
+  C13: void <= ret__g__global
+  C14: g__global <= function
 
 ──────────────────────────────────────────────────────
 Inicio:
- state__global:bot, {}:bot, T1:bot, num:bot, {count: T1}:bot, T2:bot, bool:bot, valid__global:bot, valid__g:bot, {count: T3}:bot, T4:bot, T3:bot, T5:bot, {count: T5}:bot, undefined:bot, ret__g:bot
+ state__global:bot, {}:bot, T1:bot, num:bot, {count: T1}:bot, T2:bot, bool:bot, valid__global:bot, valid__g__global:bot, {count: T3}:bot, T4:bot, T3:bot, T5:bot, {count: T5}:bot, void:bot, ret__g__global:bot, g__global:bot, function:bot
 
 1: [state__global <= {}]
- state__global:{}, T1:bot, num:bot, {count: T1}:bot, T2:bot, bool:bot, valid__global:bot, valid__g:bot, {count: T3}:bot, T4:bot, T3:bot, T5:bot, {count: T5}:bot, undefined:bot, ret__g:bot
+ state__global:{}, T1:bot, num:bot, {count: T1}:bot, T2:bot, bool:bot, valid__global:bot, valid__g__global:bot, {count: T3}:bot, T4:bot, T3:bot, T5:bot, {count: T5}:bot, void:bot, ret__g__global:bot, g__global:bot, function:bot
 
 2: [T1 <= num]
- state__global:{}, T1:num, {count: T1}:bot, T2:bot, bool:bot, valid__global:bot, valid__g:bot, {count: T3}:bot, T4:bot, T3:bot, T5:bot, {count: T5}:bot, undefined:bot, ret__g:bot
+ state__global:{}, T1:num, {count: T1}:bot, T2:bot, bool:bot, valid__global:bot, valid__g__global:bot, {count: T3}:bot, T4:bot, T3:bot, T5:bot, {count: T5}:bot, void:bot, ret__g__global:bot, g__global:bot, function:bot
 
 3: [state__global <= {count: T1}]
- (state__global: {count: T1}), T1:num, T2:bot, bool:bot, valid__global:bot, valid__g:bot, {count: T3}:bot, T4:bot, T3:bot, T5:bot, {count: T5}:bot, undefined:bot, ret__g:bot
+ (state__global: {count: T1}), T1:num, T2:bot, bool:bot, valid__global:bot, valid__g__global:bot, {count: T3}:bot, T4:bot, T3:bot, T5:bot, {count: T5}:bot, void:bot, ret__g__global:bot, g__global:bot, function:bot
 
 4: [T2 <= bool]
- (state__global: {count: T1}), T1:num, T2:bool, valid__global:bot, valid__g:bot, {count: T3}:bot, T4:bot, T3:bot, T5:bot, {count: T5}:bot, undefined:bot, ret__g:bot
+ (state__global: {count: T1}), T1:num, T2:bool, valid__global:bot, valid__g__global:bot, {count: T3}:bot, T4:bot, T3:bot, T5:bot, {count: T5}:bot, void:bot, ret__g__global:bot, g__global:bot, function:bot
 
 5: [T2 <= valid__global]
- (state__global: {count: T1}), T1:num, T2:bool, valid__global:bool, valid__g:bot, {count: T3}:bot, T4:bot, T3:bot, T5:bot, {count: T5}:bot, undefined:bot, ret__g:bot
+ (state__global: {count: T1}), T1:num, T2:bool, valid__global:bool, valid__g__global:bot, {count: T3}:bot, T4:bot, T3:bot, T5:bot, {count: T5}:bot, void:bot, ret__g__global:bot, g__global:bot, function:bot
 
-6: [valid__g <= bool]
- (state__global: {count: T1}), T1:num, T2:bool, valid__global:bool, valid__g:bool, {count: T3}:bot, T4:bot, T3:bot, T5:bot, {count: T5}:bot, undefined:bot, ret__g:bot
+6: [valid__g__global <= bool]
+ (state__global: {count: T1}), T1:num, T2:bool, valid__global:bool, valid__g__global:bool, {count: T3}:bot, T4:bot, T3:bot, T5:bot, {count: T5}:bot, void:bot, ret__g__global:bot, g__global:bot, function:bot
 
 7: [state__global <= {count: T3}]
- (state__global: {count: T1}), T1:num, T2:bool, valid__global:bool, valid__g:bool, T4:bot, T3:num, T5:bot, {count: T5}:bot, undefined:bot, ret__g:bot
+ (state__global: {count: T1}), T1:num, T2:bool, valid__global:bool, valid__g__global:bool, T4:bot, T3:num, T5:bot, {count: T5}:bot, void:bot, ret__g__global:bot, g__global:bot, function:bot
 
 8: [T4 <= num]
- (state__global: {count: T1}), T1:num, T2:bool, valid__global:bool, valid__g:bool, T4:num, T3:num, T5:bot, {count: T5}:bot, undefined:bot, ret__g:bot
+ (state__global: {count: T1}), T1:num, T2:bool, valid__global:bool, valid__g__global:bool, T4:num, T3:num, T5:bot, {count: T5}:bot, void:bot, ret__g__global:bot, g__global:bot, function:bot
 
 9: [T3 <= num]
- (state__global: {count: T1}), T1:num, T2:bool, valid__global:bool, valid__g:bool, T4:num, T3:num, T5:bot, {count: T5}:bot, undefined:bot, ret__g:bot
+ (state__global: {count: T1}), T1:num, T2:bool, valid__global:bool, valid__g__global:bool, T4:num, T3:num, T5:bot, {count: T5}:bot, void:bot, ret__g__global:bot, g__global:bot, function:bot
 
 10: [T4 <= num]
- (state__global: {count: T1}), T1:num, T2:bool, valid__global:bool, valid__g:bool, T4:num, T3:num, T5:bot, {count: T5}:bot, undefined:bot, ret__g:bot
+ (state__global: {count: T1}), T1:num, T2:bool, valid__global:bool, valid__g__global:bool, T4:num, T3:num, T5:bot, {count: T5}:bot, void:bot, ret__g__global:bot, g__global:bot, function:bot
 
 11: [T5 <= num]
- (state__global: {count: T1}), T1:num, T2:bool, valid__global:bool, valid__g:bool, T4:num, T3:num, T5:num, {count: T5}:bot, undefined:bot, ret__g:bot
+ (state__global: {count: T1}), T1:num, T2:bool, valid__global:bool, valid__g__global:bool, T4:num, T3:num, T5:num, {count: T5}:bot, void:bot, ret__g__global:bot, g__global:bot, function:bot
 
 12: [state__global <= {count: T5}]
- (state__global: {count: T1}), T1:num, T2:bool, valid__global:bool, valid__g:bool, T4:num, T3:num, T5:num, undefined:bot, ret__g:bot
+ (state__global: {count: T1}), T1:num, T2:bool, valid__global:bool, valid__g__global:bool, T4:num, T3:num, T5:num, void:bot, ret__g__global:bot, g__global:bot, function:bot
 
-13: [undefined <= ret__g]
- (state__global: {count: T1}), T1:num, T2:bool, valid__global:bool, valid__g:bool, T4:num, T3:num, T5:num, undefined:bot, ret__g:bot
+13: [void <= ret__g__global]
+ (state__global: {count: T1}), T1:num, T2:bool, valid__global:bool, valid__g__global:bool, T4:num, T3:num, T5:num, void:bot, ret__g__global:void, g__global:bot, function:bot
+
+14: [g__global <= function]
+ (state__global: {count: T1}), T1:num, T2:bool, valid__global:bool, valid__g__global:bool, T4:num, T3:num, T5:num, void:bot, ret__g__global:void, g__global:function
 
 ──────────────────────────────────────────────────────
 ✓  Sem conflitos.
 
 FINAL:
-  ret__g         :  bot
-  state__global  :  {count: num}
-  valid__g       :  bool
-  valid__global  :  bool
+  g__global         :  function
+  ret__g__global    :  void
+  state__global     :  {count: num}
+  valid__g__global  :  bool
+  valid__global     :  bool
 

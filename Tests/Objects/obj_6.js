@@ -1,18 +1,18 @@
 var config = {};
 
 function setHost() {
-  config.host    = "localhost";
-  config.secure  = false;
+  config.host = "localhost";
+  config.secure = false;
 }
 
 function setPort() {
-  config.port    = 8080;
+  config.port = 8080;
   config.timeout = 30;
 }
 
 function setMeta() {
   config.version = 2;
-  config.name    = "myapp";
+  config.name = "myapp";
 }
 
 var h = config.host;

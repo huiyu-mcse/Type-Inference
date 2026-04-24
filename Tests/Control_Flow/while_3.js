@@ -7,4 +7,3 @@ function g(valid) {
     state.count = state.count + 1;
   }
 }
-

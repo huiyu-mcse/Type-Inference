@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 "use strict";
 
-const BASE_TYPES = new Set(["str", "num", "bool"]);
+//const BASE_TYPES = new Set(["str", "num", "bool"]);
+const BASE_TYPES = new Set(["str", "num", "bool", "function", "void"]);
 const isBaseType = (t) => BASE_TYPES.has(t);
 const isEmptyObj = (t) => t === "{}";
 const isObjWithFlds = (t) => t.startsWith("{") && t !== "{}";
@@ -182,6 +183,14 @@ class State {
 
   // ── Processa uma constraint ────────────────────────────────────────────────
   process(lhs, rhs) {
+    // case if base type literal appears at the left
+    if (isBaseType(lhs)) {
+      if (isTypeVar(rhs)) {
+        this._setBase(this.find(rhs), lhs, `${lhs} <= ${rhs}`);
+      }
+      return;
+    }
+
     if (isBaseType(rhs)) {
       this._setBase(this.find(lhs), rhs, `${lhs} <= ${rhs}`);
       this.consumedLits.add(rhs);

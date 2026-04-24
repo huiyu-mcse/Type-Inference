@@ -1,5 +1,5 @@
 var src = {};
-src.low  = 1;
+src.low = 1;
 src.high = 100;
 
 var flag = true;

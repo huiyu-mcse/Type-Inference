@@ -1,4 +1,3 @@
-
 /**
  * 
  * var obj = {};
@@ -7,7 +6,6 @@ var count = obj.count;
 var next  = count + 1;
 obj.count = next;
  */
-
 
 var person = {};
 //person.name = "Ada";
@@ -19,9 +17,7 @@ var a = person.age;
 
 var b = a;
 
-
 function greet() {
-  
   //var a = person.age;
   //var combined = a + 1;
 }

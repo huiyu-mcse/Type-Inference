@@ -19,128 +19,133 @@ Constraints:
   C17: T7 <= result__global
   C18: T8 <= num
   C19: T8 <= result__global
-  C20: a__add <= num
-  C21: b__add <= num
+  C20: a__add__global <= num
+  C21: b__add__global <= num
   C22: T9 <= num
-  C23: T9 <= x__add
-  C24: a__add <= num
-  C25: b__add <= num
+  C23: T9 <= x__add__global
+  C24: a__add__global <= num
+  C25: b__add__global <= num
   C26: T10 <= num
-  C27: x__add <= T10
-  C28: T10 <= x__add
+  C27: x__add__global <= T10
+  C28: T10 <= x__add__global
   C29: T11 <= bool
-  C30: T11 <= cmp__add
-  C31: x__add <= ret__add
+  C30: T11 <= cmp__add__global
+  C31: x__add__global <= ret__add__global
+  C32: add__global <= function
 
 ──────────────────────────────────────────────────────
 Inicio:
- T1:bot, num:bot, x__global:bot, T2:bot, y__global:bot, T3:bot, bool:bot, cmp__global:bot, T4:bot, T5:bot, T6:bot, cmp2__global:bot, T7:bot, result__global:bot, T8:bot, a__add:bot, b__add:bot, T9:bot, x__add:bot, T10:bot, T11:bot, cmp__add:bot, ret__add:bot
+ T1:bot, num:bot, x__global:bot, T2:bot, y__global:bot, T3:bot, bool:bot, cmp__global:bot, T4:bot, T5:bot, T6:bot, cmp2__global:bot, T7:bot, result__global:bot, T8:bot, a__add__global:bot, b__add__global:bot, T9:bot, x__add__global:bot, T10:bot, T11:bot, cmp__add__global:bot, ret__add__global:bot, add__global:bot, function:bot
 
 1: [T1 <= num]
- T1:num, x__global:bot, T2:bot, y__global:bot, T3:bot, bool:bot, cmp__global:bot, T4:bot, T5:bot, T6:bot, cmp2__global:bot, T7:bot, result__global:bot, T8:bot, a__add:bot, b__add:bot, T9:bot, x__add:bot, T10:bot, T11:bot, cmp__add:bot, ret__add:bot
+ T1:num, x__global:bot, T2:bot, y__global:bot, T3:bot, bool:bot, cmp__global:bot, T4:bot, T5:bot, T6:bot, cmp2__global:bot, T7:bot, result__global:bot, T8:bot, a__add__global:bot, b__add__global:bot, T9:bot, x__add__global:bot, T10:bot, T11:bot, cmp__add__global:bot, ret__add__global:bot, add__global:bot, function:bot
 
 2: [T1 <= x__global]
- T1:num, x__global:num, T2:bot, y__global:bot, T3:bot, bool:bot, cmp__global:bot, T4:bot, T5:bot, T6:bot, cmp2__global:bot, T7:bot, result__global:bot, T8:bot, a__add:bot, b__add:bot, T9:bot, x__add:bot, T10:bot, T11:bot, cmp__add:bot, ret__add:bot
+ T1:num, x__global:num, T2:bot, y__global:bot, T3:bot, bool:bot, cmp__global:bot, T4:bot, T5:bot, T6:bot, cmp2__global:bot, T7:bot, result__global:bot, T8:bot, a__add__global:bot, b__add__global:bot, T9:bot, x__add__global:bot, T10:bot, T11:bot, cmp__add__global:bot, ret__add__global:bot, add__global:bot, function:bot
 
 3: [T2 <= num]
- T1:num, x__global:num, T2:num, y__global:bot, T3:bot, bool:bot, cmp__global:bot, T4:bot, T5:bot, T6:bot, cmp2__global:bot, T7:bot, result__global:bot, T8:bot, a__add:bot, b__add:bot, T9:bot, x__add:bot, T10:bot, T11:bot, cmp__add:bot, ret__add:bot
+ T1:num, x__global:num, T2:num, y__global:bot, T3:bot, bool:bot, cmp__global:bot, T4:bot, T5:bot, T6:bot, cmp2__global:bot, T7:bot, result__global:bot, T8:bot, a__add__global:bot, b__add__global:bot, T9:bot, x__add__global:bot, T10:bot, T11:bot, cmp__add__global:bot, ret__add__global:bot, add__global:bot, function:bot
 
 4: [T2 <= y__global]
- T1:num, x__global:num, T2:num, y__global:num, T3:bot, bool:bot, cmp__global:bot, T4:bot, T5:bot, T6:bot, cmp2__global:bot, T7:bot, result__global:bot, T8:bot, a__add:bot, b__add:bot, T9:bot, x__add:bot, T10:bot, T11:bot, cmp__add:bot, ret__add:bot
+ T1:num, x__global:num, T2:num, y__global:num, T3:bot, bool:bot, cmp__global:bot, T4:bot, T5:bot, T6:bot, cmp2__global:bot, T7:bot, result__global:bot, T8:bot, a__add__global:bot, b__add__global:bot, T9:bot, x__add__global:bot, T10:bot, T11:bot, cmp__add__global:bot, ret__add__global:bot, add__global:bot, function:bot
 
 5: [x__global <= y__global]
- T1:num, x__global:num, T2:num, y__global:num, T3:bot, bool:bot, cmp__global:bot, T4:bot, T5:bot, T6:bot, cmp2__global:bot, T7:bot, result__global:bot, T8:bot, a__add:bot, b__add:bot, T9:bot, x__add:bot, T10:bot, T11:bot, cmp__add:bot, ret__add:bot
+ T1:num, x__global:num, T2:num, y__global:num, T3:bot, bool:bot, cmp__global:bot, T4:bot, T5:bot, T6:bot, cmp2__global:bot, T7:bot, result__global:bot, T8:bot, a__add__global:bot, b__add__global:bot, T9:bot, x__add__global:bot, T10:bot, T11:bot, cmp__add__global:bot, ret__add__global:bot, add__global:bot, function:bot
 
 6: [y__global <= x__global]
- T1:num, x__global:num, T2:num, y__global:num, T3:bot, bool:bot, cmp__global:bot, T4:bot, T5:bot, T6:bot, cmp2__global:bot, T7:bot, result__global:bot, T8:bot, a__add:bot, b__add:bot, T9:bot, x__add:bot, T10:bot, T11:bot, cmp__add:bot, ret__add:bot
+ T1:num, x__global:num, T2:num, y__global:num, T3:bot, bool:bot, cmp__global:bot, T4:bot, T5:bot, T6:bot, cmp2__global:bot, T7:bot, result__global:bot, T8:bot, a__add__global:bot, b__add__global:bot, T9:bot, x__add__global:bot, T10:bot, T11:bot, cmp__add__global:bot, ret__add__global:bot, add__global:bot, function:bot
 
 7: [T3 <= bool]
- T1:num, x__global:num, T2:num, y__global:num, T3:bool, cmp__global:bot, T4:bot, T5:bot, T6:bot, cmp2__global:bot, T7:bot, result__global:bot, T8:bot, a__add:bot, b__add:bot, T9:bot, x__add:bot, T10:bot, T11:bot, cmp__add:bot, ret__add:bot
+ T1:num, x__global:num, T2:num, y__global:num, T3:bool, cmp__global:bot, T4:bot, T5:bot, T6:bot, cmp2__global:bot, T7:bot, result__global:bot, T8:bot, a__add__global:bot, b__add__global:bot, T9:bot, x__add__global:bot, T10:bot, T11:bot, cmp__add__global:bot, ret__add__global:bot, add__global:bot, function:bot
 
 8: [T3 <= cmp__global]
- T1:num, x__global:num, T2:num, y__global:num, T3:bool, cmp__global:bool, T4:bot, T5:bot, T6:bot, cmp2__global:bot, T7:bot, result__global:bot, T8:bot, a__add:bot, b__add:bot, T9:bot, x__add:bot, T10:bot, T11:bot, cmp__add:bot, ret__add:bot
+ T1:num, x__global:num, T2:num, y__global:num, T3:bool, cmp__global:bool, T4:bot, T5:bot, T6:bot, cmp2__global:bot, T7:bot, result__global:bot, T8:bot, a__add__global:bot, b__add__global:bot, T9:bot, x__add__global:bot, T10:bot, T11:bot, cmp__add__global:bot, ret__add__global:bot, add__global:bot, function:bot
 
 9: [T4 <= num]
- T1:num, x__global:num, T2:num, y__global:num, T3:bool, cmp__global:bool, T4:num, T5:bot, T6:bot, cmp2__global:bot, T7:bot, result__global:bot, T8:bot, a__add:bot, b__add:bot, T9:bot, x__add:bot, T10:bot, T11:bot, cmp__add:bot, ret__add:bot
+ T1:num, x__global:num, T2:num, y__global:num, T3:bool, cmp__global:bool, T4:num, T5:bot, T6:bot, cmp2__global:bot, T7:bot, result__global:bot, T8:bot, a__add__global:bot, b__add__global:bot, T9:bot, x__add__global:bot, T10:bot, T11:bot, cmp__add__global:bot, ret__add__global:bot, add__global:bot, function:bot
 
 10: [T5 <= num]
- T1:num, x__global:num, T2:num, y__global:num, T3:bool, cmp__global:bool, T4:num, T5:num, T6:bot, cmp2__global:bot, T7:bot, result__global:bot, T8:bot, a__add:bot, b__add:bot, T9:bot, x__add:bot, T10:bot, T11:bot, cmp__add:bot, ret__add:bot
+ T1:num, x__global:num, T2:num, y__global:num, T3:bool, cmp__global:bool, T4:num, T5:num, T6:bot, cmp2__global:bot, T7:bot, result__global:bot, T8:bot, a__add__global:bot, b__add__global:bot, T9:bot, x__add__global:bot, T10:bot, T11:bot, cmp__add__global:bot, ret__add__global:bot, add__global:bot, function:bot
 
 11: [T4 <= T5]
- T1:num, x__global:num, T2:num, y__global:num, T3:bool, cmp__global:bool, T4:num, T5:num, T6:bot, cmp2__global:bot, T7:bot, result__global:bot, T8:bot, a__add:bot, b__add:bot, T9:bot, x__add:bot, T10:bot, T11:bot, cmp__add:bot, ret__add:bot
+ T1:num, x__global:num, T2:num, y__global:num, T3:bool, cmp__global:bool, T4:num, T5:num, T6:bot, cmp2__global:bot, T7:bot, result__global:bot, T8:bot, a__add__global:bot, b__add__global:bot, T9:bot, x__add__global:bot, T10:bot, T11:bot, cmp__add__global:bot, ret__add__global:bot, add__global:bot, function:bot
 
 12: [T5 <= T4]
- T1:num, x__global:num, T2:num, y__global:num, T3:bool, cmp__global:bool, T4:num, T5:num, T6:bot, cmp2__global:bot, T7:bot, result__global:bot, T8:bot, a__add:bot, b__add:bot, T9:bot, x__add:bot, T10:bot, T11:bot, cmp__add:bot, ret__add:bot
+ T1:num, x__global:num, T2:num, y__global:num, T3:bool, cmp__global:bool, T4:num, T5:num, T6:bot, cmp2__global:bot, T7:bot, result__global:bot, T8:bot, a__add__global:bot, b__add__global:bot, T9:bot, x__add__global:bot, T10:bot, T11:bot, cmp__add__global:bot, ret__add__global:bot, add__global:bot, function:bot
 
 13: [T6 <= bool]
- T1:num, x__global:num, T2:num, y__global:num, T3:bool, cmp__global:bool, T4:num, T5:num, T6:bool, cmp2__global:bot, T7:bot, result__global:bot, T8:bot, a__add:bot, b__add:bot, T9:bot, x__add:bot, T10:bot, T11:bot, cmp__add:bot, ret__add:bot
+ T1:num, x__global:num, T2:num, y__global:num, T3:bool, cmp__global:bool, T4:num, T5:num, T6:bool, cmp2__global:bot, T7:bot, result__global:bot, T8:bot, a__add__global:bot, b__add__global:bot, T9:bot, x__add__global:bot, T10:bot, T11:bot, cmp__add__global:bot, ret__add__global:bot, add__global:bot, function:bot
 
 14: [T6 <= cmp2__global]
- T1:num, x__global:num, T2:num, y__global:num, T3:bool, cmp__global:bool, T4:num, T5:num, T6:bool, cmp2__global:bool, T7:bot, result__global:bot, T8:bot, a__add:bot, b__add:bot, T9:bot, x__add:bot, T10:bot, T11:bot, cmp__add:bot, ret__add:bot
+ T1:num, x__global:num, T2:num, y__global:num, T3:bool, cmp__global:bool, T4:num, T5:num, T6:bool, cmp2__global:bool, T7:bot, result__global:bot, T8:bot, a__add__global:bot, b__add__global:bot, T9:bot, x__add__global:bot, T10:bot, T11:bot, cmp__add__global:bot, ret__add__global:bot, add__global:bot, function:bot
 
 15: [cmp__global <= bool]
- T1:num, x__global:num, T2:num, y__global:num, T3:bool, cmp__global:bool, T4:num, T5:num, T6:bool, cmp2__global:bool, T7:bot, result__global:bot, T8:bot, a__add:bot, b__add:bot, T9:bot, x__add:bot, T10:bot, T11:bot, cmp__add:bot, ret__add:bot
+ T1:num, x__global:num, T2:num, y__global:num, T3:bool, cmp__global:bool, T4:num, T5:num, T6:bool, cmp2__global:bool, T7:bot, result__global:bot, T8:bot, a__add__global:bot, b__add__global:bot, T9:bot, x__add__global:bot, T10:bot, T11:bot, cmp__add__global:bot, ret__add__global:bot, add__global:bot, function:bot
 
 16: [T7 <= num]
- T1:num, x__global:num, T2:num, y__global:num, T3:bool, cmp__global:bool, T4:num, T5:num, T6:bool, cmp2__global:bool, T7:num, result__global:bot, T8:bot, a__add:bot, b__add:bot, T9:bot, x__add:bot, T10:bot, T11:bot, cmp__add:bot, ret__add:bot
+ T1:num, x__global:num, T2:num, y__global:num, T3:bool, cmp__global:bool, T4:num, T5:num, T6:bool, cmp2__global:bool, T7:num, result__global:bot, T8:bot, a__add__global:bot, b__add__global:bot, T9:bot, x__add__global:bot, T10:bot, T11:bot, cmp__add__global:bot, ret__add__global:bot, add__global:bot, function:bot
 
 17: [T7 <= result__global]
- T1:num, x__global:num, T2:num, y__global:num, T3:bool, cmp__global:bool, T4:num, T5:num, T6:bool, cmp2__global:bool, T7:num, result__global:num, T8:bot, a__add:bot, b__add:bot, T9:bot, x__add:bot, T10:bot, T11:bot, cmp__add:bot, ret__add:bot
+ T1:num, x__global:num, T2:num, y__global:num, T3:bool, cmp__global:bool, T4:num, T5:num, T6:bool, cmp2__global:bool, T7:num, result__global:num, T8:bot, a__add__global:bot, b__add__global:bot, T9:bot, x__add__global:bot, T10:bot, T11:bot, cmp__add__global:bot, ret__add__global:bot, add__global:bot, function:bot
 
 18: [T8 <= num]
- T1:num, x__global:num, T2:num, y__global:num, T3:bool, cmp__global:bool, T4:num, T5:num, T6:bool, cmp2__global:bool, T7:num, result__global:num, T8:num, a__add:bot, b__add:bot, T9:bot, x__add:bot, T10:bot, T11:bot, cmp__add:bot, ret__add:bot
+ T1:num, x__global:num, T2:num, y__global:num, T3:bool, cmp__global:bool, T4:num, T5:num, T6:bool, cmp2__global:bool, T7:num, result__global:num, T8:num, a__add__global:bot, b__add__global:bot, T9:bot, x__add__global:bot, T10:bot, T11:bot, cmp__add__global:bot, ret__add__global:bot, add__global:bot, function:bot
 
 19: [T8 <= result__global]
- T1:num, x__global:num, T2:num, y__global:num, T3:bool, cmp__global:bool, T4:num, T5:num, T6:bool, cmp2__global:bool, T7:num, result__global:num, T8:num, a__add:bot, b__add:bot, T9:bot, x__add:bot, T10:bot, T11:bot, cmp__add:bot, ret__add:bot
+ T1:num, x__global:num, T2:num, y__global:num, T3:bool, cmp__global:bool, T4:num, T5:num, T6:bool, cmp2__global:bool, T7:num, result__global:num, T8:num, a__add__global:bot, b__add__global:bot, T9:bot, x__add__global:bot, T10:bot, T11:bot, cmp__add__global:bot, ret__add__global:bot, add__global:bot, function:bot
 
-20: [a__add <= num]
- T1:num, x__global:num, T2:num, y__global:num, T3:bool, cmp__global:bool, T4:num, T5:num, T6:bool, cmp2__global:bool, T7:num, result__global:num, T8:num, a__add:num, b__add:bot, T9:bot, x__add:bot, T10:bot, T11:bot, cmp__add:bot, ret__add:bot
+20: [a__add__global <= num]
+ T1:num, x__global:num, T2:num, y__global:num, T3:bool, cmp__global:bool, T4:num, T5:num, T6:bool, cmp2__global:bool, T7:num, result__global:num, T8:num, a__add__global:num, b__add__global:bot, T9:bot, x__add__global:bot, T10:bot, T11:bot, cmp__add__global:bot, ret__add__global:bot, add__global:bot, function:bot
 
-21: [b__add <= num]
- T1:num, x__global:num, T2:num, y__global:num, T3:bool, cmp__global:bool, T4:num, T5:num, T6:bool, cmp2__global:bool, T7:num, result__global:num, T8:num, a__add:num, b__add:num, T9:bot, x__add:bot, T10:bot, T11:bot, cmp__add:bot, ret__add:bot
+21: [b__add__global <= num]
+ T1:num, x__global:num, T2:num, y__global:num, T3:bool, cmp__global:bool, T4:num, T5:num, T6:bool, cmp2__global:bool, T7:num, result__global:num, T8:num, a__add__global:num, b__add__global:num, T9:bot, x__add__global:bot, T10:bot, T11:bot, cmp__add__global:bot, ret__add__global:bot, add__global:bot, function:bot
 
 22: [T9 <= num]
- T1:num, x__global:num, T2:num, y__global:num, T3:bool, cmp__global:bool, T4:num, T5:num, T6:bool, cmp2__global:bool, T7:num, result__global:num, T8:num, a__add:num, b__add:num, T9:num, x__add:bot, T10:bot, T11:bot, cmp__add:bot, ret__add:bot
+ T1:num, x__global:num, T2:num, y__global:num, T3:bool, cmp__global:bool, T4:num, T5:num, T6:bool, cmp2__global:bool, T7:num, result__global:num, T8:num, a__add__global:num, b__add__global:num, T9:num, x__add__global:bot, T10:bot, T11:bot, cmp__add__global:bot, ret__add__global:bot, add__global:bot, function:bot
 
-23: [T9 <= x__add]
- T1:num, x__global:num, T2:num, y__global:num, T3:bool, cmp__global:bool, T4:num, T5:num, T6:bool, cmp2__global:bool, T7:num, result__global:num, T8:num, a__add:num, b__add:num, T9:num, x__add:num, T10:bot, T11:bot, cmp__add:bot, ret__add:bot
+23: [T9 <= x__add__global]
+ T1:num, x__global:num, T2:num, y__global:num, T3:bool, cmp__global:bool, T4:num, T5:num, T6:bool, cmp2__global:bool, T7:num, result__global:num, T8:num, a__add__global:num, b__add__global:num, T9:num, x__add__global:num, T10:bot, T11:bot, cmp__add__global:bot, ret__add__global:bot, add__global:bot, function:bot
 
-24: [a__add <= num]
- T1:num, x__global:num, T2:num, y__global:num, T3:bool, cmp__global:bool, T4:num, T5:num, T6:bool, cmp2__global:bool, T7:num, result__global:num, T8:num, a__add:num, b__add:num, T9:num, x__add:num, T10:bot, T11:bot, cmp__add:bot, ret__add:bot
+24: [a__add__global <= num]
+ T1:num, x__global:num, T2:num, y__global:num, T3:bool, cmp__global:bool, T4:num, T5:num, T6:bool, cmp2__global:bool, T7:num, result__global:num, T8:num, a__add__global:num, b__add__global:num, T9:num, x__add__global:num, T10:bot, T11:bot, cmp__add__global:bot, ret__add__global:bot, add__global:bot, function:bot
 
-25: [b__add <= num]
- T1:num, x__global:num, T2:num, y__global:num, T3:bool, cmp__global:bool, T4:num, T5:num, T6:bool, cmp2__global:bool, T7:num, result__global:num, T8:num, a__add:num, b__add:num, T9:num, x__add:num, T10:bot, T11:bot, cmp__add:bot, ret__add:bot
+25: [b__add__global <= num]
+ T1:num, x__global:num, T2:num, y__global:num, T3:bool, cmp__global:bool, T4:num, T5:num, T6:bool, cmp2__global:bool, T7:num, result__global:num, T8:num, a__add__global:num, b__add__global:num, T9:num, x__add__global:num, T10:bot, T11:bot, cmp__add__global:bot, ret__add__global:bot, add__global:bot, function:bot
 
 26: [T10 <= num]
- T1:num, x__global:num, T2:num, y__global:num, T3:bool, cmp__global:bool, T4:num, T5:num, T6:bool, cmp2__global:bool, T7:num, result__global:num, T8:num, a__add:num, b__add:num, T9:num, x__add:num, T10:num, T11:bot, cmp__add:bot, ret__add:bot
+ T1:num, x__global:num, T2:num, y__global:num, T3:bool, cmp__global:bool, T4:num, T5:num, T6:bool, cmp2__global:bool, T7:num, result__global:num, T8:num, a__add__global:num, b__add__global:num, T9:num, x__add__global:num, T10:num, T11:bot, cmp__add__global:bot, ret__add__global:bot, add__global:bot, function:bot
 
-27: [x__add <= T10]
- T1:num, x__global:num, T2:num, y__global:num, T3:bool, cmp__global:bool, T4:num, T5:num, T6:bool, cmp2__global:bool, T7:num, result__global:num, T8:num, a__add:num, b__add:num, T9:num, x__add:num, T10:num, T11:bot, cmp__add:bot, ret__add:bot
+27: [x__add__global <= T10]
+ T1:num, x__global:num, T2:num, y__global:num, T3:bool, cmp__global:bool, T4:num, T5:num, T6:bool, cmp2__global:bool, T7:num, result__global:num, T8:num, a__add__global:num, b__add__global:num, T9:num, x__add__global:num, T10:num, T11:bot, cmp__add__global:bot, ret__add__global:bot, add__global:bot, function:bot
 
-28: [T10 <= x__add]
- T1:num, x__global:num, T2:num, y__global:num, T3:bool, cmp__global:bool, T4:num, T5:num, T6:bool, cmp2__global:bool, T7:num, result__global:num, T8:num, a__add:num, b__add:num, T9:num, x__add:num, T10:num, T11:bot, cmp__add:bot, ret__add:bot
+28: [T10 <= x__add__global]
+ T1:num, x__global:num, T2:num, y__global:num, T3:bool, cmp__global:bool, T4:num, T5:num, T6:bool, cmp2__global:bool, T7:num, result__global:num, T8:num, a__add__global:num, b__add__global:num, T9:num, x__add__global:num, T10:num, T11:bot, cmp__add__global:bot, ret__add__global:bot, add__global:bot, function:bot
 
 29: [T11 <= bool]
- T1:num, x__global:num, T2:num, y__global:num, T3:bool, cmp__global:bool, T4:num, T5:num, T6:bool, cmp2__global:bool, T7:num, result__global:num, T8:num, a__add:num, b__add:num, T9:num, x__add:num, T10:num, T11:bool, cmp__add:bot, ret__add:bot
+ T1:num, x__global:num, T2:num, y__global:num, T3:bool, cmp__global:bool, T4:num, T5:num, T6:bool, cmp2__global:bool, T7:num, result__global:num, T8:num, a__add__global:num, b__add__global:num, T9:num, x__add__global:num, T10:num, T11:bool, cmp__add__global:bot, ret__add__global:bot, add__global:bot, function:bot
 
-30: [T11 <= cmp__add]
- T1:num, x__global:num, T2:num, y__global:num, T3:bool, cmp__global:bool, T4:num, T5:num, T6:bool, cmp2__global:bool, T7:num, result__global:num, T8:num, a__add:num, b__add:num, T9:num, x__add:num, T10:num, T11:bool, cmp__add:bool, ret__add:bot
+30: [T11 <= cmp__add__global]
+ T1:num, x__global:num, T2:num, y__global:num, T3:bool, cmp__global:bool, T4:num, T5:num, T6:bool, cmp2__global:bool, T7:num, result__global:num, T8:num, a__add__global:num, b__add__global:num, T9:num, x__add__global:num, T10:num, T11:bool, cmp__add__global:bool, ret__add__global:bot, add__global:bot, function:bot
 
-31: [x__add <= ret__add]
- T1:num, x__global:num, T2:num, y__global:num, T3:bool, cmp__global:bool, T4:num, T5:num, T6:bool, cmp2__global:bool, T7:num, result__global:num, T8:num, a__add:num, b__add:num, T9:num, x__add:num, T10:num, T11:bool, cmp__add:bool, ret__add:num
+31: [x__add__global <= ret__add__global]
+ T1:num, x__global:num, T2:num, y__global:num, T3:bool, cmp__global:bool, T4:num, T5:num, T6:bool, cmp2__global:bool, T7:num, result__global:num, T8:num, a__add__global:num, b__add__global:num, T9:num, x__add__global:num, T10:num, T11:bool, cmp__add__global:bool, ret__add__global:num, add__global:bot, function:bot
+
+32: [add__global <= function]
+ T1:num, x__global:num, T2:num, y__global:num, T3:bool, cmp__global:bool, T4:num, T5:num, T6:bool, cmp2__global:bool, T7:num, result__global:num, T8:num, a__add__global:num, b__add__global:num, T9:num, x__add__global:num, T10:num, T11:bool, cmp__add__global:bool, ret__add__global:num, add__global:function
 
 ──────────────────────────────────────────────────────
 ✓  Sem conflitos.
 
 FINAL:
-  a__add          :  num
-  b__add          :  num
-  cmp2__global    :  bool
-  cmp__add        :  bool
-  cmp__global     :  bool
-  result__global  :  num
-  ret__add        :  num
-  x__add          :  num
-  x__global       :  num
-  y__global       :  num
+  a__add__global    :  num
+  add__global       :  function
+  b__add__global    :  num
+  cmp2__global      :  bool
+  cmp__add__global  :  bool
+  cmp__global       :  bool
+  result__global    :  num
+  ret__add__global  :  num
+  x__add__global    :  num
+  x__global         :  num
+  y__global         :  num
 

@@ -1,53 +1,63 @@
 
 Constraints:
-  C1: shared__global <= {}
-  C2: T1 <= num
-  C3: shared__global <= {value: T1}
-  C4: undefined <= ret__setNum
-  C5: T2 <= str
-  C6: shared__global <= {value: T2}
-  C7: undefined <= ret__setStr
-  C8: T3 <= v__global
-  C9: shared__global <= {value: T3}
+  C01: shared__global <= {}
+  C02: T1 <= num
+  C03: shared__global <= {value: T1}
+  C04: void <= ret__setNum__global
+  C05: setNum__global <= function
+  C06: T2 <= str
+  C07: shared__global <= {value: T2}
+  C08: void <= ret__setStr__global
+  C09: setStr__global <= function
+  C10: T3 <= v__global
+  C11: shared__global <= {value: T3}
 
 ──────────────────────────────────────────────────────
 Inicio:
- shared__global:bot, {}:bot, T1:bot, num:bot, {value: T1}:bot, undefined:bot, ret__setNum:bot, T2:bot, str:bot, {value: T2}:bot, ret__setStr:bot, T3:bot, v__global:bot, {value: T3}:bot
+ shared__global:bot, {}:bot, T1:bot, num:bot, {value: T1}:bot, void:bot, ret__setNum__global:bot, setNum__global:bot, function:bot, T2:bot, str:bot, {value: T2}:bot, ret__setStr__global:bot, setStr__global:bot, T3:bot, v__global:bot, {value: T3}:bot
 
 1: [shared__global <= {}]
- shared__global:{}, T1:bot, num:bot, {value: T1}:bot, undefined:bot, ret__setNum:bot, T2:bot, str:bot, {value: T2}:bot, ret__setStr:bot, T3:bot, v__global:bot, {value: T3}:bot
+ shared__global:{}, T1:bot, num:bot, {value: T1}:bot, void:bot, ret__setNum__global:bot, setNum__global:bot, function:bot, T2:bot, str:bot, {value: T2}:bot, ret__setStr__global:bot, setStr__global:bot, T3:bot, v__global:bot, {value: T3}:bot
 
 2: [T1 <= num]
- shared__global:{}, T1:num, {value: T1}:bot, undefined:bot, ret__setNum:bot, T2:bot, str:bot, {value: T2}:bot, ret__setStr:bot, T3:bot, v__global:bot, {value: T3}:bot
+ shared__global:{}, T1:num, {value: T1}:bot, void:bot, ret__setNum__global:bot, setNum__global:bot, function:bot, T2:bot, str:bot, {value: T2}:bot, ret__setStr__global:bot, setStr__global:bot, T3:bot, v__global:bot, {value: T3}:bot
 
 3: [shared__global <= {value: T1}]
- (shared__global: {value: T1}), T1:num, undefined:bot, ret__setNum:bot, T2:bot, str:bot, {value: T2}:bot, ret__setStr:bot, T3:bot, v__global:bot, {value: T3}:bot
+ (shared__global: {value: T1}), T1:num, void:bot, ret__setNum__global:bot, setNum__global:bot, function:bot, T2:bot, str:bot, {value: T2}:bot, ret__setStr__global:bot, setStr__global:bot, T3:bot, v__global:bot, {value: T3}:bot
 
-4: [undefined <= ret__setNum]
- (shared__global: {value: T1}), T1:num, undefined:bot, ret__setNum:bot, T2:bot, str:bot, {value: T2}:bot, ret__setStr:bot, T3:bot, v__global:bot, {value: T3}:bot
+4: [void <= ret__setNum__global]
+ (shared__global: {value: T1}), T1:num, void:bot, ret__setNum__global:void, setNum__global:bot, function:bot, T2:bot, str:bot, {value: T2}:bot, ret__setStr__global:bot, setStr__global:bot, T3:bot, v__global:bot, {value: T3}:bot
 
-5: [T2 <= str]
- (shared__global: {value: T1}), T1:num, undefined:bot, ret__setNum:bot, T2:str, {value: T2}:bot, ret__setStr:bot, T3:bot, v__global:bot, {value: T3}:bot
+5: [setNum__global <= function]
+ (shared__global: {value: T1}), T1:num, void:bot, ret__setNum__global:void, setNum__global:function, T2:bot, str:bot, {value: T2}:bot, ret__setStr__global:bot, setStr__global:bot, T3:bot, v__global:bot, {value: T3}:bot
 
-6: [shared__global <= {value: T2}]
- (shared__global: {value: T1}), T1:num, undefined:bot, ret__setNum:bot, T2:num, ret__setStr:bot, T3:bot, v__global:bot, {value: T3}:bot
+6: [T2 <= str]
+ (shared__global: {value: T1}), T1:num, void:bot, ret__setNum__global:void, setNum__global:function, T2:str, {value: T2}:bot, ret__setStr__global:bot, setStr__global:bot, T3:bot, v__global:bot, {value: T3}:bot
 
-7: [undefined <= ret__setStr]
- (shared__global: {value: T1}), T1:num, undefined:bot, ret__setNum:bot, T2:num, ret__setStr:bot, T3:bot, v__global:bot, {value: T3}:bot
+7: [shared__global <= {value: T2}]
+ (shared__global: {value: T1}), T1:num, void:bot, ret__setNum__global:void, setNum__global:function, T2:num, ret__setStr__global:bot, setStr__global:bot, T3:bot, v__global:bot, {value: T3}:bot
 
-8: [T3 <= v__global]
- (shared__global: {value: T1}), T1:num, undefined:bot, ret__setNum:bot, T2:num, ret__setStr:bot, T3:bot, v__global:bot, {value: T3}:bot
+8: [void <= ret__setStr__global]
+ (shared__global: {value: T1}), T1:num, void:bot, ret__setNum__global:void, setNum__global:function, T2:num, ret__setStr__global:void, setStr__global:bot, T3:bot, v__global:bot, {value: T3}:bot
 
-9: [shared__global <= {value: T3}]
- (shared__global: {value: T1}), T1:num, undefined:bot, ret__setNum:bot, T2:num, ret__setStr:bot, T3:num, v__global:num
+9: [setStr__global <= function]
+ (shared__global: {value: T1}), T1:num, void:bot, ret__setNum__global:void, setNum__global:function, T2:num, ret__setStr__global:void, setStr__global:function, T3:bot, v__global:bot, {value: T3}:bot
+
+10: [T3 <= v__global]
+ (shared__global: {value: T1}), T1:num, void:bot, ret__setNum__global:void, setNum__global:function, T2:num, ret__setStr__global:void, setStr__global:function, T3:bot, v__global:bot, {value: T3}:bot
+
+11: [shared__global <= {value: T3}]
+ (shared__global: {value: T1}), T1:num, void:bot, ret__setNum__global:void, setNum__global:function, T2:num, ret__setStr__global:void, setStr__global:function, T3:num, v__global:num
 
 ──────────────────────────────────────────────────────
 ⚠  ERROS DE TIPO:
    CONFLICT: num vs str  (union(T1,T2))
 
 FINAL:
-  ret__setNum     :  bot
-  ret__setStr     :  bot
-  shared__global  :  {value: num}
-  v__global       :  num
+  ret__setNum__global  :  void
+  ret__setStr__global  :  void
+  setNum__global       :  function
+  setStr__global       :  function
+  shared__global       :  {value: num}
+  v__global            :  num
 

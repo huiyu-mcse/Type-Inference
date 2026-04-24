@@ -11,5 +11,3 @@ function setStr() {
 }
 
 var v = shared.value;
-
-//TODO: solver failed

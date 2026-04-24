@@ -1,0 +1,58 @@
+
+Constraints:
+  C01: T1 <= str
+  C02: greeting__greet__global <= num
+  C03: T1 <= num
+  C04: T2 <= num
+  C05: T2 <= num
+  C06: name__greet__global <= num
+  C07: T3 <= num
+  C08: T3 <= message__greet__global
+  C09: message__greet__global <= ret__greet__global
+  C10: greet__global <= function
+
+──────────────────────────────────────────────────────
+Inicio:
+ T1:bot, str:bot, greeting__greet__global:bot, num:bot, T2:bot, name__greet__global:bot, T3:bot, message__greet__global:bot, ret__greet__global:bot, greet__global:bot, function:bot
+
+1: [T1 <= str]
+ T1:str, greeting__greet__global:bot, num:bot, T2:bot, name__greet__global:bot, T3:bot, message__greet__global:bot, ret__greet__global:bot, greet__global:bot, function:bot
+
+2: [greeting__greet__global <= num]
+ T1:str, greeting__greet__global:num, T2:bot, name__greet__global:bot, T3:bot, message__greet__global:bot, ret__greet__global:bot, greet__global:bot, function:bot
+
+3: [T1 <= num]
+ T1:str, greeting__greet__global:num, T2:bot, name__greet__global:bot, T3:bot, message__greet__global:bot, ret__greet__global:bot, greet__global:bot, function:bot
+
+4: [T2 <= num]
+ T1:str, greeting__greet__global:num, T2:num, name__greet__global:bot, T3:bot, message__greet__global:bot, ret__greet__global:bot, greet__global:bot, function:bot
+
+5: [T2 <= num]
+ T1:str, greeting__greet__global:num, T2:num, name__greet__global:bot, T3:bot, message__greet__global:bot, ret__greet__global:bot, greet__global:bot, function:bot
+
+6: [name__greet__global <= num]
+ T1:str, greeting__greet__global:num, T2:num, name__greet__global:num, T3:bot, message__greet__global:bot, ret__greet__global:bot, greet__global:bot, function:bot
+
+7: [T3 <= num]
+ T1:str, greeting__greet__global:num, T2:num, name__greet__global:num, T3:num, message__greet__global:bot, ret__greet__global:bot, greet__global:bot, function:bot
+
+8: [T3 <= message__greet__global]
+ T1:str, greeting__greet__global:num, T2:num, name__greet__global:num, T3:num, message__greet__global:num, ret__greet__global:bot, greet__global:bot, function:bot
+
+9: [message__greet__global <= ret__greet__global]
+ T1:str, greeting__greet__global:num, T2:num, name__greet__global:num, T3:num, message__greet__global:num, ret__greet__global:num, greet__global:bot, function:bot
+
+10: [greet__global <= function]
+ T1:str, greeting__greet__global:num, T2:num, name__greet__global:num, T3:num, message__greet__global:num, ret__greet__global:num, greet__global:function
+
+──────────────────────────────────────────────────────
+⚠  ERROS DE TIPO:
+   CONFLICT: str vs num  (T1 <= num)
+
+FINAL:
+  greet__global            :  function
+  greeting__greet__global  :  num
+  message__greet__global   :  num
+  name__greet__global      :  num
+  ret__greet__global       :  num
+

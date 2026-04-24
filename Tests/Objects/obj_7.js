@@ -5,7 +5,6 @@ var tmp = obj.value;
 var out = {};
 out.result = tmp;
 
-
 var data = {};
 data.id = 1;
 

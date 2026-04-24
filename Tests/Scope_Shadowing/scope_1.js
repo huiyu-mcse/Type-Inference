@@ -2,11 +2,10 @@ var val = 42;
 
 function transform(val) {
   var local = val;
-  var out   = local;
+  var out = local;
 }
 
 var copy = val;
-
 
 var settings = {};
 
@@ -16,6 +15,6 @@ function setNetwork() {
 }
 
 function setApp() {
-  settings.debug   = true;
+  settings.debug = true;
   settings.version = 2;
 }

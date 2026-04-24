@@ -7,4 +7,3 @@ function h(y) {
 }
 
 module.exports = h;
-

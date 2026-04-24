@@ -36,6 +36,81 @@ function envDeclare(env, name, scope) {
   return tv;
 }
 
+// ── function node helper ──────────────────────────────────────────────────────
+// inferFuncNode(funcNode, fnName, env, scope) → typeVar
+// for FunctionExpression, ArrowFunctionExpression, and the FunctionExpression-as-property case inside ObjectExpression.
+//   const f = function(){}    → variable name "f"       (from handleRHS)
+//   { add: function(){} }     → property key  "add"     (from ObjectExpression)
+
+function inferFuncNode(funcNode, fnName, fnScope, env, xTarget) {
+  const qualName = `${fnName}__${fnScope}`;
+
+  const paramNames = funcNode.params.map((p) => p.name);
+  functionParams.set(qualName, paramNames);
+
+  const fnEnv = new Map(env);
+  const paramTVs = [];
+  for (const p of funcNode.params) {
+    paramTVs.push(envDeclare(fnEnv, p.name, qualName));
+  }
+
+  let hasReturn;
+  if (
+    funcNode.type === "ArrowFunctionExpression" &&
+    funcNode.body.type !== "BlockStatement"
+  ) {
+    const Xbody = inferExpr(funcNode.body, fnEnv, qualName);
+    addCons(Xbody, `ret__${qualName}`);
+    hasReturn = true;
+  } else {
+    hasReturn = inferStmt(funcNode.body, fnEnv, qualName);
+  }
+
+  if (!hasReturn) {
+    addCons("void", `ret__${qualName}`);
+  }
+
+  const retTV = `ret__${qualName}`;
+  functionTypes.set(qualName, { params: paramTVs, ret: retTV });
+
+  if (xTarget) {
+    addCons(xTarget, "function");
+  }
+}
+
+// separeted to deal with case when a property is a function
+function inferObjectExpr(node, env, scope, ownerName) {
+  const Xobj = fresh();
+
+  if (node.properties.length === 0) {
+    addCons(Xobj, "{}");
+    return Xobj;
+  }
+
+  for (const p of node.properties) {
+    const key = String(p.key.name ?? p.key.value);
+    let Xval;
+
+    if (
+      p.value.type === "FunctionExpression" ||
+      p.value.type === "ArrowFunctionExpression"
+    ) {
+      const localName = p.value.id?.name ?? key;
+      const fnName = ownerName ? `${ownerName}.${localName}` : localName;
+      const fnScope = scope;
+      const Xval_fn = fresh();
+      inferFuncNode(p.value, fnName, fnScope, env, Xval_fn);
+      Xval = Xval_fn;
+    } else {
+      Xval = inferExpr(p.value, env, scope);
+    }
+
+    addCons(Xobj, `{${key}: ${Xval}}`);
+  }
+
+  return Xobj;
+}
+
 // ── Expression inference ──────────────────────────────────────────────────────
 // inferExpr(node, env, scope) → typeVar
 // Generates constraints for the expression and returns its type variable.
@@ -107,6 +182,10 @@ function inferExpr(node, env, scope) {
       return Xa;
     }
 
+    // ObjectExpression
+    case "ObjectExpression":
+      return inferObjectExpr(node, env, scope, null);
+
     // ── Member expression used inside a larger expression
     // ── Can be object property or Array index lookup
     case "MemberExpression": {
@@ -134,19 +213,33 @@ function inferExpr(node, env, scope) {
       return X3;
     }
 
-    // objeto
-    case "ObjectExpression": {
-      const Xobj = fresh();
-      if (node.properties.length === 0) {
-        addCons(Xobj, "{}");
-      } else {
-        for (const p of node.properties) {
-          const Xval = inferExpr(p.value, env, scope);
-          const key = String(p.key.name ?? p.key.value);
-          addCons(Xobj, `{${key}: ${Xval}}`);
-        }
+    // ── C-Call : f(e1, …, en) as sub-expression ────────────────────────────
+    case "CallExpression": {
+      const fname = node.callee.type === "Identifier" ? node.callee.name : null;
+      if (!fname) {
+        for (const arg of node.arguments) inferExpr(arg, env, scope);
+        return fresh();
       }
-      return Xobj;
+
+      // from current scope upward to global, fname__scope first, fname__global as fallback
+      const qualName = functionParams.has(`${fname}__${scope}`)
+        ? `${fname}__${scope}`
+        : `${fname}__global`;
+
+      // fname__scope <= function
+      const fnVar = envGet(env, fname, scope);
+      addCons(fnVar, "function");
+
+      const paramNames = functionParams.get(qualName);
+      node.arguments.forEach((arg, i) => {
+        const Xi = inferExpr(arg, env, scope);
+        if (paramNames?.[i]) {
+          // param TV is  paramName__qualName  e.g. n__double__global
+          addCons(Xi, `${paramNames[i]}__${qualName}`);
+        }
+      });
+
+      return `ret__${qualName}`;
     }
 
     // ── C-Array : [e1, …, en] ─────────────────────────────────────────────
@@ -163,25 +256,12 @@ function inferExpr(node, env, scope) {
       return Xarr;
     }
 
-    // ── C-Call : f(e1, …, en) as sub-expression ────────────────────────────
-    case "CallExpression": {
-      const fname = node.callee.type === "Identifier" ? node.callee.name : null;
-      if (!fname) {
-        for (const arg of node.arguments) inferExpr(arg, env, scope);
-        return fresh();
-      }
-
-      const paramNames = functionParams.get(fname);
-
-      node.arguments.forEach((arg, i) => {
-        const Xi = inferExpr(arg, env, scope);
-
-        if (paramNames && paramNames[i]) {
-          const paramTV = `${paramNames[i]}__${fname}`;
-          addCons(Xi, paramTV);
-        }
-      });
-      return `ret__${fname}`;
+    // ── FunctionExpression / ArrowFunctionExpression: const double = (n) => n * 2;
+    case "FunctionExpression":
+    case "ArrowFunctionExpression": {
+      const fnName = node.id?.name ?? `anon__${fresh()}`;
+      inferFuncNode(node, fnName, scope, env, null);
+      return fresh();
     }
 
     // ── C-Seq : (e1, e2, …, en)  (comma / sequence expression) ──────────
@@ -206,15 +286,10 @@ function inferExpr(node, env, scope) {
       return Xr;
     }
 
-    // Update expression used as sub-expression (x++, --x)
+    // Update expression used as sub-expression (x++, --x) //TODO: check
     case "UpdateExpression": {
       const Xa = inferExpr(node.argument, env, scope);
       addCons(Xa, "num");
-
-      //TODO: check
-      //const Xr = fresh();
-      //addCons(Xr, "num");
-      //return Xr;
       return Xa;
     }
 
@@ -228,10 +303,19 @@ function inferExpr(node, env, scope) {
  * Handle  xTarget = rhs  where xTarget is already a resolved type variable.
  * Dispatches to C-EmptyObj / C-BinOp / C-PropRead / C-Assign.
  */
-function handleRHS(xTarget, rhs, env, scope) {
+function handleRHS(name, rhs, env, scope) {
+  const xTarget = envGet(env, name, scope);
+
   // ── C-EmptyObj :  x = {} ────────────────────────────────────────────────
   if (rhs.type === "ObjectExpression" && rhs.properties.length === 0) {
     addCons(xTarget, "{}");
+    return;
+  }
+
+  // ── C-Obj: name as ownerName
+  if (rhs.type === "ObjectExpression") {
+    const Xobj = inferObjectExpr(rhs, env, scope, name);
+    addCons(Xobj, xTarget);
     return;
   }
 
@@ -240,34 +324,40 @@ function handleRHS(xTarget, rhs, env, scope) {
     rhs.type === "BinaryExpression" &&
     ["+", "-", "*", "/", "%"].includes(rhs.operator)
   ) {
-    const X1 = inferExpr(rhs.left, env, scope); // Γ → e1 : X1
-    const X2 = inferExpr(rhs.right, env, scope); // Γ → e2 : X2
-    const X3 = fresh(); // X3 = Xres (result)
-    // OP(X1, X2) = !3
+    const X1 = inferExpr(rhs.left, env, scope);
+    const X2 = inferExpr(rhs.right, env, scope);
+    const X3 = fresh();
     addCons(X1, "num");
     addCons(X2, "num");
     addCons(X3, "num");
-    // X3 ↔ X0  where X0 = Γ(x)
     addCons(X3, xTarget);
     return;
   }
 
   // ── C-PropRead :  x = e.p ───────────────────────────────────────────────
   if (rhs.type === "MemberExpression" && !rhs.computed) {
-    const X1 = inferExpr(rhs.object, env, scope); // Γ → e : X1
-    const X3 = fresh(); // X3 fresh
+    const X1 = inferExpr(rhs.object, env, scope);
+    const X3 = fresh();
     const prop = rhs.property.name;
-    // { X3 ↔ X2 ,  X1 ↔ {p : X3} }   where X2 = xTarget = Γ(x)
     addCons(X3, xTarget);
     addCons(X1, `{${prop}: ${X3}}`);
     return;
   }
 
-  // ── C-Assign  :  x = e  (general case) ──────────────────────────────────
+  // new name, pass xTarget
+  if (
+    rhs.type === "FunctionExpression" ||
+    rhs.type === "ArrowFunctionExpression"
+  ) {
+    const fnName = rhs.id?.name ?? name;
+    inferFuncNode(rhs, fnName, scope, env, xTarget);
+    return;
+  }
+
+  // ── C-Assign
   const X1 = inferExpr(rhs, env, scope);
   addCons(X1, xTarget);
 }
-
 // ── Statement inference ───────────────────────────────────────────────────────
 // inferStmt(node, env, scope)  – generates constraints, no return value.
 
@@ -293,8 +383,10 @@ function inferStmt(node, env, scope) {
     case "VariableDeclaration":
       for (const decl of node.declarations) {
         //const xVar = envGet(env, decl.id.name, scope);
-        const xVar = envDeclare(env, decl.id.name, scope);
-        if (decl.init) handleRHS(xVar, decl.init, env, scope);
+        //const xVar = envDeclare(env, decl.id.name, scope);
+        //if (decl.init) handleRHS(xVar, decl.init, env, scope);
+        envDeclare(env, decl.id.name, scope);
+        if (decl.init) handleRHS(decl.id.name, decl.init, env, scope);
       }
       break;
 
@@ -405,43 +497,32 @@ function inferStmt(node, env, scope) {
 
     // ── Function declaration  →  new scope ──────────────────────────────────
     case "FunctionDeclaration": {
-      //const fnName = node.id ? node.id.name : `anon${fresh()}`;
       const fnName = node.id.name;
+      const qualName = `${fnName}__${scope}`;
 
       const paramNames = node.params.map((p) => p.name);
-      functionParams.set(fnName, paramNames);
+      functionParams.set(qualName, paramNames);
 
       const paramTVs = [];
-
-      const fnEnv = new Map(env); // inherit outer env (closure semantics)
-      //for (const p of node.params) envGet(fnEnv, p.name, fnName);  // TODO:check
+      const fnEnv = new Map(env);
       for (const p of node.params) {
-        //envDeclare(fnEnv, p.name, fnName); // TODO:problem
-        const tv = envDeclare(fnEnv, p.name, fnName);
-        paramTVs.push(tv);
+        paramTVs.push(envDeclare(fnEnv, p.name, qualName));
       }
 
-      /*
-      node.params.forEach((p, i) => {
-        fnEnv.set(p.name, `p${i + 1}__${fnName}`);
-      });
-      */
-      //inferStmt(node.body, fnEnv, fnName);
-
-      // 3. return type
-      const retTV = `ret__${fnName}`;
-
-      const hasReturn = inferStmt(node.body, fnEnv, fnName);
-
+      const retTV = `ret__${qualName}`;
+      const hasReturn = inferStmt(node.body, fnEnv, qualName);
       if (!hasReturn) {
-        addCons("undefined", retTV);
+        addCons("void", retTV);
       }
 
-      // 4. function type
-      functionTypes.set(fnName, {
+      functionTypes.set(qualName, {
         params: paramTVs,
         ret: retTV,
       });
+
+      // new literal -> function
+      const fnTV = envDeclare(env, fnName, scope);
+      addCons(fnTV, "function");
       break;
     }
 
@@ -470,6 +551,8 @@ function inferStmt(node, env, scope) {
     }
 
     // ── C-Return ─────────────────────────────────────────────────────────────
+    // scope here is already the qualName of the enclosing function
+    // (e.g. "double__global"), so ret__${scope} = ret__double__global.
     case "ReturnStatement":
       if (node.argument) {
         const X1 = inferExpr(node.argument, env, scope);
@@ -478,7 +561,6 @@ function inferStmt(node, env, scope) {
         addCons("void", `ret__${scope}`);
       }
       return true;
-    //break;
 
     // ── C-Throw ─────────────────────────────────────────────────────────────
     case "ThrowStatement":
@@ -518,8 +600,9 @@ function inferExprStmt(node, env, scope) {
 
       // x = rhs
       if (lhs.type === "Identifier") {
-        const xVar = envGet(env, lhs.name, scope);
-        handleRHS(xVar, rhs, env, scope);
+        //const xVar = envGet(env, lhs.name, scope);
+        //handleRHS(xVar, rhs, env, scope);
+        handleRHS(lhs.name, rhs, env, scope);
         return;
       }
 
@@ -622,7 +705,7 @@ console.log(`Total: ${constraints.length} constraint(s)\n`);
 console.log("\nFunction Types");
 console.log(SEP);
 
-for (const [f, t] of functionTypes.entries()) {
+for (const [qualName, t] of functionTypes.entries()) {
   const params = t.params.join(", ");
-  console.log(`  ${f} : (${params}) -> ${t.ret}`);
+  console.log(`  ${qualName} : (${params}) -> ${t.ret}`);
 }

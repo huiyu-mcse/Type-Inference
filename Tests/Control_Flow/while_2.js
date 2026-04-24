@@ -1,6 +1,6 @@
 var state = {};
 state.running = true;
-state.count   = 0;
+state.count = 0;
 
 var flag = state.running;
 

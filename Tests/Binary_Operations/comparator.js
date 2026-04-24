@@ -16,4 +16,3 @@ function add(a, b) {
 }
 
 // var a = add(1, 1); not rule for function application
-

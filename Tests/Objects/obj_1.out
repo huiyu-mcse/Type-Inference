@@ -6,39 +6,44 @@ Constraints:
   C4: T2 <= a__global
   C5: person__global <= {age: T2}
   C6: a__global <= b__global
-  C7: undefined <= ret__greet
+  C7: void <= ret__greet__global
+  C8: greet__global <= function
 
 ──────────────────────────────────────────────────────
 Inicio:
- person__global:bot, {}:bot, T1:bot, num:bot, {age: T1}:bot, T2:bot, a__global:bot, {age: T2}:bot, b__global:bot, undefined:bot, ret__greet:bot
+ person__global:bot, {}:bot, T1:bot, num:bot, {age: T1}:bot, T2:bot, a__global:bot, {age: T2}:bot, b__global:bot, void:bot, ret__greet__global:bot, greet__global:bot, function:bot
 
 1: [person__global <= {}]
- person__global:{}, T1:bot, num:bot, {age: T1}:bot, T2:bot, a__global:bot, {age: T2}:bot, b__global:bot, undefined:bot, ret__greet:bot
+ person__global:{}, T1:bot, num:bot, {age: T1}:bot, T2:bot, a__global:bot, {age: T2}:bot, b__global:bot, void:bot, ret__greet__global:bot, greet__global:bot, function:bot
 
 2: [T1 <= num]
- person__global:{}, T1:num, {age: T1}:bot, T2:bot, a__global:bot, {age: T2}:bot, b__global:bot, undefined:bot, ret__greet:bot
+ person__global:{}, T1:num, {age: T1}:bot, T2:bot, a__global:bot, {age: T2}:bot, b__global:bot, void:bot, ret__greet__global:bot, greet__global:bot, function:bot
 
 3: [person__global <= {age: T1}]
- (person__global: {age: T1}), T1:num, T2:bot, a__global:bot, {age: T2}:bot, b__global:bot, undefined:bot, ret__greet:bot
+ (person__global: {age: T1}), T1:num, T2:bot, a__global:bot, {age: T2}:bot, b__global:bot, void:bot, ret__greet__global:bot, greet__global:bot, function:bot
 
 4: [T2 <= a__global]
- (person__global: {age: T1}), T1:num, T2:bot, a__global:bot, {age: T2}:bot, b__global:bot, undefined:bot, ret__greet:bot
+ (person__global: {age: T1}), T1:num, T2:bot, a__global:bot, {age: T2}:bot, b__global:bot, void:bot, ret__greet__global:bot, greet__global:bot, function:bot
 
 5: [person__global <= {age: T2}]
- (person__global: {age: T2}), T1:num, T2:num, a__global:num, b__global:bot, undefined:bot, ret__greet:bot
+ (person__global: {age: T2}), T1:num, T2:num, a__global:num, b__global:bot, void:bot, ret__greet__global:bot, greet__global:bot, function:bot
 
 6: [a__global <= b__global]
- (person__global: {age: T2}), T1:num, T2:num, a__global:num, b__global:num, undefined:bot, ret__greet:bot
+ (person__global: {age: T2}), T1:num, T2:num, a__global:num, b__global:num, void:bot, ret__greet__global:bot, greet__global:bot, function:bot
 
-7: [undefined <= ret__greet]
- (person__global: {age: T2}), T1:num, T2:num, a__global:num, b__global:num, undefined:bot, ret__greet:bot
+7: [void <= ret__greet__global]
+ (person__global: {age: T2}), T1:num, T2:num, a__global:num, b__global:num, void:bot, ret__greet__global:void, greet__global:bot, function:bot
+
+8: [greet__global <= function]
+ (person__global: {age: T2}), T1:num, T2:num, a__global:num, b__global:num, void:bot, ret__greet__global:void, greet__global:function
 
 ──────────────────────────────────────────────────────
 ✓  Sem conflitos.
 
 FINAL:
-  a__global       :  num
-  b__global       :  num
-  person__global  :  {age: num}
-  ret__greet      :  bot
+  a__global           :  num
+  b__global           :  num
+  greet__global       :  function
+  person__global      :  {age: num}
+  ret__greet__global  :  void
 

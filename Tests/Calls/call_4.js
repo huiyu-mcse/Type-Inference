@@ -1,5 +1,5 @@
 function f(x) {
-    var y = 4;
+  var y = 4;
 }
 
 var x;

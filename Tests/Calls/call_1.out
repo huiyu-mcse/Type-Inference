@@ -1,38 +1,52 @@
 
 Constraints:
-  C1: x__f <= num
-  C2: undefined <= ret__f
-  C3: y__h <= x__f
-  C4: undefined <= ret__h
-  C5: module__global <= {exports: h__global}
+  C1: x__f__global <= num
+  C2: void <= ret__f__global
+  C3: f__global <= function
+  C4: f__global <= function
+  C5: y__h__global <= x__f__global
+  C6: void <= ret__h__global
+  C7: h__global <= function
+  C8: module__global <= {exports: h__global}
 
 ──────────────────────────────────────────────────────
 Inicio:
- x__f:bot, num:bot, undefined:bot, ret__f:bot, y__h:bot, ret__h:bot, module__global:bot, {exports: h__global}:bot
+ x__f__global:bot, num:bot, void:bot, ret__f__global:bot, f__global:bot, function:bot, y__h__global:bot, ret__h__global:bot, h__global:bot, module__global:bot, {exports: h__global}:bot
 
-1: [x__f <= num]
- x__f:num, undefined:bot, ret__f:bot, y__h:bot, ret__h:bot, module__global:bot, {exports: h__global}:bot
+1: [x__f__global <= num]
+ x__f__global:num, void:bot, ret__f__global:bot, f__global:bot, function:bot, y__h__global:bot, ret__h__global:bot, h__global:bot, module__global:bot, {exports: h__global}:bot
 
-2: [undefined <= ret__f]
- x__f:num, undefined:bot, ret__f:bot, y__h:bot, ret__h:bot, module__global:bot, {exports: h__global}:bot
+2: [void <= ret__f__global]
+ x__f__global:num, void:bot, ret__f__global:void, f__global:bot, function:bot, y__h__global:bot, ret__h__global:bot, h__global:bot, module__global:bot, {exports: h__global}:bot
 
-3: [y__h <= x__f]
- x__f:num, undefined:bot, ret__f:bot, y__h:num, ret__h:bot, module__global:bot, {exports: h__global}:bot
+3: [f__global <= function]
+ x__f__global:num, void:bot, ret__f__global:void, f__global:function, y__h__global:bot, ret__h__global:bot, h__global:bot, module__global:bot, {exports: h__global}:bot
 
-4: [undefined <= ret__h]
- x__f:num, undefined:bot, ret__f:bot, y__h:num, ret__h:bot, module__global:bot, {exports: h__global}:bot
+4: [f__global <= function]
+ x__f__global:num, void:bot, ret__f__global:void, f__global:function, y__h__global:bot, ret__h__global:bot, h__global:bot, module__global:bot, {exports: h__global}:bot
 
-5: [module__global <= {exports: h__global}]
- x__f:num, undefined:bot, ret__f:bot, y__h:num, ret__h:bot, (module__global: {exports: h__global})
+5: [y__h__global <= x__f__global]
+ x__f__global:num, void:bot, ret__f__global:void, f__global:function, y__h__global:num, ret__h__global:bot, h__global:bot, module__global:bot, {exports: h__global}:bot
+
+6: [void <= ret__h__global]
+ x__f__global:num, void:bot, ret__f__global:void, f__global:function, y__h__global:num, ret__h__global:void, h__global:bot, module__global:bot, {exports: h__global}:bot
+
+7: [h__global <= function]
+ x__f__global:num, void:bot, ret__f__global:void, f__global:function, y__h__global:num, ret__h__global:void, h__global:function, module__global:bot, {exports: h__global}:bot
+
+8: [module__global <= {exports: h__global}]
+ x__f__global:num, void:bot, ret__f__global:void, f__global:function, y__h__global:num, ret__h__global:void, h__global:function, (module__global: {exports: h__global})
 
 ──────────────────────────────────────────────────────
 ✓  Sem conflitos.
 
 FINAL:
-  module__global        :  {exports: bot}
-  ret__f                :  bot
-  ret__h                :  bot
-  x__f                  :  num
-  y__h                  :  num
+  f__global             :  function
+  h__global             :  function
+  module__global        :  {exports: function}
+  ret__f__global        :  void
+  ret__h__global        :  void
+  x__f__global          :  num
+  y__h__global          :  num
   {exports: h__global}  :  bot
 
