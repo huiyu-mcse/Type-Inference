@@ -1,0 +1,98 @@
+
+Constraints:
+  C01: T1 <= num
+  C02: T1 <= i__global
+  C03: T2 <= num
+  C04: i__global <= T2
+  C05: T2 <= i__global
+  C06: T3 <= bool
+  C07: T3 <= bool
+  C08: T4 <= num
+  C09: T4 <= j__global
+  C10: T5 <= num
+  C11: j__global <= T5
+  C12: T5 <= j__global
+  C13: T6 <= bool
+  C14: T6 <= bool
+  C15: T7 <= num
+  C16: j__global <= T7
+  C17: T7 <= j__global
+  C18: T8 <= bool
+  C19: T8 <= bool
+  C20: j__global <= num
+  C21: i__global <= num
+
+──────────────────────────────────────────────────────
+Inicio:
+ T1:bot, num:bot, i__global:bot, T2:bot, T3:bot, bool:bot, T4:bot, j__global:bot, T5:bot, T6:bot, T7:bot, T8:bot
+
+1: [T1 <= num]
+ T1:num, i__global:bot, T2:bot, T3:bot, bool:bot, T4:bot, j__global:bot, T5:bot, T6:bot, T7:bot, T8:bot
+
+2: [T1 <= i__global]
+ T1:num, i__global:num, T2:bot, T3:bot, bool:bot, T4:bot, j__global:bot, T5:bot, T6:bot, T7:bot, T8:bot
+
+3: [T2 <= num]
+ T1:num, i__global:num, T2:num, T3:bot, bool:bot, T4:bot, j__global:bot, T5:bot, T6:bot, T7:bot, T8:bot
+
+4: [i__global <= T2]
+ T1:num, i__global:num, T2:num, T3:bot, bool:bot, T4:bot, j__global:bot, T5:bot, T6:bot, T7:bot, T8:bot
+
+5: [T2 <= i__global]
+ T1:num, i__global:num, T2:num, T3:bot, bool:bot, T4:bot, j__global:bot, T5:bot, T6:bot, T7:bot, T8:bot
+
+6: [T3 <= bool]
+ T1:num, i__global:num, T2:num, T3:bool, T4:bot, j__global:bot, T5:bot, T6:bot, T7:bot, T8:bot
+
+7: [T3 <= bool]
+ T1:num, i__global:num, T2:num, T3:bool, T4:bot, j__global:bot, T5:bot, T6:bot, T7:bot, T8:bot
+
+8: [T4 <= num]
+ T1:num, i__global:num, T2:num, T3:bool, T4:num, j__global:bot, T5:bot, T6:bot, T7:bot, T8:bot
+
+9: [T4 <= j__global]
+ T1:num, i__global:num, T2:num, T3:bool, T4:num, j__global:num, T5:bot, T6:bot, T7:bot, T8:bot
+
+10: [T5 <= num]
+ T1:num, i__global:num, T2:num, T3:bool, T4:num, j__global:num, T5:num, T6:bot, T7:bot, T8:bot
+
+11: [j__global <= T5]
+ T1:num, i__global:num, T2:num, T3:bool, T4:num, j__global:num, T5:num, T6:bot, T7:bot, T8:bot
+
+12: [T5 <= j__global]
+ T1:num, i__global:num, T2:num, T3:bool, T4:num, j__global:num, T5:num, T6:bot, T7:bot, T8:bot
+
+13: [T6 <= bool]
+ T1:num, i__global:num, T2:num, T3:bool, T4:num, j__global:num, T5:num, T6:bool, T7:bot, T8:bot
+
+14: [T6 <= bool]
+ T1:num, i__global:num, T2:num, T3:bool, T4:num, j__global:num, T5:num, T6:bool, T7:bot, T8:bot
+
+15: [T7 <= num]
+ T1:num, i__global:num, T2:num, T3:bool, T4:num, j__global:num, T5:num, T6:bool, T7:num, T8:bot
+
+16: [j__global <= T7]
+ T1:num, i__global:num, T2:num, T3:bool, T4:num, j__global:num, T5:num, T6:bool, T7:num, T8:bot
+
+17: [T7 <= j__global]
+ T1:num, i__global:num, T2:num, T3:bool, T4:num, j__global:num, T5:num, T6:bool, T7:num, T8:bot
+
+18: [T8 <= bool]
+ T1:num, i__global:num, T2:num, T3:bool, T4:num, j__global:num, T5:num, T6:bool, T7:num, T8:bool
+
+19: [T8 <= bool]
+ T1:num, i__global:num, T2:num, T3:bool, T4:num, j__global:num, T5:num, T6:bool, T7:num, T8:bool
+
+20: [j__global <= num]
+ T1:num, i__global:num, T2:num, T3:bool, T4:num, j__global:num, T5:num, T6:bool, T7:num, T8:bool
+
+21: [i__global <= num]
+ T1:num, i__global:num, T2:num, T3:bool, T4:num, j__global:num, T5:num, T6:bool, T7:num, T8:bool
+
+──────────────────────────────────────────────────────
+✓  Sem conflitos.
+
+FINAL:
+  i__global  :  num
+  j__global  :  num
+

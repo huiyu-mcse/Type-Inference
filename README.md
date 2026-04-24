@@ -51,8 +51,6 @@
 - [x] Break
 - [x] Continue
 
-Provavelmente o break e o continue não são precisos porque não têm nenhuma relevância para a análise de tipos.
-
 ### Declarations:
 
 - [x] VariableDeclaration
@@ -64,10 +62,11 @@ Provavelmente o break e o continue não são precisos porque não têm nenhuma r
 - [x] ReturnStatement
 - [x] ThrowStatement
 - [x] TryStatement
-- [ ] LabeledStatement
-- [ ] EmptyStatement
-- [ ] DebuggerStatement
-- [ ] WithStatement
+- [x] LabeledStatement
+- [x] EmptyStatement
+- [x] DebuggerStatement
+  <!-- Este aqui devia desaparecer. É um pesadelo para análise de tipos -->
+  <!-- - [ ] WithStatement -->
 - [ ] ImportDeclaration / ExportDeclaration
 
 ## Expression Statements

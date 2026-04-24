@@ -504,6 +504,12 @@ function inferStmt(node, env, scope) {
       break;
     }
 
+    // ── C-Labeled ─────────────────────────────────────────────────────────────
+    case "LabeledStatement": {
+      inferStmt(node.body, env, scope);
+      break;
+    }
+
     // ── Function declaration  →  new scope ──────────────────────────────────
     case "FunctionDeclaration": {
       const fnName = node.id.name;
