@@ -62,7 +62,6 @@ Provavelmente o break e o continue não são precisos porque não têm nenhuma r
 ### Other:
 
 - [x] ReturnStatement
-- [ ] TryStatement
 - [x] ThrowStatement
 - [x] TryStatement
 - [ ] ThrowStatement

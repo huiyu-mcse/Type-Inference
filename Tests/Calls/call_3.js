@@ -1,6 +1,6 @@
 function f(x) {
-    var y = 4;
-    return;
+  var y = 4;
+  return;
 }
 
 var x;

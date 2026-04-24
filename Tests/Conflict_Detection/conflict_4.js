@@ -1,4 +1,3 @@
-
 // box__global <= {} and box__global <= num -> conflict
 
 var box = {};

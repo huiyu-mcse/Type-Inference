@@ -96,8 +96,8 @@ function inferObjectExpr(node, env, scope, ownerName) {
       p.value.type === "ArrowFunctionExpression"
     ) {
       const localName = p.value.id?.name ?? key;
-      const fnName    = ownerName ? `${ownerName}.${localName}` : localName;
-      const fnScope   = scope;
+      const fnName = ownerName ? `${ownerName}.${localName}` : localName;
+      const fnScope = scope;
       const Xval_fn = fresh();
       inferFuncNode(p.value, fnName, fnScope, env, Xval_fn);
       Xval = Xval_fn;
@@ -222,10 +222,9 @@ function inferExpr(node, env, scope) {
       }
 
       // from current scope upward to global, fname__scope first, fname__global as fallback
-      const qualName =
-        functionParams.has(`${fname}__${scope}`)
-          ? `${fname}__${scope}`
-          : `${fname}__global`;
+      const qualName = functionParams.has(`${fname}__${scope}`)
+        ? `${fname}__${scope}`
+        : `${fname}__global`;
 
       // fname__scope <= function
       const fnVar = envGet(env, fname, scope);
@@ -346,7 +345,10 @@ function handleRHS(name, rhs, env, scope) {
   }
 
   // new name, pass xTarget
-  if (rhs.type === "FunctionExpression" || rhs.type === "ArrowFunctionExpression") {
+  if (
+    rhs.type === "FunctionExpression" ||
+    rhs.type === "ArrowFunctionExpression"
+  ) {
     const fnName = rhs.id?.name ?? name;
     inferFuncNode(rhs, fnName, scope, env, xTarget);
     return;
@@ -495,7 +497,7 @@ function inferStmt(node, env, scope) {
 
     // ── Function declaration  →  new scope ──────────────────────────────────
     case "FunctionDeclaration": {
-      const fnName   = node.id.name;
+      const fnName = node.id.name;
       const qualName = `${fnName}__${scope}`;
 
       const paramNames = node.params.map((p) => p.name);
@@ -506,7 +508,7 @@ function inferStmt(node, env, scope) {
       for (const p of node.params) {
         paramTVs.push(envDeclare(fnEnv, p.name, qualName));
       }
-      
+
       const retTV = `ret__${qualName}`;
       const hasReturn = inferStmt(node.body, fnEnv, qualName);
       if (!hasReturn) {

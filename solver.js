@@ -183,7 +183,6 @@ class State {
 
   // ── Processa uma constraint ────────────────────────────────────────────────
   process(lhs, rhs) {
-    
     // case if base type literal appears at the left
     if (isBaseType(lhs)) {
       if (isTypeVar(rhs)) {
@@ -191,7 +190,7 @@ class State {
       }
       return;
     }
-      
+
     if (isBaseType(rhs)) {
       this._setBase(this.find(lhs), rhs, `${lhs} <= ${rhs}`);
       this.consumedLits.add(rhs);

@@ -9,4 +9,3 @@ x.label = "oops";
 var y = 5;
 y.p = "test";
 var hui = y + y.p;
-

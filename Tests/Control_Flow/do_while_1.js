@@ -1,7 +1,4 @@
-var x = 1; 
+var x = 1;
 do {
-  x = x*x; 
-} while (x < 20); 
-
-
-
+  x = x * x;
+} while (x < 20);

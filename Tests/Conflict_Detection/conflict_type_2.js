@@ -11,4 +11,3 @@ function setStr() {
 }
 
 var v = shared.value;
-

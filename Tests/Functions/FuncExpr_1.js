@@ -1,5 +1,5 @@
-const f = function(a, b) {
+const f = function (a, b) {
   return a * b;
 };
 
-f(1,2);
+f(1, 2);

@@ -1,13 +1,10 @@
 function f(a, b) {
-    return a + b;
+  return a + b;
 }
 
-f(3,4);
-
+f(3, 4);
 
 function x(a, b) {
-    var c = a + b;
-    f = (a) => a * 2;
+  var c = a + b;
+  f = (a) => a * 2;
 }
-
-//Problem: apparently a fucntion can accept inumerous arguments WTFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF

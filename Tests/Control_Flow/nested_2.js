@@ -1,6 +1,6 @@
-var flag   = true;
+var flag = true;
 var output = 0;
-var delta  = 1;
+var delta = 1;
 
 function h(delta, output) {
   var flag = true;
@@ -13,4 +13,3 @@ function h(delta, output) {
   }
   var delta = "str";
 }
-
