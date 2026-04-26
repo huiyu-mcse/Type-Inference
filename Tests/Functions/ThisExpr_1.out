@@ -1,0 +1,22 @@
+
+Constraints:
+  C1: void <= ret__Car__global
+  C2: Car__global <= function
+
+──────────────────────────────────────────────────────
+Inicio:
+ void:bot, ret__Car__global:bot, Car__global:bot, function:bot
+
+1: [void <= ret__Car__global]
+ void:bot, ret__Car__global:void, Car__global:bot, function:bot
+
+2: [Car__global <= function]
+ void:bot, ret__Car__global:void, Car__global:function
+
+──────────────────────────────────────────────────────
+✓  Sem conflitos.
+
+FINAL:
+  Car__global       :  function
+  ret__Car__global  :  void
+

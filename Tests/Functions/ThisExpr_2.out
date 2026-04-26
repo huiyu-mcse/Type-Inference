@@ -1,0 +1,60 @@
+
+Constraints:
+  C01: T2 <= str
+  C02: T1 <= {name: T2}
+  C03: T4 <= str
+  C04: this__user.greet__global <= {name: T5}
+  C05: T4 <= num
+  C06: T5 <= num
+  C07: T6 <= num
+  C08: T6 <= ret__user.greet__global
+  C09: T3 <= function
+  C10: T1 <= {greet: T3}
+  C11: T1 <= user__global
+
+──────────────────────────────────────────────────────
+Inicio:
+ T2:bot, str:bot, T1:bot, {name: T2}:bot, T4:bot, this__user.greet__global:bot, {name: T5}:bot, num:bot, T5:bot, T6:bot, ret__user.greet__global:bot, T3:bot, function:bot, {greet: T3}:bot, user__global:bot
+
+1: [T2 <= str]
+ T2:str, T1:bot, {name: T2}:bot, T4:bot, this__user.greet__global:bot, {name: T5}:bot, num:bot, T5:bot, T6:bot, ret__user.greet__global:bot, T3:bot, function:bot, {greet: T3}:bot, user__global:bot
+
+2: [T1 <= {name: T2}]
+ T2:str, (T1: {name: T2}), T4:bot, this__user.greet__global:bot, {name: T5}:bot, num:bot, T5:bot, T6:bot, ret__user.greet__global:bot, T3:bot, function:bot, {greet: T3}:bot, user__global:bot
+
+3: [T4 <= str]
+ T2:str, (T1: {name: T2}), T4:str, this__user.greet__global:bot, {name: T5}:bot, num:bot, T5:bot, T6:bot, ret__user.greet__global:bot, T3:bot, function:bot, {greet: T3}:bot, user__global:bot
+
+4: [this__user.greet__global <= {name: T5}]
+ T2:str, (T1: {name: T2}), T4:str, (this__user.greet__global: {name: T5}), num:bot, T5:bot, T6:bot, ret__user.greet__global:bot, T3:bot, function:bot, {greet: T3}:bot, user__global:bot
+
+5: [T4 <= num]
+ T2:str, (T1: {name: T2}), T4:str, (this__user.greet__global: {name: T5}), T5:bot, T6:bot, ret__user.greet__global:bot, T3:bot, function:bot, {greet: T3}:bot, user__global:bot
+
+6: [T5 <= num]
+ T2:str, (T1: {name: T2}), T4:str, (this__user.greet__global: {name: T5}), T5:num, T6:bot, ret__user.greet__global:bot, T3:bot, function:bot, {greet: T3}:bot, user__global:bot
+
+7: [T6 <= num]
+ T2:str, (T1: {name: T2}), T4:str, (this__user.greet__global: {name: T5}), T5:num, T6:num, ret__user.greet__global:bot, T3:bot, function:bot, {greet: T3}:bot, user__global:bot
+
+8: [T6 <= ret__user.greet__global]
+ T2:str, (T1: {name: T2}), T4:str, (this__user.greet__global: {name: T5}), T5:num, T6:num, ret__user.greet__global:num, T3:bot, function:bot, {greet: T3}:bot, user__global:bot
+
+9: [T3 <= function]
+ T2:str, (T1: {name: T2}), T4:str, (this__user.greet__global: {name: T5}), T5:num, T6:num, ret__user.greet__global:num, T3:function, {greet: T3}:bot, user__global:bot
+
+10: [T1 <= {greet: T3}]
+ T2:str, (T1: {name: T2, greet: T3}), T4:str, (this__user.greet__global: {name: T5}), T5:num, T6:num, ret__user.greet__global:num, T3:function, user__global:bot
+
+11: [T1 <= user__global]
+ T2:str, (T1: {name: T2, greet: T3}), T4:str, (this__user.greet__global: {name: T5}), T5:num, T6:num, ret__user.greet__global:num, T3:function, (user__global: {name: T2, greet: T3})
+
+──────────────────────────────────────────────────────
+⚠  ERROS DE TIPO:
+   CONFLICT: str vs num  (T4 <= num)
+
+FINAL:
+  ret__user.greet__global   :  num
+  this__user.greet__global  :  {name: num}
+  user__global              :  {name: str, greet: function}
+

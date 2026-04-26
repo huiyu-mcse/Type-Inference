@@ -49,6 +49,7 @@ function inferFuncNode(funcNode, fnName, fnScope, env, xTarget) {
   functionParams.set(qualName, paramNames);
 
   const fnEnv = new Map(env);
+  fnEnv.set("this", `this__${qualName}`);
   const paramTVs = [];
   for (const p of funcNode.params) {
     paramTVs.push(envDeclare(fnEnv, p.name, qualName));
@@ -99,8 +100,20 @@ function inferObjectExpr(node, env, scope, ownerName) {
       const fnName = ownerName ? `${ownerName}.${localName}` : localName;
       const fnScope = scope;
       const Xval_fn = fresh();
+      const before  = constraints.length;        // snapshot before
       inferFuncNode(p.value, fnName, fnScope, env, Xval_fn);
       Xval = Xval_fn;
+
+      // Only link owner → this if the function body actually used `this`.
+      // We detect this by checking whether this__qualName appeared in any
+      // constraint generated during the function body processing.
+      if (ownerName) {
+        const thisTV   = `this__${fnName}__${fnScope}`;
+        const thisUsed = constraints.slice(before).some(c => c.includes(thisTV));
+        if (thisUsed) {
+          addCons(envGet(env, ownerName, scope), thisTV);
+        }
+      }
     } else {
       Xval = inferExpr(p.value, env, scope);
     }
@@ -262,6 +275,11 @@ function inferExpr(node, env, scope) {
       const fnName = node.id?.name ?? `anon__${fresh()}`;
       inferFuncNode(node, fnName, scope, env, null);
       return fresh();
+    }
+
+    // ── C-This : this ─────────────────────────────────────────────────────
+    case "ThisExpression": {
+      return envGet(env, "this", scope);
     }
 
     // ── C-Seq : (e1, e2, …, en)  (comma / sequence expression) ──────────
@@ -505,6 +523,9 @@ function inferStmt(node, env, scope) {
 
       const paramTVs = [];
       const fnEnv = new Map(env);
+
+      fnEnv.set("this", `this__${qualName}`);
+      
       for (const p of node.params) {
         paramTVs.push(envDeclare(fnEnv, p.name, qualName));
       }
