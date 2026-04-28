@@ -5,43 +5,38 @@ const esprima = require("esprima");
 const fs = require("fs");
 const path = require("path");
 
-// fresh variable
+// fresh type variable
 let _cnt = 0;
 const fresh = () => `T${++_cnt}`;
 
 // constraint
 const constraints = [];
-
 const addCons = (a, b) => constraints.push(`${a} <= ${b}`);
 
-//function parameter names: used for function call type vriable mapping
+// function parameter names
 const functionParams = new Map();
-// f -> ["x", "y"]
-// type binding, to save function type variables
+// save function type variables
 const functionTypes = new Map();
 
-// environment helpers
+// environment
 const mkTV = (name, scope) => `${name}__${scope}`; //env = { "x" => "x__global" }
 
+// Γ(x)
 function envGet(env, name, scope) {
-  //envGet(env, "x", "global");
   if (!env.has(name)) env.set(name, mkTV(name, scope));
   return env.get(name);
 }
 
-// Force declaration in the current scope, shadowing outer variables
+// force declaration in the current scope
 function envDeclare(env, name, scope) {
   const tv = mkTV(name, scope);
   env.set(name, tv);
   return tv;
 }
 
-// ── function node helper ──────────────────────────────────────────────────────
-// inferFuncNode(funcNode, fnName, env, scope) → typeVar
-// for FunctionExpression, ArrowFunctionExpression, and the FunctionExpression-as-property case inside ObjectExpression.
-//   const f = function(){}    → variable name "f"       (from handleRHS)
-//   { add: function(){} }     → property key  "add"     (from ObjectExpression)
-
+// -- function node helper ----------------------------------------------------
+// for FunctionExpression, ArrowFunctionExpression,
+// and the FunctionExpression-as-property case inside ObjectExpression.
 function inferFuncNode(funcNode, fnName, fnScope, env, xTarget) {
   const qualName = `${fnName}__${fnScope}`;
 
@@ -76,9 +71,11 @@ function inferFuncNode(funcNode, fnName, fnScope, env, xTarget) {
   if (xTarget) {
     addCons(xTarget, "function");
   }
+
+  return;
 }
 
-// separeted to deal with case when a property is a function
+// for function as a property of the object
 function inferObjectExpr(node, env, scope, ownerName) {
   const Xobj = fresh();
 
@@ -111,20 +108,17 @@ function inferObjectExpr(node, env, scope, ownerName) {
   return Xobj;
 }
 
-// ── Expression inference ──────────────────────────────────────────────────────
-// inferExpr(node, env, scope) → typeVar
-// Generates constraints for the expression and returns its type variable.
-
+// -- Expression inference ----------------------------------------------------
 function inferExpr(node, env, scope) {
   if (!node) return fresh();
 
   switch (node.type) {
-    case "Literal": {
+    // -- Primitives and Variables ----------------------------------
+    case "Literal": { // e.g. 3, "haha", true,...
       const X = fresh();
       if (typeof node.value === "number") addCons(X, "num");
       else if (typeof node.value === "string") addCons(X, "str");
       else if (typeof node.value === "boolean") addCons(X, "bool");
-      // null / regex / etc. → unconstrained fresh var
       return X;
     }
 
@@ -137,43 +131,36 @@ function inferExpr(node, env, scope) {
 
     // TODO: TaggedTemplateExpression
 
-    // var
-    case "Identifier": {
-      // Γ(x)
+    case "Identifier": { // e.g. x, y,...
       return envGet(env, node.name, scope);
     }
 
-    // binary operation
+    // -- Operations ------------------------------------------------
     case "BinaryExpression":
-    case "LogicalExpression": {
+    case "LogicalExpression": { // e.g. a + b, a > b, a && b,...
       const X1 = inferExpr(node.left, env, scope);
       const X2 = inferExpr(node.right, env, scope);
       const Xr = fresh();
       const op = node.operator;
 
       if (["+", "-", "*", "/", "%"].includes(op)) {
-        // OP(X1, X2) for arithmetic: both operands ↔ num, result == num
         addCons(X1, "num");
         addCons(X2, "num");
         addCons(Xr, "num");
       } else if (
         ["<", ">", "<=", ">=", "==", "===", "!=", "!=="].includes(op)
       ) {
-        // Todo: check
         addCons(X1, X2);
         addCons(X2, X1);
-
         addCons(Xr, "bool");
       } else if (["&&", "||"].includes(op)) {
         addCons(X1, "bool");
         addCons(X2, "bool");
         addCons(Xr, "bool");
       }
-
       return Xr;
     }
 
-    // unary operation
     case "UnaryExpression": {
       const Xa = inferExpr(node.argument, env, scope);
       if (node.operator === "!") {
@@ -191,13 +178,38 @@ function inferExpr(node, env, scope) {
       return Xa;
     }
 
-    // ObjectExpression
-    case "ObjectExpression":
-      return inferObjectExpr(node, env, scope, null);
+    case "UpdateExpression": { // e.g. x++, x--,...
+      const Xa = inferExpr(node.argument, env, scope);
+      addCons(Xa, "num");
+      return Xa;
+    }
 
-    // ── Member expression used inside a larger expression
-    // ── Can be object property or Array index lookup
-    case "MemberExpression": {
+    case "ConditionalExpression": { // e.g. e1 ? e2 : e3
+      const Xcond = inferExpr(node.test, env, scope);
+      addCons(Xcond, "bool");
+      const X2 = inferExpr(node.consequent, env, scope);
+      const X3 = inferExpr(node.alternate, env, scope);
+      const Xr = fresh();
+      // Unify the types of both branches
+      addCons(X2, Xr);
+      addCons(X3, Xr);
+      return Xr;
+    }
+
+    case "SequenceExpression": { // (e1, e2, ..., en)
+      let Xlast;
+      for (const expr of node.expressions) {
+        Xlast = inferExprStmt(expr, env, scope);
+      }
+      return Xlast;
+    }
+
+    // -- Objects, Arrays and Functions -----------------------------
+    case "ObjectExpression": { // e.g. {e1, e2, ..., en}
+      return inferObjectExpr(node, env, scope, null);
+    }
+      
+    case "MemberExpression": { // e.g. obj.prop, arr[index], ...
       const Xobj = inferExpr(node.object, env, scope);
       const X3 = fresh();
 
@@ -207,13 +219,11 @@ function inferExpr(node, env, scope) {
           node.property.type === "Literal" &&
           typeof node.property.value === "string"
         )
-      ) {
-        // e.g. arr[i] or arr[0] → array index access
+      ) { // e.g. arr[i] or arr[0] → array index access
         const Xidx = inferExpr(node.property, env, scope);
         addCons(Xidx, "num");
         addCons(Xobj, `Array<${X3}>`);
-      } else {
-        // e.g. obj.prop or obj["prop"] → object property access
+      } else { // e.g. obj.prop or obj["prop"] → object property access
         const prop = node.computed
           ? String(node.property.value)
           : node.property.name;
@@ -222,20 +232,18 @@ function inferExpr(node, env, scope) {
       return X3;
     }
 
-    // ── C-Call : f(e1, …, en) as sub-expression ────────────────────────────
-    case "CallExpression": {
+    case "CallExpression": { // ex: f(e1, e2, ..., en)
       const fname = node.callee.type === "Identifier" ? node.callee.name : null;
-      if (!fname) {
+      if (!fname) { // e.g. obj.method(1, 2), (function(x){})(5), ...
         for (const arg of node.arguments) inferExpr(arg, env, scope);
         return fresh();
       }
 
-      // from current scope upward to global, fname__scope first, fname__global as fallback
+      // from current scope upward to global
       const qualName = functionParams.has(`${fname}__${scope}`)
         ? `${fname}__${scope}`
         : `${fname}__global`;
 
-      // fname__scope <= function
       const fnVar = envGet(env, fname, scope);
       addCons(fnVar, "function");
 
@@ -243,16 +251,13 @@ function inferExpr(node, env, scope) {
       node.arguments.forEach((arg, i) => {
         const Xi = inferExpr(arg, env, scope);
         if (paramNames?.[i]) {
-          // param TV is  paramName__qualName  e.g. n__double__global
           addCons(Xi, `${paramNames[i]}__${qualName}`);
         }
       });
-
       return `ret__${qualName}`;
     }
 
-    // ── C-Array : [e1, …, en] ─────────────────────────────────────────────
-    case "ArrayExpression": {
+    case "ArrayExpression": { // e.g. [e1, e2, ..., en]
       const Xelem = fresh();
       const Xarr = fresh();
       for (const elem of node.elements) {
@@ -265,74 +270,42 @@ function inferExpr(node, env, scope) {
       return Xarr;
     }
 
-    // ── FunctionExpression / ArrowFunctionExpression: const double = (n) => n * 2;
-    case "FunctionExpression":
-    case "ArrowFunctionExpression": {
+    case "FunctionExpression": // e.g. function(a) { return a; }
+    case "ArrowFunctionExpression": { // e.g. (n) => n * 2
       const fnName = node.id?.name ?? `anon__${fresh()}`;
       inferFuncNode(node, fnName, scope, env, null);
       return fresh();
     }
 
-    // ── C-Seq : (e1, e2, …, en)  (comma / sequence expression) ──────────
-    case "SequenceExpression": {
-      let Xlast;
-      for (const expr of node.expressions) {
-        Xlast = inferExprStmt(expr, env, scope);
-      }
-      return Xlast;
-    }
-
-    // ── C-Cond : e1 ? e2 : e3  (ternary / conditional expression) ────────
-    case "ConditionalExpression": {
-      const Xcond = inferExpr(node.test, env, scope);
-      addCons(Xcond, "bool");
-      const X2 = inferExpr(node.consequent, env, scope);
-      const X3 = inferExpr(node.alternate, env, scope);
-      const Xr = fresh();
-      // Unify the types of both branches
-      addCons(X2, Xr);
-      addCons(X3, Xr);
-      return Xr;
-    }
-
-    // Update expression used as sub-expression (x++, --x) //TODO: check
-    case "UpdateExpression": {
-      const Xa = inferExpr(node.argument, env, scope);
-      addCons(Xa, "num");
-      return Xa;
-    }
-
     default:
-      return fresh(); // unsupported sub-expression → unconstrained fresh var
+      return fresh();
   }
 }
 
-// ── Assignment helpers ────────────────────────────────────────────────────────
+// -- Assignment helpers ------------------------------------------------------
 /**
  * Handle  xTarget = rhs  where xTarget is already a resolved type variable.
  * Dispatches to C-EmptyObj / C-BinOp / C-PropRead / C-Assign.
  */
 function handleRHS(name, rhs, env, scope) {
   const xTarget = envGet(env, name, scope);
-
-  // ── C-EmptyObj :  x = {} ────────────────────────────────────────────────
-  if (rhs.type === "ObjectExpression" && rhs.properties.length === 0) {
+  
+  if (rhs.type === "ObjectExpression" && 
+    rhs.properties.length === 0) { // x = {}
     addCons(xTarget, "{}");
     return;
   }
 
-  // ── C-Obj: name as ownerName
-  if (rhs.type === "ObjectExpression") {
+  if (rhs.type === "ObjectExpression") { // x = {e1, ...}
     const Xobj = inferObjectExpr(rhs, env, scope, name);
     addCons(Xobj, xTarget);
     return;
   }
 
-  // ── C-BinOp   :  x = e1 op e2  (arithmetic operators) ──────────────────
   if (
     rhs.type === "BinaryExpression" &&
     ["+", "-", "*", "/", "%"].includes(rhs.operator)
-  ) {
+  ) { // x = e1 op e2
     const X1 = inferExpr(rhs.left, env, scope);
     const X2 = inferExpr(rhs.right, env, scope);
     const X3 = fresh();
@@ -343,8 +316,7 @@ function handleRHS(name, rhs, env, scope) {
     return;
   }
 
-  // ── C-PropRead :  x = e.p ───────────────────────────────────────────────
-  if (rhs.type === "MemberExpression" && !rhs.computed) {
+  if (rhs.type === "MemberExpression" && !rhs.computed) { // x = e.p
     const X1 = inferExpr(rhs.object, env, scope);
     const X3 = fresh();
     const prop = rhs.property.name;
@@ -353,7 +325,6 @@ function handleRHS(name, rhs, env, scope) {
     return;
   }
 
-  // new name, pass xTarget
   if (
     rhs.type === "FunctionExpression" ||
     rhs.type === "ArrowFunctionExpression"
@@ -363,74 +334,50 @@ function handleRHS(name, rhs, env, scope) {
     return;
   }
 
-  // ── C-Assign
-  const X1 = inferExpr(rhs, env, scope);
+  const X1 = inferExpr(rhs, env, scope); // Assign
   addCons(X1, xTarget);
 }
-// ── Statement inference ───────────────────────────────────────────────────────
-// inferStmt(node, env, scope)  – generates constraints, no return value.
 
+// -- Statement inference -----------------------------------------------------
 function inferStmt(node, env, scope) {
-  if (!node) return;
-
   let hasReturn = false;
+  if (!node) return hasReturn;
 
   switch (node.type) {
-    // ── Program root / block ────────────────────────────────────────────────
+    // -- Control Flow --------------------------------------------------------
     case "Program":
-    case "BlockStatement":
-      // C-Seq applied repeatedly
+    case "BlockStatement": {
       for (const s of node.body) {
         if (inferStmt(s, env, scope)) {
           hasReturn = true;
         }
       }
       return hasReturn;
-    //break;
+    }
 
-    // ── Variable declaration  (var / let / const) ───────────────────────────
-    case "VariableDeclaration":
-      for (const decl of node.declarations) {
-        //const xVar = envGet(env, decl.id.name, scope);
-        //const xVar = envDeclare(env, decl.id.name, scope);
-        //if (decl.init) handleRHS(xVar, decl.init, env, scope);
-        envDeclare(env, decl.id.name, scope);
-        if (decl.init) handleRHS(decl.id.name, decl.init, env, scope);
-      }
-      break;
-
-    // ── Expression statement  (assignments, updates, calls …) ───────────────
-    case "ExpressionStatement":
-      inferExprStmt(node.expression, env, scope);
-      break;
-
-    // ── C-If ────────────────────────────────────────────────────────────────
-    case "IfStatement": {
+    case "IfStatement": { // e.g. if (test) {consequent} (else {alternate})
       const Xcond = inferExpr(node.test, env, scope);
-      addCons(Xcond, "bool"); // {X1 == bool}
+      addCons(Xcond, "bool");
       inferStmt(node.consequent, env, scope);
       if (node.alternate) inferStmt(node.alternate, env, scope);
       break;
     }
 
-    // ── C-While ─────────────────────────────────────────────────────────────
-    case "WhileStatement": {
+    case "WhileStatement": { // e.g. while (test) {body}
       const Xcond = inferExpr(node.test, env, scope);
-      addCons(Xcond, "bool"); // {X1 == bool}
+      addCons(Xcond, "bool");
       inferStmt(node.body, env, scope);
       break;
     }
 
-    // ── C-DoWhile ───────────────────────────────────────────────────────────
-    case "DoWhileStatement": {
+    case "DoWhileStatement": { // e.g. do {body} while (test)
       inferStmt(node.body, env, scope);
       const Xcond = inferExpr(node.test, env, scope);
       addCons(Xcond, "bool");
       break;
     }
 
-    // ── C-Switch ────────────────────────────────────────────────────────────
-    case "SwitchStatement": {
+    case "SwitchStatement": { // e.g. switch (discriminant) {cases}
       // Infer the discriminant — its type variable is registered but not
       // constrained to any particular base type (switch works over any type).
       const Xdisc = inferExpr(node.discriminant, env, scope);
@@ -442,48 +389,38 @@ function inferStmt(node, env, scope) {
           addCons(Xdisc, Xtest);
           addCons(Xtest, Xdisc);
         }
-        // Process the body of each case (including break statements, which
-        // are ignored — they have no type-inference significance).
+
+        // process the body of each case
         for (const s of cas.consequent) inferStmt(s, env, scope);
       }
       break;
     }
 
-    // ── For loop  (desugar: init ; while(test){ body ; update }) ────────────
-    case "ForStatement": {
-      // 1. Initialize
+    case "ForStatement": { // e.g. for (init; test; update) {body}
       if (node.init) {
         if (node.init.type === "VariableDeclaration") {
           inferStmt(node.init, env, scope);
-        } else {
-          // If it's an expression like `i = 0`
+        } else { // e.g. i = 0
           inferExprStmt(node.init, env, scope);
         }
       }
 
-      // 2. Loop Condition
       if (node.test) {
         const Xcond = inferExpr(node.test, env, scope);
-        addCons(Xcond, "bool"); // The condition must evaluate to a boolean
+        addCons(Xcond, "bool");
       }
 
-      // 3. Loop Body
       inferStmt(node.body, env, scope);
 
-      // 4. Update Expression (e.g., i++)
       if (node.update) {
         inferExprStmt(node.update, env, scope);
       }
       break;
     }
 
-    // ── C-ForIn ─────────────────────────────────────────────────────────────
-    case "ForInStatement": {
-      // 1. Right side (the object/array being iterated over)
-      // We evaluate it to generate any constraints from its sub-expressions
+    case "ForInStatement": { // e.g. for (left in right) {body}
       inferExpr(node.right, env, scope);
 
-      // 2. Left side (the key variable)
       let keyVar;
       if (node.left.type === "VariableDeclaration") {
         // e.g., for (var key in obj)
@@ -499,19 +436,45 @@ function inferStmt(node, env, scope) {
         addCons(keyVar, "str");
       }
 
-      // 3. Loop Body
       inferStmt(node.body, env, scope);
       break;
     }
 
-    // ── C-Labeled ─────────────────────────────────────────────────────────────
     case "LabeledStatement": {
       inferStmt(node.body, env, scope);
       break;
     }
+    
+    case "ForOfStatement": { // e.g. for (left of right) {body}
+      inferExpr(node.right, env, scope);
 
-    // ── Function declaration  →  new scope ──────────────────────────────────
-    case "FunctionDeclaration": {
+      let valVar;
+      if (node.left.type === "VariableDeclaration") {
+        // e.g. for (const item of iterable)
+        const decl = node.left.declarations[0];
+        valVar = envDeclare(env, decl.id.name, scope);
+      } else if (node.left.type === "Identifier") {
+        // e.g. for (item of iterable)
+        valVar = envGet(env, node.left.name, scope);
+      }
+
+      // TODO: Constrain valVar by the iterable's element type once
+      // the solver supports Iterable<T> for both Array<T> and str.
+
+      inferStmt(node.body, env, scope);
+      break;
+    }
+
+    // -- Declarations --------------------------------------------------------
+    case "VariableDeclaration": { // e.g. kind identifier (= init)
+      for (const decl of node.declarations) {
+        envDeclare(env, decl.id.name, scope);
+        if (decl.init) handleRHS(decl.id.name, decl.init, env, scope);
+      }
+      break;
+    }
+
+    case "FunctionDeclaration": { // e.g. function id(params) {body}
       const fnName = node.id.name;
       const qualName = `${fnName}__${scope}`;
 
@@ -535,40 +498,18 @@ function inferStmt(node, env, scope) {
         ret: retTV,
       });
 
-      // new literal -> function
       const fnTV = envDeclare(env, fnName, scope);
       addCons(fnTV, "function");
       break;
     }
 
-    // ── C-ForOf ─────────────────────────────────────────────────────────────
-    case "ForOfStatement": {
-      // 1. Right side (the iterable array, string, etc.)
-      inferExpr(node.right, env, scope);
-
-      // 2. Left side (the loop variable)
-      let valVar;
-      if (node.left.type === "VariableDeclaration") {
-        // e.g., for (const item of iterable)
-        const decl = node.left.declarations[0];
-        valVar = envDeclare(env, decl.id.name, scope);
-      } else if (node.left.type === "Identifier") {
-        // e.g., for (item of iterable)
-        valVar = envGet(env, node.left.name, scope);
-      }
-
-      // TODO: Constrain valVar by the iterable's element type once
-      // the solver supports Iterable<T> for both Array<T> and str.
-
-      // 3. Loop Body
-      inferStmt(node.body, env, scope);
+    // -- Others --------------------------------------------------------------
+    case "ExpressionStatement": { // e.g. assignments, updates, calls
+      inferExprStmt(node.expression, env, scope);
       break;
     }
 
-    // ── C-Return ─────────────────────────────────────────────────────────────
-    // scope here is already the qualName of the enclosing function
-    // (e.g. "double__global"), so ret__${scope} = ret__double__global.
-    case "ReturnStatement":
+    case "ReturnStatement": { // e.g. return (argument)
       if (node.argument) {
         const X1 = inferExpr(node.argument, env, scope);
         addCons(X1, `ret__${scope}`);
@@ -576,13 +517,15 @@ function inferStmt(node, env, scope) {
         addCons("void", `ret__${scope}`);
       }
       return true;
+    }
 
-    // ── C-Throw ─────────────────────────────────────────────────────────────
-    case "ThrowStatement":
+    case "ThrowStatement": { // e.g. throw argument;
       inferExpr(node.argument, env, scope);
       break;
-    // ── C-Try ─────────────────────────────────────────────────────────────
+    }
+
     case "TryStatement": {
+      // e.g. try {block} (catch (param) {handler}) (finally {finalizer})
       inferStmt(node.block, env, scope);
       if (node.handler) {
         if (node.handler.param) {
@@ -596,7 +539,6 @@ function inferStmt(node, env, scope) {
 
     default:
       return hasReturn;
-    //break;
   }
 }
 
@@ -608,36 +550,29 @@ function inferExprStmt(node, env, scope) {
   if (!node) return;
 
   switch (node.type) {
-    // ── x = rhs  or  x.p = rhs ──────────────────────────────────────────
-    case "AssignmentExpression": {
+    case "AssignmentExpression": { // x = rhs  or  x.p = rhs
       const lhs = node.left;
       const rhs = node.right;
 
-      // x = rhs
-      if (lhs.type === "Identifier") {
-        //const xVar = envGet(env, lhs.name, scope);
-        //handleRHS(xVar, rhs, env, scope);
+      if (lhs.type === "Identifier") { // x = rhs
         handleRHS(lhs.name, rhs, env, scope);
         return;
       }
 
-      // x.p = e   →   C-PropWrite2
-      if (
+      if ( // x.p = e
         lhs.type === "MemberExpression" &&
         !lhs.computed &&
         lhs.object.type === "Identifier"
       ) {
-        const X1 = inferExpr(rhs, env, scope); // Γ → e : X1
+        const X1 = inferExpr(rhs, env, scope); // Γ |- e : X1
         const X2 = envGet(env, lhs.object.name, scope); // X2 = Γ(x)
         const prop = lhs.property.name;
-        // { X2 ↔ {p : X1} }
-        addCons(X2, `{${prop}: ${X1}}`);
+        addCons(X2, `{${prop}: ${X1}}`); // { X2 <= {p : X1} }
         return;
       }
 
-      // Compound assignments  (+=, -=, …)  – desugar to BinOp + assign
-      if (node.operator !== "=") {
-        const baseOp = node.operator.slice(0, -1); // '+=' → '+'
+      if (node.operator !== "=") { // +=, -=, ... - desugar to BinOp + assign
+        const baseOp = node.operator.slice(0, -1); // '+=' -> '+'
         if (["+", "-", "*", "/", "%"].includes(baseOp)) {
           const X1 = inferExpr(lhs, env, scope);
           const X2 = inferExpr(rhs, env, scope);
@@ -652,23 +587,18 @@ function inferExprStmt(node, env, scope) {
         }
         return;
       }
-
-      // Fallback for other LHS shapes
       inferExpr(rhs, env, scope);
       break;
     }
 
-    // ── i++  /  --i  ─────────────────────────────────────────────────────
-    case "UpdateExpression": {
+    case "UpdateExpression": { // i++, --i
       const Xa = inferExpr(node.argument, env, scope);
       addCons(Xa, "num");
       break;
     }
 
-    // ── Anything else (call expressions, etc.) ────────────────────────────
-    default:
+    default: // call expressions, ...
       return inferExpr(node, env, scope);
-    // break;
   }
 }
 
