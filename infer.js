@@ -17,6 +17,10 @@ const addCons = (a, b) => constraints.push(`${a} <= ${b}`);
 const functionParams = new Map();
 // save function type variables
 const functionTypes = new Map();
+// class methods: className -> [{name, params, ret}]
+const classMethods = new Map();
+// instance type variable -> className
+const instanceClasses = new Map();
 
 // environment
 const mkTV = (name, scope) => `${name}__${scope}`; //env = { "x" => "x__global" }
@@ -233,6 +237,29 @@ function inferExpr(node, env, scope) {
     }
 
     case "CallExpression": { // ex: f(e1, e2, ..., en)
+      // method call on a known class instance: o.bar(args)
+      if (
+        node.callee.type === "MemberExpression" &&
+        !node.callee.computed &&
+        node.callee.object.type === "Identifier"
+      ) {
+        const Xobj = inferExpr(node.callee.object, env, scope);
+        const className = instanceClasses.get(Xobj);
+        const methodName = node.callee.property.name;
+        if (className && classMethods.has(className)) {
+          const method = classMethods
+            .get(className)
+            .find((m) => m.name === methodName);
+          if (method) {
+            node.arguments.forEach((arg, i) => {
+              const Xi = inferExpr(arg, env, scope);
+              if (method.params[i]) addCons(Xi, method.params[i]);
+            });
+            return method.ret;
+          }
+        }
+      }
+
       const fname = node.callee.type === "Identifier" ? node.callee.name : null;
       if (!fname) { // e.g. obj.method(1, 2), (function(x){})(5), ...
         for (const arg of node.arguments) inferExpr(arg, env, scope);
@@ -255,6 +282,22 @@ function inferExpr(node, env, scope) {
         }
       });
       return `ret__${qualName}`;
+    }
+
+    case "NewExpression": { // e.g. new Foo(args)
+      for (const arg of node.arguments) inferExpr(arg, env, scope);
+      const className =
+        node.callee.type === "Identifier" ? node.callee.name : null;
+      const Xinst = fresh();
+      if (className && classMethods.has(className)) {
+        const methods = classMethods.get(className);
+        const sig = methods
+          .map((m) => `${m.name}: ${[...m.params, m.ret].join(" -> ")}`)
+          .join(", ");
+        addCons(Xinst, `Obj<${className}>[${sig}]`);
+        instanceClasses.set(Xinst, className);
+      }
+      return Xinst;
     }
 
     case "ArrayExpression": { // e.g. [e1, e2, ..., en]
@@ -332,6 +375,20 @@ function handleRHS(name, rhs, env, scope) {
     const fnName = rhs.id?.name ?? name;
     inferFuncNode(rhs, fnName, scope, env, xTarget);
     return;
+  }
+
+  if (rhs.type === "NewExpression" && rhs.callee.type === "Identifier") {
+    for (const arg of rhs.arguments) inferExpr(arg, env, scope);
+    const className = rhs.callee.name;
+    if (classMethods.has(className)) {
+      const methods = classMethods.get(className);
+      const sig = methods
+        .map((m) => `${m.name}: ${[...m.params, m.ret].join(" -> ")}`)
+        .join(", ");
+      addCons(xTarget, `Obj<${className}>[${sig}]`);
+      instanceClasses.set(xTarget, className);
+      return;
+    }
   }
 
   const X1 = inferExpr(rhs, env, scope); // Assign
@@ -500,6 +557,26 @@ function inferStmt(node, env, scope) {
 
       const fnTV = envDeclare(env, fnName, scope);
       addCons(fnTV, "function");
+      break;
+    }
+
+    case "ClassDeclaration": { // e.g. class Id { method(params) {body} ... }
+      const className = node.id.name;
+      const methods = [];
+      for (const m of node.body.body) {
+        if (m.type !== "MethodDefinition") continue;
+        const methodName = m.key.name;
+        inferFuncNode(m.value, methodName, className, env, null);
+        const qualName = `${methodName}__${className}`;
+        const { params, ret } = functionTypes.get(qualName);
+        methods.push({ name: methodName, params, ret });
+      }
+      classMethods.set(className, methods);
+      const sig = methods
+        .map((m) => `${m.name}: ${[...m.params, m.ret].join(" -> ")}`)
+        .join(", ");
+      const Xclass = envDeclare(env, className, scope);
+      addCons(Xclass, `Class<${className}>[${sig}]`);
       break;
     }
 

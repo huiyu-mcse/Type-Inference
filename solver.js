@@ -8,9 +8,50 @@ const isEmptyObj = (t) => t === "{}";
 const isObjWithFlds = (t) => t.startsWith("{") && t !== "{}";
 const isArray = (t) => t.startsWith("Array<") && t.endsWith(">");
 const parseArrayElem = (t) => t.slice(6, -1).trim();
+const isClassType = (t) => t.startsWith("Class<") && t.endsWith("]");
+const isInstanceType = (t) => t.startsWith("Obj<") && t.endsWith("]");
 const isLiteral = (t) =>
-  isBaseType(t) || isEmptyObj(t) || isObjWithFlds(t) || isArray(t);
+  isBaseType(t) ||
+  isEmptyObj(t) ||
+  isObjWithFlds(t) ||
+  isArray(t) ||
+  isClassType(t) ||
+  isInstanceType(t);
 const isTypeVar = (t) => !isLiteral(t);
+
+function parseClassOrInst(t) {
+  const isCls = isClassType(t);
+  const prefix = isCls ? "Class<" : "Obj<";
+  const headEnd = t.indexOf(">", prefix.length);
+  const className = t.slice(prefix.length, headEnd);
+  const bracketStart = t.indexOf("[", headEnd);
+  const inner = t.slice(bracketStart + 1, -1).trim();
+  const methods = new Map();
+  if (inner) {
+    let depth = 0,
+      start = 0;
+    for (let i = 0; i <= inner.length; i++) {
+      const ch = inner[i];
+      if (ch === "[" || ch === "{") depth++;
+      else if (ch === "]" || ch === "}") depth--;
+      else if ((ch === "," || i === inner.length) && depth === 0) {
+        const part = inner.slice(start, i).trim();
+        if (part) {
+          const colon = part.indexOf(":");
+          const name = part.slice(0, colon).trim();
+          const sig = part
+            .slice(colon + 1)
+            .trim()
+            .split(" -> ")
+            .map((x) => x.trim());
+          methods.set(name, sig);
+        }
+        start = i + 1;
+      }
+    }
+  }
+  return { kind: isCls ? "Class" : "Obj", className, methods };
+}
 
 function parseFields(t) {
   const inner = t.slice(1, -1).trim();
@@ -44,6 +85,9 @@ class State {
     this.objShape = new Map(); // rep → Map<field, typeVar>  ← UMA var por campo
     this.isArr = new Map(); // rep → true
     this.arrElem = new Map(); // rep → typeVar for element type
+    this.classKind = new Map(); // rep → 'Class' | 'Obj'
+    this.className = new Map(); // rep → string
+    this.classMethods = new Map(); // rep → Map<methodName, TV[]>
     this.errors = [];
 
     this.displayList = []; // todos os nós em ordem de aparição
@@ -135,6 +179,16 @@ class State {
         this._initArr(root, childElem);
       }
     }
+
+    // Propaga estado de Class/Obj do child para o root
+    if (this.classKind.has(child)) {
+      const kindC = this.classKind.get(child);
+      const nameC = this.className.get(child);
+      const methodsC = this.classMethods.get(child) ?? new Map();
+      if (this._initClassKind(root, kindC, nameC)) {
+        this._mergeMethods(root, methodsC);
+      }
+    }
   }
 
   // ── Tipos concretos ────────────────────────────────────────────────────────
@@ -147,6 +201,10 @@ class State {
         this.errors.push(`CONFLICT: obj vs ${type}  (${ctx})`);
       else if (this.isArr.get(rx))
         this.errors.push(`CONFLICT: Array vs ${type}  (${ctx})`);
+      else if (this.classKind.has(rx))
+        this.errors.push(
+          `CONFLICT: ${this.classKind.get(rx)}<${this.className.get(rx)}> vs ${type}  (${ctx})`,
+        );
       else this.baseType.set(rx, type);
     }
   }
@@ -158,6 +216,12 @@ class State {
     }
     if (this.isArr.get(rx)) {
       this.errors.push(`CONFLICT: Array vs obj`);
+      return;
+    }
+    if (this.classKind.has(rx)) {
+      this.errors.push(
+        `CONFLICT: ${this.classKind.get(rx)}<${this.className.get(rx)}> vs obj`,
+      );
       return;
     }
     this.isObj.set(rx, true);
@@ -173,11 +237,64 @@ class State {
       this.errors.push(`CONFLICT: obj vs Array`);
       return;
     }
+    if (this.classKind.has(rx)) {
+      this.errors.push(
+        `CONFLICT: ${this.classKind.get(rx)}<${this.className.get(rx)}> vs Array`,
+      );
+      return;
+    }
     this.isArr.set(rx, true);
     if (this.arrElem.has(rx)) {
       this.union(this.arrElem.get(rx), elemTV);
     } else {
       this.arrElem.set(rx, elemTV);
+    }
+  }
+
+  _initClassKind(rx, kind, className) {
+    if (this.baseType.has(rx)) {
+      this.errors.push(
+        `CONFLICT: ${this.baseType.get(rx)} vs ${kind}<${className}>`,
+      );
+      return false;
+    }
+    if (this.isObj.get(rx)) {
+      this.errors.push(`CONFLICT: obj vs ${kind}<${className}>`);
+      return false;
+    }
+    if (this.isArr.get(rx)) {
+      this.errors.push(`CONFLICT: Array vs ${kind}<${className}>`);
+      return false;
+    }
+    const curKind = this.classKind.get(rx);
+    const curName = this.className.get(rx);
+    if (curKind && (curKind !== kind || curName !== className)) {
+      this.errors.push(
+        `CONFLICT: ${curKind}<${curName}> vs ${kind}<${className}>`,
+      );
+      return false;
+    }
+    this.classKind.set(rx, kind);
+    this.className.set(rx, className);
+    if (!this.classMethods.has(rx)) this.classMethods.set(rx, new Map());
+    return true;
+  }
+
+  _mergeMethods(rx, methods) {
+    const existing = this.classMethods.get(rx);
+    for (const [name, sig] of methods) {
+      if (existing.has(name)) {
+        const ex = existing.get(name);
+        if (ex.length !== sig.length) {
+          this.errors.push(
+            `CONFLICT: arity mismatch on method ${name} (${ex.length} vs ${sig.length})`,
+          );
+        } else {
+          for (let i = 0; i < ex.length; i++) this.union(ex[i], sig[i]);
+        }
+      } else {
+        existing.set(name, sig);
+      }
     }
   }
 
@@ -216,6 +333,13 @@ class State {
         this.objShape.set(rx, shape);
       }
       this.consumedLits.add(rhs);
+    } else if (isClassType(rhs) || isInstanceType(rhs)) {
+      const rx = this.find(lhs);
+      const { kind, className, methods } = parseClassOrInst(rhs);
+      if (this._initClassKind(rx, kind, className)) {
+        this._mergeMethods(rx, methods);
+      }
+      this.consumedLits.add(rhs);
     } else {
       // lhs <= rhs  (ambos type vars) → union
       this.union(lhs, rhs);
@@ -239,6 +363,15 @@ class State {
         .join(", ");
       return `{${inner}}`;
     }
+    if (this.classKind.has(rep)) {
+      const kind = this.classKind.get(rep);
+      const name = this.className.get(rep);
+      const methods = this.classMethods.get(rep) ?? new Map();
+      const inner = [...methods.entries()]
+        .map(([n, sig]) => `${n}: ${sig.map((t) => this.find(t)).join(" -> ")}`)
+        .join(", ");
+      return `${kind}<${name}>[${inner}]`;
+    }
     return null; // bot
   }
 
@@ -260,6 +393,20 @@ class State {
         .map(([f, tv]) => `${f}: ${this.resolveType(tv, new Set(visited))}`)
         .join(", ");
       return `{${inner}}`;
+    }
+    if (this.classKind.has(rep)) {
+      const kind = this.classKind.get(rep);
+      const name = this.className.get(rep);
+      const methods = this.classMethods.get(rep) ?? new Map();
+      const inner = [...methods.entries()]
+        .map(
+          ([n, sig]) =>
+            `${n}: ${sig
+              .map((t) => this.resolveType(t, new Set(visited)))
+              .join(" -> ")}`,
+        )
+        .join(", ");
+      return `${kind}<${name}>[${inner}]`;
     }
     return "bot";
   }
@@ -347,7 +494,9 @@ function solve(input) {
   }
 
   console.log("\nFINAL:");
-  const progVars = [...st.seenNodes].filter((k) => k.includes("__")).sort();
+  const progVars = [...st.seenNodes]
+    .filter((k) => k.includes("__") && !isLiteral(k))
+    .sort();
   const maxLen = progVars.length
     ? Math.max(...progVars.map((v) => v.length))
     : 0;
