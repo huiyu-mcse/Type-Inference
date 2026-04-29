@@ -102,5 +102,4 @@ FINAL:
   result__inner__outer__global  :  num
   ret__inner__outer__global     :  void
   ret__outer__global            :  void
-  {x: base__outer__global}      :  bot
 

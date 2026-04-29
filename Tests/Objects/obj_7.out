@@ -92,5 +92,4 @@ FINAL:
   process__global        :  function
   ret__process__global   :  void
   tmp__global            :  num
-  {result: tmp__global}  :  bot
 

@@ -73,11 +73,10 @@ Inicio:
 ✓  Sem conflitos.
 
 FINAL:
-  f__global            :  function
-  ret__f__global       :  void
-  x__f__global         :  num
-  x__global            :  {a: num, b: void}
-  y__f__global         :  num
-  y__global            :  num
-  {b: ret__f__global}  :  bot
+  f__global       :  function
+  ret__f__global  :  void
+  x__f__global    :  num
+  x__global       :  {a: num, b: void}
+  y__f__global    :  num
+  y__global       :  num
 

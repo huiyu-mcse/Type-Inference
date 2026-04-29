@@ -69,11 +69,10 @@ Inicio:
 ✓  Sem conflitos.
 
 FINAL:
-  counter__global                 :  {val: num}
-  cur__increment__global          :  num
-  final__global                   :  num
-  increment__global               :  function
-  next__increment__global         :  num
-  ret__increment__global          :  void
-  {val: next__increment__global}  :  bot
+  counter__global          :  {val: num}
+  cur__increment__global   :  num
+  final__global            :  num
+  increment__global        :  function
+  next__increment__global  :  num
+  ret__increment__global   :  void
 

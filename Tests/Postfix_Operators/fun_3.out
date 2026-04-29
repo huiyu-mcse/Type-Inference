@@ -105,18 +105,15 @@ Inicio:
 ✓  Sem conflitos.
 
 FINAL:
-  b__f__global       :  bool
-  b__global          :  {b: bool, x: num, y: num}
-  f__global          :  function
-  m__global          :  {b: bool, x: num, y: num}
-  ret__f__global     :  {b: bool, x: num, y: num}
-  x__f__global       :  num
-  x__global          :  num
-  y__f__global       :  num
-  y__global          :  num
-  z__f__global       :  {b: bool, x: num, y: num}
-  z__global          :  num
-  {b: b__f__global}  :  bot
-  {x: x__f__global}  :  bot
-  {y: y__f__global}  :  bot
+  b__f__global    :  bool
+  b__global       :  {b: bool, x: num, y: num}
+  f__global       :  function
+  m__global       :  {b: bool, x: num, y: num}
+  ret__f__global  :  {b: bool, x: num, y: num}
+  x__f__global    :  num
+  x__global       :  num
+  y__f__global    :  num
+  y__global       :  num
+  z__f__global    :  {b: bool, x: num, y: num}
+  z__global       :  num
 

@@ -153,13 +153,12 @@ Inicio:
 ✓  Sem conflitos.
 
 FINAL:
-  lives__tick__global           :  num
-  ok__tick__global              :  bool
-  ret__tick__global             :  void
-  running__global               :  bool
-  score__tick__global           :  num
-  state__global                 :  {score: num, lives: num}
-  tick__global                  :  function
-  x__global                     :  num
-  {score: score__tick__global}  :  bot
+  lives__tick__global  :  num
+  ok__tick__global     :  bool
+  ret__tick__global    :  void
+  running__global      :  bool
+  score__tick__global  :  num
+  state__global        :  {score: num, lives: num}
+  tick__global         :  function
+  x__global            :  num
 

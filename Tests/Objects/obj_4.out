@@ -61,9 +61,8 @@ Inicio:
 ✓  Sem conflitos.
 
 FINAL:
-  obj1__global            :  {data: num}
-  obj2__global            :  {data: num}
-  result__global          :  num
-  shared__global          :  num
-  {data: shared__global}  :  bot
+  obj1__global    :  {data: num}
+  obj2__global    :  {data: num}
+  result__global  :  num
+  shared__global  :  num
 

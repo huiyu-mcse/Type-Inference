@@ -41,12 +41,11 @@ Inicio:
 ✓  Sem conflitos.
 
 FINAL:
-  f__global             :  function
-  h__global             :  function
-  module__global        :  {exports: function}
-  ret__f__global        :  void
-  ret__h__global        :  void
-  x__f__global          :  num
-  y__h__global          :  num
-  {exports: h__global}  :  bot
+  f__global       :  function
+  h__global       :  function
+  module__global  :  {exports: function}
+  ret__f__global  :  void
+  ret__h__global  :  void
+  x__f__global    :  num
+  y__h__global    :  num
 
