@@ -6,7 +6,7 @@ Constraints:
   C04: T2 <= str
   C05: stats__global <= {value: T2}
   C06: void <= ret__corrupt__global
-  C07: corrupt__global <= function
+  C07: corrupt__global <= Func<corrupt__global>{() -> ret__corrupt__global}
   C08: stats__global <= {value: T3}
   C09: T4 <= num
   C10: T3 <= num
@@ -16,53 +16,53 @@ Constraints:
 
 ──────────────────────────────────────────────────────
 Inicio:
- stats__global:bot, {}:bot, T1:bot, num:bot, {value: T1}:bot, T2:bot, str:bot, {value: T2}:bot, void:bot, ret__corrupt__global:bot, corrupt__global:bot, function:bot, {value: T3}:bot, T4:bot, T3:bot, T5:bot, safe__global:bot
+ stats__global:bot, {}:bot, T1:bot, num:bot, {value: T1}:bot, T2:bot, str:bot, {value: T2}:bot, void:bot, ret__corrupt__global:bot, corrupt__global:bot, Func<corrupt__global>{() -> ret__corrupt__global}:bot, {value: T3}:bot, T4:bot, T3:bot, T5:bot, safe__global:bot
 
 1: [stats__global <= {}]
- stats__global:{}, T1:bot, num:bot, {value: T1}:bot, T2:bot, str:bot, {value: T2}:bot, void:bot, ret__corrupt__global:bot, corrupt__global:bot, function:bot, {value: T3}:bot, T4:bot, T3:bot, T5:bot, safe__global:bot
+ stats__global:{}, T1:bot, num:bot, {value: T1}:bot, T2:bot, str:bot, {value: T2}:bot, void:bot, ret__corrupt__global:bot, corrupt__global:bot, Func<corrupt__global>{() -> ret__corrupt__global}:bot, {value: T3}:bot, T4:bot, T3:bot, T5:bot, safe__global:bot
 
 2: [T1 <= num]
- stats__global:{}, T1:num, {value: T1}:bot, T2:bot, str:bot, {value: T2}:bot, void:bot, ret__corrupt__global:bot, corrupt__global:bot, function:bot, {value: T3}:bot, T4:bot, T3:bot, T5:bot, safe__global:bot
+ stats__global:{}, T1:num, {value: T1}:bot, T2:bot, str:bot, {value: T2}:bot, void:bot, ret__corrupt__global:bot, corrupt__global:bot, Func<corrupt__global>{() -> ret__corrupt__global}:bot, {value: T3}:bot, T4:bot, T3:bot, T5:bot, safe__global:bot
 
 3: [stats__global <= {value: T1}]
- (stats__global: {value: T1}), T1:num, T2:bot, str:bot, {value: T2}:bot, void:bot, ret__corrupt__global:bot, corrupt__global:bot, function:bot, {value: T3}:bot, T4:bot, T3:bot, T5:bot, safe__global:bot
+ (stats__global: {value: T1}), T1:num, T2:bot, str:bot, {value: T2}:bot, void:bot, ret__corrupt__global:bot, corrupt__global:bot, Func<corrupt__global>{() -> ret__corrupt__global}:bot, {value: T3}:bot, T4:bot, T3:bot, T5:bot, safe__global:bot
 
 4: [T2 <= str]
- (stats__global: {value: T1}), T1:num, T2:str, {value: T2}:bot, void:bot, ret__corrupt__global:bot, corrupt__global:bot, function:bot, {value: T3}:bot, T4:bot, T3:bot, T5:bot, safe__global:bot
+ (stats__global: {value: T1}), T1:num, T2:str, {value: T2}:bot, void:bot, ret__corrupt__global:bot, corrupt__global:bot, Func<corrupt__global>{() -> ret__corrupt__global}:bot, {value: T3}:bot, T4:bot, T3:bot, T5:bot, safe__global:bot
 
 5: [stats__global <= {value: T2}]
- (stats__global: {value: T1}), T1:num, T2:num, void:bot, ret__corrupt__global:bot, corrupt__global:bot, function:bot, {value: T3}:bot, T4:bot, T3:bot, T5:bot, safe__global:bot
+ (stats__global: {value: T1}), T1:num, T2:str, void:bot, ret__corrupt__global:bot, corrupt__global:bot, Func<corrupt__global>{() -> ret__corrupt__global}:bot, {value: T3}:bot, T4:bot, T3:bot, T5:bot, safe__global:bot
 
 6: [void <= ret__corrupt__global]
- (stats__global: {value: T1}), T1:num, T2:num, void:bot, ret__corrupt__global:void, corrupt__global:bot, function:bot, {value: T3}:bot, T4:bot, T3:bot, T5:bot, safe__global:bot
+ (stats__global: {value: T1}), T1:num, T2:str, void:bot, ret__corrupt__global:void, corrupt__global:bot, Func<corrupt__global>{() -> ret__corrupt__global}:bot, {value: T3}:bot, T4:bot, T3:bot, T5:bot, safe__global:bot
 
-7: [corrupt__global <= function]
- (stats__global: {value: T1}), T1:num, T2:num, void:bot, ret__corrupt__global:void, corrupt__global:function, {value: T3}:bot, T4:bot, T3:bot, T5:bot, safe__global:bot
+7: [corrupt__global <= Func<corrupt__global>{() -> ret__corrupt__global}]
+ (stats__global: {value: T1}), T1:num, T2:str, void:bot, ret__corrupt__global:void, (corrupt__global: Func<corrupt__global>{() -> ret__corrupt__global}), {value: T3}:bot, T4:bot, T3:bot, T5:bot, safe__global:bot
 
 8: [stats__global <= {value: T3}]
- (stats__global: {value: T1}), T1:num, T2:num, void:bot, ret__corrupt__global:void, corrupt__global:function, T4:bot, T3:num, T5:bot, safe__global:bot
+ (stats__global: {value: T1}), T1:num, T2:str, void:bot, ret__corrupt__global:void, (corrupt__global: Func<corrupt__global>{() -> ret__corrupt__global}), T4:bot, T3:num, T5:bot, safe__global:bot
 
 9: [T4 <= num]
- (stats__global: {value: T1}), T1:num, T2:num, void:bot, ret__corrupt__global:void, corrupt__global:function, T4:num, T3:num, T5:bot, safe__global:bot
+ (stats__global: {value: T1}), T1:num, T2:str, void:bot, ret__corrupt__global:void, (corrupt__global: Func<corrupt__global>{() -> ret__corrupt__global}), T4:num, T3:num, T5:bot, safe__global:bot
 
 10: [T3 <= num]
- (stats__global: {value: T1}), T1:num, T2:num, void:bot, ret__corrupt__global:void, corrupt__global:function, T4:num, T3:num, T5:bot, safe__global:bot
+ (stats__global: {value: T1}), T1:num, T2:str, void:bot, ret__corrupt__global:void, (corrupt__global: Func<corrupt__global>{() -> ret__corrupt__global}), T4:num, T3:num, T5:bot, safe__global:bot
 
 11: [T4 <= num]
- (stats__global: {value: T1}), T1:num, T2:num, void:bot, ret__corrupt__global:void, corrupt__global:function, T4:num, T3:num, T5:bot, safe__global:bot
+ (stats__global: {value: T1}), T1:num, T2:str, void:bot, ret__corrupt__global:void, (corrupt__global: Func<corrupt__global>{() -> ret__corrupt__global}), T4:num, T3:num, T5:bot, safe__global:bot
 
 12: [T5 <= num]
- (stats__global: {value: T1}), T1:num, T2:num, void:bot, ret__corrupt__global:void, corrupt__global:function, T4:num, T3:num, T5:num, safe__global:bot
+ (stats__global: {value: T1}), T1:num, T2:str, void:bot, ret__corrupt__global:void, (corrupt__global: Func<corrupt__global>{() -> ret__corrupt__global}), T4:num, T3:num, T5:num, safe__global:bot
 
 13: [T5 <= safe__global]
- (stats__global: {value: T1}), T1:num, T2:num, void:bot, ret__corrupt__global:void, corrupt__global:function, T4:num, T3:num, T5:num, safe__global:num
+ (stats__global: {value: T1}), T1:num, T2:str, void:bot, ret__corrupt__global:void, (corrupt__global: Func<corrupt__global>{() -> ret__corrupt__global}), T4:num, T3:num, T5:num, safe__global:num
 
 ──────────────────────────────────────────────────────
 ⚠  ERROS DE TIPO:
    CONFLICT: num vs str  (union(T1,T2))
 
 FINAL:
-  corrupt__global       :  function
+  corrupt__global       :  Func<corrupt__global>{() -> void}
   ret__corrupt__global  :  void
   safe__global          :  num
   stats__global         :  {value: num}

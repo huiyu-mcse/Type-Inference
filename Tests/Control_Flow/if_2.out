@@ -15,65 +15,65 @@ Constraints:
   C13: T6 <= str
   C14: response__f__global <= {aux: T6}
   C15: void <= ret__f__global
-  C16: f__global <= function
+  C16: f__global <= Func<f__global>{ok__f__global -> response__f__global -> ret__f__global}
 
 ──────────────────────────────────────────────────────
 Inicio:
- response__global:bot, {}:bot, T1:bot, bool:bot, ok__global:bot, ok__f__global:bot, T2:bot, num:bot, response__f__global:bot, {status: T2}:bot, T3:bot, str:bot, {body: T3}:bot, T4:bot, x__f__global:bot, T5:bot, {status: T5}:bot, T6:bot, {aux: T6}:bot, void:bot, ret__f__global:bot, f__global:bot, function:bot
+ response__global:bot, {}:bot, T1:bot, bool:bot, ok__global:bot, ok__f__global:bot, T2:bot, num:bot, response__f__global:bot, {status: T2}:bot, T3:bot, str:bot, {body: T3}:bot, T4:bot, x__f__global:bot, T5:bot, {status: T5}:bot, T6:bot, {aux: T6}:bot, void:bot, ret__f__global:bot, f__global:bot, Func<f__global>{ok__f__global -> response__f__global -> ret__f__global}:bot
 
 1: [response__global <= {}]
- response__global:{}, T1:bot, bool:bot, ok__global:bot, ok__f__global:bot, T2:bot, num:bot, response__f__global:bot, {status: T2}:bot, T3:bot, str:bot, {body: T3}:bot, T4:bot, x__f__global:bot, T5:bot, {status: T5}:bot, T6:bot, {aux: T6}:bot, void:bot, ret__f__global:bot, f__global:bot, function:bot
+ response__global:{}, T1:bot, bool:bot, ok__global:bot, ok__f__global:bot, T2:bot, num:bot, response__f__global:bot, {status: T2}:bot, T3:bot, str:bot, {body: T3}:bot, T4:bot, x__f__global:bot, T5:bot, {status: T5}:bot, T6:bot, {aux: T6}:bot, void:bot, ret__f__global:bot, f__global:bot, Func<f__global>{ok__f__global -> response__f__global -> ret__f__global}:bot
 
 2: [T1 <= bool]
- response__global:{}, T1:bool, ok__global:bot, ok__f__global:bot, T2:bot, num:bot, response__f__global:bot, {status: T2}:bot, T3:bot, str:bot, {body: T3}:bot, T4:bot, x__f__global:bot, T5:bot, {status: T5}:bot, T6:bot, {aux: T6}:bot, void:bot, ret__f__global:bot, f__global:bot, function:bot
+ response__global:{}, T1:bool, ok__global:bot, ok__f__global:bot, T2:bot, num:bot, response__f__global:bot, {status: T2}:bot, T3:bot, str:bot, {body: T3}:bot, T4:bot, x__f__global:bot, T5:bot, {status: T5}:bot, T6:bot, {aux: T6}:bot, void:bot, ret__f__global:bot, f__global:bot, Func<f__global>{ok__f__global -> response__f__global -> ret__f__global}:bot
 
 3: [T1 <= ok__global]
- response__global:{}, T1:bool, ok__global:bool, ok__f__global:bot, T2:bot, num:bot, response__f__global:bot, {status: T2}:bot, T3:bot, str:bot, {body: T3}:bot, T4:bot, x__f__global:bot, T5:bot, {status: T5}:bot, T6:bot, {aux: T6}:bot, void:bot, ret__f__global:bot, f__global:bot, function:bot
+ response__global:{}, T1:bool, ok__global:bool, ok__f__global:bot, T2:bot, num:bot, response__f__global:bot, {status: T2}:bot, T3:bot, str:bot, {body: T3}:bot, T4:bot, x__f__global:bot, T5:bot, {status: T5}:bot, T6:bot, {aux: T6}:bot, void:bot, ret__f__global:bot, f__global:bot, Func<f__global>{ok__f__global -> response__f__global -> ret__f__global}:bot
 
 4: [ok__f__global <= bool]
- response__global:{}, T1:bool, ok__global:bool, ok__f__global:bool, T2:bot, num:bot, response__f__global:bot, {status: T2}:bot, T3:bot, str:bot, {body: T3}:bot, T4:bot, x__f__global:bot, T5:bot, {status: T5}:bot, T6:bot, {aux: T6}:bot, void:bot, ret__f__global:bot, f__global:bot, function:bot
+ response__global:{}, T1:bool, ok__global:bool, ok__f__global:bool, T2:bot, num:bot, response__f__global:bot, {status: T2}:bot, T3:bot, str:bot, {body: T3}:bot, T4:bot, x__f__global:bot, T5:bot, {status: T5}:bot, T6:bot, {aux: T6}:bot, void:bot, ret__f__global:bot, f__global:bot, Func<f__global>{ok__f__global -> response__f__global -> ret__f__global}:bot
 
 5: [T2 <= num]
- response__global:{}, T1:bool, ok__global:bool, ok__f__global:bool, T2:num, response__f__global:bot, {status: T2}:bot, T3:bot, str:bot, {body: T3}:bot, T4:bot, x__f__global:bot, T5:bot, {status: T5}:bot, T6:bot, {aux: T6}:bot, void:bot, ret__f__global:bot, f__global:bot, function:bot
+ response__global:{}, T1:bool, ok__global:bool, ok__f__global:bool, T2:num, response__f__global:bot, {status: T2}:bot, T3:bot, str:bot, {body: T3}:bot, T4:bot, x__f__global:bot, T5:bot, {status: T5}:bot, T6:bot, {aux: T6}:bot, void:bot, ret__f__global:bot, f__global:bot, Func<f__global>{ok__f__global -> response__f__global -> ret__f__global}:bot
 
 6: [response__f__global <= {status: T2}]
- response__global:{}, T1:bool, ok__global:bool, ok__f__global:bool, T2:num, (response__f__global: {status: T2}), T3:bot, str:bot, {body: T3}:bot, T4:bot, x__f__global:bot, T5:bot, {status: T5}:bot, T6:bot, {aux: T6}:bot, void:bot, ret__f__global:bot, f__global:bot, function:bot
+ response__global:{}, T1:bool, ok__global:bool, ok__f__global:bool, T2:num, (response__f__global: {status: T2}), T3:bot, str:bot, {body: T3}:bot, T4:bot, x__f__global:bot, T5:bot, {status: T5}:bot, T6:bot, {aux: T6}:bot, void:bot, ret__f__global:bot, f__global:bot, Func<f__global>{ok__f__global -> response__f__global -> ret__f__global}:bot
 
 7: [T3 <= str]
- response__global:{}, T1:bool, ok__global:bool, ok__f__global:bool, T2:num, (response__f__global: {status: T2}), T3:str, {body: T3}:bot, T4:bot, x__f__global:bot, T5:bot, {status: T5}:bot, T6:bot, {aux: T6}:bot, void:bot, ret__f__global:bot, f__global:bot, function:bot
+ response__global:{}, T1:bool, ok__global:bool, ok__f__global:bool, T2:num, (response__f__global: {status: T2}), T3:str, {body: T3}:bot, T4:bot, x__f__global:bot, T5:bot, {status: T5}:bot, T6:bot, {aux: T6}:bot, void:bot, ret__f__global:bot, f__global:bot, Func<f__global>{ok__f__global -> response__f__global -> ret__f__global}:bot
 
 8: [response__f__global <= {body: T3}]
- response__global:{}, T1:bool, ok__global:bool, ok__f__global:bool, T2:num, (response__f__global: {status: T2, body: T3}), T3:str, T4:bot, x__f__global:bot, T5:bot, {status: T5}:bot, T6:bot, {aux: T6}:bot, void:bot, ret__f__global:bot, f__global:bot, function:bot
+ response__global:{}, T1:bool, ok__global:bool, ok__f__global:bool, T2:num, (response__f__global: {status: T2, body: T3}), T3:str, T4:bot, x__f__global:bot, T5:bot, {status: T5}:bot, T6:bot, {aux: T6}:bot, void:bot, ret__f__global:bot, f__global:bot, Func<f__global>{ok__f__global -> response__f__global -> ret__f__global}:bot
 
 9: [T4 <= num]
- response__global:{}, T1:bool, ok__global:bool, ok__f__global:bool, T2:num, (response__f__global: {status: T2, body: T3}), T3:str, T4:num, x__f__global:bot, T5:bot, {status: T5}:bot, T6:bot, {aux: T6}:bot, void:bot, ret__f__global:bot, f__global:bot, function:bot
+ response__global:{}, T1:bool, ok__global:bool, ok__f__global:bool, T2:num, (response__f__global: {status: T2, body: T3}), T3:str, T4:num, x__f__global:bot, T5:bot, {status: T5}:bot, T6:bot, {aux: T6}:bot, void:bot, ret__f__global:bot, f__global:bot, Func<f__global>{ok__f__global -> response__f__global -> ret__f__global}:bot
 
 10: [T4 <= x__f__global]
- response__global:{}, T1:bool, ok__global:bool, ok__f__global:bool, T2:num, (response__f__global: {status: T2, body: T3}), T3:str, T4:num, x__f__global:num, T5:bot, {status: T5}:bot, T6:bot, {aux: T6}:bot, void:bot, ret__f__global:bot, f__global:bot, function:bot
+ response__global:{}, T1:bool, ok__global:bool, ok__f__global:bool, T2:num, (response__f__global: {status: T2, body: T3}), T3:str, T4:num, x__f__global:num, T5:bot, {status: T5}:bot, T6:bot, {aux: T6}:bot, void:bot, ret__f__global:bot, f__global:bot, Func<f__global>{ok__f__global -> response__f__global -> ret__f__global}:bot
 
 11: [T5 <= num]
- response__global:{}, T1:bool, ok__global:bool, ok__f__global:bool, T2:num, (response__f__global: {status: T2, body: T3}), T3:str, T4:num, x__f__global:num, T5:num, {status: T5}:bot, T6:bot, {aux: T6}:bot, void:bot, ret__f__global:bot, f__global:bot, function:bot
+ response__global:{}, T1:bool, ok__global:bool, ok__f__global:bool, T2:num, (response__f__global: {status: T2, body: T3}), T3:str, T4:num, x__f__global:num, T5:num, {status: T5}:bot, T6:bot, {aux: T6}:bot, void:bot, ret__f__global:bot, f__global:bot, Func<f__global>{ok__f__global -> response__f__global -> ret__f__global}:bot
 
 12: [response__f__global <= {status: T5}]
- response__global:{}, T1:bool, ok__global:bool, ok__f__global:bool, T2:num, (response__f__global: {status: T2, body: T3}), T3:str, T4:num, x__f__global:num, T5:num, T6:bot, {aux: T6}:bot, void:bot, ret__f__global:bot, f__global:bot, function:bot
+ response__global:{}, T1:bool, ok__global:bool, ok__f__global:bool, T2:num, (response__f__global: {status: T2, body: T3}), T3:str, T4:num, x__f__global:num, T5:num, T6:bot, {aux: T6}:bot, void:bot, ret__f__global:bot, f__global:bot, Func<f__global>{ok__f__global -> response__f__global -> ret__f__global}:bot
 
 13: [T6 <= str]
- response__global:{}, T1:bool, ok__global:bool, ok__f__global:bool, T2:num, (response__f__global: {status: T2, body: T3}), T3:str, T4:num, x__f__global:num, T5:num, T6:str, {aux: T6}:bot, void:bot, ret__f__global:bot, f__global:bot, function:bot
+ response__global:{}, T1:bool, ok__global:bool, ok__f__global:bool, T2:num, (response__f__global: {status: T2, body: T3}), T3:str, T4:num, x__f__global:num, T5:num, T6:str, {aux: T6}:bot, void:bot, ret__f__global:bot, f__global:bot, Func<f__global>{ok__f__global -> response__f__global -> ret__f__global}:bot
 
 14: [response__f__global <= {aux: T6}]
- response__global:{}, T1:bool, ok__global:bool, ok__f__global:bool, T2:num, (response__f__global: {status: T2, body: T3, aux: T6}), T3:str, T4:num, x__f__global:num, T5:num, T6:str, void:bot, ret__f__global:bot, f__global:bot, function:bot
+ response__global:{}, T1:bool, ok__global:bool, ok__f__global:bool, T2:num, (response__f__global: {status: T2, body: T3, aux: T6}), T3:str, T4:num, x__f__global:num, T5:num, T6:str, void:bot, ret__f__global:bot, f__global:bot, Func<f__global>{ok__f__global -> response__f__global -> ret__f__global}:bot
 
 15: [void <= ret__f__global]
- response__global:{}, T1:bool, ok__global:bool, ok__f__global:bool, T2:num, (response__f__global: {status: T2, body: T3, aux: T6}), T3:str, T4:num, x__f__global:num, T5:num, T6:str, void:bot, ret__f__global:void, f__global:bot, function:bot
+ response__global:{}, T1:bool, ok__global:bool, ok__f__global:bool, T2:num, (response__f__global: {status: T2, body: T3, aux: T6}), T3:str, T4:num, x__f__global:num, T5:num, T6:str, void:bot, ret__f__global:void, f__global:bot, Func<f__global>{ok__f__global -> response__f__global -> ret__f__global}:bot
 
-16: [f__global <= function]
- response__global:{}, T1:bool, ok__global:bool, ok__f__global:bool, T2:num, (response__f__global: {status: T2, body: T3, aux: T6}), T3:str, T4:num, x__f__global:num, T5:num, T6:str, void:bot, ret__f__global:void, f__global:function
+16: [f__global <= Func<f__global>{ok__f__global -> response__f__global -> ret__f__global}]
+ response__global:{}, T1:bool, ok__global:bool, ok__f__global:bool, T2:num, (response__f__global: {status: T2, body: T3, aux: T6}), T3:str, T4:num, x__f__global:num, T5:num, T6:str, void:bot, ret__f__global:void, (f__global: Func<f__global>{ok__f__global -> response__f__global -> ret__f__global})
 
 ──────────────────────────────────────────────────────
 ✓  Sem conflitos.
 
 FINAL:
-  f__global            :  function
+  f__global            :  Func<f__global>{bool -> {status: num, body: str, aux: str} -> void}
   ok__f__global        :  bool
   ok__global           :  bool
   response__f__global  :  {status: num, body: str, aux: str}
