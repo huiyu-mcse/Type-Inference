@@ -304,7 +304,7 @@ function parseConstraint(line) {
 }
 
 // ── Main ──────────────────────────────────────────────────────────────────────
-function solve(input) {
+function solve(input, quiet = false) {
   const parsed = [];
   for (const line of input.split("\n")) {
     if (!line.includes(" <= ")) continue;
@@ -321,21 +321,27 @@ function solve(input) {
 
   for (const c of parsed) st.regConstraint(c.lhs, c.rhs);
 
-  console.log("\nConstraints:");
-  const pad = String(parsed.length).length;
-  parsed.forEach((c, i) =>
-    console.log(`  C${String(i + 1).padStart(pad, "0")}: ${c.lhs} <= ${c.rhs}`),
-  );
+  if (!quiet) {
+    console.log("\nConstraints:");
+    const pad = String(parsed.length).length;
+    parsed.forEach((c, i) =>
+      console.log(
+        `  C${String(i + 1).padStart(pad, "0")}: ${c.lhs} <= ${c.rhs}`,
+      ),
+    );
 
-  console.log("\n" + SEP);
-  console.log("Inicio:");
-  console.log(" " + st.displayState());
-
-  for (let i = 0; i < parsed.length; i++) {
-    const { lhs, rhs } = parsed[i];
-    st.process(lhs, rhs);
-    console.log(`\n${i + 1}: [${lhs} <= ${rhs}]`);
+    console.log("\n" + SEP);
+    console.log("Inicio:");
     console.log(" " + st.displayState());
+
+    for (let i = 0; i < parsed.length; i++) {
+      const { lhs, rhs } = parsed[i];
+      st.process(lhs, rhs);
+      console.log(`\n${i + 1}: [${lhs} <= ${rhs}]`);
+      console.log(" " + st.displayState());
+    }
+  } else {
+    for (const { lhs, rhs } of parsed) st.process(lhs, rhs);
   }
 
   console.log("\n" + SEP);
@@ -357,10 +363,13 @@ function solve(input) {
 }
 
 const args = process.argv.slice(2);
-if (args[0]) {
-  solve(require("fs").readFileSync(args[0], "utf8"));
+const quiet = args.includes("-q") || args.includes("--quiet");
+const fileArg = args.find((a) => !a.startsWith("-"));
+
+if (fileArg) {
+  solve(require("fs").readFileSync(fileArg, "utf8"), quiet);
 } else if (!process.stdin.isTTY) {
   const chunks = [];
   process.stdin.on("data", (d) => chunks.push(d));
-  process.stdin.on("end", () => solve(chunks.join("")));
+  process.stdin.on("end", () => solve(chunks.join(""), quiet));
 }
