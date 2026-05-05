@@ -141,15 +141,14 @@ Inicio:
 ✓  Sem conflitos.
 
 FINAL:
-  a__global            :  num
-  b__global            :  num
-  c__global            :  num
-  check__global        :  num
-  d__global            :  num
-  obj__global          :  {total: num}
-  s1__global           :  num
-  s2__global           :  num
-  s3__global           :  num
-  s4__global           :  num
-  {total: s4__global}  :  bot
+  a__global      :  num
+  b__global      :  num
+  c__global      :  num
+  check__global  :  num
+  d__global      :  num
+  obj__global    :  {total: num}
+  s1__global     :  num
+  s2__global     :  num
+  s3__global     :  num
+  s4__global     :  num
 

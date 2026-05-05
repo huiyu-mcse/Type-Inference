@@ -12,7 +12,7 @@ Constraints:
   C10: T4 <= num
   C11: T4 <= result__inner__outer__global
   C12: void <= ret__inner__outer__global
-  C13: inner__outer__global <= function
+  C13: inner__outer__global <= Func<inner__outer__global>{() -> ret__inner__outer__global}
   C14: obj__outer__global <= {x: T5}
   C15: T6 <= num
   C16: T5 <= num
@@ -20,74 +20,74 @@ Constraints:
   C18: T7 <= num
   C19: T7 <= check__outer__global
   C20: void <= ret__outer__global
-  C21: outer__global <= function
+  C21: outer__global <= Func<outer__global>{() -> ret__outer__global}
 
 ──────────────────────────────────────────────────────
 Inicio:
- T1:bot, num:bot, base__outer__global:bot, obj__outer__global:bot, {}:bot, {x: base__outer__global}:bot, T2:bot, copied__inner__outer__global:bot, {x: T2}:bot, T3:bot, T4:bot, result__inner__outer__global:bot, void:bot, ret__inner__outer__global:bot, inner__outer__global:bot, function:bot, {x: T5}:bot, T6:bot, T5:bot, T7:bot, check__outer__global:bot, ret__outer__global:bot, outer__global:bot
+ T1:bot, num:bot, base__outer__global:bot, obj__outer__global:bot, {}:bot, {x: base__outer__global}:bot, T2:bot, copied__inner__outer__global:bot, {x: T2}:bot, T3:bot, T4:bot, result__inner__outer__global:bot, void:bot, ret__inner__outer__global:bot, inner__outer__global:bot, Func<inner__outer__global>{() -> ret__inner__outer__global}:bot, {x: T5}:bot, T6:bot, T5:bot, T7:bot, check__outer__global:bot, ret__outer__global:bot, outer__global:bot, Func<outer__global>{() -> ret__outer__global}:bot
 
 1: [T1 <= num]
- T1:num, base__outer__global:bot, obj__outer__global:bot, {}:bot, {x: base__outer__global}:bot, T2:bot, copied__inner__outer__global:bot, {x: T2}:bot, T3:bot, T4:bot, result__inner__outer__global:bot, void:bot, ret__inner__outer__global:bot, inner__outer__global:bot, function:bot, {x: T5}:bot, T6:bot, T5:bot, T7:bot, check__outer__global:bot, ret__outer__global:bot, outer__global:bot
+ T1:num, base__outer__global:bot, obj__outer__global:bot, {}:bot, {x: base__outer__global}:bot, T2:bot, copied__inner__outer__global:bot, {x: T2}:bot, T3:bot, T4:bot, result__inner__outer__global:bot, void:bot, ret__inner__outer__global:bot, inner__outer__global:bot, Func<inner__outer__global>{() -> ret__inner__outer__global}:bot, {x: T5}:bot, T6:bot, T5:bot, T7:bot, check__outer__global:bot, ret__outer__global:bot, outer__global:bot, Func<outer__global>{() -> ret__outer__global}:bot
 
 2: [T1 <= base__outer__global]
- T1:num, base__outer__global:num, obj__outer__global:bot, {}:bot, {x: base__outer__global}:bot, T2:bot, copied__inner__outer__global:bot, {x: T2}:bot, T3:bot, T4:bot, result__inner__outer__global:bot, void:bot, ret__inner__outer__global:bot, inner__outer__global:bot, function:bot, {x: T5}:bot, T6:bot, T5:bot, T7:bot, check__outer__global:bot, ret__outer__global:bot, outer__global:bot
+ T1:num, base__outer__global:num, obj__outer__global:bot, {}:bot, {x: base__outer__global}:bot, T2:bot, copied__inner__outer__global:bot, {x: T2}:bot, T3:bot, T4:bot, result__inner__outer__global:bot, void:bot, ret__inner__outer__global:bot, inner__outer__global:bot, Func<inner__outer__global>{() -> ret__inner__outer__global}:bot, {x: T5}:bot, T6:bot, T5:bot, T7:bot, check__outer__global:bot, ret__outer__global:bot, outer__global:bot, Func<outer__global>{() -> ret__outer__global}:bot
 
 3: [obj__outer__global <= {}]
- T1:num, base__outer__global:num, obj__outer__global:{}, {x: base__outer__global}:bot, T2:bot, copied__inner__outer__global:bot, {x: T2}:bot, T3:bot, T4:bot, result__inner__outer__global:bot, void:bot, ret__inner__outer__global:bot, inner__outer__global:bot, function:bot, {x: T5}:bot, T6:bot, T5:bot, T7:bot, check__outer__global:bot, ret__outer__global:bot, outer__global:bot
+ T1:num, base__outer__global:num, obj__outer__global:{}, {x: base__outer__global}:bot, T2:bot, copied__inner__outer__global:bot, {x: T2}:bot, T3:bot, T4:bot, result__inner__outer__global:bot, void:bot, ret__inner__outer__global:bot, inner__outer__global:bot, Func<inner__outer__global>{() -> ret__inner__outer__global}:bot, {x: T5}:bot, T6:bot, T5:bot, T7:bot, check__outer__global:bot, ret__outer__global:bot, outer__global:bot, Func<outer__global>{() -> ret__outer__global}:bot
 
 4: [obj__outer__global <= {x: base__outer__global}]
- T1:num, base__outer__global:num, (obj__outer__global: {x: T1}), T2:bot, copied__inner__outer__global:bot, {x: T2}:bot, T3:bot, T4:bot, result__inner__outer__global:bot, void:bot, ret__inner__outer__global:bot, inner__outer__global:bot, function:bot, {x: T5}:bot, T6:bot, T5:bot, T7:bot, check__outer__global:bot, ret__outer__global:bot, outer__global:bot
+ T1:num, base__outer__global:num, (obj__outer__global: {x: T1}), T2:bot, copied__inner__outer__global:bot, {x: T2}:bot, T3:bot, T4:bot, result__inner__outer__global:bot, void:bot, ret__inner__outer__global:bot, inner__outer__global:bot, Func<inner__outer__global>{() -> ret__inner__outer__global}:bot, {x: T5}:bot, T6:bot, T5:bot, T7:bot, check__outer__global:bot, ret__outer__global:bot, outer__global:bot, Func<outer__global>{() -> ret__outer__global}:bot
 
 5: [T2 <= copied__inner__outer__global]
- T1:num, base__outer__global:num, (obj__outer__global: {x: T1}), T2:bot, copied__inner__outer__global:bot, {x: T2}:bot, T3:bot, T4:bot, result__inner__outer__global:bot, void:bot, ret__inner__outer__global:bot, inner__outer__global:bot, function:bot, {x: T5}:bot, T6:bot, T5:bot, T7:bot, check__outer__global:bot, ret__outer__global:bot, outer__global:bot
+ T1:num, base__outer__global:num, (obj__outer__global: {x: T1}), T2:bot, copied__inner__outer__global:bot, {x: T2}:bot, T3:bot, T4:bot, result__inner__outer__global:bot, void:bot, ret__inner__outer__global:bot, inner__outer__global:bot, Func<inner__outer__global>{() -> ret__inner__outer__global}:bot, {x: T5}:bot, T6:bot, T5:bot, T7:bot, check__outer__global:bot, ret__outer__global:bot, outer__global:bot, Func<outer__global>{() -> ret__outer__global}:bot
 
 6: [obj__outer__global <= {x: T2}]
- T1:num, base__outer__global:num, (obj__outer__global: {x: T1}), T2:num, copied__inner__outer__global:num, T3:bot, T4:bot, result__inner__outer__global:bot, void:bot, ret__inner__outer__global:bot, inner__outer__global:bot, function:bot, {x: T5}:bot, T6:bot, T5:bot, T7:bot, check__outer__global:bot, ret__outer__global:bot, outer__global:bot
+ T1:num, base__outer__global:num, (obj__outer__global: {x: T1}), T2:num, copied__inner__outer__global:num, T3:bot, T4:bot, result__inner__outer__global:bot, void:bot, ret__inner__outer__global:bot, inner__outer__global:bot, Func<inner__outer__global>{() -> ret__inner__outer__global}:bot, {x: T5}:bot, T6:bot, T5:bot, T7:bot, check__outer__global:bot, ret__outer__global:bot, outer__global:bot, Func<outer__global>{() -> ret__outer__global}:bot
 
 7: [T3 <= num]
- T1:num, base__outer__global:num, (obj__outer__global: {x: T1}), T2:num, copied__inner__outer__global:num, T3:num, T4:bot, result__inner__outer__global:bot, void:bot, ret__inner__outer__global:bot, inner__outer__global:bot, function:bot, {x: T5}:bot, T6:bot, T5:bot, T7:bot, check__outer__global:bot, ret__outer__global:bot, outer__global:bot
+ T1:num, base__outer__global:num, (obj__outer__global: {x: T1}), T2:num, copied__inner__outer__global:num, T3:num, T4:bot, result__inner__outer__global:bot, void:bot, ret__inner__outer__global:bot, inner__outer__global:bot, Func<inner__outer__global>{() -> ret__inner__outer__global}:bot, {x: T5}:bot, T6:bot, T5:bot, T7:bot, check__outer__global:bot, ret__outer__global:bot, outer__global:bot, Func<outer__global>{() -> ret__outer__global}:bot
 
 8: [copied__inner__outer__global <= num]
- T1:num, base__outer__global:num, (obj__outer__global: {x: T1}), T2:num, copied__inner__outer__global:num, T3:num, T4:bot, result__inner__outer__global:bot, void:bot, ret__inner__outer__global:bot, inner__outer__global:bot, function:bot, {x: T5}:bot, T6:bot, T5:bot, T7:bot, check__outer__global:bot, ret__outer__global:bot, outer__global:bot
+ T1:num, base__outer__global:num, (obj__outer__global: {x: T1}), T2:num, copied__inner__outer__global:num, T3:num, T4:bot, result__inner__outer__global:bot, void:bot, ret__inner__outer__global:bot, inner__outer__global:bot, Func<inner__outer__global>{() -> ret__inner__outer__global}:bot, {x: T5}:bot, T6:bot, T5:bot, T7:bot, check__outer__global:bot, ret__outer__global:bot, outer__global:bot, Func<outer__global>{() -> ret__outer__global}:bot
 
 9: [T3 <= num]
- T1:num, base__outer__global:num, (obj__outer__global: {x: T1}), T2:num, copied__inner__outer__global:num, T3:num, T4:bot, result__inner__outer__global:bot, void:bot, ret__inner__outer__global:bot, inner__outer__global:bot, function:bot, {x: T5}:bot, T6:bot, T5:bot, T7:bot, check__outer__global:bot, ret__outer__global:bot, outer__global:bot
+ T1:num, base__outer__global:num, (obj__outer__global: {x: T1}), T2:num, copied__inner__outer__global:num, T3:num, T4:bot, result__inner__outer__global:bot, void:bot, ret__inner__outer__global:bot, inner__outer__global:bot, Func<inner__outer__global>{() -> ret__inner__outer__global}:bot, {x: T5}:bot, T6:bot, T5:bot, T7:bot, check__outer__global:bot, ret__outer__global:bot, outer__global:bot, Func<outer__global>{() -> ret__outer__global}:bot
 
 10: [T4 <= num]
- T1:num, base__outer__global:num, (obj__outer__global: {x: T1}), T2:num, copied__inner__outer__global:num, T3:num, T4:num, result__inner__outer__global:bot, void:bot, ret__inner__outer__global:bot, inner__outer__global:bot, function:bot, {x: T5}:bot, T6:bot, T5:bot, T7:bot, check__outer__global:bot, ret__outer__global:bot, outer__global:bot
+ T1:num, base__outer__global:num, (obj__outer__global: {x: T1}), T2:num, copied__inner__outer__global:num, T3:num, T4:num, result__inner__outer__global:bot, void:bot, ret__inner__outer__global:bot, inner__outer__global:bot, Func<inner__outer__global>{() -> ret__inner__outer__global}:bot, {x: T5}:bot, T6:bot, T5:bot, T7:bot, check__outer__global:bot, ret__outer__global:bot, outer__global:bot, Func<outer__global>{() -> ret__outer__global}:bot
 
 11: [T4 <= result__inner__outer__global]
- T1:num, base__outer__global:num, (obj__outer__global: {x: T1}), T2:num, copied__inner__outer__global:num, T3:num, T4:num, result__inner__outer__global:num, void:bot, ret__inner__outer__global:bot, inner__outer__global:bot, function:bot, {x: T5}:bot, T6:bot, T5:bot, T7:bot, check__outer__global:bot, ret__outer__global:bot, outer__global:bot
+ T1:num, base__outer__global:num, (obj__outer__global: {x: T1}), T2:num, copied__inner__outer__global:num, T3:num, T4:num, result__inner__outer__global:num, void:bot, ret__inner__outer__global:bot, inner__outer__global:bot, Func<inner__outer__global>{() -> ret__inner__outer__global}:bot, {x: T5}:bot, T6:bot, T5:bot, T7:bot, check__outer__global:bot, ret__outer__global:bot, outer__global:bot, Func<outer__global>{() -> ret__outer__global}:bot
 
 12: [void <= ret__inner__outer__global]
- T1:num, base__outer__global:num, (obj__outer__global: {x: T1}), T2:num, copied__inner__outer__global:num, T3:num, T4:num, result__inner__outer__global:num, void:bot, ret__inner__outer__global:void, inner__outer__global:bot, function:bot, {x: T5}:bot, T6:bot, T5:bot, T7:bot, check__outer__global:bot, ret__outer__global:bot, outer__global:bot
+ T1:num, base__outer__global:num, (obj__outer__global: {x: T1}), T2:num, copied__inner__outer__global:num, T3:num, T4:num, result__inner__outer__global:num, void:bot, ret__inner__outer__global:void, inner__outer__global:bot, Func<inner__outer__global>{() -> ret__inner__outer__global}:bot, {x: T5}:bot, T6:bot, T5:bot, T7:bot, check__outer__global:bot, ret__outer__global:bot, outer__global:bot, Func<outer__global>{() -> ret__outer__global}:bot
 
-13: [inner__outer__global <= function]
- T1:num, base__outer__global:num, (obj__outer__global: {x: T1}), T2:num, copied__inner__outer__global:num, T3:num, T4:num, result__inner__outer__global:num, void:bot, ret__inner__outer__global:void, inner__outer__global:function, {x: T5}:bot, T6:bot, T5:bot, T7:bot, check__outer__global:bot, ret__outer__global:bot, outer__global:bot
+13: [inner__outer__global <= Func<inner__outer__global>{() -> ret__inner__outer__global}]
+ T1:num, base__outer__global:num, (obj__outer__global: {x: T1}), T2:num, copied__inner__outer__global:num, T3:num, T4:num, result__inner__outer__global:num, void:bot, ret__inner__outer__global:void, (inner__outer__global: Func<inner__outer__global>{() -> ret__inner__outer__global}), {x: T5}:bot, T6:bot, T5:bot, T7:bot, check__outer__global:bot, ret__outer__global:bot, outer__global:bot, Func<outer__global>{() -> ret__outer__global}:bot
 
 14: [obj__outer__global <= {x: T5}]
- T1:num, base__outer__global:num, (obj__outer__global: {x: T1}), T2:num, copied__inner__outer__global:num, T3:num, T4:num, result__inner__outer__global:num, void:bot, ret__inner__outer__global:void, inner__outer__global:function, T6:bot, T5:num, T7:bot, check__outer__global:bot, ret__outer__global:bot, outer__global:bot
+ T1:num, base__outer__global:num, (obj__outer__global: {x: T1}), T2:num, copied__inner__outer__global:num, T3:num, T4:num, result__inner__outer__global:num, void:bot, ret__inner__outer__global:void, (inner__outer__global: Func<inner__outer__global>{() -> ret__inner__outer__global}), T6:bot, T5:num, T7:bot, check__outer__global:bot, ret__outer__global:bot, outer__global:bot, Func<outer__global>{() -> ret__outer__global}:bot
 
 15: [T6 <= num]
- T1:num, base__outer__global:num, (obj__outer__global: {x: T1}), T2:num, copied__inner__outer__global:num, T3:num, T4:num, result__inner__outer__global:num, void:bot, ret__inner__outer__global:void, inner__outer__global:function, T6:num, T5:num, T7:bot, check__outer__global:bot, ret__outer__global:bot, outer__global:bot
+ T1:num, base__outer__global:num, (obj__outer__global: {x: T1}), T2:num, copied__inner__outer__global:num, T3:num, T4:num, result__inner__outer__global:num, void:bot, ret__inner__outer__global:void, (inner__outer__global: Func<inner__outer__global>{() -> ret__inner__outer__global}), T6:num, T5:num, T7:bot, check__outer__global:bot, ret__outer__global:bot, outer__global:bot, Func<outer__global>{() -> ret__outer__global}:bot
 
 16: [T5 <= num]
- T1:num, base__outer__global:num, (obj__outer__global: {x: T1}), T2:num, copied__inner__outer__global:num, T3:num, T4:num, result__inner__outer__global:num, void:bot, ret__inner__outer__global:void, inner__outer__global:function, T6:num, T5:num, T7:bot, check__outer__global:bot, ret__outer__global:bot, outer__global:bot
+ T1:num, base__outer__global:num, (obj__outer__global: {x: T1}), T2:num, copied__inner__outer__global:num, T3:num, T4:num, result__inner__outer__global:num, void:bot, ret__inner__outer__global:void, (inner__outer__global: Func<inner__outer__global>{() -> ret__inner__outer__global}), T6:num, T5:num, T7:bot, check__outer__global:bot, ret__outer__global:bot, outer__global:bot, Func<outer__global>{() -> ret__outer__global}:bot
 
 17: [T6 <= num]
- T1:num, base__outer__global:num, (obj__outer__global: {x: T1}), T2:num, copied__inner__outer__global:num, T3:num, T4:num, result__inner__outer__global:num, void:bot, ret__inner__outer__global:void, inner__outer__global:function, T6:num, T5:num, T7:bot, check__outer__global:bot, ret__outer__global:bot, outer__global:bot
+ T1:num, base__outer__global:num, (obj__outer__global: {x: T1}), T2:num, copied__inner__outer__global:num, T3:num, T4:num, result__inner__outer__global:num, void:bot, ret__inner__outer__global:void, (inner__outer__global: Func<inner__outer__global>{() -> ret__inner__outer__global}), T6:num, T5:num, T7:bot, check__outer__global:bot, ret__outer__global:bot, outer__global:bot, Func<outer__global>{() -> ret__outer__global}:bot
 
 18: [T7 <= num]
- T1:num, base__outer__global:num, (obj__outer__global: {x: T1}), T2:num, copied__inner__outer__global:num, T3:num, T4:num, result__inner__outer__global:num, void:bot, ret__inner__outer__global:void, inner__outer__global:function, T6:num, T5:num, T7:num, check__outer__global:bot, ret__outer__global:bot, outer__global:bot
+ T1:num, base__outer__global:num, (obj__outer__global: {x: T1}), T2:num, copied__inner__outer__global:num, T3:num, T4:num, result__inner__outer__global:num, void:bot, ret__inner__outer__global:void, (inner__outer__global: Func<inner__outer__global>{() -> ret__inner__outer__global}), T6:num, T5:num, T7:num, check__outer__global:bot, ret__outer__global:bot, outer__global:bot, Func<outer__global>{() -> ret__outer__global}:bot
 
 19: [T7 <= check__outer__global]
- T1:num, base__outer__global:num, (obj__outer__global: {x: T1}), T2:num, copied__inner__outer__global:num, T3:num, T4:num, result__inner__outer__global:num, void:bot, ret__inner__outer__global:void, inner__outer__global:function, T6:num, T5:num, T7:num, check__outer__global:num, ret__outer__global:bot, outer__global:bot
+ T1:num, base__outer__global:num, (obj__outer__global: {x: T1}), T2:num, copied__inner__outer__global:num, T3:num, T4:num, result__inner__outer__global:num, void:bot, ret__inner__outer__global:void, (inner__outer__global: Func<inner__outer__global>{() -> ret__inner__outer__global}), T6:num, T5:num, T7:num, check__outer__global:num, ret__outer__global:bot, outer__global:bot, Func<outer__global>{() -> ret__outer__global}:bot
 
 20: [void <= ret__outer__global]
- T1:num, base__outer__global:num, (obj__outer__global: {x: T1}), T2:num, copied__inner__outer__global:num, T3:num, T4:num, result__inner__outer__global:num, void:bot, ret__inner__outer__global:void, inner__outer__global:function, T6:num, T5:num, T7:num, check__outer__global:num, ret__outer__global:void, outer__global:bot
+ T1:num, base__outer__global:num, (obj__outer__global: {x: T1}), T2:num, copied__inner__outer__global:num, T3:num, T4:num, result__inner__outer__global:num, void:bot, ret__inner__outer__global:void, (inner__outer__global: Func<inner__outer__global>{() -> ret__inner__outer__global}), T6:num, T5:num, T7:num, check__outer__global:num, ret__outer__global:void, outer__global:bot, Func<outer__global>{() -> ret__outer__global}:bot
 
-21: [outer__global <= function]
- T1:num, base__outer__global:num, (obj__outer__global: {x: T1}), T2:num, copied__inner__outer__global:num, T3:num, T4:num, result__inner__outer__global:num, void:bot, ret__inner__outer__global:void, inner__outer__global:function, T6:num, T5:num, T7:num, check__outer__global:num, ret__outer__global:void, outer__global:function
+21: [outer__global <= Func<outer__global>{() -> ret__outer__global}]
+ T1:num, base__outer__global:num, (obj__outer__global: {x: T1}), T2:num, copied__inner__outer__global:num, T3:num, T4:num, result__inner__outer__global:num, void:bot, ret__inner__outer__global:void, (inner__outer__global: Func<inner__outer__global>{() -> ret__inner__outer__global}), T6:num, T5:num, T7:num, check__outer__global:num, ret__outer__global:void, (outer__global: Func<outer__global>{() -> ret__outer__global})
 
 ──────────────────────────────────────────────────────
 ✓  Sem conflitos.
@@ -96,11 +96,10 @@ FINAL:
   base__outer__global           :  num
   check__outer__global          :  num
   copied__inner__outer__global  :  num
-  inner__outer__global          :  function
+  inner__outer__global          :  Func<inner__outer__global>{() -> void}
   obj__outer__global            :  {x: num}
-  outer__global                 :  function
+  outer__global                 :  Func<outer__global>{() -> void}
   result__inner__outer__global  :  num
   ret__inner__outer__global     :  void
   ret__outer__global            :  void
-  {x: base__outer__global}      :  bot
 

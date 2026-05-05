@@ -1,0 +1,112 @@
+
+Constraints:
+  C01: a__f__global <= num
+  C02: b__f__global <= num
+  C03: T1 <= num
+  C04: T1 <= ret__f__global
+  C05: f__global <= Func<f__global>{a__f__global -> b__f__global -> ret__f__global}
+  C06: f__global <= Func<f__global>{a__f__global -> b__f__global -> ret__f__global}
+  C07: T2 <= num
+  C08: T2 <= a__f__global
+  C09: T3 <= num
+  C10: T3 <= b__f__global
+  C11: a__x__global <= num
+  C12: b__x__global <= num
+  C13: T4 <= num
+  C14: T4 <= c__x__global
+  C15: T5 <= num
+  C16: a__f__x__global <= num
+  C17: T5 <= num
+  C18: T6 <= num
+  C19: T6 <= ret__f__x__global
+  C20: f__x__global <= Func<f__x__global>{a__f__x__global -> ret__f__x__global}
+  C21: void <= ret__x__global
+  C22: x__global <= Func<x__global>{a__x__global -> b__x__global -> ret__x__global}
+
+──────────────────────────────────────────────────────
+Inicio:
+ a__f__global:bot, num:bot, b__f__global:bot, T1:bot, ret__f__global:bot, f__global:bot, Func<f__global>{a__f__global -> b__f__global -> ret__f__global}:bot, T2:bot, T3:bot, a__x__global:bot, b__x__global:bot, T4:bot, c__x__global:bot, T5:bot, a__f__x__global:bot, T6:bot, ret__f__x__global:bot, f__x__global:bot, Func<f__x__global>{a__f__x__global -> ret__f__x__global}:bot, void:bot, ret__x__global:bot, x__global:bot, Func<x__global>{a__x__global -> b__x__global -> ret__x__global}:bot
+
+1: [a__f__global <= num]
+ a__f__global:num, b__f__global:bot, T1:bot, ret__f__global:bot, f__global:bot, Func<f__global>{a__f__global -> b__f__global -> ret__f__global}:bot, T2:bot, T3:bot, a__x__global:bot, b__x__global:bot, T4:bot, c__x__global:bot, T5:bot, a__f__x__global:bot, T6:bot, ret__f__x__global:bot, f__x__global:bot, Func<f__x__global>{a__f__x__global -> ret__f__x__global}:bot, void:bot, ret__x__global:bot, x__global:bot, Func<x__global>{a__x__global -> b__x__global -> ret__x__global}:bot
+
+2: [b__f__global <= num]
+ a__f__global:num, b__f__global:num, T1:bot, ret__f__global:bot, f__global:bot, Func<f__global>{a__f__global -> b__f__global -> ret__f__global}:bot, T2:bot, T3:bot, a__x__global:bot, b__x__global:bot, T4:bot, c__x__global:bot, T5:bot, a__f__x__global:bot, T6:bot, ret__f__x__global:bot, f__x__global:bot, Func<f__x__global>{a__f__x__global -> ret__f__x__global}:bot, void:bot, ret__x__global:bot, x__global:bot, Func<x__global>{a__x__global -> b__x__global -> ret__x__global}:bot
+
+3: [T1 <= num]
+ a__f__global:num, b__f__global:num, T1:num, ret__f__global:bot, f__global:bot, Func<f__global>{a__f__global -> b__f__global -> ret__f__global}:bot, T2:bot, T3:bot, a__x__global:bot, b__x__global:bot, T4:bot, c__x__global:bot, T5:bot, a__f__x__global:bot, T6:bot, ret__f__x__global:bot, f__x__global:bot, Func<f__x__global>{a__f__x__global -> ret__f__x__global}:bot, void:bot, ret__x__global:bot, x__global:bot, Func<x__global>{a__x__global -> b__x__global -> ret__x__global}:bot
+
+4: [T1 <= ret__f__global]
+ a__f__global:num, b__f__global:num, T1:num, ret__f__global:num, f__global:bot, Func<f__global>{a__f__global -> b__f__global -> ret__f__global}:bot, T2:bot, T3:bot, a__x__global:bot, b__x__global:bot, T4:bot, c__x__global:bot, T5:bot, a__f__x__global:bot, T6:bot, ret__f__x__global:bot, f__x__global:bot, Func<f__x__global>{a__f__x__global -> ret__f__x__global}:bot, void:bot, ret__x__global:bot, x__global:bot, Func<x__global>{a__x__global -> b__x__global -> ret__x__global}:bot
+
+5: [f__global <= Func<f__global>{a__f__global -> b__f__global -> ret__f__global}]
+ a__f__global:num, b__f__global:num, T1:num, ret__f__global:num, (f__global: Func<f__global>{a__f__global -> b__f__global -> T1}), T2:bot, T3:bot, a__x__global:bot, b__x__global:bot, T4:bot, c__x__global:bot, T5:bot, a__f__x__global:bot, T6:bot, ret__f__x__global:bot, f__x__global:bot, Func<f__x__global>{a__f__x__global -> ret__f__x__global}:bot, void:bot, ret__x__global:bot, x__global:bot, Func<x__global>{a__x__global -> b__x__global -> ret__x__global}:bot
+
+6: [f__global <= Func<f__global>{a__f__global -> b__f__global -> ret__f__global}]
+ a__f__global:num, b__f__global:num, T1:num, ret__f__global:num, (f__global: Func<f__global>{a__f__global -> b__f__global -> T1}), T2:bot, T3:bot, a__x__global:bot, b__x__global:bot, T4:bot, c__x__global:bot, T5:bot, a__f__x__global:bot, T6:bot, ret__f__x__global:bot, f__x__global:bot, Func<f__x__global>{a__f__x__global -> ret__f__x__global}:bot, void:bot, ret__x__global:bot, x__global:bot, Func<x__global>{a__x__global -> b__x__global -> ret__x__global}:bot
+
+7: [T2 <= num]
+ a__f__global:num, b__f__global:num, T1:num, ret__f__global:num, (f__global: Func<f__global>{a__f__global -> b__f__global -> T1}), T2:num, T3:bot, a__x__global:bot, b__x__global:bot, T4:bot, c__x__global:bot, T5:bot, a__f__x__global:bot, T6:bot, ret__f__x__global:bot, f__x__global:bot, Func<f__x__global>{a__f__x__global -> ret__f__x__global}:bot, void:bot, ret__x__global:bot, x__global:bot, Func<x__global>{a__x__global -> b__x__global -> ret__x__global}:bot
+
+8: [T2 <= a__f__global]
+ a__f__global:num, b__f__global:num, T1:num, ret__f__global:num, (f__global: Func<f__global>{T2 -> b__f__global -> T1}), T2:num, T3:bot, a__x__global:bot, b__x__global:bot, T4:bot, c__x__global:bot, T5:bot, a__f__x__global:bot, T6:bot, ret__f__x__global:bot, f__x__global:bot, Func<f__x__global>{a__f__x__global -> ret__f__x__global}:bot, void:bot, ret__x__global:bot, x__global:bot, Func<x__global>{a__x__global -> b__x__global -> ret__x__global}:bot
+
+9: [T3 <= num]
+ a__f__global:num, b__f__global:num, T1:num, ret__f__global:num, (f__global: Func<f__global>{T2 -> b__f__global -> T1}), T2:num, T3:num, a__x__global:bot, b__x__global:bot, T4:bot, c__x__global:bot, T5:bot, a__f__x__global:bot, T6:bot, ret__f__x__global:bot, f__x__global:bot, Func<f__x__global>{a__f__x__global -> ret__f__x__global}:bot, void:bot, ret__x__global:bot, x__global:bot, Func<x__global>{a__x__global -> b__x__global -> ret__x__global}:bot
+
+10: [T3 <= b__f__global]
+ a__f__global:num, b__f__global:num, T1:num, ret__f__global:num, (f__global: Func<f__global>{T2 -> T3 -> T1}), T2:num, T3:num, a__x__global:bot, b__x__global:bot, T4:bot, c__x__global:bot, T5:bot, a__f__x__global:bot, T6:bot, ret__f__x__global:bot, f__x__global:bot, Func<f__x__global>{a__f__x__global -> ret__f__x__global}:bot, void:bot, ret__x__global:bot, x__global:bot, Func<x__global>{a__x__global -> b__x__global -> ret__x__global}:bot
+
+11: [a__x__global <= num]
+ a__f__global:num, b__f__global:num, T1:num, ret__f__global:num, (f__global: Func<f__global>{T2 -> T3 -> T1}), T2:num, T3:num, a__x__global:num, b__x__global:bot, T4:bot, c__x__global:bot, T5:bot, a__f__x__global:bot, T6:bot, ret__f__x__global:bot, f__x__global:bot, Func<f__x__global>{a__f__x__global -> ret__f__x__global}:bot, void:bot, ret__x__global:bot, x__global:bot, Func<x__global>{a__x__global -> b__x__global -> ret__x__global}:bot
+
+12: [b__x__global <= num]
+ a__f__global:num, b__f__global:num, T1:num, ret__f__global:num, (f__global: Func<f__global>{T2 -> T3 -> T1}), T2:num, T3:num, a__x__global:num, b__x__global:num, T4:bot, c__x__global:bot, T5:bot, a__f__x__global:bot, T6:bot, ret__f__x__global:bot, f__x__global:bot, Func<f__x__global>{a__f__x__global -> ret__f__x__global}:bot, void:bot, ret__x__global:bot, x__global:bot, Func<x__global>{a__x__global -> b__x__global -> ret__x__global}:bot
+
+13: [T4 <= num]
+ a__f__global:num, b__f__global:num, T1:num, ret__f__global:num, (f__global: Func<f__global>{T2 -> T3 -> T1}), T2:num, T3:num, a__x__global:num, b__x__global:num, T4:num, c__x__global:bot, T5:bot, a__f__x__global:bot, T6:bot, ret__f__x__global:bot, f__x__global:bot, Func<f__x__global>{a__f__x__global -> ret__f__x__global}:bot, void:bot, ret__x__global:bot, x__global:bot, Func<x__global>{a__x__global -> b__x__global -> ret__x__global}:bot
+
+14: [T4 <= c__x__global]
+ a__f__global:num, b__f__global:num, T1:num, ret__f__global:num, (f__global: Func<f__global>{T2 -> T3 -> T1}), T2:num, T3:num, a__x__global:num, b__x__global:num, T4:num, c__x__global:num, T5:bot, a__f__x__global:bot, T6:bot, ret__f__x__global:bot, f__x__global:bot, Func<f__x__global>{a__f__x__global -> ret__f__x__global}:bot, void:bot, ret__x__global:bot, x__global:bot, Func<x__global>{a__x__global -> b__x__global -> ret__x__global}:bot
+
+15: [T5 <= num]
+ a__f__global:num, b__f__global:num, T1:num, ret__f__global:num, (f__global: Func<f__global>{T2 -> T3 -> T1}), T2:num, T3:num, a__x__global:num, b__x__global:num, T4:num, c__x__global:num, T5:num, a__f__x__global:bot, T6:bot, ret__f__x__global:bot, f__x__global:bot, Func<f__x__global>{a__f__x__global -> ret__f__x__global}:bot, void:bot, ret__x__global:bot, x__global:bot, Func<x__global>{a__x__global -> b__x__global -> ret__x__global}:bot
+
+16: [a__f__x__global <= num]
+ a__f__global:num, b__f__global:num, T1:num, ret__f__global:num, (f__global: Func<f__global>{T2 -> T3 -> T1}), T2:num, T3:num, a__x__global:num, b__x__global:num, T4:num, c__x__global:num, T5:num, a__f__x__global:num, T6:bot, ret__f__x__global:bot, f__x__global:bot, Func<f__x__global>{a__f__x__global -> ret__f__x__global}:bot, void:bot, ret__x__global:bot, x__global:bot, Func<x__global>{a__x__global -> b__x__global -> ret__x__global}:bot
+
+17: [T5 <= num]
+ a__f__global:num, b__f__global:num, T1:num, ret__f__global:num, (f__global: Func<f__global>{T2 -> T3 -> T1}), T2:num, T3:num, a__x__global:num, b__x__global:num, T4:num, c__x__global:num, T5:num, a__f__x__global:num, T6:bot, ret__f__x__global:bot, f__x__global:bot, Func<f__x__global>{a__f__x__global -> ret__f__x__global}:bot, void:bot, ret__x__global:bot, x__global:bot, Func<x__global>{a__x__global -> b__x__global -> ret__x__global}:bot
+
+18: [T6 <= num]
+ a__f__global:num, b__f__global:num, T1:num, ret__f__global:num, (f__global: Func<f__global>{T2 -> T3 -> T1}), T2:num, T3:num, a__x__global:num, b__x__global:num, T4:num, c__x__global:num, T5:num, a__f__x__global:num, T6:num, ret__f__x__global:bot, f__x__global:bot, Func<f__x__global>{a__f__x__global -> ret__f__x__global}:bot, void:bot, ret__x__global:bot, x__global:bot, Func<x__global>{a__x__global -> b__x__global -> ret__x__global}:bot
+
+19: [T6 <= ret__f__x__global]
+ a__f__global:num, b__f__global:num, T1:num, ret__f__global:num, (f__global: Func<f__global>{T2 -> T3 -> T1}), T2:num, T3:num, a__x__global:num, b__x__global:num, T4:num, c__x__global:num, T5:num, a__f__x__global:num, T6:num, ret__f__x__global:num, f__x__global:bot, Func<f__x__global>{a__f__x__global -> ret__f__x__global}:bot, void:bot, ret__x__global:bot, x__global:bot, Func<x__global>{a__x__global -> b__x__global -> ret__x__global}:bot
+
+20: [f__x__global <= Func<f__x__global>{a__f__x__global -> ret__f__x__global}]
+ a__f__global:num, b__f__global:num, T1:num, ret__f__global:num, (f__global: Func<f__global>{T2 -> T3 -> T1}), T2:num, T3:num, a__x__global:num, b__x__global:num, T4:num, c__x__global:num, T5:num, a__f__x__global:num, T6:num, ret__f__x__global:num, (f__x__global: Func<f__x__global>{a__f__x__global -> T6}), void:bot, ret__x__global:bot, x__global:bot, Func<x__global>{a__x__global -> b__x__global -> ret__x__global}:bot
+
+21: [void <= ret__x__global]
+ a__f__global:num, b__f__global:num, T1:num, ret__f__global:num, (f__global: Func<f__global>{T2 -> T3 -> T1}), T2:num, T3:num, a__x__global:num, b__x__global:num, T4:num, c__x__global:num, T5:num, a__f__x__global:num, T6:num, ret__f__x__global:num, (f__x__global: Func<f__x__global>{a__f__x__global -> T6}), void:bot, ret__x__global:void, x__global:bot, Func<x__global>{a__x__global -> b__x__global -> ret__x__global}:bot
+
+22: [x__global <= Func<x__global>{a__x__global -> b__x__global -> ret__x__global}]
+ a__f__global:num, b__f__global:num, T1:num, ret__f__global:num, (f__global: Func<f__global>{T2 -> T3 -> T1}), T2:num, T3:num, a__x__global:num, b__x__global:num, T4:num, c__x__global:num, T5:num, a__f__x__global:num, T6:num, ret__f__x__global:num, (f__x__global: Func<f__x__global>{a__f__x__global -> T6}), void:bot, ret__x__global:void, (x__global: Func<x__global>{a__x__global -> b__x__global -> ret__x__global})
+
+──────────────────────────────────────────────────────
+✓  Sem conflitos.
+
+FINAL:
+  a__f__global       :  num
+  a__f__x__global    :  num
+  a__x__global       :  num
+  b__f__global       :  num
+  b__x__global       :  num
+  c__x__global       :  num
+  f__global          :  Func<f__global>{num -> num -> num}
+  f__x__global       :  Func<f__x__global>{num -> num}
+  ret__f__global     :  num
+  ret__f__x__global  :  num
+  ret__x__global     :  void
+  x__global          :  Func<x__global>{num -> num -> void}
+

@@ -13,6 +13,12 @@ const fresh = () => `T${++_cnt}`;
 const constraints = [];
 const addCons = (a, b) => constraints.push(`${a} <= ${b}`);
 
+// build a Func type string: Func<qualName>{p1 -> p2 -> ... -> ret}
+const funcType = (qualName, paramTVs, retTV) =>
+  paramTVs.length === 0
+    ? `Func<${qualName}>{() -> ${retTV}}`
+    : `Func<${qualName}>{${[...paramTVs, retTV].join(" -> ")}}`;
+
 // function parameter names
 const functionParams = new Map();
 // save function type variables
@@ -69,7 +75,7 @@ function inferFuncNode(funcNode, fnName, fnScope, env, xTarget) {
   functionTypes.set(qualName, { params: paramTVs, ret: retTV });
 
   if (xTarget) {
-    addCons(xTarget, "function");
+    addCons(xTarget, funcType(qualName, paramTVs, retTV));
   }
 
   return;
@@ -245,9 +251,9 @@ function inferExpr(node, env, scope) {
         : `${fname}__global`;
 
       const fnVar = envGet(env, fname, scope);
-      addCons(fnVar, "function");
-
       const paramNames = functionParams.get(qualName);
+      const callParamTVs = (paramNames ?? []).map((p) => `${p}__${qualName}`);
+      addCons(fnVar, funcType(qualName, callParamTVs, `ret__${qualName}`));
       node.arguments.forEach((arg, i) => {
         const Xi = inferExpr(arg, env, scope);
         if (paramNames?.[i]) {
@@ -499,7 +505,7 @@ function inferStmt(node, env, scope) {
       });
 
       const fnTV = envDeclare(env, fnName, scope);
-      addCons(fnTV, "function");
+      addCons(fnTV, funcType(qualName, paramTVs, retTV));
       break;
     }
 

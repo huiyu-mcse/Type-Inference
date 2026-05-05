@@ -12,68 +12,67 @@ Constraints:
   C10: T4 <= next__increment__global
   C11: counter__global <= {val: next__increment__global}
   C12: void <= ret__increment__global
-  C13: increment__global <= function
+  C13: increment__global <= Func<increment__global>{() -> ret__increment__global}
   C14: T5 <= final__global
   C15: counter__global <= {val: T5}
 
 ──────────────────────────────────────────────────────
 Inicio:
- counter__global:bot, {}:bot, T1:bot, num:bot, {val: T1}:bot, T2:bot, cur__increment__global:bot, {val: T2}:bot, T3:bot, T4:bot, next__increment__global:bot, {val: next__increment__global}:bot, void:bot, ret__increment__global:bot, increment__global:bot, function:bot, T5:bot, final__global:bot, {val: T5}:bot
+ counter__global:bot, {}:bot, T1:bot, num:bot, {val: T1}:bot, T2:bot, cur__increment__global:bot, {val: T2}:bot, T3:bot, T4:bot, next__increment__global:bot, {val: next__increment__global}:bot, void:bot, ret__increment__global:bot, increment__global:bot, Func<increment__global>{() -> ret__increment__global}:bot, T5:bot, final__global:bot, {val: T5}:bot
 
 1: [counter__global <= {}]
- counter__global:{}, T1:bot, num:bot, {val: T1}:bot, T2:bot, cur__increment__global:bot, {val: T2}:bot, T3:bot, T4:bot, next__increment__global:bot, {val: next__increment__global}:bot, void:bot, ret__increment__global:bot, increment__global:bot, function:bot, T5:bot, final__global:bot, {val: T5}:bot
+ counter__global:{}, T1:bot, num:bot, {val: T1}:bot, T2:bot, cur__increment__global:bot, {val: T2}:bot, T3:bot, T4:bot, next__increment__global:bot, {val: next__increment__global}:bot, void:bot, ret__increment__global:bot, increment__global:bot, Func<increment__global>{() -> ret__increment__global}:bot, T5:bot, final__global:bot, {val: T5}:bot
 
 2: [T1 <= num]
- counter__global:{}, T1:num, {val: T1}:bot, T2:bot, cur__increment__global:bot, {val: T2}:bot, T3:bot, T4:bot, next__increment__global:bot, {val: next__increment__global}:bot, void:bot, ret__increment__global:bot, increment__global:bot, function:bot, T5:bot, final__global:bot, {val: T5}:bot
+ counter__global:{}, T1:num, {val: T1}:bot, T2:bot, cur__increment__global:bot, {val: T2}:bot, T3:bot, T4:bot, next__increment__global:bot, {val: next__increment__global}:bot, void:bot, ret__increment__global:bot, increment__global:bot, Func<increment__global>{() -> ret__increment__global}:bot, T5:bot, final__global:bot, {val: T5}:bot
 
 3: [counter__global <= {val: T1}]
- (counter__global: {val: T1}), T1:num, T2:bot, cur__increment__global:bot, {val: T2}:bot, T3:bot, T4:bot, next__increment__global:bot, {val: next__increment__global}:bot, void:bot, ret__increment__global:bot, increment__global:bot, function:bot, T5:bot, final__global:bot, {val: T5}:bot
+ (counter__global: {val: T1}), T1:num, T2:bot, cur__increment__global:bot, {val: T2}:bot, T3:bot, T4:bot, next__increment__global:bot, {val: next__increment__global}:bot, void:bot, ret__increment__global:bot, increment__global:bot, Func<increment__global>{() -> ret__increment__global}:bot, T5:bot, final__global:bot, {val: T5}:bot
 
 4: [T2 <= cur__increment__global]
- (counter__global: {val: T1}), T1:num, T2:bot, cur__increment__global:bot, {val: T2}:bot, T3:bot, T4:bot, next__increment__global:bot, {val: next__increment__global}:bot, void:bot, ret__increment__global:bot, increment__global:bot, function:bot, T5:bot, final__global:bot, {val: T5}:bot
+ (counter__global: {val: T1}), T1:num, T2:bot, cur__increment__global:bot, {val: T2}:bot, T3:bot, T4:bot, next__increment__global:bot, {val: next__increment__global}:bot, void:bot, ret__increment__global:bot, increment__global:bot, Func<increment__global>{() -> ret__increment__global}:bot, T5:bot, final__global:bot, {val: T5}:bot
 
 5: [counter__global <= {val: T2}]
- (counter__global: {val: T2}), T1:num, T2:num, cur__increment__global:num, T3:bot, T4:bot, next__increment__global:bot, {val: next__increment__global}:bot, void:bot, ret__increment__global:bot, increment__global:bot, function:bot, T5:bot, final__global:bot, {val: T5}:bot
+ (counter__global: {val: T2}), T1:num, T2:num, cur__increment__global:num, T3:bot, T4:bot, next__increment__global:bot, {val: next__increment__global}:bot, void:bot, ret__increment__global:bot, increment__global:bot, Func<increment__global>{() -> ret__increment__global}:bot, T5:bot, final__global:bot, {val: T5}:bot
 
 6: [T3 <= num]
- (counter__global: {val: T2}), T1:num, T2:num, cur__increment__global:num, T3:num, T4:bot, next__increment__global:bot, {val: next__increment__global}:bot, void:bot, ret__increment__global:bot, increment__global:bot, function:bot, T5:bot, final__global:bot, {val: T5}:bot
+ (counter__global: {val: T2}), T1:num, T2:num, cur__increment__global:num, T3:num, T4:bot, next__increment__global:bot, {val: next__increment__global}:bot, void:bot, ret__increment__global:bot, increment__global:bot, Func<increment__global>{() -> ret__increment__global}:bot, T5:bot, final__global:bot, {val: T5}:bot
 
 7: [cur__increment__global <= num]
- (counter__global: {val: T2}), T1:num, T2:num, cur__increment__global:num, T3:num, T4:bot, next__increment__global:bot, {val: next__increment__global}:bot, void:bot, ret__increment__global:bot, increment__global:bot, function:bot, T5:bot, final__global:bot, {val: T5}:bot
+ (counter__global: {val: T2}), T1:num, T2:num, cur__increment__global:num, T3:num, T4:bot, next__increment__global:bot, {val: next__increment__global}:bot, void:bot, ret__increment__global:bot, increment__global:bot, Func<increment__global>{() -> ret__increment__global}:bot, T5:bot, final__global:bot, {val: T5}:bot
 
 8: [T3 <= num]
- (counter__global: {val: T2}), T1:num, T2:num, cur__increment__global:num, T3:num, T4:bot, next__increment__global:bot, {val: next__increment__global}:bot, void:bot, ret__increment__global:bot, increment__global:bot, function:bot, T5:bot, final__global:bot, {val: T5}:bot
+ (counter__global: {val: T2}), T1:num, T2:num, cur__increment__global:num, T3:num, T4:bot, next__increment__global:bot, {val: next__increment__global}:bot, void:bot, ret__increment__global:bot, increment__global:bot, Func<increment__global>{() -> ret__increment__global}:bot, T5:bot, final__global:bot, {val: T5}:bot
 
 9: [T4 <= num]
- (counter__global: {val: T2}), T1:num, T2:num, cur__increment__global:num, T3:num, T4:num, next__increment__global:bot, {val: next__increment__global}:bot, void:bot, ret__increment__global:bot, increment__global:bot, function:bot, T5:bot, final__global:bot, {val: T5}:bot
+ (counter__global: {val: T2}), T1:num, T2:num, cur__increment__global:num, T3:num, T4:num, next__increment__global:bot, {val: next__increment__global}:bot, void:bot, ret__increment__global:bot, increment__global:bot, Func<increment__global>{() -> ret__increment__global}:bot, T5:bot, final__global:bot, {val: T5}:bot
 
 10: [T4 <= next__increment__global]
- (counter__global: {val: T2}), T1:num, T2:num, cur__increment__global:num, T3:num, T4:num, next__increment__global:num, {val: next__increment__global}:bot, void:bot, ret__increment__global:bot, increment__global:bot, function:bot, T5:bot, final__global:bot, {val: T5}:bot
+ (counter__global: {val: T2}), T1:num, T2:num, cur__increment__global:num, T3:num, T4:num, next__increment__global:num, {val: next__increment__global}:bot, void:bot, ret__increment__global:bot, increment__global:bot, Func<increment__global>{() -> ret__increment__global}:bot, T5:bot, final__global:bot, {val: T5}:bot
 
 11: [counter__global <= {val: next__increment__global}]
- (counter__global: {val: T2}), T1:num, T2:num, cur__increment__global:num, T3:num, T4:num, next__increment__global:num, void:bot, ret__increment__global:bot, increment__global:bot, function:bot, T5:bot, final__global:bot, {val: T5}:bot
+ (counter__global: {val: T2}), T1:num, T2:num, cur__increment__global:num, T3:num, T4:num, next__increment__global:num, void:bot, ret__increment__global:bot, increment__global:bot, Func<increment__global>{() -> ret__increment__global}:bot, T5:bot, final__global:bot, {val: T5}:bot
 
 12: [void <= ret__increment__global]
- (counter__global: {val: T2}), T1:num, T2:num, cur__increment__global:num, T3:num, T4:num, next__increment__global:num, void:bot, ret__increment__global:void, increment__global:bot, function:bot, T5:bot, final__global:bot, {val: T5}:bot
+ (counter__global: {val: T2}), T1:num, T2:num, cur__increment__global:num, T3:num, T4:num, next__increment__global:num, void:bot, ret__increment__global:void, increment__global:bot, Func<increment__global>{() -> ret__increment__global}:bot, T5:bot, final__global:bot, {val: T5}:bot
 
-13: [increment__global <= function]
- (counter__global: {val: T2}), T1:num, T2:num, cur__increment__global:num, T3:num, T4:num, next__increment__global:num, void:bot, ret__increment__global:void, increment__global:function, T5:bot, final__global:bot, {val: T5}:bot
+13: [increment__global <= Func<increment__global>{() -> ret__increment__global}]
+ (counter__global: {val: T2}), T1:num, T2:num, cur__increment__global:num, T3:num, T4:num, next__increment__global:num, void:bot, ret__increment__global:void, (increment__global: Func<increment__global>{() -> ret__increment__global}), T5:bot, final__global:bot, {val: T5}:bot
 
 14: [T5 <= final__global]
- (counter__global: {val: T2}), T1:num, T2:num, cur__increment__global:num, T3:num, T4:num, next__increment__global:num, void:bot, ret__increment__global:void, increment__global:function, T5:bot, final__global:bot, {val: T5}:bot
+ (counter__global: {val: T2}), T1:num, T2:num, cur__increment__global:num, T3:num, T4:num, next__increment__global:num, void:bot, ret__increment__global:void, (increment__global: Func<increment__global>{() -> ret__increment__global}), T5:bot, final__global:bot, {val: T5}:bot
 
 15: [counter__global <= {val: T5}]
- (counter__global: {val: T2}), T1:num, T2:num, cur__increment__global:num, T3:num, T4:num, next__increment__global:num, void:bot, ret__increment__global:void, increment__global:function, T5:num, final__global:num
+ (counter__global: {val: T2}), T1:num, T2:num, cur__increment__global:num, T3:num, T4:num, next__increment__global:num, void:bot, ret__increment__global:void, (increment__global: Func<increment__global>{() -> ret__increment__global}), T5:num, final__global:num
 
 ──────────────────────────────────────────────────────
 ✓  Sem conflitos.
 
 FINAL:
-  counter__global                 :  {val: num}
-  cur__increment__global          :  num
-  final__global                   :  num
-  increment__global               :  function
-  next__increment__global         :  num
-  ret__increment__global          :  void
-  {val: next__increment__global}  :  bot
+  counter__global          :  {val: num}
+  cur__increment__global   :  num
+  final__global            :  num
+  increment__global        :  Func<increment__global>{() -> void}
+  next__increment__global  :  num
+  ret__increment__global   :  void
 

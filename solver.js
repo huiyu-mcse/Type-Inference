@@ -1,16 +1,29 @@
 #!/usr/bin/env node
 "use strict";
 
-//const BASE_TYPES = new Set(["str", "num", "bool"]);
-const BASE_TYPES = new Set(["str", "num", "bool", "function", "void"]);
+const BASE_TYPES = new Set(["str", "num", "bool", "void"]);
 const isBaseType = (t) => BASE_TYPES.has(t);
 const isEmptyObj = (t) => t === "{}";
 const isObjWithFlds = (t) => t.startsWith("{") && t !== "{}";
 const isArray = (t) => t.startsWith("Array<") && t.endsWith(">");
 const parseArrayElem = (t) => t.slice(6, -1).trim();
+const isFunc = (t) => t.startsWith("Func<");
 const isLiteral = (t) =>
-  isBaseType(t) || isEmptyObj(t) || isObjWithFlds(t) || isArray(t);
+  isBaseType(t) || isEmptyObj(t) || isObjWithFlds(t) || isArray(t) || isFunc(t);
 const isTypeVar = (t) => !isLiteral(t);
+
+// Parse Func<name>{p1 -> p2 -> ... -> ret}  or  Func<name>{() -> ret}
+function parseFunc(t) {
+  const nameEnd = t.indexOf(">{");
+  const name = t.slice(5, nameEnd); // after "Func<"
+  const body = t.slice(nameEnd + 2, -1); // inside {}
+  if (body.startsWith("()")) {
+    const ret = body.slice(body.indexOf("->") + 2).trim();
+    return { name, params: [], ret };
+  }
+  const parts = body.split(" -> ");
+  return { name, params: parts.slice(0, -1), ret: parts[parts.length - 1] };
+}
 
 function parseFields(t) {
   const inner = t.slice(1, -1).trim();
@@ -44,6 +57,8 @@ class State {
     this.objShape = new Map(); // rep → Map<field, typeVar>  ← UMA var por campo
     this.isArr = new Map(); // rep → true
     this.arrElem = new Map(); // rep → typeVar for element type
+    this.isFuncType = new Map(); // rep → true
+    this.funcInfo = new Map(); // rep → { name, params: string[], ret: string }
     this.errors = [];
 
     this.displayList = []; // todos os nós em ordem de aparição
@@ -129,11 +144,15 @@ class State {
     if (this.isArr.get(child)) {
       const childElem = this.arrElem.get(child);
       if (this.isArr.get(root)) {
-        // Ambos arrays → unifica element types
         this.union(this.arrElem.get(root), childElem);
       } else {
         this._initArr(root, childElem);
       }
+    }
+
+    // Propaga funcInfo do child para o root
+    if (this.isFuncType.get(child)) {
+      this._initFunc(root, this.funcInfo.get(child));
     }
   }
 
@@ -147,6 +166,8 @@ class State {
         this.errors.push(`CONFLICT: obj vs ${type}  (${ctx})`);
       else if (this.isArr.get(rx))
         this.errors.push(`CONFLICT: Array vs ${type}  (${ctx})`);
+      else if (this.isFuncType.get(rx))
+        this.errors.push(`CONFLICT: Func vs ${type}  (${ctx})`);
       else this.baseType.set(rx, type);
     }
   }
@@ -181,6 +202,31 @@ class State {
     }
   }
 
+  _initFunc(rx, info) {
+    if (this.baseType.has(rx)) {
+      this.errors.push(`CONFLICT: ${this.baseType.get(rx)} vs Func`);
+      return;
+    }
+    if (this.isObj.get(rx)) {
+      this.errors.push(`CONFLICT: obj vs Func`);
+      return;
+    }
+    if (this.isArr.get(rx)) {
+      this.errors.push(`CONFLICT: Array vs Func`);
+      return;
+    }
+    if (this.isFuncType.get(rx)) {
+      // Already a Func — unify params and ret pairwise
+      const existing = this.funcInfo.get(rx);
+      const n = Math.min(existing.params.length, info.params.length);
+      for (let i = 0; i < n; i++) this.union(existing.params[i], info.params[i]);
+      this.union(existing.ret, info.ret);
+      return;
+    }
+    this.isFuncType.set(rx, true);
+    this.funcInfo.set(rx, info);
+  }
+
   // ── Processa uma constraint ────────────────────────────────────────────────
   process(lhs, rhs) {
     // case if base type literal appears at the left
@@ -208,13 +254,15 @@ class State {
       const shape = this.objShape.get(rx) ?? new Map();
       for (const [f, tv] of parseFields(rhs)) {
         if (shape.has(f)) {
-          // Campo já existe → unifica as duas type vars em vez de criar T1|T2
           this.union(shape.get(f), tv);
         } else {
           shape.set(f, tv);
         }
         this.objShape.set(rx, shape);
       }
+      this.consumedLits.add(rhs);
+    } else if (isFunc(rhs)) {
+      this._initFunc(this.find(lhs), parseFunc(rhs));
       this.consumedLits.add(rhs);
     } else {
       // lhs <= rhs  (ambos type vars) → union
@@ -239,6 +287,13 @@ class State {
         .join(", ");
       return `{${inner}}`;
     }
+    if (this.isFuncType.get(rep)) {
+      const { name, params, ret } = this.funcInfo.get(rep);
+      const parts = [...params.map((p) => this.find(p)), this.find(ret)];
+      return params.length === 0
+        ? `Func<${name}>{() -> ${this.find(ret)}}`
+        : `Func<${name}>{${parts.join(" -> ")}}`;
+    }
     return null; // bot
   }
 
@@ -260,6 +315,15 @@ class State {
         .map(([f, tv]) => `${f}: ${this.resolveType(tv, new Set(visited))}`)
         .join(", ");
       return `{${inner}}`;
+    }
+    if (this.isFuncType.get(rep)) {
+      const { name, params, ret } = this.funcInfo.get(rep);
+      const resolvedRet = this.resolveType(ret, new Set(visited));
+      if (params.length === 0) return `Func<${name}>{() -> ${resolvedRet}}`;
+      const resolvedParams = params.map((p) =>
+        this.resolveType(p, new Set(visited)),
+      );
+      return `Func<${name}>{${[...resolvedParams, resolvedRet].join(" -> ")}}`;
     }
     return "bot";
   }
@@ -353,7 +417,9 @@ function solve(input, quiet = false) {
   }
 
   console.log("\nFINAL:");
-  const progVars = [...st.seenNodes].filter((k) => k.includes("__")).sort();
+  const progVars = [...st.seenNodes]
+    .filter((k) => k.includes("__") && !isLiteral(k))
+    .sort();
   const maxLen = progVars.length
     ? Math.max(...progVars.map((v) => v.length))
     : 0;

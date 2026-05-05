@@ -31,114 +31,114 @@ Constraints:
   C29: T11 <= bool
   C30: T11 <= cmp__add__global
   C31: x__add__global <= ret__add__global
-  C32: add__global <= function
+  C32: add__global <= Func<add__global>{a__add__global -> b__add__global -> ret__add__global}
 
 ──────────────────────────────────────────────────────
 Inicio:
- T1:bot, num:bot, x__global:bot, T2:bot, y__global:bot, T3:bot, bool:bot, cmp__global:bot, T4:bot, T5:bot, T6:bot, cmp2__global:bot, T7:bot, result__global:bot, T8:bot, a__add__global:bot, b__add__global:bot, T9:bot, x__add__global:bot, T10:bot, T11:bot, cmp__add__global:bot, ret__add__global:bot, add__global:bot, function:bot
+ T1:bot, num:bot, x__global:bot, T2:bot, y__global:bot, T3:bot, bool:bot, cmp__global:bot, T4:bot, T5:bot, T6:bot, cmp2__global:bot, T7:bot, result__global:bot, T8:bot, a__add__global:bot, b__add__global:bot, T9:bot, x__add__global:bot, T10:bot, T11:bot, cmp__add__global:bot, ret__add__global:bot, add__global:bot, Func<add__global>{a__add__global -> b__add__global -> ret__add__global}:bot
 
 1: [T1 <= num]
- T1:num, x__global:bot, T2:bot, y__global:bot, T3:bot, bool:bot, cmp__global:bot, T4:bot, T5:bot, T6:bot, cmp2__global:bot, T7:bot, result__global:bot, T8:bot, a__add__global:bot, b__add__global:bot, T9:bot, x__add__global:bot, T10:bot, T11:bot, cmp__add__global:bot, ret__add__global:bot, add__global:bot, function:bot
+ T1:num, x__global:bot, T2:bot, y__global:bot, T3:bot, bool:bot, cmp__global:bot, T4:bot, T5:bot, T6:bot, cmp2__global:bot, T7:bot, result__global:bot, T8:bot, a__add__global:bot, b__add__global:bot, T9:bot, x__add__global:bot, T10:bot, T11:bot, cmp__add__global:bot, ret__add__global:bot, add__global:bot, Func<add__global>{a__add__global -> b__add__global -> ret__add__global}:bot
 
 2: [T1 <= x__global]
- T1:num, x__global:num, T2:bot, y__global:bot, T3:bot, bool:bot, cmp__global:bot, T4:bot, T5:bot, T6:bot, cmp2__global:bot, T7:bot, result__global:bot, T8:bot, a__add__global:bot, b__add__global:bot, T9:bot, x__add__global:bot, T10:bot, T11:bot, cmp__add__global:bot, ret__add__global:bot, add__global:bot, function:bot
+ T1:num, x__global:num, T2:bot, y__global:bot, T3:bot, bool:bot, cmp__global:bot, T4:bot, T5:bot, T6:bot, cmp2__global:bot, T7:bot, result__global:bot, T8:bot, a__add__global:bot, b__add__global:bot, T9:bot, x__add__global:bot, T10:bot, T11:bot, cmp__add__global:bot, ret__add__global:bot, add__global:bot, Func<add__global>{a__add__global -> b__add__global -> ret__add__global}:bot
 
 3: [T2 <= num]
- T1:num, x__global:num, T2:num, y__global:bot, T3:bot, bool:bot, cmp__global:bot, T4:bot, T5:bot, T6:bot, cmp2__global:bot, T7:bot, result__global:bot, T8:bot, a__add__global:bot, b__add__global:bot, T9:bot, x__add__global:bot, T10:bot, T11:bot, cmp__add__global:bot, ret__add__global:bot, add__global:bot, function:bot
+ T1:num, x__global:num, T2:num, y__global:bot, T3:bot, bool:bot, cmp__global:bot, T4:bot, T5:bot, T6:bot, cmp2__global:bot, T7:bot, result__global:bot, T8:bot, a__add__global:bot, b__add__global:bot, T9:bot, x__add__global:bot, T10:bot, T11:bot, cmp__add__global:bot, ret__add__global:bot, add__global:bot, Func<add__global>{a__add__global -> b__add__global -> ret__add__global}:bot
 
 4: [T2 <= y__global]
- T1:num, x__global:num, T2:num, y__global:num, T3:bot, bool:bot, cmp__global:bot, T4:bot, T5:bot, T6:bot, cmp2__global:bot, T7:bot, result__global:bot, T8:bot, a__add__global:bot, b__add__global:bot, T9:bot, x__add__global:bot, T10:bot, T11:bot, cmp__add__global:bot, ret__add__global:bot, add__global:bot, function:bot
+ T1:num, x__global:num, T2:num, y__global:num, T3:bot, bool:bot, cmp__global:bot, T4:bot, T5:bot, T6:bot, cmp2__global:bot, T7:bot, result__global:bot, T8:bot, a__add__global:bot, b__add__global:bot, T9:bot, x__add__global:bot, T10:bot, T11:bot, cmp__add__global:bot, ret__add__global:bot, add__global:bot, Func<add__global>{a__add__global -> b__add__global -> ret__add__global}:bot
 
 5: [x__global <= y__global]
- T1:num, x__global:num, T2:num, y__global:num, T3:bot, bool:bot, cmp__global:bot, T4:bot, T5:bot, T6:bot, cmp2__global:bot, T7:bot, result__global:bot, T8:bot, a__add__global:bot, b__add__global:bot, T9:bot, x__add__global:bot, T10:bot, T11:bot, cmp__add__global:bot, ret__add__global:bot, add__global:bot, function:bot
+ T1:num, x__global:num, T2:num, y__global:num, T3:bot, bool:bot, cmp__global:bot, T4:bot, T5:bot, T6:bot, cmp2__global:bot, T7:bot, result__global:bot, T8:bot, a__add__global:bot, b__add__global:bot, T9:bot, x__add__global:bot, T10:bot, T11:bot, cmp__add__global:bot, ret__add__global:bot, add__global:bot, Func<add__global>{a__add__global -> b__add__global -> ret__add__global}:bot
 
 6: [y__global <= x__global]
- T1:num, x__global:num, T2:num, y__global:num, T3:bot, bool:bot, cmp__global:bot, T4:bot, T5:bot, T6:bot, cmp2__global:bot, T7:bot, result__global:bot, T8:bot, a__add__global:bot, b__add__global:bot, T9:bot, x__add__global:bot, T10:bot, T11:bot, cmp__add__global:bot, ret__add__global:bot, add__global:bot, function:bot
+ T1:num, x__global:num, T2:num, y__global:num, T3:bot, bool:bot, cmp__global:bot, T4:bot, T5:bot, T6:bot, cmp2__global:bot, T7:bot, result__global:bot, T8:bot, a__add__global:bot, b__add__global:bot, T9:bot, x__add__global:bot, T10:bot, T11:bot, cmp__add__global:bot, ret__add__global:bot, add__global:bot, Func<add__global>{a__add__global -> b__add__global -> ret__add__global}:bot
 
 7: [T3 <= bool]
- T1:num, x__global:num, T2:num, y__global:num, T3:bool, cmp__global:bot, T4:bot, T5:bot, T6:bot, cmp2__global:bot, T7:bot, result__global:bot, T8:bot, a__add__global:bot, b__add__global:bot, T9:bot, x__add__global:bot, T10:bot, T11:bot, cmp__add__global:bot, ret__add__global:bot, add__global:bot, function:bot
+ T1:num, x__global:num, T2:num, y__global:num, T3:bool, cmp__global:bot, T4:bot, T5:bot, T6:bot, cmp2__global:bot, T7:bot, result__global:bot, T8:bot, a__add__global:bot, b__add__global:bot, T9:bot, x__add__global:bot, T10:bot, T11:bot, cmp__add__global:bot, ret__add__global:bot, add__global:bot, Func<add__global>{a__add__global -> b__add__global -> ret__add__global}:bot
 
 8: [T3 <= cmp__global]
- T1:num, x__global:num, T2:num, y__global:num, T3:bool, cmp__global:bool, T4:bot, T5:bot, T6:bot, cmp2__global:bot, T7:bot, result__global:bot, T8:bot, a__add__global:bot, b__add__global:bot, T9:bot, x__add__global:bot, T10:bot, T11:bot, cmp__add__global:bot, ret__add__global:bot, add__global:bot, function:bot
+ T1:num, x__global:num, T2:num, y__global:num, T3:bool, cmp__global:bool, T4:bot, T5:bot, T6:bot, cmp2__global:bot, T7:bot, result__global:bot, T8:bot, a__add__global:bot, b__add__global:bot, T9:bot, x__add__global:bot, T10:bot, T11:bot, cmp__add__global:bot, ret__add__global:bot, add__global:bot, Func<add__global>{a__add__global -> b__add__global -> ret__add__global}:bot
 
 9: [T4 <= num]
- T1:num, x__global:num, T2:num, y__global:num, T3:bool, cmp__global:bool, T4:num, T5:bot, T6:bot, cmp2__global:bot, T7:bot, result__global:bot, T8:bot, a__add__global:bot, b__add__global:bot, T9:bot, x__add__global:bot, T10:bot, T11:bot, cmp__add__global:bot, ret__add__global:bot, add__global:bot, function:bot
+ T1:num, x__global:num, T2:num, y__global:num, T3:bool, cmp__global:bool, T4:num, T5:bot, T6:bot, cmp2__global:bot, T7:bot, result__global:bot, T8:bot, a__add__global:bot, b__add__global:bot, T9:bot, x__add__global:bot, T10:bot, T11:bot, cmp__add__global:bot, ret__add__global:bot, add__global:bot, Func<add__global>{a__add__global -> b__add__global -> ret__add__global}:bot
 
 10: [T5 <= num]
- T1:num, x__global:num, T2:num, y__global:num, T3:bool, cmp__global:bool, T4:num, T5:num, T6:bot, cmp2__global:bot, T7:bot, result__global:bot, T8:bot, a__add__global:bot, b__add__global:bot, T9:bot, x__add__global:bot, T10:bot, T11:bot, cmp__add__global:bot, ret__add__global:bot, add__global:bot, function:bot
+ T1:num, x__global:num, T2:num, y__global:num, T3:bool, cmp__global:bool, T4:num, T5:num, T6:bot, cmp2__global:bot, T7:bot, result__global:bot, T8:bot, a__add__global:bot, b__add__global:bot, T9:bot, x__add__global:bot, T10:bot, T11:bot, cmp__add__global:bot, ret__add__global:bot, add__global:bot, Func<add__global>{a__add__global -> b__add__global -> ret__add__global}:bot
 
 11: [T4 <= T5]
- T1:num, x__global:num, T2:num, y__global:num, T3:bool, cmp__global:bool, T4:num, T5:num, T6:bot, cmp2__global:bot, T7:bot, result__global:bot, T8:bot, a__add__global:bot, b__add__global:bot, T9:bot, x__add__global:bot, T10:bot, T11:bot, cmp__add__global:bot, ret__add__global:bot, add__global:bot, function:bot
+ T1:num, x__global:num, T2:num, y__global:num, T3:bool, cmp__global:bool, T4:num, T5:num, T6:bot, cmp2__global:bot, T7:bot, result__global:bot, T8:bot, a__add__global:bot, b__add__global:bot, T9:bot, x__add__global:bot, T10:bot, T11:bot, cmp__add__global:bot, ret__add__global:bot, add__global:bot, Func<add__global>{a__add__global -> b__add__global -> ret__add__global}:bot
 
 12: [T5 <= T4]
- T1:num, x__global:num, T2:num, y__global:num, T3:bool, cmp__global:bool, T4:num, T5:num, T6:bot, cmp2__global:bot, T7:bot, result__global:bot, T8:bot, a__add__global:bot, b__add__global:bot, T9:bot, x__add__global:bot, T10:bot, T11:bot, cmp__add__global:bot, ret__add__global:bot, add__global:bot, function:bot
+ T1:num, x__global:num, T2:num, y__global:num, T3:bool, cmp__global:bool, T4:num, T5:num, T6:bot, cmp2__global:bot, T7:bot, result__global:bot, T8:bot, a__add__global:bot, b__add__global:bot, T9:bot, x__add__global:bot, T10:bot, T11:bot, cmp__add__global:bot, ret__add__global:bot, add__global:bot, Func<add__global>{a__add__global -> b__add__global -> ret__add__global}:bot
 
 13: [T6 <= bool]
- T1:num, x__global:num, T2:num, y__global:num, T3:bool, cmp__global:bool, T4:num, T5:num, T6:bool, cmp2__global:bot, T7:bot, result__global:bot, T8:bot, a__add__global:bot, b__add__global:bot, T9:bot, x__add__global:bot, T10:bot, T11:bot, cmp__add__global:bot, ret__add__global:bot, add__global:bot, function:bot
+ T1:num, x__global:num, T2:num, y__global:num, T3:bool, cmp__global:bool, T4:num, T5:num, T6:bool, cmp2__global:bot, T7:bot, result__global:bot, T8:bot, a__add__global:bot, b__add__global:bot, T9:bot, x__add__global:bot, T10:bot, T11:bot, cmp__add__global:bot, ret__add__global:bot, add__global:bot, Func<add__global>{a__add__global -> b__add__global -> ret__add__global}:bot
 
 14: [T6 <= cmp2__global]
- T1:num, x__global:num, T2:num, y__global:num, T3:bool, cmp__global:bool, T4:num, T5:num, T6:bool, cmp2__global:bool, T7:bot, result__global:bot, T8:bot, a__add__global:bot, b__add__global:bot, T9:bot, x__add__global:bot, T10:bot, T11:bot, cmp__add__global:bot, ret__add__global:bot, add__global:bot, function:bot
+ T1:num, x__global:num, T2:num, y__global:num, T3:bool, cmp__global:bool, T4:num, T5:num, T6:bool, cmp2__global:bool, T7:bot, result__global:bot, T8:bot, a__add__global:bot, b__add__global:bot, T9:bot, x__add__global:bot, T10:bot, T11:bot, cmp__add__global:bot, ret__add__global:bot, add__global:bot, Func<add__global>{a__add__global -> b__add__global -> ret__add__global}:bot
 
 15: [cmp__global <= bool]
- T1:num, x__global:num, T2:num, y__global:num, T3:bool, cmp__global:bool, T4:num, T5:num, T6:bool, cmp2__global:bool, T7:bot, result__global:bot, T8:bot, a__add__global:bot, b__add__global:bot, T9:bot, x__add__global:bot, T10:bot, T11:bot, cmp__add__global:bot, ret__add__global:bot, add__global:bot, function:bot
+ T1:num, x__global:num, T2:num, y__global:num, T3:bool, cmp__global:bool, T4:num, T5:num, T6:bool, cmp2__global:bool, T7:bot, result__global:bot, T8:bot, a__add__global:bot, b__add__global:bot, T9:bot, x__add__global:bot, T10:bot, T11:bot, cmp__add__global:bot, ret__add__global:bot, add__global:bot, Func<add__global>{a__add__global -> b__add__global -> ret__add__global}:bot
 
 16: [T7 <= num]
- T1:num, x__global:num, T2:num, y__global:num, T3:bool, cmp__global:bool, T4:num, T5:num, T6:bool, cmp2__global:bool, T7:num, result__global:bot, T8:bot, a__add__global:bot, b__add__global:bot, T9:bot, x__add__global:bot, T10:bot, T11:bot, cmp__add__global:bot, ret__add__global:bot, add__global:bot, function:bot
+ T1:num, x__global:num, T2:num, y__global:num, T3:bool, cmp__global:bool, T4:num, T5:num, T6:bool, cmp2__global:bool, T7:num, result__global:bot, T8:bot, a__add__global:bot, b__add__global:bot, T9:bot, x__add__global:bot, T10:bot, T11:bot, cmp__add__global:bot, ret__add__global:bot, add__global:bot, Func<add__global>{a__add__global -> b__add__global -> ret__add__global}:bot
 
 17: [T7 <= result__global]
- T1:num, x__global:num, T2:num, y__global:num, T3:bool, cmp__global:bool, T4:num, T5:num, T6:bool, cmp2__global:bool, T7:num, result__global:num, T8:bot, a__add__global:bot, b__add__global:bot, T9:bot, x__add__global:bot, T10:bot, T11:bot, cmp__add__global:bot, ret__add__global:bot, add__global:bot, function:bot
+ T1:num, x__global:num, T2:num, y__global:num, T3:bool, cmp__global:bool, T4:num, T5:num, T6:bool, cmp2__global:bool, T7:num, result__global:num, T8:bot, a__add__global:bot, b__add__global:bot, T9:bot, x__add__global:bot, T10:bot, T11:bot, cmp__add__global:bot, ret__add__global:bot, add__global:bot, Func<add__global>{a__add__global -> b__add__global -> ret__add__global}:bot
 
 18: [T8 <= num]
- T1:num, x__global:num, T2:num, y__global:num, T3:bool, cmp__global:bool, T4:num, T5:num, T6:bool, cmp2__global:bool, T7:num, result__global:num, T8:num, a__add__global:bot, b__add__global:bot, T9:bot, x__add__global:bot, T10:bot, T11:bot, cmp__add__global:bot, ret__add__global:bot, add__global:bot, function:bot
+ T1:num, x__global:num, T2:num, y__global:num, T3:bool, cmp__global:bool, T4:num, T5:num, T6:bool, cmp2__global:bool, T7:num, result__global:num, T8:num, a__add__global:bot, b__add__global:bot, T9:bot, x__add__global:bot, T10:bot, T11:bot, cmp__add__global:bot, ret__add__global:bot, add__global:bot, Func<add__global>{a__add__global -> b__add__global -> ret__add__global}:bot
 
 19: [T8 <= result__global]
- T1:num, x__global:num, T2:num, y__global:num, T3:bool, cmp__global:bool, T4:num, T5:num, T6:bool, cmp2__global:bool, T7:num, result__global:num, T8:num, a__add__global:bot, b__add__global:bot, T9:bot, x__add__global:bot, T10:bot, T11:bot, cmp__add__global:bot, ret__add__global:bot, add__global:bot, function:bot
+ T1:num, x__global:num, T2:num, y__global:num, T3:bool, cmp__global:bool, T4:num, T5:num, T6:bool, cmp2__global:bool, T7:num, result__global:num, T8:num, a__add__global:bot, b__add__global:bot, T9:bot, x__add__global:bot, T10:bot, T11:bot, cmp__add__global:bot, ret__add__global:bot, add__global:bot, Func<add__global>{a__add__global -> b__add__global -> ret__add__global}:bot
 
 20: [a__add__global <= num]
- T1:num, x__global:num, T2:num, y__global:num, T3:bool, cmp__global:bool, T4:num, T5:num, T6:bool, cmp2__global:bool, T7:num, result__global:num, T8:num, a__add__global:num, b__add__global:bot, T9:bot, x__add__global:bot, T10:bot, T11:bot, cmp__add__global:bot, ret__add__global:bot, add__global:bot, function:bot
+ T1:num, x__global:num, T2:num, y__global:num, T3:bool, cmp__global:bool, T4:num, T5:num, T6:bool, cmp2__global:bool, T7:num, result__global:num, T8:num, a__add__global:num, b__add__global:bot, T9:bot, x__add__global:bot, T10:bot, T11:bot, cmp__add__global:bot, ret__add__global:bot, add__global:bot, Func<add__global>{a__add__global -> b__add__global -> ret__add__global}:bot
 
 21: [b__add__global <= num]
- T1:num, x__global:num, T2:num, y__global:num, T3:bool, cmp__global:bool, T4:num, T5:num, T6:bool, cmp2__global:bool, T7:num, result__global:num, T8:num, a__add__global:num, b__add__global:num, T9:bot, x__add__global:bot, T10:bot, T11:bot, cmp__add__global:bot, ret__add__global:bot, add__global:bot, function:bot
+ T1:num, x__global:num, T2:num, y__global:num, T3:bool, cmp__global:bool, T4:num, T5:num, T6:bool, cmp2__global:bool, T7:num, result__global:num, T8:num, a__add__global:num, b__add__global:num, T9:bot, x__add__global:bot, T10:bot, T11:bot, cmp__add__global:bot, ret__add__global:bot, add__global:bot, Func<add__global>{a__add__global -> b__add__global -> ret__add__global}:bot
 
 22: [T9 <= num]
- T1:num, x__global:num, T2:num, y__global:num, T3:bool, cmp__global:bool, T4:num, T5:num, T6:bool, cmp2__global:bool, T7:num, result__global:num, T8:num, a__add__global:num, b__add__global:num, T9:num, x__add__global:bot, T10:bot, T11:bot, cmp__add__global:bot, ret__add__global:bot, add__global:bot, function:bot
+ T1:num, x__global:num, T2:num, y__global:num, T3:bool, cmp__global:bool, T4:num, T5:num, T6:bool, cmp2__global:bool, T7:num, result__global:num, T8:num, a__add__global:num, b__add__global:num, T9:num, x__add__global:bot, T10:bot, T11:bot, cmp__add__global:bot, ret__add__global:bot, add__global:bot, Func<add__global>{a__add__global -> b__add__global -> ret__add__global}:bot
 
 23: [T9 <= x__add__global]
- T1:num, x__global:num, T2:num, y__global:num, T3:bool, cmp__global:bool, T4:num, T5:num, T6:bool, cmp2__global:bool, T7:num, result__global:num, T8:num, a__add__global:num, b__add__global:num, T9:num, x__add__global:num, T10:bot, T11:bot, cmp__add__global:bot, ret__add__global:bot, add__global:bot, function:bot
+ T1:num, x__global:num, T2:num, y__global:num, T3:bool, cmp__global:bool, T4:num, T5:num, T6:bool, cmp2__global:bool, T7:num, result__global:num, T8:num, a__add__global:num, b__add__global:num, T9:num, x__add__global:num, T10:bot, T11:bot, cmp__add__global:bot, ret__add__global:bot, add__global:bot, Func<add__global>{a__add__global -> b__add__global -> ret__add__global}:bot
 
 24: [a__add__global <= num]
- T1:num, x__global:num, T2:num, y__global:num, T3:bool, cmp__global:bool, T4:num, T5:num, T6:bool, cmp2__global:bool, T7:num, result__global:num, T8:num, a__add__global:num, b__add__global:num, T9:num, x__add__global:num, T10:bot, T11:bot, cmp__add__global:bot, ret__add__global:bot, add__global:bot, function:bot
+ T1:num, x__global:num, T2:num, y__global:num, T3:bool, cmp__global:bool, T4:num, T5:num, T6:bool, cmp2__global:bool, T7:num, result__global:num, T8:num, a__add__global:num, b__add__global:num, T9:num, x__add__global:num, T10:bot, T11:bot, cmp__add__global:bot, ret__add__global:bot, add__global:bot, Func<add__global>{a__add__global -> b__add__global -> ret__add__global}:bot
 
 25: [b__add__global <= num]
- T1:num, x__global:num, T2:num, y__global:num, T3:bool, cmp__global:bool, T4:num, T5:num, T6:bool, cmp2__global:bool, T7:num, result__global:num, T8:num, a__add__global:num, b__add__global:num, T9:num, x__add__global:num, T10:bot, T11:bot, cmp__add__global:bot, ret__add__global:bot, add__global:bot, function:bot
+ T1:num, x__global:num, T2:num, y__global:num, T3:bool, cmp__global:bool, T4:num, T5:num, T6:bool, cmp2__global:bool, T7:num, result__global:num, T8:num, a__add__global:num, b__add__global:num, T9:num, x__add__global:num, T10:bot, T11:bot, cmp__add__global:bot, ret__add__global:bot, add__global:bot, Func<add__global>{a__add__global -> b__add__global -> ret__add__global}:bot
 
 26: [T10 <= num]
- T1:num, x__global:num, T2:num, y__global:num, T3:bool, cmp__global:bool, T4:num, T5:num, T6:bool, cmp2__global:bool, T7:num, result__global:num, T8:num, a__add__global:num, b__add__global:num, T9:num, x__add__global:num, T10:num, T11:bot, cmp__add__global:bot, ret__add__global:bot, add__global:bot, function:bot
+ T1:num, x__global:num, T2:num, y__global:num, T3:bool, cmp__global:bool, T4:num, T5:num, T6:bool, cmp2__global:bool, T7:num, result__global:num, T8:num, a__add__global:num, b__add__global:num, T9:num, x__add__global:num, T10:num, T11:bot, cmp__add__global:bot, ret__add__global:bot, add__global:bot, Func<add__global>{a__add__global -> b__add__global -> ret__add__global}:bot
 
 27: [x__add__global <= T10]
- T1:num, x__global:num, T2:num, y__global:num, T3:bool, cmp__global:bool, T4:num, T5:num, T6:bool, cmp2__global:bool, T7:num, result__global:num, T8:num, a__add__global:num, b__add__global:num, T9:num, x__add__global:num, T10:num, T11:bot, cmp__add__global:bot, ret__add__global:bot, add__global:bot, function:bot
+ T1:num, x__global:num, T2:num, y__global:num, T3:bool, cmp__global:bool, T4:num, T5:num, T6:bool, cmp2__global:bool, T7:num, result__global:num, T8:num, a__add__global:num, b__add__global:num, T9:num, x__add__global:num, T10:num, T11:bot, cmp__add__global:bot, ret__add__global:bot, add__global:bot, Func<add__global>{a__add__global -> b__add__global -> ret__add__global}:bot
 
 28: [T10 <= x__add__global]
- T1:num, x__global:num, T2:num, y__global:num, T3:bool, cmp__global:bool, T4:num, T5:num, T6:bool, cmp2__global:bool, T7:num, result__global:num, T8:num, a__add__global:num, b__add__global:num, T9:num, x__add__global:num, T10:num, T11:bot, cmp__add__global:bot, ret__add__global:bot, add__global:bot, function:bot
+ T1:num, x__global:num, T2:num, y__global:num, T3:bool, cmp__global:bool, T4:num, T5:num, T6:bool, cmp2__global:bool, T7:num, result__global:num, T8:num, a__add__global:num, b__add__global:num, T9:num, x__add__global:num, T10:num, T11:bot, cmp__add__global:bot, ret__add__global:bot, add__global:bot, Func<add__global>{a__add__global -> b__add__global -> ret__add__global}:bot
 
 29: [T11 <= bool]
- T1:num, x__global:num, T2:num, y__global:num, T3:bool, cmp__global:bool, T4:num, T5:num, T6:bool, cmp2__global:bool, T7:num, result__global:num, T8:num, a__add__global:num, b__add__global:num, T9:num, x__add__global:num, T10:num, T11:bool, cmp__add__global:bot, ret__add__global:bot, add__global:bot, function:bot
+ T1:num, x__global:num, T2:num, y__global:num, T3:bool, cmp__global:bool, T4:num, T5:num, T6:bool, cmp2__global:bool, T7:num, result__global:num, T8:num, a__add__global:num, b__add__global:num, T9:num, x__add__global:num, T10:num, T11:bool, cmp__add__global:bot, ret__add__global:bot, add__global:bot, Func<add__global>{a__add__global -> b__add__global -> ret__add__global}:bot
 
 30: [T11 <= cmp__add__global]
- T1:num, x__global:num, T2:num, y__global:num, T3:bool, cmp__global:bool, T4:num, T5:num, T6:bool, cmp2__global:bool, T7:num, result__global:num, T8:num, a__add__global:num, b__add__global:num, T9:num, x__add__global:num, T10:num, T11:bool, cmp__add__global:bool, ret__add__global:bot, add__global:bot, function:bot
+ T1:num, x__global:num, T2:num, y__global:num, T3:bool, cmp__global:bool, T4:num, T5:num, T6:bool, cmp2__global:bool, T7:num, result__global:num, T8:num, a__add__global:num, b__add__global:num, T9:num, x__add__global:num, T10:num, T11:bool, cmp__add__global:bool, ret__add__global:bot, add__global:bot, Func<add__global>{a__add__global -> b__add__global -> ret__add__global}:bot
 
 31: [x__add__global <= ret__add__global]
- T1:num, x__global:num, T2:num, y__global:num, T3:bool, cmp__global:bool, T4:num, T5:num, T6:bool, cmp2__global:bool, T7:num, result__global:num, T8:num, a__add__global:num, b__add__global:num, T9:num, x__add__global:num, T10:num, T11:bool, cmp__add__global:bool, ret__add__global:num, add__global:bot, function:bot
+ T1:num, x__global:num, T2:num, y__global:num, T3:bool, cmp__global:bool, T4:num, T5:num, T6:bool, cmp2__global:bool, T7:num, result__global:num, T8:num, a__add__global:num, b__add__global:num, T9:num, x__add__global:num, T10:num, T11:bool, cmp__add__global:bool, ret__add__global:num, add__global:bot, Func<add__global>{a__add__global -> b__add__global -> ret__add__global}:bot
 
-32: [add__global <= function]
- T1:num, x__global:num, T2:num, y__global:num, T3:bool, cmp__global:bool, T4:num, T5:num, T6:bool, cmp2__global:bool, T7:num, result__global:num, T8:num, a__add__global:num, b__add__global:num, T9:num, x__add__global:num, T10:num, T11:bool, cmp__add__global:bool, ret__add__global:num, add__global:function
+32: [add__global <= Func<add__global>{a__add__global -> b__add__global -> ret__add__global}]
+ T1:num, x__global:num, T2:num, y__global:num, T3:bool, cmp__global:bool, T4:num, T5:num, T6:bool, cmp2__global:bool, T7:num, result__global:num, T8:num, a__add__global:num, b__add__global:num, T9:num, x__add__global:num, T10:num, T11:bool, cmp__add__global:bool, ret__add__global:num, (add__global: Func<add__global>{a__add__global -> b__add__global -> T9})
 
 ──────────────────────────────────────────────────────
 ✓  Sem conflitos.
 
 FINAL:
   a__add__global    :  num
-  add__global       :  function
+  add__global       :  Func<add__global>{num -> num -> num}
   b__add__global    :  num
   cmp2__global      :  bool
   cmp__add__global  :  bool
