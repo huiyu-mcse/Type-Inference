@@ -93,10 +93,29 @@ class State {
     return this.parent.get(x);
   }
 
+  // Returns true (and pushes an error) if ra and rb have concrete types that
+  // cannot be merged.  Called before any structural mutation in union().
+  _conflictCheck(ra, rb, a, b) {
+    const kindOf = (rx) => {
+      if (this.baseType.has(rx)) return this.baseType.get(rx);
+      if (this.isObj.get(rx)) return "obj";
+      if (this.isArr.get(rx)) return "arr";
+      if (this.isFuncType.get(rx)) return "func";
+      return null;
+    };
+    const ka = kindOf(ra), kb = kindOf(rb);
+    if (!ka || !kb) return false; // at least one side still unknown
+    if (ka === kb) return false;  // same kind — can be merged
+    this.errors.push(`CONFLICT: ${ka} vs ${kb}  (union(${a},${b}))`);
+    return true;
+  }
+
   union(a, b) {
     const ra = this.find(a),
       rb = this.find(b);
     if (ra === rb) return;
+
+    if (this._conflictCheck(ra, rb, a, b)) return;
 
     let root, child;
     if ((this.rank.get(ra) ?? 0) >= (this.rank.get(rb) ?? 0)) {

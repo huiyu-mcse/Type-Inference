@@ -40,20 +40,20 @@ Inicio:
  T1:num, x__global:num, x__f__global:num, ret__f__global:num, (f__global: Func<f__global>{x__f__global -> x__f__global}), T2:str, b__global:str, a__global:bot
 
 9: [b__global <= x__f__global]
- T1:num, x__global:num, x__f__global:str, ret__f__global:str, (f__global: Func<f__global>{T2 -> T2}), T2:str, b__global:str, a__global:bot
+ T1:num, x__global:num, x__f__global:num, ret__f__global:num, (f__global: Func<f__global>{x__f__global -> x__f__global}), T2:str, b__global:str, a__global:bot
 
 10: [ret__f__global <= a__global]
- T1:num, x__global:num, x__f__global:str, ret__f__global:str, (f__global: Func<f__global>{T2 -> T2}), T2:str, b__global:str, a__global:str
+ T1:num, x__global:num, x__f__global:num, ret__f__global:num, (f__global: Func<f__global>{x__f__global -> x__f__global}), T2:str, b__global:str, a__global:num
 
 ──────────────────────────────────────────────────────
 ⚠  ERROS DE TIPO:
    CONFLICT: str vs num  (union(b__global,x__f__global))
 
 FINAL:
-  a__global       :  str
+  a__global       :  num
   b__global       :  str
-  f__global       :  Func<f__global>{str -> str}
-  ret__f__global  :  str
-  x__f__global    :  str
+  f__global       :  Func<f__global>{num -> num}
+  ret__f__global  :  num
+  x__f__global    :  num
   x__global       :  num
 
