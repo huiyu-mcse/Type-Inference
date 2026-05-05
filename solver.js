@@ -8,8 +8,31 @@ const isEmptyObj = (t) => t === "{}";
 const isObjWithFlds = (t) => t.startsWith("{") && t !== "{}";
 const isArray = (t) => t.startsWith("Array<") && t.endsWith(">");
 const parseArrayElem = (t) => t.slice(6, -1).trim();
+const isPromise = (t) => t.startsWith("Promise(") && t.endsWith(")");
+
+function parsePromiseArgs(t) {
+  const inner = t.slice(8, -1).trim();
+  let depth = 0,
+    split = -1;
+  for (let i = 0; i < inner.length; i++) {
+    const ch = inner[i];
+    if (ch === "(" || ch === "[" || ch === "{") depth++;
+    else if (ch === ")" || ch === "]" || ch === "}") depth--;
+    else if (ch === "," && depth === 0) {
+      split = i;
+      break;
+    }
+  }
+  if (split === -1) return [inner.trim(), null];
+  return [inner.slice(0, split).trim(), inner.slice(split + 1).trim()];
+}
+
 const isLiteral = (t) =>
-  isBaseType(t) || isEmptyObj(t) || isObjWithFlds(t) || isArray(t);
+  isBaseType(t) ||
+  isEmptyObj(t) ||
+  isObjWithFlds(t) ||
+  isArray(t) ||
+  isPromise(t);
 const isTypeVar = (t) => !isLiteral(t);
 
 function parseFields(t) {
@@ -44,6 +67,9 @@ class State {
     this.objShape = new Map(); // rep → Map<field, typeVar>  ← UMA var por campo
     this.isArr = new Map(); // rep → true
     this.arrElem = new Map(); // rep → typeVar for element type
+    this.isProm = new Map(); // rep → true
+    this.promRes = new Map(); // rep → resolve-arg typeVar
+    this.promRej = new Map(); // rep → reject-arg typeVar
     this.errors = [];
 
     this.displayList = []; // todos os nós em ordem de aparição
@@ -135,6 +161,22 @@ class State {
         this._initArr(root, childElem);
       }
     }
+
+    // Propaga estado Promise do child para o root
+    if (this.isProm.get(child)) {
+      const childRes = this.promRes.get(child);
+      const childRej = this.promRej.get(child);
+      if (this.isProm.get(root)) {
+        if (childRes && this.promRes.has(root))
+          this.union(this.promRes.get(root), childRes);
+        else if (childRes) this.promRes.set(root, childRes);
+        if (childRej && this.promRej.has(root))
+          this.union(this.promRej.get(root), childRej);
+        else if (childRej) this.promRej.set(root, childRej);
+      } else {
+        this._initProm(root, childRes, childRej);
+      }
+    }
   }
 
   // ── Tipos concretos ────────────────────────────────────────────────────────
@@ -147,6 +189,8 @@ class State {
         this.errors.push(`CONFLICT: obj vs ${type}  (${ctx})`);
       else if (this.isArr.get(rx))
         this.errors.push(`CONFLICT: Array vs ${type}  (${ctx})`);
+      else if (this.isProm.get(rx))
+        this.errors.push(`CONFLICT: Promise vs ${type}  (${ctx})`);
       else this.baseType.set(rx, type);
     }
   }
@@ -158,6 +202,10 @@ class State {
     }
     if (this.isArr.get(rx)) {
       this.errors.push(`CONFLICT: Array vs obj`);
+      return;
+    }
+    if (this.isProm.get(rx)) {
+      this.errors.push(`CONFLICT: Promise vs obj`);
       return;
     }
     this.isObj.set(rx, true);
@@ -173,11 +221,41 @@ class State {
       this.errors.push(`CONFLICT: obj vs Array`);
       return;
     }
+    if (this.isProm.get(rx)) {
+      this.errors.push(`CONFLICT: Promise vs Array`);
+      return;
+    }
     this.isArr.set(rx, true);
     if (this.arrElem.has(rx)) {
       this.union(this.arrElem.get(rx), elemTV);
     } else {
       this.arrElem.set(rx, elemTV);
+    }
+  }
+
+  _initProm(rx, resTV, rejTV) {
+    if (this.baseType.has(rx)) {
+      this.errors.push(`CONFLICT: ${this.baseType.get(rx)} vs Promise`);
+      return;
+    }
+    if (this.isObj.get(rx)) {
+      this.errors.push(`CONFLICT: obj vs Promise`);
+      return;
+    }
+    if (this.isArr.get(rx)) {
+      this.errors.push(`CONFLICT: Array vs Promise`);
+      return;
+    }
+    this.isProm.set(rx, true);
+    if (this.promRes.has(rx)) {
+      if (resTV) this.union(this.promRes.get(rx), resTV);
+    } else if (resTV) {
+      this.promRes.set(rx, resTV);
+    }
+    if (this.promRej.has(rx)) {
+      if (rejTV) this.union(this.promRej.get(rx), rejTV);
+    } else if (rejTV) {
+      this.promRej.set(rx, rejTV);
     }
   }
 
@@ -201,6 +279,11 @@ class State {
       const rx = this.find(lhs);
       const elemTV = parseArrayElem(rhs);
       this._initArr(rx, elemTV);
+      this.consumedLits.add(rhs);
+    } else if (isPromise(rhs)) {
+      const rx = this.find(lhs);
+      const [resTV, rejTV] = parsePromiseArgs(rhs);
+      this._initProm(rx, resTV, rejTV);
       this.consumedLits.add(rhs);
     } else if (isObjWithFlds(rhs)) {
       const rx = this.find(lhs);
@@ -239,6 +322,11 @@ class State {
         .join(", ");
       return `{${inner}}`;
     }
+    if (this.isProm.get(rep)) {
+      const res = this.promRes.get(rep);
+      const rej = this.promRej.get(rep);
+      return `Promise(${res ? this.find(res) : "_"}, ${rej ? this.find(rej) : "_"})`;
+    }
     return null; // bot
   }
 
@@ -260,6 +348,13 @@ class State {
         .map(([f, tv]) => `${f}: ${this.resolveType(tv, new Set(visited))}`)
         .join(", ");
       return `{${inner}}`;
+    }
+    if (this.isProm.get(rep)) {
+      const res = this.promRes.get(rep);
+      const rej = this.promRej.get(rep);
+      const r = res ? this.resolveType(res, new Set(visited)) : "_";
+      const j = rej ? this.resolveType(rej, new Set(visited)) : "_";
+      return `Promise(${r}, ${j})`;
     }
     return "bot";
   }
@@ -347,7 +442,9 @@ function solve(input) {
   }
 
   console.log("\nFINAL:");
-  const progVars = [...st.seenNodes].filter((k) => k.includes("__")).sort();
+  const progVars = [...st.seenNodes]
+    .filter((k) => k.includes("__") && !isLiteral(k))
+    .sort();
   const maxLen = progVars.length
     ? Math.max(...progVars.map((v) => v.length))
     : 0;

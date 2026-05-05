@@ -17,6 +17,12 @@ const addCons = (a, b) => constraints.push(`${a} <= ${b}`);
 const functionParams = new Map();
 // save function type variables
 const functionTypes = new Map();
+// resolver/rejecter env-TV (binding for res/rej inside an executor) -> target TV
+const resolverTargets = new Map();
+// promise instance TV -> resolve-arg TV
+const promiseResolve = new Map();
+// promise instance TV -> reject-arg TV
+const promiseReject = new Map();
 
 // environment
 const mkTV = (name, scope) => `${name}__${scope}`; //env = { "x" => "x__global" }
@@ -233,7 +239,42 @@ function inferExpr(node, env, scope) {
     }
 
     case "CallExpression": { // ex: f(e1, e2, ..., en)
+      // Promise .then(handler) — only when target is a known Promise TV
+      if (
+        node.callee.type === "MemberExpression" &&
+        !node.callee.computed &&
+        node.callee.property.name === "then" &&
+        node.callee.object.type === "Identifier"
+      ) {
+        const Xobj = inferExpr(node.callee.object, env, scope);
+        if (promiseResolve.has(Xobj) && node.arguments[0]) {
+          const Xres = promiseResolve.get(Xobj);
+          const handler = node.arguments[0];
+          if (
+            handler.type === "FunctionExpression" ||
+            handler.type === "ArrowFunctionExpression"
+          ) {
+            const handlerName = handler.id?.name ?? `then_${fresh()}`;
+            inferFuncNode(handler, handlerName, scope, env, null);
+            const qualName = `${handlerName}__${scope}`;
+            const { params, ret } = functionTypes.get(qualName);
+            if (params[0]) addCons(Xres, params[0]);
+            return ret;
+          }
+        }
+      }
+
       const fname = node.callee.type === "Identifier" ? node.callee.name : null;
+      // resolver call: res(e) or rej(e) inside Promise executor
+      if (fname && env.has(fname) && resolverTargets.has(env.get(fname))) {
+        const target = resolverTargets.get(env.get(fname));
+        for (const arg of node.arguments) {
+          const Xa = inferExpr(arg, env, scope);
+          addCons(Xa, target);
+        }
+        return fresh();
+      }
+
       if (!fname) { // e.g. obj.method(1, 2), (function(x){})(5), ...
         for (const arg of node.arguments) inferExpr(arg, env, scope);
         return fresh();
@@ -255,6 +296,45 @@ function inferExpr(node, env, scope) {
         }
       });
       return `ret__${qualName}`;
+    }
+
+    case "NewExpression": { // e.g. new Promise(executor)
+      if (
+        node.callee.type === "Identifier" &&
+        node.callee.name === "Promise" &&
+        node.arguments.length >= 1
+      ) {
+        const Xres = fresh();
+        const Xrej = fresh();
+        const Xp = fresh();
+        const executor = node.arguments[0];
+        if (
+          executor.type === "FunctionExpression" ||
+          executor.type === "ArrowFunctionExpression"
+        ) {
+          const execScope = `executor__${Xp}`;
+          const execEnv = new Map(env);
+          const targets = [Xres, Xrej];
+          executor.params.forEach((p, i) => {
+            const tv = `${p.name}__${execScope}`;
+            execEnv.set(p.name, tv);
+            if (targets[i]) resolverTargets.set(tv, targets[i]);
+          });
+          if (executor.body.type === "BlockStatement") {
+            inferStmt(executor.body, execEnv, execScope);
+          } else {
+            inferExpr(executor.body, execEnv, execScope);
+          }
+        } else {
+          inferExpr(executor, env, scope);
+        }
+        addCons(Xp, `Promise(${Xres}, ${Xrej})`);
+        promiseResolve.set(Xp, Xres);
+        promiseReject.set(Xp, Xrej);
+        return Xp;
+      }
+      for (const arg of node.arguments) inferExpr(arg, env, scope);
+      return fresh();
     }
 
     case "ArrayExpression": { // e.g. [e1, e2, ..., en]
@@ -336,6 +416,10 @@ function handleRHS(name, rhs, env, scope) {
 
   const X1 = inferExpr(rhs, env, scope); // Assign
   addCons(X1, xTarget);
+  if (promiseResolve.has(X1)) {
+    promiseResolve.set(xTarget, promiseResolve.get(X1));
+    promiseReject.set(xTarget, promiseReject.get(X1));
+  }
 }
 
 // -- Statement inference -----------------------------------------------------
