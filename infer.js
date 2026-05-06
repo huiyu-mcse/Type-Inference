@@ -40,20 +40,65 @@ function envDeclare(env, name, scope) {
   return tv;
 }
 
+// -- parameter binding helper ------------------------------------------------
+// Returns Array<{ name, tv }>.  ObjectPattern flattens to multiple entries.
+function declareParam(p, fnEnv, qualName) {
+  switch (p.type) {
+    case "Identifier":
+      return [{ name: p.name, tv: envDeclare(fnEnv, p.name, qualName) }];
+
+    case "AssignmentPattern": {
+      if (p.left.type === "ObjectPattern") {
+        // e.g. { a = 0 } = {}
+        return declareParam(p.left, fnEnv, qualName);
+      }
+      // e.g.  x = 0 
+      const [{ name, tv }] = declareParam(p.left, fnEnv, qualName);
+      const defTV = inferExpr(p.right, fnEnv, qualName);
+      addCons(defTV, tv);
+      return [{ name, tv }];
+    }
+
+
+    case "ObjectPattern": {
+      // e.g.  { a ...b = 0,}
+      // Each field becomes its own positional param; defaults add constraints.
+      const results = [];
+      for (const prop of p.properties) {
+        if (prop.type === "RestElement") continue;
+        results.push(...declareParam(prop.value, fnEnv, qualName));
+      }
+      return results;
+    }
+
+    /*
+    case "RestElement":
+      return [{ name: p.argument.name, tv: envDeclare(fnEnv, p.argument.name, qualName) }];
+
+    default: {
+      const n = `_unk${fresh()}`;
+      return [{ name: n, tv: fresh() }];
+    }
+      */
+  }
+}
+
 // -- function node helper ----------------------------------------------------
 // for FunctionExpression, ArrowFunctionExpression,
 // and the FunctionExpression-as-property case inside ObjectExpression.
 function inferFuncNode(funcNode, fnName, fnScope, env, xTarget) {
   const qualName = `${fnName}__${fnScope}`;
 
-  const paramNames = funcNode.params.map((p) => p.name);
-  functionParams.set(qualName, paramNames);
-
   const fnEnv = new Map(env);
+  const paramNames = [];
   const paramTVs = [];
   for (const p of funcNode.params) {
-    paramTVs.push(envDeclare(fnEnv, p.name, qualName));
+    for (const { name, tv } of declareParam(p, fnEnv, qualName)) {
+      paramNames.push(name);
+      paramTVs.push(tv);
+    }
   }
+  functionParams.set(qualName, paramNames);
 
   let hasReturn;
   if (
@@ -278,9 +323,10 @@ function inferExpr(node, env, scope) {
 
     case "FunctionExpression": // e.g. function(a) { return a; }
     case "ArrowFunctionExpression": { // e.g. (n) => n * 2
-      const fnName = node.id?.name ?? `anon__${fresh()}`;
-      inferFuncNode(node, fnName, scope, env, null);
-      return fresh();
+      const fnName = node.id?.name ?? `fun_${fresh()}`;
+      const fnTV = mkTV(fnName, scope);
+      inferFuncNode(node, fnName, scope, env, fnTV);
+      return fnTV;
     }
 
     default:
@@ -484,14 +530,16 @@ function inferStmt(node, env, scope) {
       const fnName = node.id.name;
       const qualName = `${fnName}__${scope}`;
 
-      const paramNames = node.params.map((p) => p.name);
-      functionParams.set(qualName, paramNames);
-
-      const paramTVs = [];
       const fnEnv = new Map(env);
+      const paramNames = [];
+      const paramTVs = [];
       for (const p of node.params) {
-        paramTVs.push(envDeclare(fnEnv, p.name, qualName));
+        for (const { name, tv } of declareParam(p, fnEnv, qualName)) {
+          paramNames.push(name);
+          paramTVs.push(tv);
+        }
       }
+      functionParams.set(qualName, paramNames);
 
       const retTV = `ret__${qualName}`;
       const hasReturn = inferStmt(node.body, fnEnv, qualName);
