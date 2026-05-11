@@ -274,12 +274,12 @@ function inferPromiseCatch(node, env, scope) {
   return X_result;
 }
 
-function inferPromiseResolve(node, env, scope) {
+function inferPromiseSettle(node, env, scope, slot) {
   const arg = node.arguments[0];
   const X_arg = arg ? inferExpr(arg, env, scope) : "void";
   const X_res = fresh();
   const X_rej = fresh();
-  addCons(X_arg, X_res);
+  addCons(X_arg, slot === "resolve" ? X_res : X_rej);
   const X_p = fresh();
   addCons(X_p, `Promise<${X_res},${X_rej}>`);
   return X_p;
@@ -467,9 +467,10 @@ function inferExpr(node, env, scope) {
         !node.callee.computed &&
         node.callee.object.type === "Identifier" &&
         node.callee.object.name === "Promise" &&
-        node.callee.property.name === "resolve"
+        (node.callee.property.name === "resolve" ||
+          node.callee.property.name === "reject")
       )
-        return inferPromiseResolve(node, env, scope);
+        return inferPromiseSettle(node, env, scope, node.callee.property.name);
 
       if (
         node.callee.type === "MemberExpression" &&
