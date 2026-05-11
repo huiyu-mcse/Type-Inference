@@ -285,6 +285,21 @@ function inferPromiseSettle(node, env, scope, slot) {
   return X_p;
 }
 
+function inferPromiseAll(node, env, scope) {
+  const arg = node.arguments[0];
+  const X_arr = arg ? inferExpr(arg, env, scope) : fresh();
+  const X_elem = fresh();
+  const X_res = fresh();
+  const X_rej = fresh();
+  addCons(X_arr, `Array<${X_elem}>`);
+  addCons(X_elem, `Promise<${X_res},${X_rej}>`);
+  const X_result_arr = fresh();
+  addCons(X_result_arr, `Array<${X_res}>`);
+  const X_p = fresh();
+  addCons(X_p, `Promise<${X_result_arr},${X_rej}>`);
+  return X_p;
+}
+
 // for function as a property of the object
 function inferObjectExpr(node, env, scope, ownerName) {
   const Xobj = fresh();
@@ -471,6 +486,15 @@ function inferExpr(node, env, scope) {
           node.callee.property.name === "reject")
       )
         return inferPromiseSettle(node, env, scope, node.callee.property.name);
+
+      if (
+        node.callee.type === "MemberExpression" &&
+        !node.callee.computed &&
+        node.callee.object.type === "Identifier" &&
+        node.callee.object.name === "Promise" &&
+        node.callee.property.name === "all"
+      )
+        return inferPromiseAll(node, env, scope);
 
       if (
         node.callee.type === "MemberExpression" &&
