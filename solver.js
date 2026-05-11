@@ -576,7 +576,10 @@ function solve(input, quiet = false) {
 
   console.log("\nFINAL:");
   const progVars = [...st.seenNodes]
-    .filter((k) => k.includes("__") && !isLiteral(k))
+    .filter(
+      (k) =>
+        k.includes("__") && !isLiteral(k) && !k.startsWith("async_inner__"),
+    )
     .sort();
   const maxLen = progVars.length
     ? Math.max(...progVars.map((v) => v.length))

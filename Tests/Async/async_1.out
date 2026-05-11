@@ -45,9 +45,8 @@ Inicio:
 ✓  Sem conflitos.
 
 FINAL:
-  async_inner__f__global  :  num
-  f__global               :  Func<f__global>{Promise<num, bot> -> Promise<num, bot>}
-  p__f__global            :  Promise<num, bot>
-  ret__f__global          :  Promise<num, bot>
-  x__f__global            :  num
+  f__global       :  Func<f__global>{Promise<num, bot> -> Promise<num, bot>}
+  p__f__global    :  Promise<num, bot>
+  ret__f__global  :  Promise<num, bot>
+  x__f__global    :  num
 
