@@ -477,6 +477,7 @@ class State {
         this.promiseReject.get(rep),
         new Set(visited),
       );
+      if (isPromise(res)) return res;
       return `Promise<${res}, ${rej}>`;
     }
     if (this.isResolverType.get(rep))

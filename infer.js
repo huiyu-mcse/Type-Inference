@@ -274,6 +274,17 @@ function inferPromiseCatch(node, env, scope) {
   return X_result;
 }
 
+function inferPromiseResolve(node, env, scope) {
+  const arg = node.arguments[0];
+  const X_arg = arg ? inferExpr(arg, env, scope) : "void";
+  const X_res = fresh();
+  const X_rej = fresh();
+  addCons(X_arg, X_res);
+  const X_p = fresh();
+  addCons(X_p, `Promise<${X_res},${X_rej}>`);
+  return X_p;
+}
+
 // for function as a property of the object
 function inferObjectExpr(node, env, scope, ownerName) {
   const Xobj = fresh();
@@ -451,6 +462,15 @@ function inferExpr(node, env, scope) {
 
     case "CallExpression": {
       // ex: f(e1, e2, ..., en)
+      if (
+        node.callee.type === "MemberExpression" &&
+        !node.callee.computed &&
+        node.callee.object.type === "Identifier" &&
+        node.callee.object.name === "Promise" &&
+        node.callee.property.name === "resolve"
+      )
+        return inferPromiseResolve(node, env, scope);
+
       if (
         node.callee.type === "MemberExpression" &&
         !node.callee.computed &&
