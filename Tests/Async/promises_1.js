@@ -1,3 +1,5 @@
+// This is the first example from the meeting.
+
 // Xp <= Promise(X_res_arg, X_rej_arg), number <= X_res_arg
 var p = new Promise(function (res, rej) {
   res(5);

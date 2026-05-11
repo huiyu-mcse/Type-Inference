@@ -26,6 +26,8 @@ const functionTypes = new Map();
 // resolver/rejector TV → promise resolve/reject target TV
 const resolverTargets = new Map();
 const rejectorTargets = new Map();
+// qualNames of async functions (return type is wrapped in Promise)
+const asyncScopes = new Set();
 
 // environment
 const mkTV = (name, scope) => `${name}__${scope}`; //env = { "x" => "x__global" }
@@ -91,6 +93,12 @@ function declareParam(p, fnEnv, qualName) {
 function inferFuncNode(funcNode, fnName, fnScope, env, xTarget) {
   const qualName = `${fnName}__${fnScope}`;
 
+  if (funcNode.async) {
+    asyncScopes.add(qualName);
+    const X_rej = fresh();
+    addCons(`ret__${qualName}`, `Promise<async_inner__${qualName},${X_rej}>`);
+  }
+
   const fnEnv = new Map(env);
   const paramNames = [];
   const paramTVs = [];
@@ -108,14 +116,20 @@ function inferFuncNode(funcNode, fnName, fnScope, env, xTarget) {
     funcNode.body.type !== "BlockStatement"
   ) {
     const Xbody = inferExpr(funcNode.body, fnEnv, qualName);
-    addCons(Xbody, `ret__${qualName}`);
+    addCons(
+      Xbody,
+      funcNode.async ? `async_inner__${qualName}` : `ret__${qualName}`,
+    );
     hasReturn = true;
   } else {
     hasReturn = inferStmt(funcNode.body, fnEnv, qualName);
   }
 
   if (!hasReturn) {
-    addCons("void", `ret__${qualName}`);
+    addCons(
+      "void",
+      funcNode.async ? `async_inner__${qualName}` : `ret__${qualName}`,
+    );
   }
 
   const retTV = `ret__${qualName}`;
@@ -444,11 +458,12 @@ function inferExpr(node, env, scope) {
       )
         return inferPromiseThen(node, env, scope);
 
-      // if (
-      //   node.callee.type === "MemberExpression" &&
-      //   !node.callee.computed &&
-      //   node.callee.property.name === "catch"
-      // ) return inferPromiseCatch(node, env, scope);
+      if (
+        node.callee.type === "MemberExpression" &&
+        !node.callee.computed &&
+        node.callee.property.name === "catch"
+      )
+        return inferPromiseCatch(node, env, scope);
 
       const fname = node.callee.type === "Identifier" ? node.callee.name : null;
       if (!fname) {
@@ -500,6 +515,14 @@ function inferExpr(node, env, scope) {
       }
       addCons(Xarr, `Array<${Xelem}>`);
       return Xarr;
+    }
+
+    case "AwaitExpression": {
+      const X_expr = inferExpr(node.argument, env, scope);
+      const X_res = fresh();
+      const X_rej = fresh();
+      addCons(X_expr, `Promise<${X_res},${X_rej}>`);
+      return X_res;
     }
 
     case "FunctionExpression": // e.g. function(a) { return a; }
@@ -725,6 +748,15 @@ function inferStmt(node, env, scope) {
       const fnName = node.id.name;
       const qualName = `${fnName}__${scope}`;
 
+      if (node.async) {
+        asyncScopes.add(qualName);
+        const X_rej = fresh();
+        addCons(
+          `ret__${qualName}`,
+          `Promise<async_inner__${qualName},${X_rej}>`,
+        );
+      }
+
       const fnEnv = new Map(env);
       const paramNames = [];
       const paramTVs = [];
@@ -739,7 +771,7 @@ function inferStmt(node, env, scope) {
       const retTV = `ret__${qualName}`;
       const hasReturn = inferStmt(node.body, fnEnv, qualName);
       if (!hasReturn) {
-        addCons("void", retTV);
+        addCons("void", node.async ? `async_inner__${qualName}` : retTV);
       }
 
       functionTypes.set(qualName, {
@@ -761,11 +793,14 @@ function inferStmt(node, env, scope) {
 
     case "ReturnStatement": {
       // e.g. return (argument)
+      const retTarget = asyncScopes.has(scope)
+        ? `async_inner__${scope}`
+        : `ret__${scope}`;
       if (node.argument) {
         const X1 = inferExpr(node.argument, env, scope);
-        addCons(X1, `ret__${scope}`);
+        addCons(X1, retTarget);
       } else {
-        addCons("void", `ret__${scope}`);
+        addCons("void", retTarget);
       }
       return true;
     }
