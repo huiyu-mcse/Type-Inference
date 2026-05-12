@@ -75,15 +75,18 @@ function declareParam(p, fnEnv, qualName) {
       return results;
     }
 
-    /*
     case "RestElement":
-      return [{ name: p.argument.name, tv: envDeclare(fnEnv, p.argument.name, qualName) }];
+      return [
+        {
+          name: p.argument.name,
+          tv: envDeclare(fnEnv, p.argument.name, qualName),
+        },
+      ];
 
     default: {
       const n = `_unk${fresh()}`;
       return [{ name: n, tv: fresh() }];
     }
-      */
   }
 }
 
