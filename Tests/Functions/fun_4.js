@@ -1,4 +1,8 @@
-function outer(callback = function inner() { return inner; }) {
+function outer(
+  callback = function inner() {
+    return inner;
+  },
+) {
   return;
 }
 

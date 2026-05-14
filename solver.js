@@ -8,8 +8,35 @@ const isObjWithFlds = (t) => t.startsWith("{") && t !== "{}";
 const isArray = (t) => t.startsWith("Array<") && t.endsWith(">");
 const parseArrayElem = (t) => t.slice(6, -1).trim();
 const isFunc = (t) => t.startsWith("Func<");
+const isPromise = (t) => t.startsWith("Promise<") && t.endsWith(">");
+function parsePromise(t) {
+  const inner = t.slice(8, -1); // strip "Promise<" and ">"
+  let depth = 0;
+  for (let i = 0; i < inner.length; i++) {
+    const ch = inner[i];
+    if (ch === "<" || ch === "{") depth++;
+    else if (ch === ">" || ch === "}") depth--;
+    else if (ch === "," && depth === 0)
+      return {
+        resolve: inner.slice(0, i).trim(),
+        reject: inner.slice(i + 1).trim(),
+      };
+  }
+  return { resolve: inner.trim(), reject: "bot" };
+}
+const isResolver = (t) => t.startsWith("Resolver<") && t.endsWith(">");
+const isRejector = (t) => t.startsWith("Rejector<") && t.endsWith(">");
+const parseResolverInner = (t) => t.slice(9, -1).trim();
+const parseRejectorInner = (t) => t.slice(9, -1).trim();
 const isLiteral = (t) =>
-  isBaseType(t) || isEmptyObj(t) || isObjWithFlds(t) || isArray(t) || isFunc(t);
+  isBaseType(t) ||
+  isEmptyObj(t) ||
+  isObjWithFlds(t) ||
+  isArray(t) ||
+  isFunc(t) ||
+  isPromise(t) ||
+  isResolver(t) ||
+  isRejector(t);
 const isTypeVar = (t) => !isLiteral(t);
 
 // Parse Func<name>{p1 -> p2 -> ... -> ret}  or  Func<name>{() -> ret}
@@ -59,6 +86,13 @@ class State {
     this.arrElem = new Map(); // rep → typeVar for element type
     this.isFuncType = new Map(); // rep → true
     this.funcInfo = new Map(); // rep → { name, params: string[], ret: string }
+    this.isPromiseType = new Map(); // rep → true
+    this.promiseResolve = new Map(); // rep → typeVar for resolved value
+    this.promiseReject = new Map(); // rep → typeVar for rejected value
+    this.isResolverType = new Map(); // rep → true
+    this.resolverInner = new Map(); // rep → typeVar for the resolved value type
+    this.isRejectorType = new Map(); // rep → true
+    this.rejectorInner = new Map(); // rep → typeVar for the rejected value type
     this.errors = [];
 
     this.displayList = []; // todos os nós em ordem de aparição
@@ -101,11 +135,15 @@ class State {
       if (this.isObj.get(rx)) return "obj";
       if (this.isArr.get(rx)) return "arr";
       if (this.isFuncType.get(rx)) return "func";
+      if (this.isPromiseType.get(rx)) return "promise";
+      if (this.isResolverType.get(rx)) return "resolver";
+      if (this.isRejectorType.get(rx)) return "rejector";
       return null;
     };
-    const ka = kindOf(ra), kb = kindOf(rb);
+    const ka = kindOf(ra),
+      kb = kindOf(rb);
     if (!ka || !kb) return false; // at least one side still unknown
-    if (ka === kb) return false;  // same kind — can be merged
+    if (ka === kb) return false; // same kind — can be merged
     this.errors.push(`CONFLICT: ${ka} vs ${kb}  (union(${a},${b}))`);
     return true;
   }
@@ -173,6 +211,21 @@ class State {
     if (this.isFuncType.get(child)) {
       this._initFunc(root, this.funcInfo.get(child));
     }
+
+    // Propaga promiseInfo do child para o root
+    if (this.isPromiseType.get(child)) {
+      this._initPromise(
+        root,
+        this.promiseResolve.get(child),
+        this.promiseReject.get(child),
+      );
+    }
+
+    // Propaga resolver/rejector do child para o root
+    if (this.isResolverType.get(child))
+      this._initResolver(root, this.resolverInner.get(child));
+    if (this.isRejectorType.get(child))
+      this._initRejector(root, this.rejectorInner.get(child));
   }
 
   // ── Tipos concretos ────────────────────────────────────────────────────────
@@ -187,6 +240,12 @@ class State {
         this.errors.push(`CONFLICT: Array vs ${type}  (${ctx})`);
       else if (this.isFuncType.get(rx))
         this.errors.push(`CONFLICT: Func vs ${type}  (${ctx})`);
+      else if (this.isPromiseType.get(rx))
+        this.errors.push(`CONFLICT: Promise vs ${type}  (${ctx})`);
+      else if (this.isResolverType.get(rx))
+        this.errors.push(`CONFLICT: Resolver vs ${type}  (${ctx})`);
+      else if (this.isRejectorType.get(rx))
+        this.errors.push(`CONFLICT: Rejector vs ${type}  (${ctx})`);
       else this.baseType.set(rx, type);
     }
   }
@@ -238,12 +297,58 @@ class State {
       // Already a Func — unify params and ret pairwise
       const existing = this.funcInfo.get(rx);
       const n = Math.min(existing.params.length, info.params.length);
-      for (let i = 0; i < n; i++) this.union(existing.params[i], info.params[i]);
+      for (let i = 0; i < n; i++)
+        this.union(existing.params[i], info.params[i]);
       this.union(existing.ret, info.ret);
       return;
     }
     this.isFuncType.set(rx, true);
     this.funcInfo.set(rx, info);
+  }
+
+  _initPromise(rx, resolveTV, rejectTV) {
+    if (this.baseType.has(rx)) {
+      this.errors.push(`CONFLICT: ${this.baseType.get(rx)} vs Promise`);
+      return;
+    }
+    if (this.isObj.get(rx)) {
+      this.errors.push(`CONFLICT: obj vs Promise`);
+      return;
+    }
+    if (this.isArr.get(rx)) {
+      this.errors.push(`CONFLICT: Array vs Promise`);
+      return;
+    }
+    if (this.isFuncType.get(rx)) {
+      this.errors.push(`CONFLICT: Func vs Promise`);
+      return;
+    }
+    if (this.isPromiseType.get(rx)) {
+      this.union(this.promiseResolve.get(rx), resolveTV);
+      this.union(this.promiseReject.get(rx), rejectTV);
+      return;
+    }
+    this.isPromiseType.set(rx, true);
+    this.promiseResolve.set(rx, resolveTV);
+    this.promiseReject.set(rx, rejectTV);
+  }
+
+  _initResolver(rx, innerTV) {
+    if (this.isResolverType.get(rx)) {
+      this.union(this.resolverInner.get(rx), innerTV);
+      return;
+    }
+    this.isResolverType.set(rx, true);
+    this.resolverInner.set(rx, innerTV);
+  }
+
+  _initRejector(rx, innerTV) {
+    if (this.isRejectorType.get(rx)) {
+      this.union(this.rejectorInner.get(rx), innerTV);
+      return;
+    }
+    this.isRejectorType.set(rx, true);
+    this.rejectorInner.set(rx, innerTV);
   }
 
   // ── Processa uma constraint ────────────────────────────────────────────────
@@ -283,6 +388,16 @@ class State {
     } else if (isFunc(rhs)) {
       this._initFunc(this.find(lhs), parseFunc(rhs));
       this.consumedLits.add(rhs);
+    } else if (isPromise(rhs)) {
+      const { resolve, reject } = parsePromise(rhs);
+      this._initPromise(this.find(lhs), resolve, reject);
+      this.consumedLits.add(rhs);
+    } else if (isResolver(rhs)) {
+      this._initResolver(this.find(lhs), parseResolverInner(rhs));
+      this.consumedLits.add(rhs);
+    } else if (isRejector(rhs)) {
+      this._initRejector(this.find(lhs), parseRejectorInner(rhs));
+      this.consumedLits.add(rhs);
     } else {
       // lhs <= rhs  (ambos type vars) → union
       this.union(lhs, rhs);
@@ -313,6 +428,15 @@ class State {
         ? `Func<${name}>{() -> ${this.find(ret)}}`
         : `Func<${name}>{${parts.join(" -> ")}}`;
     }
+    if (this.isPromiseType.get(rep)) {
+      const res = this.find(this.promiseResolve.get(rep));
+      const rej = this.find(this.promiseReject.get(rep));
+      return `Promise<${res}, ${rej}>`;
+    }
+    if (this.isResolverType.get(rep))
+      return `Resolver<${this.find(this.resolverInner.get(rep))}>`;
+    if (this.isRejectorType.get(rep))
+      return `Rejector<${this.find(this.rejectorInner.get(rep))}>`;
     return null; // bot
   }
 
@@ -344,6 +468,22 @@ class State {
       );
       return `Func<${name}>{${[...resolvedParams, resolvedRet].join(" -> ")}}`;
     }
+    if (this.isPromiseType.get(rep)) {
+      const res = this.resolveType(
+        this.promiseResolve.get(rep),
+        new Set(visited),
+      );
+      const rej = this.resolveType(
+        this.promiseReject.get(rep),
+        new Set(visited),
+      );
+      if (isPromise(res)) return res;
+      return `Promise<${res}, ${rej}>`;
+    }
+    if (this.isResolverType.get(rep))
+      return `Resolver<${this.resolveType(this.resolverInner.get(rep), new Set(visited))}>`;
+    if (this.isRejectorType.get(rep))
+      return `Rejector<${this.resolveType(this.rejectorInner.get(rep), new Set(visited))}>`;
     return "bot";
   }
 
@@ -437,7 +577,10 @@ function solve(input, quiet = false) {
 
   console.log("\nFINAL:");
   const progVars = [...st.seenNodes]
-    .filter((k) => k.includes("__") && !isLiteral(k))
+    .filter(
+      (k) =>
+        k.includes("__") && !isLiteral(k) && !k.startsWith("async_inner__"),
+    )
     .sort();
   const maxLen = progVars.length
     ? Math.max(...progVars.map((v) => v.length))

@@ -1,1 +1,4 @@
-const add = ({ a = 0 } = {}) => b => a + b;
+const add =
+  ({ a = 0 } = {}) =>
+  (b) =>
+    a + b;
