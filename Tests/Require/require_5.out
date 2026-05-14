@@ -1,0 +1,43 @@
+
+Constraints:
+  C1: require__global <= Func<require__global>{() -> ret__require__global}
+  C2: T1 <= str
+  C3: ret__require__global <= mod__global
+  C4: mod__global <= {attack: T2}
+  C5: T2 <= Func<T5>{T4 -> T3}
+  C6: T6 <= str
+  C7: T6 <= T4
+
+──────────────────────────────────────────────────────
+Inicio:
+ require__global:bot, Func<require__global>{() -> ret__require__global}:bot, T1:bot, str:bot, ret__require__global:bot, mod__global:bot, {attack: T2}:bot, T2:bot, Func<T5>{T4 -> T3}:bot, T6:bot, T4:bot
+
+1: [require__global <= Func<require__global>{() -> ret__require__global}]
+ (require__global: Func<require__global>{() -> ret__require__global}), T1:bot, str:bot, ret__require__global:bot, mod__global:bot, {attack: T2}:bot, T2:bot, Func<T5>{T4 -> T3}:bot, T6:bot, T4:bot
+
+2: [T1 <= str]
+ (require__global: Func<require__global>{() -> ret__require__global}), T1:str, ret__require__global:bot, mod__global:bot, {attack: T2}:bot, T2:bot, Func<T5>{T4 -> T3}:bot, T6:bot, T4:bot
+
+3: [ret__require__global <= mod__global]
+ (require__global: Func<require__global>{() -> ret__require__global}), T1:str, ret__require__global:bot, mod__global:bot, {attack: T2}:bot, T2:bot, Func<T5>{T4 -> T3}:bot, T6:bot, T4:bot
+
+4: [mod__global <= {attack: T2}]
+ (require__global: Func<require__global>{() -> ret__require__global}), T1:str, (ret__require__global: {attack: T2}), (mod__global: {attack: T2}), T2:bot, Func<T5>{T4 -> T3}:bot, T6:bot, T4:bot
+
+5: [T2 <= Func<T5>{T4 -> T3}]
+ (require__global: Func<require__global>{() -> ret__require__global}), T1:str, (ret__require__global: {attack: T2}), (mod__global: {attack: T2}), (T2: Func<T5>{T4 -> T3}), T6:bot, T4:bot
+
+6: [T6 <= str]
+ (require__global: Func<require__global>{() -> ret__require__global}), T1:str, (ret__require__global: {attack: T2}), (mod__global: {attack: T2}), (T2: Func<T5>{T4 -> T3}), T6:str, T4:bot
+
+7: [T6 <= T4]
+ (require__global: Func<require__global>{() -> ret__require__global}), T1:str, (ret__require__global: {attack: T2}), (mod__global: {attack: T2}), (T2: Func<T5>{T6 -> T3}), T6:str, T4:str
+
+──────────────────────────────────────────────────────
+✓  Sem conflitos.
+
+FINAL:
+  mod__global           :  {attack: Func<T5>{str -> bot}}
+  require__global       :  Func<require__global>{() -> {attack: Func<T5>{str -> bot}}}
+  ret__require__global  :  {attack: Func<T5>{str -> bot}}
+
