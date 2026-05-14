@@ -4,6 +4,9 @@
 const esprima = require("esprima");
 const fs = require("fs");
 const path = require("path");
+const Module = require("module");
+const stubs = require("./stubs");
+const { buildStub } = require("./gen-stubs");
 
 // fresh type variable
 let _cnt = 0;
@@ -513,11 +516,41 @@ function inferExpr(node, env, scope) {
       )
         return inferPromiseCatch(node, env, scope);
 
+      // require('module') — dispatch to stub if available
+      if (
+        node.callee.type === "Identifier" &&
+        node.callee.name === "require" &&
+        node.arguments.length === 1 &&
+        node.arguments[0].type === "Literal" &&
+        typeof node.arguments[0].value === "string"
+      ) {
+        const moduleName = node.arguments[0].value;
+        if (stubs[moduleName]) return stubs[moduleName](fresh, addCons);
+
+        // Fallback: introspect from node_modules relative to the analysed file
+        try {
+          const req = Module.createRequire(path.resolve(filePath));
+          const mod = req(moduleName);
+          const label = moduleName.replace(/[^a-zA-Z0-9_]/g, "_");
+          const tv = buildStub(mod, label, fresh, addCons);
+          if (tv) return tv;
+        } catch (_e) {
+          // module not installed or not introspectable — fall through to bot
+        }
+      }
+
       const fname = node.callee.type === "Identifier" ? node.callee.name : null;
       if (!fname) {
-        // e.g. obj.method(1, 2), (function(x){})(5), ...
-        for (const arg of node.arguments) inferExpr(arg, env, scope);
-        return fresh();
+        // e.g. obj.method(a, b), (function(x){})(5)
+        const Xcallee = inferExpr(node.callee, env, scope);
+        const Xret = fresh();
+        const paramTVs = node.arguments.map(() => fresh());
+        addCons(Xcallee, funcType(fresh(), paramTVs, Xret));
+        node.arguments.forEach((arg, i) => {
+          const Xi = inferExpr(arg, env, scope);
+          addCons(Xi, paramTVs[i]);
+        });
+        return Xret;
       }
 
       const fnVar = envGet(env, fname, scope);
