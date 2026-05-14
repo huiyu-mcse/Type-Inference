@@ -6,7 +6,7 @@ const fs = require("fs");
 const path = require("path");
 const Module = require("module");
 const stubs = require("./stubs");
-const { buildStub } = require("./gen-stubs");
+const { buildStub } = require("./gen_stubs");
 
 // fresh type variable
 let _cnt = 0;
