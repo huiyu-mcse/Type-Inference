@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 "use strict";
 
-const esprima = require("esprima");
+const acorn = require("acorn");
 const fs = require("fs");
 const path = require("path");
 const Module = require("module");
@@ -316,6 +316,10 @@ function inferObjectExpr(node, env, scope, ownerName) {
   }
 
   for (const p of node.properties) {
+    if (p.type === "SpreadElement") {
+      inferExpr(p.argument, env, scope);
+      continue;
+    }
     const key = String(p.key.name ?? p.key.value);
     let Xval;
 
@@ -527,16 +531,22 @@ function inferExpr(node, env, scope) {
         const moduleName = node.arguments[0].value;
         if (stubs[moduleName]) return stubs[moduleName](fresh, addCons);
 
-        // Fallback: introspect from node_modules relative to the analysed file
-        try {
-          const req = Module.createRequire(path.resolve(filePath));
-          const mod = req(moduleName);
-          const label = moduleName.replace(/[^a-zA-Z0-9_]/g, "_");
-          const tv = buildStub(mod, label, fresh, addCons);
-          if (tv) return tv;
-        } catch (_e) {
-          // module not installed or not introspectable — fall through to bot
-        }
+        // Fallback: introspect from node_modules (file-relative first, then global)
+        const label = moduleName.replace(/[^a-zA-Z0-9_]/g, "_");
+        const tryLoad = (load) => {
+          try {
+            const tv = buildStub(load(), label, fresh, addCons);
+            if (tv) return tv;
+          } catch (_e) {
+            /* try next */
+          }
+          return null;
+        };
+        const tv =
+          tryLoad(() =>
+            Module.createRequire(path.resolve(filePath))(moduleName),
+          ) ?? tryLoad(() => require(moduleName));
+        if (tv) return tv;
       }
 
       const fname = node.callee.type === "Identifier" ? node.callee.name : null;
@@ -991,16 +1001,31 @@ try {
   process.exit(1);
 }
 
-let ast;
+if (src.startsWith("#!")) src = "//" + src.slice(2);
+
+let ast = null;
 try {
-  ast = esprima.parseScript(src, { tolerant: true });
-} catch (e) {
-  console.error(`Parse error: ${e.description} (line ${e.lineNumber})`);
-  process.exit(1);
+  ast = acorn.parse(src, {
+    ecmaVersion: 2020,
+    sourceType: "script",
+    allowReturnOutsideFunction: true,
+  });
+} catch (scriptErr) {
+  try {
+    ast = acorn.parse(src, {
+      ecmaVersion: 2020,
+      sourceType: "module",
+      allowReturnOutsideFunction: true,
+    });
+  } catch (e) {
+    process.stderr.write(
+      `Parse error in ${path.basename(filePath)}: ${e.message}\n`,
+    );
+  }
 }
 
 // Run inference on the whole program (top-level scope = 'global')
-inferStmt(ast, new Map(), "global");
+if (ast) inferStmt(ast, new Map(), "global");
 
 // ── Output ────────────────────────────────────────────────────────────────────
 const SEP = "─".repeat(60);

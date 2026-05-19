@@ -1,5 +1,5 @@
 {
   "dependencies": {
-    "esprima": "^4.0.1"
+    "acorn": "^8.16.0"
   }
 }

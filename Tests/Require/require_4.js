@@ -1,2 +1,2 @@
-const esprima = require("esprima");
-esprima.parseScript("1 + 2");
+const acorn = require("acorn");
+acorn.parse("1 + 2", {});
