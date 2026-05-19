@@ -1005,11 +1005,23 @@ if (src.startsWith("#!")) src = "//" + src.slice(2);
 
 let ast = null;
 try {
-  ast = acorn.parse(src, { ecmaVersion: 2020, sourceType: "script" });
-} catch (e) {
-  process.stderr.write(
-    `Parse error in ${path.basename(filePath)}: ${e.message}\n`,
-  );
+  ast = acorn.parse(src, {
+    ecmaVersion: 2020,
+    sourceType: "script",
+    allowReturnOutsideFunction: true,
+  });
+} catch (scriptErr) {
+  try {
+    ast = acorn.parse(src, {
+      ecmaVersion: 2020,
+      sourceType: "module",
+      allowReturnOutsideFunction: true,
+    });
+  } catch (e) {
+    process.stderr.write(
+      `Parse error in ${path.basename(filePath)}: ${e.message}\n`,
+    );
+  }
 }
 
 // Run inference on the whole program (top-level scope = 'global')
