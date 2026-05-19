@@ -527,16 +527,25 @@ function inferExpr(node, env, scope) {
         const moduleName = node.arguments[0].value;
         if (stubs[moduleName]) return stubs[moduleName](fresh, addCons);
 
-        // Fallback: introspect from node_modules relative to the analysed file
-        try {
-          const req = Module.createRequire(path.resolve(filePath));
-          const mod = req(moduleName);
-          const label = moduleName.replace(/[^a-zA-Z0-9_]/g, "_");
-          const tv = buildStub(mod, label, fresh, addCons);
-          if (tv) return tv;
-        } catch (_e) {
-          // module not installed or not introspectable — fall through to bot
-        }
+        // Fallback: introspect from node_modules.
+        // Try the directory of the analysed file first, then fall back to
+        // infer.js's own resolution paths (project node_modules + global installs).
+        const label = moduleName.replace(/[^a-zA-Z0-9_]/g, "_");
+        const tryLoad = (load) => {
+          try {
+            const tv = buildStub(load(), label, fresh, addCons);
+            if (tv) return tv;
+          } catch (_e) {
+            /* try next */
+          }
+          return null;
+        };
+
+        const tv =
+          tryLoad(() =>
+            Module.createRequire(path.resolve(filePath))(moduleName),
+          ) ?? tryLoad(() => require(moduleName));
+        if (tv) return tv;
       }
 
       const fname = node.callee.type === "Identifier" ? node.callee.name : null;
@@ -986,6 +995,9 @@ if (!filePath) {
 let src;
 try {
   src = fs.readFileSync(filePath, "utf8");
+  // This is just to get rid of shebangs at the beginning of files
+  // instead of breaking the parser
+  if (src.startsWith("#!")) src = "//" + src.slice(2);
 } catch (e) {
   console.error(`Cannot read file: ${filePath}\n${e.message}`);
   process.exit(1);
