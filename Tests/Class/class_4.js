@@ -5,3 +5,5 @@ class MathHelper {
 }
 
 MathHelper.add(1, 2);
+
+let a = MathHelper.add(3, 4);

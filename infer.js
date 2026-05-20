@@ -638,7 +638,29 @@ function inferExpr(node, env, scope) {
           ) ?? tryLoad(() => require(moduleName));
         if (tv) return tv;
       }
-      // method call on a known class instance: o.bar(args)
+      // Static method call: ClassName.method(args)  — must come before the
+      // generic MemberExpression fallback to avoid generating {method: T} on
+      // the class variable (which would conflict with Class<ClassName>).
+      if (
+        node.callee.type === "MemberExpression" &&
+        !node.callee.computed &&
+        node.callee.object.type === "Identifier" &&
+        classMethods.has(node.callee.object.name)
+      ) {
+        const methodName = node.callee.property.name;
+        const method = classMethods
+          .get(node.callee.object.name)
+          .find((m) => m.name === methodName);
+        if (method) {
+          node.arguments.forEach((arg, i) => {
+            const Xi = inferExpr(arg, env, scope);
+            if (method.params[i]) addCons(Xi, method.params[i]);
+          });
+          return method.ret;
+        }
+      }
+
+      // Instance method call: o.bar(args)
       if (
         node.callee.type === "MemberExpression" &&
         !node.callee.computed &&
