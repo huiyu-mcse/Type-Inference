@@ -1,40 +1,26 @@
 
 Constraints:
-  C1: T1 <= num
-  C2: T1 <= ret__area__Shape
-  C3: Shape__global <= Class<Shape>[area: ret__area__Shape]
-  C4: T2 <= num
-  C5: T2 <= ret__volume__Circle
-  C6: Circle__global <= Class<Circle>[area: ret__area__Shape, volume: ret__volume__Circle]
+  C1: T1 <= Obj<Counter>[next: ret__next__Counter]
+  C2: T1 <= ret__next__Counter
+  C3: Counter__global <= Class<Counter>[next: ret__next__Counter]
 
 ──────────────────────────────────────────────────────
 Inicio:
- T1:bot, num:bot, ret__area__Shape:bot, Shape__global:bot, Class<Shape>[area: ret__area__Shape]:bot, T2:bot, ret__volume__Circle:bot, Circle__global:bot, Class<Circle>[area: ret__area__Shape, volume: ret__volume__Circle]:bot
+ T1:bot, Obj<Counter>[next: ret__next__Counter]:bot, ret__next__Counter:bot, Counter__global:bot, Class<Counter>[next: ret__next__Counter]:bot
 
-1: [T1 <= num]
- T1:num, ret__area__Shape:bot, Shape__global:bot, Class<Shape>[area: ret__area__Shape]:bot, T2:bot, ret__volume__Circle:bot, Circle__global:bot, Class<Circle>[area: ret__area__Shape, volume: ret__volume__Circle]:bot
+1: [T1 <= Obj<Counter>[next: ret__next__Counter]]
+ (T1: Obj<Counter>[next: ret__next__Counter]), ret__next__Counter:bot, Counter__global:bot, Class<Counter>[next: ret__next__Counter]:bot
 
-2: [T1 <= ret__area__Shape]
- T1:num, ret__area__Shape:num, Shape__global:bot, Class<Shape>[area: ret__area__Shape]:bot, T2:bot, ret__volume__Circle:bot, Circle__global:bot, Class<Circle>[area: ret__area__Shape, volume: ret__volume__Circle]:bot
+2: [T1 <= ret__next__Counter]
+ (T1: Obj<Counter>[next: T1]), (ret__next__Counter: Obj<Counter>[next: T1]), Counter__global:bot, Class<Counter>[next: ret__next__Counter]:bot
 
-3: [Shape__global <= Class<Shape>[area: ret__area__Shape]]
- T1:num, ret__area__Shape:num, (Shape__global: Class<Shape>[area: T1]), T2:bot, ret__volume__Circle:bot, Circle__global:bot, Class<Circle>[area: ret__area__Shape, volume: ret__volume__Circle]:bot
-
-4: [T2 <= num]
- T1:num, ret__area__Shape:num, (Shape__global: Class<Shape>[area: T1]), T2:num, ret__volume__Circle:bot, Circle__global:bot, Class<Circle>[area: ret__area__Shape, volume: ret__volume__Circle]:bot
-
-5: [T2 <= ret__volume__Circle]
- T1:num, ret__area__Shape:num, (Shape__global: Class<Shape>[area: T1]), T2:num, ret__volume__Circle:num, Circle__global:bot, Class<Circle>[area: ret__area__Shape, volume: ret__volume__Circle]:bot
-
-6: [Circle__global <= Class<Circle>[area: ret__area__Shape, volume: ret__volume__Circle]]
- T1:num, ret__area__Shape:num, (Shape__global: Class<Shape>[area: T1]), T2:num, ret__volume__Circle:num, (Circle__global: Class<Circle>[area: T1, volume: T2])
+3: [Counter__global <= Class<Counter>[next: ret__next__Counter]]
+ (T1: Obj<Counter>[next: T1]), (ret__next__Counter: Obj<Counter>[next: T1]), (Counter__global: Class<Counter>[next: T1])
 
 ──────────────────────────────────────────────────────
 ✓  Sem conflitos.
 
 FINAL:
-  Circle__global       :  Class<Circle>[area: num, volume: num]
-  Shape__global        :  Class<Shape>[area: num]
-  ret__area__Shape     :  num
-  ret__volume__Circle  :  num
+  Counter__global     :  Class<Counter>[next: Obj<Counter>[next: T1]]
+  ret__next__Counter  :  Obj<Counter>[next: T1]
 

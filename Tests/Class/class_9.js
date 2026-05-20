@@ -12,3 +12,4 @@ class Line {
 
 const p = new Point();
 const l = new Line();
+p = new Line();
