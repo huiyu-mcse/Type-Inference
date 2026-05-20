@@ -1,0 +1,70 @@
+
+Constraints:
+  C01: x__move__Point <= num
+  C02: y__move__Point <= num
+  C03: T1 <= num
+  C04: T1 <= ret__move__Point
+  C05: Point__global <= Class<Point>[move: x__move__Point -> y__move__Point -> ret__move__Point]
+  C06: a__length__Line <= num
+  C07: b__length__Line <= num
+  C08: T2 <= num
+  C09: T2 <= ret__length__Line
+  C10: Line__global <= Class<Line>[length: a__length__Line -> b__length__Line -> ret__length__Line]
+  C11: p__global <= Obj<Point>[move: x__move__Point -> y__move__Point -> ret__move__Point]
+  C12: l__global <= Obj<Line>[length: a__length__Line -> b__length__Line -> ret__length__Line]
+
+──────────────────────────────────────────────────────
+Inicio:
+ x__move__Point:bot, num:bot, y__move__Point:bot, T1:bot, ret__move__Point:bot, Point__global:bot, Class<Point>[move: x__move__Point -> y__move__Point -> ret__move__Point]:bot, a__length__Line:bot, b__length__Line:bot, T2:bot, ret__length__Line:bot, Line__global:bot, Class<Line>[length: a__length__Line -> b__length__Line -> ret__length__Line]:bot, p__global:bot, Obj<Point>[move: x__move__Point -> y__move__Point -> ret__move__Point]:bot, l__global:bot, Obj<Line>[length: a__length__Line -> b__length__Line -> ret__length__Line]:bot
+
+1: [x__move__Point <= num]
+ x__move__Point:num, y__move__Point:bot, T1:bot, ret__move__Point:bot, Point__global:bot, Class<Point>[move: x__move__Point -> y__move__Point -> ret__move__Point]:bot, a__length__Line:bot, b__length__Line:bot, T2:bot, ret__length__Line:bot, Line__global:bot, Class<Line>[length: a__length__Line -> b__length__Line -> ret__length__Line]:bot, p__global:bot, Obj<Point>[move: x__move__Point -> y__move__Point -> ret__move__Point]:bot, l__global:bot, Obj<Line>[length: a__length__Line -> b__length__Line -> ret__length__Line]:bot
+
+2: [y__move__Point <= num]
+ x__move__Point:num, y__move__Point:num, T1:bot, ret__move__Point:bot, Point__global:bot, Class<Point>[move: x__move__Point -> y__move__Point -> ret__move__Point]:bot, a__length__Line:bot, b__length__Line:bot, T2:bot, ret__length__Line:bot, Line__global:bot, Class<Line>[length: a__length__Line -> b__length__Line -> ret__length__Line]:bot, p__global:bot, Obj<Point>[move: x__move__Point -> y__move__Point -> ret__move__Point]:bot, l__global:bot, Obj<Line>[length: a__length__Line -> b__length__Line -> ret__length__Line]:bot
+
+3: [T1 <= num]
+ x__move__Point:num, y__move__Point:num, T1:num, ret__move__Point:bot, Point__global:bot, Class<Point>[move: x__move__Point -> y__move__Point -> ret__move__Point]:bot, a__length__Line:bot, b__length__Line:bot, T2:bot, ret__length__Line:bot, Line__global:bot, Class<Line>[length: a__length__Line -> b__length__Line -> ret__length__Line]:bot, p__global:bot, Obj<Point>[move: x__move__Point -> y__move__Point -> ret__move__Point]:bot, l__global:bot, Obj<Line>[length: a__length__Line -> b__length__Line -> ret__length__Line]:bot
+
+4: [T1 <= ret__move__Point]
+ x__move__Point:num, y__move__Point:num, T1:num, ret__move__Point:num, Point__global:bot, Class<Point>[move: x__move__Point -> y__move__Point -> ret__move__Point]:bot, a__length__Line:bot, b__length__Line:bot, T2:bot, ret__length__Line:bot, Line__global:bot, Class<Line>[length: a__length__Line -> b__length__Line -> ret__length__Line]:bot, p__global:bot, Obj<Point>[move: x__move__Point -> y__move__Point -> ret__move__Point]:bot, l__global:bot, Obj<Line>[length: a__length__Line -> b__length__Line -> ret__length__Line]:bot
+
+5: [Point__global <= Class<Point>[move: x__move__Point -> y__move__Point -> ret__move__Point]]
+ x__move__Point:num, y__move__Point:num, T1:num, ret__move__Point:num, (Point__global: Class<Point>[move: x__move__Point -> y__move__Point -> T1]), a__length__Line:bot, b__length__Line:bot, T2:bot, ret__length__Line:bot, Line__global:bot, Class<Line>[length: a__length__Line -> b__length__Line -> ret__length__Line]:bot, p__global:bot, Obj<Point>[move: x__move__Point -> y__move__Point -> ret__move__Point]:bot, l__global:bot, Obj<Line>[length: a__length__Line -> b__length__Line -> ret__length__Line]:bot
+
+6: [a__length__Line <= num]
+ x__move__Point:num, y__move__Point:num, T1:num, ret__move__Point:num, (Point__global: Class<Point>[move: x__move__Point -> y__move__Point -> T1]), a__length__Line:num, b__length__Line:bot, T2:bot, ret__length__Line:bot, Line__global:bot, Class<Line>[length: a__length__Line -> b__length__Line -> ret__length__Line]:bot, p__global:bot, Obj<Point>[move: x__move__Point -> y__move__Point -> ret__move__Point]:bot, l__global:bot, Obj<Line>[length: a__length__Line -> b__length__Line -> ret__length__Line]:bot
+
+7: [b__length__Line <= num]
+ x__move__Point:num, y__move__Point:num, T1:num, ret__move__Point:num, (Point__global: Class<Point>[move: x__move__Point -> y__move__Point -> T1]), a__length__Line:num, b__length__Line:num, T2:bot, ret__length__Line:bot, Line__global:bot, Class<Line>[length: a__length__Line -> b__length__Line -> ret__length__Line]:bot, p__global:bot, Obj<Point>[move: x__move__Point -> y__move__Point -> ret__move__Point]:bot, l__global:bot, Obj<Line>[length: a__length__Line -> b__length__Line -> ret__length__Line]:bot
+
+8: [T2 <= num]
+ x__move__Point:num, y__move__Point:num, T1:num, ret__move__Point:num, (Point__global: Class<Point>[move: x__move__Point -> y__move__Point -> T1]), a__length__Line:num, b__length__Line:num, T2:num, ret__length__Line:bot, Line__global:bot, Class<Line>[length: a__length__Line -> b__length__Line -> ret__length__Line]:bot, p__global:bot, Obj<Point>[move: x__move__Point -> y__move__Point -> ret__move__Point]:bot, l__global:bot, Obj<Line>[length: a__length__Line -> b__length__Line -> ret__length__Line]:bot
+
+9: [T2 <= ret__length__Line]
+ x__move__Point:num, y__move__Point:num, T1:num, ret__move__Point:num, (Point__global: Class<Point>[move: x__move__Point -> y__move__Point -> T1]), a__length__Line:num, b__length__Line:num, T2:num, ret__length__Line:num, Line__global:bot, Class<Line>[length: a__length__Line -> b__length__Line -> ret__length__Line]:bot, p__global:bot, Obj<Point>[move: x__move__Point -> y__move__Point -> ret__move__Point]:bot, l__global:bot, Obj<Line>[length: a__length__Line -> b__length__Line -> ret__length__Line]:bot
+
+10: [Line__global <= Class<Line>[length: a__length__Line -> b__length__Line -> ret__length__Line]]
+ x__move__Point:num, y__move__Point:num, T1:num, ret__move__Point:num, (Point__global: Class<Point>[move: x__move__Point -> y__move__Point -> T1]), a__length__Line:num, b__length__Line:num, T2:num, ret__length__Line:num, (Line__global: Class<Line>[length: a__length__Line -> b__length__Line -> T2]), p__global:bot, Obj<Point>[move: x__move__Point -> y__move__Point -> ret__move__Point]:bot, l__global:bot, Obj<Line>[length: a__length__Line -> b__length__Line -> ret__length__Line]:bot
+
+11: [p__global <= Obj<Point>[move: x__move__Point -> y__move__Point -> ret__move__Point]]
+ x__move__Point:num, y__move__Point:num, T1:num, ret__move__Point:num, (Point__global: Class<Point>[move: x__move__Point -> y__move__Point -> T1]), a__length__Line:num, b__length__Line:num, T2:num, ret__length__Line:num, (Line__global: Class<Line>[length: a__length__Line -> b__length__Line -> T2]), (p__global: Obj<Point>[move: x__move__Point -> y__move__Point -> T1]), l__global:bot, Obj<Line>[length: a__length__Line -> b__length__Line -> ret__length__Line]:bot
+
+12: [l__global <= Obj<Line>[length: a__length__Line -> b__length__Line -> ret__length__Line]]
+ x__move__Point:num, y__move__Point:num, T1:num, ret__move__Point:num, (Point__global: Class<Point>[move: x__move__Point -> y__move__Point -> T1]), a__length__Line:num, b__length__Line:num, T2:num, ret__length__Line:num, (Line__global: Class<Line>[length: a__length__Line -> b__length__Line -> T2]), (p__global: Obj<Point>[move: x__move__Point -> y__move__Point -> T1]), (l__global: Obj<Line>[length: a__length__Line -> b__length__Line -> T2])
+
+──────────────────────────────────────────────────────
+✓  Sem conflitos.
+
+FINAL:
+  Line__global       :  Class<Line>[length: num -> num -> num]
+  Point__global      :  Class<Point>[move: num -> num -> num]
+  a__length__Line    :  num
+  b__length__Line    :  num
+  l__global          :  Obj<Line>[length: num -> num -> num]
+  p__global          :  Obj<Point>[move: num -> num -> num]
+  ret__length__Line  :  num
+  ret__move__Point   :  num
+  x__move__Point     :  num
+  y__move__Point     :  num
+

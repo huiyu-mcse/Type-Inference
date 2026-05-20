@@ -1,0 +1,36 @@
+
+Constraints:
+  C1: name__greet__Greeter <= ret__greet__Greeter
+  C2: Greeter__global <= Class<Greeter>[greet: name__greet__Greeter -> ret__greet__Greeter]
+  C3: g__global <= Obj<Greeter>[greet: name__greet__Greeter -> ret__greet__Greeter]
+  C4: T1 <= str
+  C5: T1 <= name__greet__Greeter
+
+──────────────────────────────────────────────────────
+Inicio:
+ name__greet__Greeter:bot, ret__greet__Greeter:bot, Greeter__global:bot, Class<Greeter>[greet: name__greet__Greeter -> ret__greet__Greeter]:bot, g__global:bot, Obj<Greeter>[greet: name__greet__Greeter -> ret__greet__Greeter]:bot, T1:bot, str:bot
+
+1: [name__greet__Greeter <= ret__greet__Greeter]
+ name__greet__Greeter:bot, ret__greet__Greeter:bot, Greeter__global:bot, Class<Greeter>[greet: name__greet__Greeter -> ret__greet__Greeter]:bot, g__global:bot, Obj<Greeter>[greet: name__greet__Greeter -> ret__greet__Greeter]:bot, T1:bot, str:bot
+
+2: [Greeter__global <= Class<Greeter>[greet: name__greet__Greeter -> ret__greet__Greeter]]
+ name__greet__Greeter:bot, ret__greet__Greeter:bot, (Greeter__global: Class<Greeter>[greet: name__greet__Greeter -> name__greet__Greeter]), g__global:bot, Obj<Greeter>[greet: name__greet__Greeter -> ret__greet__Greeter]:bot, T1:bot, str:bot
+
+3: [g__global <= Obj<Greeter>[greet: name__greet__Greeter -> ret__greet__Greeter]]
+ name__greet__Greeter:bot, ret__greet__Greeter:bot, (Greeter__global: Class<Greeter>[greet: name__greet__Greeter -> name__greet__Greeter]), (g__global: Obj<Greeter>[greet: name__greet__Greeter -> name__greet__Greeter]), T1:bot, str:bot
+
+4: [T1 <= str]
+ name__greet__Greeter:bot, ret__greet__Greeter:bot, (Greeter__global: Class<Greeter>[greet: name__greet__Greeter -> name__greet__Greeter]), (g__global: Obj<Greeter>[greet: name__greet__Greeter -> name__greet__Greeter]), T1:str
+
+5: [T1 <= name__greet__Greeter]
+ name__greet__Greeter:str, ret__greet__Greeter:str, (Greeter__global: Class<Greeter>[greet: name__greet__Greeter -> name__greet__Greeter]), (g__global: Obj<Greeter>[greet: name__greet__Greeter -> name__greet__Greeter]), T1:str
+
+──────────────────────────────────────────────────────
+✓  Sem conflitos.
+
+FINAL:
+  Greeter__global       :  Class<Greeter>[greet: str -> str]
+  g__global             :  Obj<Greeter>[greet: str -> str]
+  name__greet__Greeter  :  str
+  ret__greet__Greeter   :  str
+

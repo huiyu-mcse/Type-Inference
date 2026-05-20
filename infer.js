@@ -347,6 +347,79 @@ function inferObjectExpr(node, env, scope, ownerName) {
   return Xobj;
 }
 
+// -- Class node helper --------------------------------------------------------
+function inferClassNode(node, className, env) {
+  const methods = [];
+
+  if (node.superClass?.type === "Identifier") {
+    const parentName = node.superClass.name;
+    if (classMethods.has(parentName)) {
+      methods.push(...classMethods.get(parentName));
+    }
+  }
+
+  // Pass 1: declare params + return TVs for every method, then pre-register
+  // the class. Bodies are NOT processed yet, so that self-references like
+  // `new Counter()` or `new NamedClass()` inside a body already find the
+  // class in classMethods with its full method list.
+  const methodEntries = [];
+  for (const m of node.body.body) {
+    if (m.type !== "MethodDefinition") continue;
+    const methodName = m.key.name;
+    const qualName = `${methodName}__${className}`;
+    const fnEnv = new Map(env);
+    const paramNames = [], paramTVs = [];
+    for (const p of m.value.params) {
+      for (const { name: pn, tv } of declareParam(p, fnEnv, qualName)) {
+        paramNames.push(pn);
+        paramTVs.push(tv);
+      }
+    }
+    functionParams.set(qualName, paramNames);
+    const retTV = `ret__${qualName}`;
+    functionTypes.set(qualName, { params: paramTVs, ret: retTV });
+    const entry = { name: methodName, params: paramTVs, ret: retTV };
+    const idx = methods.findIndex((x) => x.name === methodName);
+    if (idx >= 0) methods[idx] = entry; else methods.push(entry);
+    methodEntries.push({ m, fnEnv, qualName });
+  }
+
+  // Pre-register so bodies can resolve `new ClassName()`.
+  classMethods.set(className, methods);
+  // Named class expression alias: `const X = class NamedClass { ... }`
+  // — NamedClass is only visible inside the body, alias it so it resolves too.
+  if (node.id?.name && node.id.name !== className) {
+    classMethods.set(node.id.name, methods);
+  }
+
+  // Pass 2: process method bodies now that the class is fully registered.
+  for (const { m, fnEnv, qualName } of methodEntries) {
+    if (m.value.async) {
+      asyncScopes.add(qualName);
+      const X_rej = fresh();
+      addCons(`ret__${qualName}`, `Promise<async_inner__${qualName},${X_rej}>`);
+    }
+    let hasReturn;
+    if (
+      m.value.type === "ArrowFunctionExpression" &&
+      m.value.body.type !== "BlockStatement"
+    ) {
+      const Xbody = inferExpr(m.value.body, fnEnv, qualName);
+      addCons(Xbody, m.value.async ? `async_inner__${qualName}` : `ret__${qualName}`);
+      hasReturn = true;
+    } else {
+      hasReturn = inferStmt(m.value.body, fnEnv, qualName);
+    }
+    if (!hasReturn) {
+      addCons("void", m.value.async ? `async_inner__${qualName}` : `ret__${qualName}`);
+    }
+  }
+
+  return methods
+    .map((m) => `${m.name}: ${[...m.params, m.ret].join(" -> ")}`)
+    .join(", ");
+}
+
 // -- Expression inference ----------------------------------------------------
 function inferExpr(node, env, scope) {
   if (!node) return fresh();
@@ -654,6 +727,14 @@ function inferExpr(node, env, scope) {
       return X_res;
     }
 
+    case "ClassExpression": {
+      const className = node.id?.name ?? `class_${fresh()}`;
+      const sig = inferClassNode(node, className, env);
+      const Xcls = fresh();
+      addCons(Xcls, `Class<${className}>[${sig}]`);
+      return Xcls;
+    }
+
     case "FunctionExpression": // e.g. function(a) { return a; }
     case "ArrowFunctionExpression": {
       // e.g. (n) => n * 2
@@ -720,6 +801,12 @@ function handleRHS(name, rhs, env, scope) {
   ) {
     const fnName = rhs.id?.name ?? name;
     inferFuncNode(rhs, fnName, scope, env, xTarget);
+    return;
+  }
+
+  if (rhs.type === "ClassExpression") {
+    const sig = inferClassNode(rhs, name, env);
+    addCons(xTarget, `Class<${name}>[${sig}]`);
     return;
   }
 
@@ -929,19 +1016,7 @@ function inferStmt(node, env, scope) {
 
     case "ClassDeclaration": { // e.g. class Id { method(params) {body} ... }
       const className = node.id.name;
-      const methods = [];
-      for (const m of node.body.body) {
-        if (m.type !== "MethodDefinition") continue;
-        const methodName = m.key.name;
-        inferFuncNode(m.value, methodName, className, env, null);
-        const qualName = `${methodName}__${className}`;
-        const { params, ret } = functionTypes.get(qualName);
-        methods.push({ name: methodName, params, ret });
-      }
-      classMethods.set(className, methods);
-      const sig = methods
-        .map((m) => `${m.name}: ${[...m.params, m.ret].join(" -> ")}`)
-        .join(", ");
+      const sig = inferClassNode(node, className, env);
       const Xclass = envDeclare(env, className, scope);
       addCons(Xclass, `Class<${className}>[${sig}]`);
       break;

@@ -1,3 +1,4 @@
+// Example from the meeting
 class Foo {
     bar(x, y) {
         return x + y

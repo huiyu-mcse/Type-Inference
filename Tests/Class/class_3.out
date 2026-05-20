@@ -1,0 +1,23 @@
+
+Constraints:
+  C1: value__constructor__Box <= ret__constructor__Box
+  C2: Box__global <= Class<Box>[constructor: value__constructor__Box -> ret__constructor__Box]
+
+──────────────────────────────────────────────────────
+Inicio:
+ value__constructor__Box:bot, ret__constructor__Box:bot, Box__global:bot, Class<Box>[constructor: value__constructor__Box -> ret__constructor__Box]:bot
+
+1: [value__constructor__Box <= ret__constructor__Box]
+ value__constructor__Box:bot, ret__constructor__Box:bot, Box__global:bot, Class<Box>[constructor: value__constructor__Box -> ret__constructor__Box]:bot
+
+2: [Box__global <= Class<Box>[constructor: value__constructor__Box -> ret__constructor__Box]]
+ value__constructor__Box:bot, ret__constructor__Box:bot, (Box__global: Class<Box>[constructor: value__constructor__Box -> value__constructor__Box])
+
+──────────────────────────────────────────────────────
+✓  Sem conflitos.
+
+FINAL:
+  Box__global              :  Class<Box>[constructor: bot -> bot]
+  ret__constructor__Box    :  bot
+  value__constructor__Box  :  bot
+
