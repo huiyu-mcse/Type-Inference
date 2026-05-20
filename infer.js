@@ -347,6 +347,20 @@ function inferObjectExpr(node, env, scope, ownerName) {
   return Xobj;
 }
 
+// -- Class instance helper ---------------------------------------------------
+function inferNewInstance(node, env, scope) {
+  const className = node.callee.name;
+  for (const arg of node.arguments) inferExpr(arg, env, scope);
+  const Xinst = fresh();
+  const methods = classMethods.get(className);
+  const sig = methods
+    .map((m) => `${m.name}: ${[...m.params, m.ret].join(" -> ")}`)
+    .join(", ");
+  addCons(Xinst, `Obj<${className}>[${sig}]`);
+  instanceClasses.set(Xinst, className);
+  return Xinst;
+}
+
 // -- Class node helper --------------------------------------------------------
 function inferClassNode(node, className, env) {
   const methods = [];
@@ -358,10 +372,8 @@ function inferClassNode(node, className, env) {
     }
   }
 
-  // Pass 1: declare params + return TVs for every method, then pre-register
-  // the class. Bodies are NOT processed yet, so that self-references like
-  // `new Counter()` or `new NamedClass()` inside a body already find the
-  // class in classMethods with its full method list.
+  // declare params + return TVs for every method, then pre-register
+  // the class without process the body yet.
   const methodEntries = [];
   for (const m of node.body.body) {
     if (m.type !== "MethodDefinition") continue;
@@ -384,15 +396,15 @@ function inferClassNode(node, className, env) {
     methodEntries.push({ m, fnEnv, qualName });
   }
 
-  // Pre-register so bodies can resolve `new ClassName()`.
+  // Pre-register so bodies can resolve self references
   classMethods.set(className, methods);
-  // Named class expression alias: `const X = class NamedClass { ... }`
-  // — NamedClass is only visible inside the body, alias it so it resolves too.
+  // in case 'const X = class NamedClass { ... }'
+  // — NamedClass is only visible inside the body
   if (node.id?.name && node.id.name !== className) {
     classMethods.set(node.id.name, methods);
   }
 
-  // Pass 2: process method bodies now that the class is fully registered.
+  // process method body
   for (const { m, fnEnv, qualName } of methodEntries) {
     if (m.value.async) {
       asyncScopes.add(qualName);
@@ -560,19 +572,14 @@ function inferExpr(node, env, scope) {
         return inferNewPromise(node, env, scope);
       }
       // e.g. new Foo(args)
-      for (const arg of node.arguments) inferExpr(arg, env, scope);
-      const className =
-        node.callee.type === "Identifier" ? node.callee.name : null;
-      const Xinst = fresh();
-      if (className && classMethods.has(className)) {
-        const methods = classMethods.get(className);
-        const sig = methods
-          .map((m) => `${m.name}: ${[...m.params, m.ret].join(" -> ")}`)
-          .join(", ");
-        addCons(Xinst, `Obj<${className}>[${sig}]`);
-        instanceClasses.set(Xinst, className);
+      if (
+        node.callee.type === "Identifier" &&
+        classMethods.has(node.callee.name)
+      ) {
+        return inferNewInstance(node, env, scope);
       }
-      return Xinst;
+      for (const arg of node.arguments) inferExpr(arg, env, scope);
+      return fresh();
     }
 
     case "CallExpression": {
@@ -728,7 +735,8 @@ function inferExpr(node, env, scope) {
       return `ret__${qualName}`;
     }
 
-    case "ArrayExpression": { // e.g. [e1, e2, ..., en]
+    case "ArrayExpression": {
+      // e.g. [e1, e2, ..., en]
       const Xelem = fresh();
       const Xarr = fresh();
       for (const elem of node.elements) {
@@ -827,27 +835,18 @@ function handleRHS(name, rhs, env, scope) {
   }
 
   if (rhs.type === "ClassExpression") {
-    const sig = inferClassNode(rhs, name, env);
-    addCons(xTarget, `Class<${name}>[${sig}]`);
+    const params = inferClassNode(rhs, name, env);
+    addCons(xTarget, `Class<${name}>[${params}]`);
     return;
-  }
-
-  if (rhs.type === "NewExpression" && rhs.callee.type === "Identifier") {
-    const className = rhs.callee.name;
-    if (classMethods.has(className)) {
-      for (const arg of rhs.arguments) inferExpr(arg, env, scope);
-      const methods = classMethods.get(className);
-      const sig = methods
-        .map((m) => `${m.name}: ${[...m.params, m.ret].join(" -> ")}`)
-        .join(", ");
-      addCons(xTarget, `Obj<${className}>[${sig}]`);
-      instanceClasses.set(xTarget, className);
-      return;
-    }
   }
 
   const X1 = inferExpr(rhs, env, scope); // Assign
   addCons(X1, xTarget);
+
+  // connect TV to the responding class
+  if (instanceClasses.has(X1)) {
+    instanceClasses.set(xTarget, instanceClasses.get(X1));
+  }
 }
 
 // -- Statement inference -----------------------------------------------------
@@ -1036,11 +1035,12 @@ function inferStmt(node, env, scope) {
       break;
     }
 
-    case "ClassDeclaration": { // e.g. class Id { method(params) {body} ... }
+    case "ClassDeclaration": {
+      // e.g. class Id { method(params) {body} ... }
       const className = node.id.name;
-      const sig = inferClassNode(node, className, env);
+      const params = inferClassNode(node, className, env);
       const Xclass = envDeclare(env, className, scope);
-      addCons(Xclass, `Class<${className}>[${sig}]`);
+      addCons(Xclass, `Class<${className}>[${params}]`);
       break;
     }
 
