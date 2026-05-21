@@ -1,28 +1,17 @@
 
 Constraints:
   C1: Animal__global <= Class<Animal>[]
-  C2: value__constructor__Box <= ret__constructor__Box
-  C3: Box__global <= Class<Box>[constructor: value__constructor__Box -> ret__constructor__Box]
 
 ──────────────────────────────────────────────────────
 Inicio:
- Animal__global:bot, Class<Animal>[]:bot, value__constructor__Box:bot, ret__constructor__Box:bot, Box__global:bot, Class<Box>[constructor: value__constructor__Box -> ret__constructor__Box]:bot
+ Animal__global:bot, Class<Animal>[]:bot
 
 1: [Animal__global <= Class<Animal>[]]
- (Animal__global: Class<Animal>[]), value__constructor__Box:bot, ret__constructor__Box:bot, Box__global:bot, Class<Box>[constructor: value__constructor__Box -> ret__constructor__Box]:bot
-
-2: [value__constructor__Box <= ret__constructor__Box]
- (Animal__global: Class<Animal>[]), value__constructor__Box:bot, ret__constructor__Box:bot, Box__global:bot, Class<Box>[constructor: value__constructor__Box -> ret__constructor__Box]:bot
-
-3: [Box__global <= Class<Box>[constructor: value__constructor__Box -> ret__constructor__Box]]
- (Animal__global: Class<Animal>[]), value__constructor__Box:bot, ret__constructor__Box:bot, (Box__global: Class<Box>[constructor: value__constructor__Box -> value__constructor__Box])
+ (Animal__global: Class<Animal>[])
 
 ──────────────────────────────────────────────────────
 ✓  Sem conflitos.
 
 FINAL:
-  Animal__global           :  Class<Animal>[]
-  Box__global              :  Class<Box>[constructor: bot -> bot]
-  ret__constructor__Box    :  bot
-  value__constructor__Box  :  bot
+  Animal__global  :  Class<Animal>[]
 

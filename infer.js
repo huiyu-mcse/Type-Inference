@@ -35,6 +35,12 @@ const asyncScopes = new Set();
 const classMethods = new Map();
 // instance type variable -> className
 const instanceClasses = new Map();
+// constructor attrs: className -> [{name, tv}]
+const classCtorParams = new Map();
+// className -> qualName of the constructor (own or inherited)
+const classCtorQualName = new Map();
+// this.x = e attrs in non-constructor methods: qualName -> [{name, tv}]
+const classMethodThisAttrs = new Map();
 
 // environment
 const mkTV = (name, scope) => `${name}__${scope}`; //env = { "x" => "x__global" }
@@ -350,13 +356,33 @@ function inferObjectExpr(node, env, scope, ownerName) {
 // -- Class instance helper ---------------------------------------------------
 function inferNewInstance(node, env, scope) {
   const className = node.callee.name;
-  for (const arg of node.arguments) inferExpr(arg, env, scope);
+  const ctorAttrs = classCtorParams.get(className) ?? [];
+  const ctorQName = classCtorQualName.get(className);
+  const ctorInfo = ctorQName ? functionTypes.get(ctorQName) : undefined;
+
+  const argTVs = [];
+  for (const arg of node.arguments) argTVs.push(inferExpr(arg, env, scope));
+
+  if (ctorInfo) {
+    argTVs.forEach((argTV, i) => {
+      if (ctorInfo.params[i]) addCons(argTV, ctorInfo.params[i]);
+    });
+  }
+
   const Xinst = fresh();
   const methods = classMethods.get(className);
-  const sig = methods
-    .map((m) => `${m.name}: ${[...m.params, m.ret].join(" -> ")}`)
+  const attrSig = ctorAttrs.map((a) => `${a.name}: ${a.tv}`).join(", ");
+  const methodSig = methods
+    .map((m) =>
+      m.params.length === 0
+        ? `${m.name}: void -> ${m.ret}`
+        : `${m.name}: ${[...m.params, m.ret].join(" -> ")}`,
+    )
     .join(", ");
-  addCons(Xinst, `Obj<${className}>[${sig}]`);
+  const parts = [];
+  if (attrSig) parts.push(attrSig);
+  if (methodSig) parts.push(methodSig);
+  addCons(Xinst, `Obj<${className}>[${parts.join(", ")}]`);
   instanceClasses.set(Xinst, className);
   return Xinst;
 }
@@ -364,20 +390,81 @@ function inferNewInstance(node, env, scope) {
 // -- Class node helper --------------------------------------------------------
 function inferClassNode(node, className, env) {
   const methods = [];
+  const attrs = [];
 
   if (node.superClass?.type === "Identifier") {
     const parentName = node.superClass.name;
     if (classMethods.has(parentName)) {
       methods.push(...classMethods.get(parentName));
     }
+    // inherit parent ctor attrs
+    if (classCtorParams.has(parentName)) attrs.push(...classCtorParams.get(parentName));
+    const hasOwnCtor = node.body.body.some(
+      (m) => m.type === "MethodDefinition" && m.key.name === "constructor",
+    );
+    if (!hasOwnCtor && classCtorQualName.has(parentName)) {
+      classCtorQualName.set(className, classCtorQualName.get(parentName));
+    }
   }
 
-  // declare params + return TVs for every method, then pre-register
-  // the class without process the body yet.
+  // declare params/ret TVs for every method; handle constructor specially.
   const methodEntries = [];
   for (const m of node.body.body) {
     if (m.type !== "MethodDefinition") continue;
     const methodName = m.key.name;
+
+    if (methodName === "constructor") {
+      const qualName = `constructor__${className}`;
+      const fnEnv = new Map(env);
+      const paramNames = [], paramTVs = [];
+      for (const p of m.value.params) {
+        for (const { name: pn, tv } of declareParam(p, fnEnv, qualName)) {
+          paramNames.push(pn);
+          paramTVs.push(tv);
+        }
+      }
+      functionParams.set(qualName, paramNames);
+      const retTV = `ret__${qualName}`;
+      functionTypes.set(qualName, { params: paramTVs, ret: retTV });
+      classCtorQualName.set(className, qualName);
+
+      // Collect this.x = param patterns from the constructor body
+      const ownAttrs = [];
+      for (const stmt of (m.value.body?.body ?? [])) {
+        if (
+          stmt.type === "ExpressionStatement" &&
+          stmt.expression.type === "AssignmentExpression" &&
+          stmt.expression.operator === "=" &&
+          stmt.expression.left.type === "MemberExpression" &&
+          stmt.expression.left.object.type === "ThisExpression" &&
+          !stmt.expression.left.computed &&
+          stmt.expression.right.type === "Identifier"
+        ) {
+          const attrName = stmt.expression.left.property.name;
+          const paramName = stmt.expression.right.name;
+          const paramTV = fnEnv.has(paramName) ? fnEnv.get(paramName) : mkTV(paramName, qualName);
+          if (!ownAttrs.some((a) => a.name === attrName)) {
+            ownAttrs.push({ name: attrName, tv: paramTV });
+          }
+        }
+      }
+
+      // Update inherited attrs: if child's constructor has a same-named param, use child's TV
+      for (let i = 0; i < attrs.length; i++) {
+        if (fnEnv.has(attrs[i].name)) {
+          attrs[i] = { name: attrs[i].name, tv: fnEnv.get(attrs[i].name) };
+        }
+      }
+      // Add/override with child's own attrs
+      for (const a of ownAttrs) {
+        const idx = attrs.findIndex((x) => x.name === a.name);
+        if (idx >= 0) attrs[idx] = a; else attrs.push(a);
+      }
+
+      methodEntries.push({ m, fnEnv, qualName, isCtor: true });
+      continue;
+    }
+
     const qualName = `${methodName}__${className}`;
     const fnEnv = new Map(env);
     const paramNames = [], paramTVs = [];
@@ -390,22 +477,47 @@ function inferClassNode(node, className, env) {
     functionParams.set(qualName, paramNames);
     const retTV = `ret__${qualName}`;
     functionTypes.set(qualName, { params: paramTVs, ret: retTV });
-    const entry = { name: methodName, params: paramTVs, ret: retTV };
+
+    // Scan top-level body for this.x = e patterns; pre-allocate a field TV for each
+    const thisAttrs = [];
+    for (const stmt of (m.value.body?.body ?? [])) {
+      if (
+        stmt.type === "ExpressionStatement" &&
+        stmt.expression.type === "AssignmentExpression" &&
+        stmt.expression.operator === "=" &&
+        stmt.expression.left.type === "MemberExpression" &&
+        stmt.expression.left.object.type === "ThisExpression" &&
+        !stmt.expression.left.computed
+      ) {
+        const fieldName = stmt.expression.left.property.name;
+        if (!thisAttrs.some((a) => a.name === fieldName)) {
+          thisAttrs.push({ name: fieldName, tv: fresh() });
+        }
+      }
+    }
+    classMethodThisAttrs.set(qualName, thisAttrs);
+
+    const entry = { name: methodName, params: paramTVs, ret: retTV, qualName };
     const idx = methods.findIndex((x) => x.name === methodName);
     if (idx >= 0) methods[idx] = entry; else methods.push(entry);
-    methodEntries.push({ m, fnEnv, qualName });
+    methodEntries.push({ m, fnEnv, qualName, isCtor: false });
   }
 
-  // Pre-register so bodies can resolve self references
+  // store attrs and pre-register so bodies can resolve self/sibling references
+  classCtorParams.set(className, attrs);
   classMethods.set(className, methods);
-  // in case 'const X = class NamedClass { ... }'
-  // — NamedClass is only visible inside the body
   if (node.id?.name && node.id.name !== className) {
     classMethods.set(node.id.name, methods);
+    classCtorParams.set(node.id.name, attrs);
+    if (classCtorQualName.has(className)) classCtorQualName.set(node.id.name, classCtorQualName.get(className));
   }
 
-  // process method body
-  for (const { m, fnEnv, qualName } of methodEntries) {
+  // process method bodies
+  for (const { m, fnEnv, qualName, isCtor } of methodEntries) {
+    if (isCtor) {
+      addCons("void", `ret__${qualName}`);
+      continue;
+    }
     if (m.value.async) {
       asyncScopes.add(qualName);
       const X_rej = fresh();
@@ -427,9 +539,18 @@ function inferClassNode(node, className, env) {
     }
   }
 
-  return methods
-    .map((m) => `${m.name}: ${[...m.params, m.ret].join(" -> ")}`)
+  const attrSig = attrs.map((a) => `${a.name}: ${a.tv}`).join(", ");
+  const methodSig = methods
+    .map((m) =>
+      m.params.length === 0
+        ? `${m.name}: void -> ${m.ret}`
+        : `${m.name}: ${[...m.params, m.ret].join(" -> ")}`,
+    )
     .join(", ");
+  const parts = [];
+  if (attrSig) parts.push(attrSig);
+  if (methodSig) parts.push(methodSig);
+  return parts.join(", ");
 }
 
 // -- Expression inference ----------------------------------------------------
@@ -685,6 +806,11 @@ function inferExpr(node, env, scope) {
               const Xi = inferExpr(arg, env, scope);
               if (method.params[i]) addCons(Xi, method.params[i]);
             });
+            // Propagate this.x field assignments to the calling instance
+            const mQualName = method.qualName ?? `${methodName}__${className}`;
+            for (const { name: fn, tv: fv } of (classMethodThisAttrs.get(mQualName) ?? [])) {
+              addCons(Xobj, `{${fn}: ${fv}}`);
+            }
             return method.ret;
           }
         }
@@ -1118,6 +1244,19 @@ function inferExprStmt(node, env, scope) {
         const X2 = envGet(env, lhs.object.name, scope); // X2 = Γ(x)
         const prop = lhs.property.name;
         addCons(X2, `{${prop}: ${X1}}`); // { X2 <= {p : X1} }
+        return;
+      }
+
+      if (
+        // this.p = e  (inside a class method)
+        lhs.type === "MemberExpression" &&
+        !lhs.computed &&
+        lhs.object.type === "ThisExpression"
+      ) {
+        const fieldName = lhs.property.name;
+        const X_rhs = inferExpr(rhs, env, scope);
+        const attr = (classMethodThisAttrs.get(scope) ?? []).find((a) => a.name === fieldName);
+        if (attr) addCons(X_rhs, attr.tv);
         return;
       }
 

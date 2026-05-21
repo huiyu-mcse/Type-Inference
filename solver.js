@@ -487,15 +487,22 @@ class State {
       this.consumedLits.add(rhs);
     } else if (isObjWithFlds(rhs)) {
       const rx = this.find(lhs);
-      this._initObj(rx);
-      const shape = this.objShape.get(rx) ?? new Map();
-      for (const [f, tv] of parseFields(rhs)) {
-        if (shape.has(f)) {
-          this.union(shape.get(f), tv);
-        } else {
-          shape.set(f, tv);
+      if (this.classKind.get(rx) === "Obj") {
+        // Allow adding new attributes in class instance to avoid conflict
+        const fieldMethods = new Map();
+        for (const [f, tv] of parseFields(rhs)) fieldMethods.set(f, [tv]);
+        this._mergeMethods(rx, fieldMethods);
+      } else {
+        this._initObj(rx);
+        const shape = this.objShape.get(rx) ?? new Map();
+        for (const [f, tv] of parseFields(rhs)) {
+          if (shape.has(f)) {
+            this.union(shape.get(f), tv);
+          } else {
+            shape.set(f, tv);
+          }
+          this.objShape.set(rx, shape);
         }
-        this.objShape.set(rx, shape);
       }
       this.consumedLits.add(rhs);
     } else if (isFunc(rhs)) {
@@ -526,6 +533,7 @@ class State {
 
   // ── Tipo imediato de um nó (sem resolver recursivamente) ──────────────────
   immediateType(node) {
+    if (isBaseType(node)) return node;
     const rep = this.find(node);
     const bt = this.baseType.get(rep);
     if (bt) return bt;
@@ -561,7 +569,10 @@ class State {
       const kind = this.classKind.get(rep);
       const name = this.className.get(rep);
       const methods = this.classMethods.get(rep) ?? new Map();
-      const inner = [...methods.entries()]
+      const entries = [...methods.entries()];
+      const attrs = entries.filter(([, sig]) => sig.length === 1);
+      const meths = entries.filter(([, sig]) => sig.length > 1);
+      const inner = [...attrs, ...meths]
         .map(([n, sig]) => `${n}: ${sig.map((t) => this.find(t)).join(" -> ")}`)
         .join(", ");
       return `${kind}<${name}>[${inner}]`;
@@ -571,6 +582,7 @@ class State {
 
   // ── Tipo final resolvido ───────────────────────────────────────────────────
   resolveType(node, visited = new Set()) {
+    if (isBaseType(node)) return node;
     const rep = this.find(node);
     if (visited.has(rep)) return rep;
     visited.add(rep);
@@ -617,7 +629,10 @@ class State {
       const kind = this.classKind.get(rep);
       const name = this.className.get(rep);
       const methods = this.classMethods.get(rep) ?? new Map();
-      const inner = [...methods.entries()]
+      const entries = [...methods.entries()];
+      const attrs = entries.filter(([, sig]) => sig.length === 1);
+      const meths = entries.filter(([, sig]) => sig.length > 1);
+      const inner = [...attrs, ...meths]
         .map(
           ([n, sig]) =>
             `${n}: ${sig
