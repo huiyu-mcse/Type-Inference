@@ -1,0 +1,66 @@
+
+Constraints:
+  C01: x__bar__Foo <= num
+  C02: y__bar__Foo <= num
+  C03: T1 <= num
+  C04: T1 <= ret__bar__Foo
+  C05: Foo__global <= Class<Foo>[bar: x__bar__Foo -> y__bar__Foo -> ret__bar__Foo]
+  C06: T2 <= Obj<Foo>[bar: x__bar__Foo -> y__bar__Foo -> ret__bar__Foo]
+  C07: T2 <= o__global
+  C08: T3 <= num
+  C09: T3 <= x__bar__Foo
+  C10: T4 <= num
+  C11: T4 <= y__bar__Foo
+  C12: ret__bar__Foo <= z__global
+
+──────────────────────────────────────────────────────
+Inicio:
+ x__bar__Foo:bot, num:bot, y__bar__Foo:bot, T1:bot, ret__bar__Foo:bot, Foo__global:bot, Class<Foo>[bar: x__bar__Foo -> y__bar__Foo -> ret__bar__Foo]:bot, T2:bot, Obj<Foo>[bar: x__bar__Foo -> y__bar__Foo -> ret__bar__Foo]:bot, o__global:bot, T3:bot, T4:bot, z__global:bot
+
+1: [x__bar__Foo <= num]
+ x__bar__Foo:num, y__bar__Foo:bot, T1:bot, ret__bar__Foo:bot, Foo__global:bot, Class<Foo>[bar: x__bar__Foo -> y__bar__Foo -> ret__bar__Foo]:bot, T2:bot, Obj<Foo>[bar: x__bar__Foo -> y__bar__Foo -> ret__bar__Foo]:bot, o__global:bot, T3:bot, T4:bot, z__global:bot
+
+2: [y__bar__Foo <= num]
+ x__bar__Foo:num, y__bar__Foo:num, T1:bot, ret__bar__Foo:bot, Foo__global:bot, Class<Foo>[bar: x__bar__Foo -> y__bar__Foo -> ret__bar__Foo]:bot, T2:bot, Obj<Foo>[bar: x__bar__Foo -> y__bar__Foo -> ret__bar__Foo]:bot, o__global:bot, T3:bot, T4:bot, z__global:bot
+
+3: [T1 <= num]
+ x__bar__Foo:num, y__bar__Foo:num, T1:num, ret__bar__Foo:bot, Foo__global:bot, Class<Foo>[bar: x__bar__Foo -> y__bar__Foo -> ret__bar__Foo]:bot, T2:bot, Obj<Foo>[bar: x__bar__Foo -> y__bar__Foo -> ret__bar__Foo]:bot, o__global:bot, T3:bot, T4:bot, z__global:bot
+
+4: [T1 <= ret__bar__Foo]
+ x__bar__Foo:num, y__bar__Foo:num, T1:num, ret__bar__Foo:num, Foo__global:bot, Class<Foo>[bar: x__bar__Foo -> y__bar__Foo -> ret__bar__Foo]:bot, T2:bot, Obj<Foo>[bar: x__bar__Foo -> y__bar__Foo -> ret__bar__Foo]:bot, o__global:bot, T3:bot, T4:bot, z__global:bot
+
+5: [Foo__global <= Class<Foo>[bar: x__bar__Foo -> y__bar__Foo -> ret__bar__Foo]]
+ x__bar__Foo:num, y__bar__Foo:num, T1:num, ret__bar__Foo:num, (Foo__global: Class<Foo>[bar: x__bar__Foo -> y__bar__Foo -> T1]), T2:bot, Obj<Foo>[bar: x__bar__Foo -> y__bar__Foo -> ret__bar__Foo]:bot, o__global:bot, T3:bot, T4:bot, z__global:bot
+
+6: [T2 <= Obj<Foo>[bar: x__bar__Foo -> y__bar__Foo -> ret__bar__Foo]]
+ x__bar__Foo:num, y__bar__Foo:num, T1:num, ret__bar__Foo:num, (Foo__global: Class<Foo>[bar: x__bar__Foo -> y__bar__Foo -> T1]), (T2: Obj<Foo>[bar: x__bar__Foo -> y__bar__Foo -> T1]), o__global:bot, T3:bot, T4:bot, z__global:bot
+
+7: [T2 <= o__global]
+ x__bar__Foo:num, y__bar__Foo:num, T1:num, ret__bar__Foo:num, (Foo__global: Class<Foo>[bar: x__bar__Foo -> y__bar__Foo -> T1]), (T2: Obj<Foo>[bar: x__bar__Foo -> y__bar__Foo -> T1]), (o__global: Obj<Foo>[bar: x__bar__Foo -> y__bar__Foo -> T1]), T3:bot, T4:bot, z__global:bot
+
+8: [T3 <= num]
+ x__bar__Foo:num, y__bar__Foo:num, T1:num, ret__bar__Foo:num, (Foo__global: Class<Foo>[bar: x__bar__Foo -> y__bar__Foo -> T1]), (T2: Obj<Foo>[bar: x__bar__Foo -> y__bar__Foo -> T1]), (o__global: Obj<Foo>[bar: x__bar__Foo -> y__bar__Foo -> T1]), T3:num, T4:bot, z__global:bot
+
+9: [T3 <= x__bar__Foo]
+ x__bar__Foo:num, y__bar__Foo:num, T1:num, ret__bar__Foo:num, (Foo__global: Class<Foo>[bar: T3 -> y__bar__Foo -> T1]), (T2: Obj<Foo>[bar: T3 -> y__bar__Foo -> T1]), (o__global: Obj<Foo>[bar: T3 -> y__bar__Foo -> T1]), T3:num, T4:bot, z__global:bot
+
+10: [T4 <= num]
+ x__bar__Foo:num, y__bar__Foo:num, T1:num, ret__bar__Foo:num, (Foo__global: Class<Foo>[bar: T3 -> y__bar__Foo -> T1]), (T2: Obj<Foo>[bar: T3 -> y__bar__Foo -> T1]), (o__global: Obj<Foo>[bar: T3 -> y__bar__Foo -> T1]), T3:num, T4:num, z__global:bot
+
+11: [T4 <= y__bar__Foo]
+ x__bar__Foo:num, y__bar__Foo:num, T1:num, ret__bar__Foo:num, (Foo__global: Class<Foo>[bar: T3 -> T4 -> T1]), (T2: Obj<Foo>[bar: T3 -> T4 -> T1]), (o__global: Obj<Foo>[bar: T3 -> T4 -> T1]), T3:num, T4:num, z__global:bot
+
+12: [ret__bar__Foo <= z__global]
+ x__bar__Foo:num, y__bar__Foo:num, T1:num, ret__bar__Foo:num, (Foo__global: Class<Foo>[bar: T3 -> T4 -> T1]), (T2: Obj<Foo>[bar: T3 -> T4 -> T1]), (o__global: Obj<Foo>[bar: T3 -> T4 -> T1]), T3:num, T4:num, z__global:num
+
+──────────────────────────────────────────────────────
+✓  Sem conflitos.
+
+FINAL:
+  Foo__global    :  Class<Foo>[bar: num -> num -> num]
+  o__global      :  Obj<Foo>[bar: num -> num -> num]
+  ret__bar__Foo  :  num
+  x__bar__Foo    :  num
+  y__bar__Foo    :  num
+  z__global      :  num
+
