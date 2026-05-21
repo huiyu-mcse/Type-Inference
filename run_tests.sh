@@ -27,7 +27,7 @@ while IFS= read -r js_file; do
     FAIL=$((FAIL + 1))
     FAILURES="$FAILURES\n  - $js_file"
   fi
-done < <(find ./Tests -type f -name "*.js" | sort)
+done < <(find "./Tests/${1:-}" -type f -name "*.js" | sort)
 
 echo ""
 echo "Results: $PASS passed, $FAIL failed, $SKIP skipped"

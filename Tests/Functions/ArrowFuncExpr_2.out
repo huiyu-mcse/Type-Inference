@@ -1,58 +1,35 @@
 
 Constraints:
-  C01: T1 <= str
-  C02: greeting__greet__global <= num
-  C03: T1 <= num
-  C04: T2 <= num
-  C05: T2 <= num
-  C06: name__greet__global <= num
-  C07: T3 <= num
-  C08: T3 <= message__greet__global
-  C09: message__greet__global <= ret__greet__global
-  C10: greet__global <= Func<greet__global>{name__greet__global -> greeting__greet__global -> ret__greet__global}
+  C1: T1 <= str
+  C2: T3 <= message__greet__global
+  C3: message__greet__global <= ret__greet__global
+  C4: greet__global <= Func<greet__global>{name__greet__global -> greeting__greet__global -> ret__greet__global}
+  C5: plus(greeting__greet__global,T1,T2)
+  C6: plus(T2,name__greet__global,T3)
 
 ──────────────────────────────────────────────────────
 Inicio:
- T1:bot, str:bot, greeting__greet__global:bot, num:bot, T2:bot, name__greet__global:bot, T3:bot, message__greet__global:bot, ret__greet__global:bot, greet__global:bot, Func<greet__global>{name__greet__global -> greeting__greet__global -> ret__greet__global}:bot
+ T1:bot, str:bot, T3:bot, message__greet__global:bot, ret__greet__global:bot, greet__global:bot, Func<greet__global>{name__greet__global -> greeting__greet__global -> ret__greet__global}:bot, greeting__greet__global:bot, T2:bot, name__greet__global:bot
 
 1: [T1 <= str]
- T1:str, greeting__greet__global:bot, num:bot, T2:bot, name__greet__global:bot, T3:bot, message__greet__global:bot, ret__greet__global:bot, greet__global:bot, Func<greet__global>{name__greet__global -> greeting__greet__global -> ret__greet__global}:bot
+ T1:str, T3:bot, message__greet__global:bot, ret__greet__global:bot, greet__global:bot, Func<greet__global>{name__greet__global -> greeting__greet__global -> ret__greet__global}:bot, greeting__greet__global:bot, T2:bot, name__greet__global:bot
 
-2: [greeting__greet__global <= num]
- T1:str, greeting__greet__global:num, T2:bot, name__greet__global:bot, T3:bot, message__greet__global:bot, ret__greet__global:bot, greet__global:bot, Func<greet__global>{name__greet__global -> greeting__greet__global -> ret__greet__global}:bot
+2: [T3 <= message__greet__global]
+ T1:str, T3:bot, message__greet__global:bot, ret__greet__global:bot, greet__global:bot, Func<greet__global>{name__greet__global -> greeting__greet__global -> ret__greet__global}:bot, greeting__greet__global:bot, T2:bot, name__greet__global:bot
 
-3: [T1 <= num]
- T1:str, greeting__greet__global:num, T2:bot, name__greet__global:bot, T3:bot, message__greet__global:bot, ret__greet__global:bot, greet__global:bot, Func<greet__global>{name__greet__global -> greeting__greet__global -> ret__greet__global}:bot
+3: [message__greet__global <= ret__greet__global]
+ T1:str, T3:bot, message__greet__global:bot, ret__greet__global:bot, greet__global:bot, Func<greet__global>{name__greet__global -> greeting__greet__global -> ret__greet__global}:bot, greeting__greet__global:bot, T2:bot, name__greet__global:bot
 
-4: [T2 <= num]
- T1:str, greeting__greet__global:num, T2:num, name__greet__global:bot, T3:bot, message__greet__global:bot, ret__greet__global:bot, greet__global:bot, Func<greet__global>{name__greet__global -> greeting__greet__global -> ret__greet__global}:bot
-
-5: [T2 <= num]
- T1:str, greeting__greet__global:num, T2:num, name__greet__global:bot, T3:bot, message__greet__global:bot, ret__greet__global:bot, greet__global:bot, Func<greet__global>{name__greet__global -> greeting__greet__global -> ret__greet__global}:bot
-
-6: [name__greet__global <= num]
- T1:str, greeting__greet__global:num, T2:num, name__greet__global:num, T3:bot, message__greet__global:bot, ret__greet__global:bot, greet__global:bot, Func<greet__global>{name__greet__global -> greeting__greet__global -> ret__greet__global}:bot
-
-7: [T3 <= num]
- T1:str, greeting__greet__global:num, T2:num, name__greet__global:num, T3:num, message__greet__global:bot, ret__greet__global:bot, greet__global:bot, Func<greet__global>{name__greet__global -> greeting__greet__global -> ret__greet__global}:bot
-
-8: [T3 <= message__greet__global]
- T1:str, greeting__greet__global:num, T2:num, name__greet__global:num, T3:num, message__greet__global:num, ret__greet__global:bot, greet__global:bot, Func<greet__global>{name__greet__global -> greeting__greet__global -> ret__greet__global}:bot
-
-9: [message__greet__global <= ret__greet__global]
- T1:str, greeting__greet__global:num, T2:num, name__greet__global:num, T3:num, message__greet__global:num, ret__greet__global:num, greet__global:bot, Func<greet__global>{name__greet__global -> greeting__greet__global -> ret__greet__global}:bot
-
-10: [greet__global <= Func<greet__global>{name__greet__global -> greeting__greet__global -> ret__greet__global}]
- T1:str, greeting__greet__global:num, T2:num, name__greet__global:num, T3:num, message__greet__global:num, ret__greet__global:num, (greet__global: Func<greet__global>{name__greet__global -> greeting__greet__global -> T3})
+4: [greet__global <= Func<greet__global>{name__greet__global -> greeting__greet__global -> ret__greet__global}]
+ T1:str, T3:bot, message__greet__global:bot, ret__greet__global:bot, (greet__global: Func<greet__global>{name__greet__global -> greeting__greet__global -> T3}), greeting__greet__global:bot, T2:bot, name__greet__global:bot
 
 ──────────────────────────────────────────────────────
-⚠  ERROS DE TIPO:
-   CONFLICT: str vs num  (T1 <= num)
+✓  Sem conflitos.
 
 FINAL:
-  greet__global            :  Func<greet__global>{num -> num -> num}
-  greeting__greet__global  :  num
-  message__greet__global   :  num
-  name__greet__global      :  num
-  ret__greet__global       :  num
+  greet__global            :  Func<greet__global>{bot -> bot -> str}
+  greeting__greet__global  :  bot
+  message__greet__global   :  str
+  name__greet__global      :  bot
+  ret__greet__global       :  str
 

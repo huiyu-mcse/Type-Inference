@@ -4,10 +4,8 @@ Constraints:
   C2: T1 <= num
   C3: box__global <= {val: T1}
   C4: T2 <= num
-  C5: box__global <= num
-  C6: T2 <= num
-  C7: T3 <= num
-  C8: T3 <= total__global
+  C5: T3 <= total__global
+  C6: plus(box__global,T2,T3)
 
 ──────────────────────────────────────────────────────
 Inicio:
@@ -25,17 +23,8 @@ Inicio:
 4: [T2 <= num]
  (box__global: {val: T1}), T1:num, T2:num, T3:bot, total__global:bot
 
-5: [box__global <= num]
+5: [T3 <= total__global]
  (box__global: {val: T1}), T1:num, T2:num, T3:bot, total__global:bot
-
-6: [T2 <= num]
- (box__global: {val: T1}), T1:num, T2:num, T3:bot, total__global:bot
-
-7: [T3 <= num]
- (box__global: {val: T1}), T1:num, T2:num, T3:num, total__global:bot
-
-8: [T3 <= total__global]
- (box__global: {val: T1}), T1:num, T2:num, T3:num, total__global:num
 
 ──────────────────────────────────────────────────────
 ⚠  ERROS DE TIPO:

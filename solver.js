@@ -2,7 +2,21 @@
 "use strict";
 
 const BASE_TYPES = new Set(["str", "num", "bool", "void"]);
-const isBaseType = (t) => BASE_TYPES.has(t);
+const isBaseType = (t) =>
+  BASE_TYPES.has(t) ||
+  (t.includes("|") && t.split("|").every((p) => BASE_TYPES.has(p)));
+
+// Returns the intersection (narrower type) of two type descriptors, or null if
+// they are incompatible (conflict). Works for base types, union types, and
+// structural kinds ("obj", "arr", …) returned by kindOf.
+function mergeTypes(t1, t2) {
+  if (t1 === t2) return t1;
+  const s1 = new Set(t1.split("|"));
+  const s2 = new Set(t2.split("|"));
+  const inter = [...s1].filter((x) => s2.has(x));
+  if (inter.length === 0) return null;
+  return inter.length === 1 ? inter[0] : inter.sort().join("|");
+}
 const isEmptyObj = (t) => t === "{}";
 const isObjWithFlds = (t) => t.startsWith("{") && t !== "{}";
 const isArray = (t) => t.startsWith("Array<") && t.endsWith(">");
@@ -127,23 +141,25 @@ class State {
     return this.parent.get(x);
   }
 
+  kindOf(rx) {
+    if (this.baseType.has(rx)) return this.baseType.get(rx);
+    if (this.isObj.get(rx)) return "obj";
+    if (this.isArr.get(rx)) return "arr";
+    if (this.isFuncType.get(rx)) return "func";
+    if (this.isPromiseType.get(rx)) return "promise";
+    if (this.isResolverType.get(rx)) return "resolver";
+    if (this.isRejectorType.get(rx)) return "rejector";
+    return null;
+  }
+
   // Returns true (and pushes an error) if ra and rb have concrete types that
   // cannot be merged.  Called before any structural mutation in union().
   _conflictCheck(ra, rb, a, b) {
-    const kindOf = (rx) => {
-      if (this.baseType.has(rx)) return this.baseType.get(rx);
-      if (this.isObj.get(rx)) return "obj";
-      if (this.isArr.get(rx)) return "arr";
-      if (this.isFuncType.get(rx)) return "func";
-      if (this.isPromiseType.get(rx)) return "promise";
-      if (this.isResolverType.get(rx)) return "resolver";
-      if (this.isRejectorType.get(rx)) return "rejector";
-      return null;
-    };
-    const ka = kindOf(ra),
-      kb = kindOf(rb);
-    if (!ka || !kb) return false; // at least one side still unknown
-    if (ka === kb) return false; // same kind — can be merged
+    const ka = this.kindOf(ra),
+      kb = this.kindOf(rb);
+    if (!ka || !kb) return false;
+    if (ka === kb) return false;
+    if (mergeTypes(ka, kb) !== null) return false; // union types overlap — compatible
     this.errors.push(`CONFLICT: ${ka} vs ${kb}  (union(${a},${b}))`);
     return true;
   }
@@ -231,22 +247,25 @@ class State {
   // ── Tipos concretos ────────────────────────────────────────────────────────
   _setBase(rx, type, ctx) {
     const cur = this.baseType.get(rx);
-    if (cur && cur !== type)
-      this.errors.push(`CONFLICT: ${cur} vs ${type}  (${ctx})`);
-    else if (!cur) {
-      if (this.isObj.get(rx))
-        this.errors.push(`CONFLICT: obj vs ${type}  (${ctx})`);
-      else if (this.isArr.get(rx))
-        this.errors.push(`CONFLICT: Array vs ${type}  (${ctx})`);
-      else if (this.isFuncType.get(rx))
-        this.errors.push(`CONFLICT: Func vs ${type}  (${ctx})`);
-      else if (this.isPromiseType.get(rx))
-        this.errors.push(`CONFLICT: Promise vs ${type}  (${ctx})`);
-      else if (this.isResolverType.get(rx))
-        this.errors.push(`CONFLICT: Resolver vs ${type}  (${ctx})`);
-      else if (this.isRejectorType.get(rx))
-        this.errors.push(`CONFLICT: Rejector vs ${type}  (${ctx})`);
-      else this.baseType.set(rx, type);
+    if (cur) {
+      const merged = mergeTypes(cur, type);
+      if (merged === null)
+        this.errors.push(`CONFLICT: ${cur} vs ${type}  (${ctx})`);
+      else if (merged !== cur) this.baseType.set(rx, merged);
+    } else if (this.isObj.get(rx)) {
+      this.errors.push(`CONFLICT: obj vs ${type}  (${ctx})`);
+    } else if (this.isArr.get(rx)) {
+      this.errors.push(`CONFLICT: Array vs ${type}  (${ctx})`);
+    } else if (this.isFuncType.get(rx)) {
+      this.errors.push(`CONFLICT: Func vs ${type}  (${ctx})`);
+    } else if (this.isPromiseType.get(rx)) {
+      this.errors.push(`CONFLICT: Promise vs ${type}  (${ctx})`);
+    } else if (this.isResolverType.get(rx)) {
+      this.errors.push(`CONFLICT: Resolver vs ${type}  (${ctx})`);
+    } else if (this.isRejectorType.get(rx)) {
+      this.errors.push(`CONFLICT: Rejector vs ${type}  (${ctx})`);
+    } else {
+      this.baseType.set(rx, type);
     }
   }
 
@@ -526,15 +545,82 @@ function parseConstraint(line) {
   return { lhs: clean.slice(0, idx).trim(), rhs: clean.slice(idx + 4).trim() };
 }
 
+function parsePlusConstraint(line) {
+  const clean = line.replace(/^\s*C\d+:\s*/, "").trim();
+  const m = clean.match(/^plus\(([^,]+),([^,]+),([^)]+)\)$/);
+  if (!m) return null;
+  return { x1: m[1].trim(), x2: m[2].trim(), xr: m[3].trim() };
+}
+
 // ── Main ──────────────────────────────────────────────────────────────────────
+const STRUCTURAL = new Set(["obj", "arr", "func", "promise"]);
+
+function resolvePlus(st, plusParsed) {
+  const done = new Set();
+
+  // Sets the result type of a + expression. process() records any conflict,
+  // then we force-set the base type if it wasn't stored (structural conflict):
+  // xr's type comes from its operands, not from downstream usage of xr.
+  const setResult = (xr, type) => {
+    st.process(xr, type);
+    const rep = st.find(xr);
+    if (!st.baseType.has(rep)) st.baseType.set(rep, type);
+  };
+
+  let changed = true;
+  while (changed) {
+    changed = false;
+    for (let i = 0; i < plusParsed.length; i++) {
+      if (done.has(i)) continue;
+      const { x1, x2, xr } = plusParsed[i];
+      const k1 = st.kindOf(st.find(x1));
+      const k2 = st.kindOf(st.find(x2));
+      if (k1 === "str" || k2 === "str") {
+        setResult(xr, "str");
+        done.add(i);
+        changed = true;
+      } else if (k1 === "num" && k2 === "num") {
+        setResult(xr, "num");
+        done.add(i);
+        changed = true;
+      } else if (k1 === "num" && STRUCTURAL.has(k2)) {
+        // obj/arr/func used in numeric context → conflict
+        st.process(x2, "num");
+        setResult(xr, "num");
+        done.add(i);
+        changed = true;
+      } else if (k2 === "num" && STRUCTURAL.has(k1)) {
+        st.process(x1, "num");
+        setResult(xr, "num");
+        done.add(i);
+        changed = true;
+      }
+    }
+  }
+  // Operands still unresolved — any operand of + must be str or num
+  for (let i = 0; i < plusParsed.length; i++) {
+    if (done.has(i)) continue;
+    const { x1, x2, xr } = plusParsed[i];
+    if (!st.kindOf(st.find(x1))) st.process(x1, "num|str");
+    if (!st.kindOf(st.find(x2))) st.process(x2, "num|str");
+    setResult(xr, "num|str");
+    done.add(i);
+  }
+}
+
 function solve(input, quiet = false) {
   const parsed = [];
+  const plusParsed = [];
   for (const line of input.split("\n")) {
-    if (!line.includes(" <= ")) continue;
-    const c = parseConstraint(line);
-    if (c) parsed.push(c);
+    if (line.includes(" <= ")) {
+      const c = parseConstraint(line);
+      if (c) parsed.push(c);
+    } else if (line.includes("plus(")) {
+      const p = parsePlusConstraint(line);
+      if (p) plusParsed.push(p);
+    }
   }
-  if (!parsed.length) {
+  if (!parsed.length && !plusParsed.length) {
     console.log("(sem constraints)");
     return;
   }
@@ -543,14 +629,21 @@ function solve(input, quiet = false) {
   const st = new State();
 
   for (const c of parsed) st.regConstraint(c.lhs, c.rhs);
+  for (const { x1, x2, xr } of plusParsed) {
+    st._reg(x1);
+    st._reg(x2);
+    st._reg(xr);
+  }
 
   if (!quiet) {
     console.log("\nConstraints:");
-    const pad = String(parsed.length).length;
-    parsed.forEach((c, i) =>
-      console.log(
-        `  C${String(i + 1).padStart(pad, "0")}: ${c.lhs} <= ${c.rhs}`,
-      ),
+    const allC = [
+      ...parsed.map((c) => `${c.lhs} <= ${c.rhs}`),
+      ...plusParsed.map((p) => `plus(${p.x1},${p.x2},${p.xr})`),
+    ];
+    const pad = String(allC.length).length;
+    allC.forEach((c, i) =>
+      console.log(`  C${String(i + 1).padStart(pad, "0")}: ${c}`),
     );
 
     console.log("\n" + SEP);
@@ -563,8 +656,11 @@ function solve(input, quiet = false) {
       console.log(`\n${i + 1}: [${lhs} <= ${rhs}]`);
       console.log(" " + st.displayState());
     }
+
+    resolvePlus(st, plusParsed);
   } else {
     for (const { lhs, rhs } of parsed) st.process(lhs, rhs);
+    resolvePlus(st, plusParsed);
   }
 
   console.log("\n" + SEP);

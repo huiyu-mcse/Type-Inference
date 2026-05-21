@@ -8,10 +8,8 @@ Constraints:
   C06: T3 <= val__global
   C07: obj__global <= {score: T3}
   C08: T4 <= num
-  C09: val__global <= num
-  C10: T4 <= num
-  C11: T5 <= num
-  C12: T5 <= used__global
+  C09: T5 <= used__global
+  C10: plus(val__global,T4,T5)
 
 ──────────────────────────────────────────────────────
 Inicio:
@@ -41,17 +39,8 @@ Inicio:
 8: [T4 <= num]
  (obj__global: {score: T2}), T1:num, T2:num, val__global:num, T3:num, T4:num, T5:bot, used__global:bot
 
-9: [val__global <= num]
+9: [T5 <= used__global]
  (obj__global: {score: T2}), T1:num, T2:num, val__global:num, T3:num, T4:num, T5:bot, used__global:bot
-
-10: [T4 <= num]
- (obj__global: {score: T2}), T1:num, T2:num, val__global:num, T3:num, T4:num, T5:bot, used__global:bot
-
-11: [T5 <= num]
- (obj__global: {score: T2}), T1:num, T2:num, val__global:num, T3:num, T4:num, T5:num, used__global:bot
-
-12: [T5 <= used__global]
- (obj__global: {score: T2}), T1:num, T2:num, val__global:num, T3:num, T4:num, T5:num, used__global:num
 
 ──────────────────────────────────────────────────────
 ✓  Sem conflitos.
