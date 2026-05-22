@@ -1,0 +1,26 @@
+
+Constraints:
+  C1: T1 <= Obj<Counter>[next: void -> ret__next__Counter]
+  C2: T1 <= ret__next__Counter
+  C3: Counter__global <= Class<Counter>[next: void -> ret__next__Counter]
+
+──────────────────────────────────────────────────────
+Inicio:
+ T1:bot, Obj<Counter>[next: void -> ret__next__Counter]:bot, ret__next__Counter:bot, Counter__global:bot, Class<Counter>[next: void -> ret__next__Counter]:bot
+
+1: [T1 <= Obj<Counter>[next: void -> ret__next__Counter]]
+ (T1: Obj<Counter>[next: void -> ret__next__Counter]), ret__next__Counter:bot, Counter__global:bot, Class<Counter>[next: void -> ret__next__Counter]:bot
+
+2: [T1 <= ret__next__Counter]
+ (T1: Obj<Counter>[next: void -> T1]), (ret__next__Counter: Obj<Counter>[next: void -> T1]), Counter__global:bot, Class<Counter>[next: void -> ret__next__Counter]:bot
+
+3: [Counter__global <= Class<Counter>[next: void -> ret__next__Counter]]
+ (T1: Obj<Counter>[next: void -> T1]), (ret__next__Counter: Obj<Counter>[next: void -> T1]), (Counter__global: Class<Counter>[next: void -> T1])
+
+──────────────────────────────────────────────────────
+✓  Sem conflitos.
+
+FINAL:
+  Counter__global     :  Class<Counter>[next: void -> Obj<Counter>[next: void -> T1]]
+  ret__next__Counter  :  Obj<Counter>[next: void -> T1]
+
