@@ -2,60 +2,49 @@
 Constraints:
   C01: T1 <= num
   C02: T1 <= z__f__global
-  C03: x__f__global <= num
-  C04: y__f__global <= num
-  C05: T2 <= num
-  C06: T2 <= ret__f__global
-  C07: f__global <= Func<f__global>{x__f__global -> y__f__global -> ret__f__global}
-  C08: f__global <= Func<f__global>{x__f__global -> y__f__global -> ret__f__global}
-  C09: T3 <= num
-  C10: T3 <= x__f__global
-  C11: T4 <= num
-  C12: T4 <= y__f__global
-  C13: ret__f__global <= s__global
+  C03: T2 <= ret__f__global
+  C04: f__global <= Func<f__global>{x__f__global -> y__f__global -> ret__f__global}
+  C05: f__global <= Func<f__global>{x__f__global -> y__f__global -> ret__f__global}
+  C06: T3 <= num
+  C07: T3 <= x__f__global
+  C08: T4 <= num
+  C09: T4 <= y__f__global
+  C10: ret__f__global <= s__global
+  C11: plus(x__f__global,y__f__global,T2)
 
 ──────────────────────────────────────────────────────
 Inicio:
- T1:bot, num:bot, z__f__global:bot, x__f__global:bot, y__f__global:bot, T2:bot, ret__f__global:bot, f__global:bot, Func<f__global>{x__f__global -> y__f__global -> ret__f__global}:bot, T3:bot, T4:bot, s__global:bot
+ T1:bot, num:bot, z__f__global:bot, T2:bot, ret__f__global:bot, f__global:bot, Func<f__global>{x__f__global -> y__f__global -> ret__f__global}:bot, T3:bot, x__f__global:bot, T4:bot, y__f__global:bot, s__global:bot
 
 1: [T1 <= num]
- T1:num, z__f__global:bot, x__f__global:bot, y__f__global:bot, T2:bot, ret__f__global:bot, f__global:bot, Func<f__global>{x__f__global -> y__f__global -> ret__f__global}:bot, T3:bot, T4:bot, s__global:bot
+ T1:num, z__f__global:bot, T2:bot, ret__f__global:bot, f__global:bot, Func<f__global>{x__f__global -> y__f__global -> ret__f__global}:bot, T3:bot, x__f__global:bot, T4:bot, y__f__global:bot, s__global:bot
 
 2: [T1 <= z__f__global]
- T1:num, z__f__global:num, x__f__global:bot, y__f__global:bot, T2:bot, ret__f__global:bot, f__global:bot, Func<f__global>{x__f__global -> y__f__global -> ret__f__global}:bot, T3:bot, T4:bot, s__global:bot
+ T1:num, z__f__global:num, T2:bot, ret__f__global:bot, f__global:bot, Func<f__global>{x__f__global -> y__f__global -> ret__f__global}:bot, T3:bot, x__f__global:bot, T4:bot, y__f__global:bot, s__global:bot
 
-3: [x__f__global <= num]
- T1:num, z__f__global:num, x__f__global:num, y__f__global:bot, T2:bot, ret__f__global:bot, f__global:bot, Func<f__global>{x__f__global -> y__f__global -> ret__f__global}:bot, T3:bot, T4:bot, s__global:bot
+3: [T2 <= ret__f__global]
+ T1:num, z__f__global:num, T2:bot, ret__f__global:bot, f__global:bot, Func<f__global>{x__f__global -> y__f__global -> ret__f__global}:bot, T3:bot, x__f__global:bot, T4:bot, y__f__global:bot, s__global:bot
 
-4: [y__f__global <= num]
- T1:num, z__f__global:num, x__f__global:num, y__f__global:num, T2:bot, ret__f__global:bot, f__global:bot, Func<f__global>{x__f__global -> y__f__global -> ret__f__global}:bot, T3:bot, T4:bot, s__global:bot
+4: [f__global <= Func<f__global>{x__f__global -> y__f__global -> ret__f__global}]
+ T1:num, z__f__global:num, T2:bot, ret__f__global:bot, (f__global: Func<f__global>{x__f__global -> y__f__global -> T2}), T3:bot, x__f__global:bot, T4:bot, y__f__global:bot, s__global:bot
 
-5: [T2 <= num]
- T1:num, z__f__global:num, x__f__global:num, y__f__global:num, T2:num, ret__f__global:bot, f__global:bot, Func<f__global>{x__f__global -> y__f__global -> ret__f__global}:bot, T3:bot, T4:bot, s__global:bot
+5: [f__global <= Func<f__global>{x__f__global -> y__f__global -> ret__f__global}]
+ T1:num, z__f__global:num, T2:bot, ret__f__global:bot, (f__global: Func<f__global>{x__f__global -> y__f__global -> T2}), T3:bot, x__f__global:bot, T4:bot, y__f__global:bot, s__global:bot
 
-6: [T2 <= ret__f__global]
- T1:num, z__f__global:num, x__f__global:num, y__f__global:num, T2:num, ret__f__global:num, f__global:bot, Func<f__global>{x__f__global -> y__f__global -> ret__f__global}:bot, T3:bot, T4:bot, s__global:bot
+6: [T3 <= num]
+ T1:num, z__f__global:num, T2:bot, ret__f__global:bot, (f__global: Func<f__global>{x__f__global -> y__f__global -> T2}), T3:num, x__f__global:bot, T4:bot, y__f__global:bot, s__global:bot
 
-7: [f__global <= Func<f__global>{x__f__global -> y__f__global -> ret__f__global}]
- T1:num, z__f__global:num, x__f__global:num, y__f__global:num, T2:num, ret__f__global:num, (f__global: Func<f__global>{x__f__global -> y__f__global -> T2}), T3:bot, T4:bot, s__global:bot
+7: [T3 <= x__f__global]
+ T1:num, z__f__global:num, T2:bot, ret__f__global:bot, (f__global: Func<f__global>{T3 -> y__f__global -> T2}), T3:num, x__f__global:num, T4:bot, y__f__global:bot, s__global:bot
 
-8: [f__global <= Func<f__global>{x__f__global -> y__f__global -> ret__f__global}]
- T1:num, z__f__global:num, x__f__global:num, y__f__global:num, T2:num, ret__f__global:num, (f__global: Func<f__global>{x__f__global -> y__f__global -> T2}), T3:bot, T4:bot, s__global:bot
+8: [T4 <= num]
+ T1:num, z__f__global:num, T2:bot, ret__f__global:bot, (f__global: Func<f__global>{T3 -> y__f__global -> T2}), T3:num, x__f__global:num, T4:num, y__f__global:bot, s__global:bot
 
-9: [T3 <= num]
- T1:num, z__f__global:num, x__f__global:num, y__f__global:num, T2:num, ret__f__global:num, (f__global: Func<f__global>{x__f__global -> y__f__global -> T2}), T3:num, T4:bot, s__global:bot
+9: [T4 <= y__f__global]
+ T1:num, z__f__global:num, T2:bot, ret__f__global:bot, (f__global: Func<f__global>{T3 -> T4 -> T2}), T3:num, x__f__global:num, T4:num, y__f__global:num, s__global:bot
 
-10: [T3 <= x__f__global]
- T1:num, z__f__global:num, x__f__global:num, y__f__global:num, T2:num, ret__f__global:num, (f__global: Func<f__global>{T3 -> y__f__global -> T2}), T3:num, T4:bot, s__global:bot
-
-11: [T4 <= num]
- T1:num, z__f__global:num, x__f__global:num, y__f__global:num, T2:num, ret__f__global:num, (f__global: Func<f__global>{T3 -> y__f__global -> T2}), T3:num, T4:num, s__global:bot
-
-12: [T4 <= y__f__global]
- T1:num, z__f__global:num, x__f__global:num, y__f__global:num, T2:num, ret__f__global:num, (f__global: Func<f__global>{T3 -> T4 -> T2}), T3:num, T4:num, s__global:bot
-
-13: [ret__f__global <= s__global]
- T1:num, z__f__global:num, x__f__global:num, y__f__global:num, T2:num, ret__f__global:num, (f__global: Func<f__global>{T3 -> T4 -> T2}), T3:num, T4:num, s__global:num
+10: [ret__f__global <= s__global]
+ T1:num, z__f__global:num, T2:bot, ret__f__global:bot, (f__global: Func<f__global>{T3 -> T4 -> T2}), T3:num, x__f__global:num, T4:num, y__f__global:num, s__global:bot
 
 ──────────────────────────────────────────────────────
 ✓  Sem conflitos.

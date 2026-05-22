@@ -16,6 +16,10 @@ const fresh = () => `T${++_cnt}`;
 const constraints = [];
 const addCons = (a, b) => constraints.push(`${a} <= ${b}`);
 
+// deferred plus constraints: plus(X1, X2, Xr)
+const plusConstraints = [];
+const addPlus = (a, b, r) => plusConstraints.push(`plus(${a},${b},${r})`);
+
 // build a Func type string: Func<qualName>{p1 -> p2 -> ... -> ret}
 const funcType = (qualName, paramTVs, retTV) =>
   paramTVs.length === 0
@@ -591,7 +595,9 @@ function inferExpr(node, env, scope) {
       const Xr = fresh();
       const op = node.operator;
 
-      if (["+", "-", "*", "/", "%"].includes(op)) {
+      if (op === "+") {
+        addPlus(X1, X2, Xr);
+      } else if (["-", "*", "/", "%"].includes(op)) {
         addCons(X1, "num");
         addCons(X2, "num");
         addCons(Xr, "num");
@@ -926,9 +932,19 @@ function handleRHS(name, rhs, env, scope) {
     return;
   }
 
+  if (rhs.type === "BinaryExpression" && rhs.operator === "+") {
+    // x = e1 + e2  (deferred: resolved after main pass)
+    const X1 = inferExpr(rhs.left, env, scope);
+    const X2 = inferExpr(rhs.right, env, scope);
+    const X3 = fresh();
+    addPlus(X1, X2, X3);
+    addCons(X3, xTarget);
+    return;
+  }
+
   if (
     rhs.type === "BinaryExpression" &&
-    ["+", "-", "*", "/", "%"].includes(rhs.operator)
+    ["-", "*", "/", "%"].includes(rhs.operator)
   ) {
     // x = e1 op e2
     const X1 = inferExpr(rhs.left, env, scope);
@@ -1234,16 +1250,12 @@ function inferExprStmt(node, env, scope) {
         return;
       }
 
-      if (
-        // x.p = e
-        lhs.type === "MemberExpression" &&
-        !lhs.computed &&
-        lhs.object.type === "Identifier"
-      ) {
-        const X1 = inferExpr(rhs, env, scope); // Γ |- e : X1
-        const X2 = envGet(env, lhs.object.name, scope); // X2 = Γ(x)
+      if (lhs.type === "MemberExpression" && !lhs.computed && lhs.object.type !== "ThisExpression") {
+        // x.p = e  or  a.b.c = e  (arbitrarily deep)
+        const X1 = inferExpr(rhs, env, scope);
+        const X2 = inferExpr(lhs.object, env, scope);
         const prop = lhs.property.name;
-        addCons(X2, `{${prop}: ${X1}}`); // { X2 <= {p : X1} }
+        addCons(X2, `{${prop}: ${X1}}`);
         return;
       }
 
@@ -1263,7 +1275,16 @@ function inferExprStmt(node, env, scope) {
       if (node.operator !== "=") {
         // +=, -=, ... - desugar to BinOp + assign
         const baseOp = node.operator.slice(0, -1); // '+=' -> '+'
-        if (["+", "-", "*", "/", "%"].includes(baseOp)) {
+        if (baseOp === "+") {
+          const X1 = inferExpr(lhs, env, scope);
+          const X2 = inferExpr(rhs, env, scope);
+          const Xr = fresh();
+          addPlus(X1, X2, Xr);
+          if (lhs.type === "Identifier") {
+            const xVar = envGet(env, lhs.name, scope);
+            addCons(Xr, xVar);
+          }
+        } else if (["-", "*", "/", "%"].includes(baseOp)) {
           const X1 = inferExpr(lhs, env, scope);
           const X2 = inferExpr(rhs, env, scope);
           const Xr = fresh();
@@ -1341,17 +1362,18 @@ console.log(`\nType Inference Constraints`);
 console.log(`File : ${path.resolve(filePath)}`);
 console.log(SEP);
 
-if (constraints.length === 0) {
+const allConstraints = [...constraints, ...plusConstraints];
+if (allConstraints.length === 0) {
   console.log("  (no constraints generated)");
 } else {
-  const pad = String(constraints.length).length;
-  constraints.forEach((c, i) =>
+  const pad = String(allConstraints.length).length;
+  allConstraints.forEach((c, i) =>
     console.log(`  C${String(i + 1).padStart(pad, "0")}: ${c}`),
   );
 }
 
 console.log(SEP);
-console.log(`Total: ${constraints.length} constraint(s)\n`);
+console.log(`Total: ${allConstraints.length} constraint(s)\n`);
 
 console.log("\nFunction Types");
 console.log(SEP);

@@ -9,11 +9,9 @@ Constraints:
   C07: T3 <= bool
   C08: x__global <= y__global
   C09: T4 <= num
-  C10: x__global <= num
-  C11: T4 <= num
-  C12: T5 <= num
-  C13: T5 <= x__global
-  C14: x__global <= z__global
+  C10: T5 <= x__global
+  C11: x__global <= z__global
+  C12: plus(x__global,T4,T5)
 
 ──────────────────────────────────────────────────────
 Inicio:
@@ -46,19 +44,10 @@ Inicio:
 9: [T4 <= num]
  T1:num, x__global:num, T2:num, T3:bool, y__global:num, T4:num, T5:bot, z__global:bot
 
-10: [x__global <= num]
- T1:num, x__global:num, T2:num, T3:bool, y__global:num, T4:num, T5:bot, z__global:bot
-
-11: [T4 <= num]
- T1:num, x__global:num, T2:num, T3:bool, y__global:num, T4:num, T5:bot, z__global:bot
-
-12: [T5 <= num]
+10: [T5 <= x__global]
  T1:num, x__global:num, T2:num, T3:bool, y__global:num, T4:num, T5:num, z__global:bot
 
-13: [T5 <= x__global]
- T1:num, x__global:num, T2:num, T3:bool, y__global:num, T4:num, T5:num, z__global:bot
-
-14: [x__global <= z__global]
+11: [x__global <= z__global]
  T1:num, x__global:num, T2:num, T3:bool, y__global:num, T4:num, T5:num, z__global:num
 
 ──────────────────────────────────────────────────────
