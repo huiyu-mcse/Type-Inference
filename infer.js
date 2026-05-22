@@ -1250,7 +1250,7 @@ function inferExprStmt(node, env, scope) {
         return;
       }
 
-      if (lhs.type === "MemberExpression" && !lhs.computed) {
+      if (lhs.type === "MemberExpression" && !lhs.computed && lhs.object.type !== "ThisExpression") {
         // x.p = e  or  a.b.c = e  (arbitrarily deep)
         const X1 = inferExpr(rhs, env, scope);
         const X2 = inferExpr(lhs.object, env, scope);
