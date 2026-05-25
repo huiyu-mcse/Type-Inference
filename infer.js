@@ -1172,10 +1172,10 @@ function inferStmt(node, env, scope) {
         ret: retTV,
       });
 
-      if (node.id) {
-        const fnTV = envDeclare(env, fnName, scope);
-        addCons(fnTV, funcType(qualName, paramTVs, retTV));
-      }
+      const fnTV = node.id
+        ? envDeclare(env, fnName, scope)
+        : mkTV(fnName, scope);
+      addCons(fnTV, funcType(qualName, paramTVs, retTV));
       break;
     }
 
@@ -1183,10 +1183,10 @@ function inferStmt(node, env, scope) {
       // e.g. class Id { method(params) {body} ... }
       const className = node.id?.name ?? `anon_${fresh()}`;
       const params = inferClassNode(node, className, env);
-      if (node.id) {
-        const Xclass = envDeclare(env, className, scope);
-        addCons(Xclass, `Class<${className}>[${params}]`);
-      }
+      const Xclass = node.id
+        ? envDeclare(env, className, scope)
+        : mkTV(className, scope);
+      addCons(Xclass, `Class<${className}>[${params}]`);
       break;
     }
 
