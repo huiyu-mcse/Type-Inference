@@ -1138,7 +1138,7 @@ function inferStmt(node, env, scope) {
 
     case "FunctionDeclaration": {
       // e.g. function id(params) {body}
-      const fnName = node.id.name;
+      const fnName = node.id?.name ?? `anon_${fresh()}`;
       const qualName = `${fnName}__${scope}`;
 
       if (node.async) {
@@ -1172,17 +1172,43 @@ function inferStmt(node, env, scope) {
         ret: retTV,
       });
 
-      const fnTV = envDeclare(env, fnName, scope);
-      addCons(fnTV, funcType(qualName, paramTVs, retTV));
+      if (node.id) {
+        const fnTV = envDeclare(env, fnName, scope);
+        addCons(fnTV, funcType(qualName, paramTVs, retTV));
+      }
       break;
     }
 
     case "ClassDeclaration": {
       // e.g. class Id { method(params) {body} ... }
-      const className = node.id.name;
+      const className = node.id?.name ?? `anon_${fresh()}`;
       const params = inferClassNode(node, className, env);
-      const Xclass = envDeclare(env, className, scope);
-      addCons(Xclass, `Class<${className}>[${params}]`);
+      if (node.id) {
+        const Xclass = envDeclare(env, className, scope);
+        addCons(Xclass, `Class<${className}>[${params}]`);
+      }
+      break;
+    }
+
+    case "ExportNamedDeclaration": {
+      // export const x = 5 / export function f() {} / export class C {}
+      if (node.declaration) {
+        if (inferStmt(node.declaration, env, scope)) hasReturn = true;
+      }
+      // export { x, y } — bindings already in env, nothing to do
+      // export { x } from 'mod' — cross-module re-export, skip
+      break;
+    }
+
+    case "ExportDefaultDeclaration": {
+      // export default function f() {} / export default class C {}
+      const decl = node.declaration;
+      if (decl.type === "FunctionDeclaration" || decl.type === "ClassDeclaration") {
+        if (inferStmt(decl, env, scope)) hasReturn = true;
+      } else {
+        // export default <expr>  (literal, arrow, object, ...)
+        inferExpr(decl, env, scope);
+      }
       break;
     }
 
