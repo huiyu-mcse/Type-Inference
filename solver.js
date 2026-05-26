@@ -713,6 +713,13 @@ function parseIndexConstraint(line) {
   return { xobj: m[1].trim(), xidx: m[2].trim(), xresult: m[3].trim() };
 }
 
+function parseTplConstraint(line) {
+  const clean = line.replace(/^\s*C\d+:\s*/, "").trim();
+  const m = clean.match(/^tpl\(([^)]+)\)$/);
+  if (!m) return null;
+  return { xexpr: m[1].trim() };
+}
+
 // ── Main ──────────────────────────────────────────────────────────────────────
 const STRUCTURAL = new Set(["obj", "arr", "func", "promise"]);
 
@@ -769,6 +776,22 @@ function resolvePlus(st, plusParsed) {
   }
 }
 
+function resolveTpl(st, tplParsed) {
+  for (const { xexpr } of tplParsed) {
+    const r = st.find(xexpr);
+    const kind = st.kindOf(r);
+    if (!kind) {
+      // bot → str: the only constraint on this variable is that it is interpolated
+      st.process(xexpr, "str");
+    } else if (isBaseType(kind) && !kind.includes("str")) {
+      // known base type (num, bool, void, or a union without str) → widen to kind|str
+      const components = [...new Set([...kind.split("|"), "str"])].sort();
+      st.baseType.set(r, components.join("|"));
+    }
+    // already str / already includes str / structural type → leave as-is
+  }
+}
+
 function resolveIndex(st, indexParsed) {
   for (const { xobj, xidx, xresult } of indexParsed) {
     const robj = st.find(xobj);
@@ -795,6 +818,7 @@ function solve(input, quiet = false) {
   const parsed = [];
   const plusParsed = [];
   const indexParsed = [];
+  const tplParsed = [];
   for (const line of input.split("\n")) {
     if (line.includes(" <= ")) {
       const c = parseConstraint(line);
@@ -805,9 +829,12 @@ function solve(input, quiet = false) {
     } else if (line.includes("index(")) {
       const ix = parseIndexConstraint(line);
       if (ix) indexParsed.push(ix);
+    } else if (line.includes("tpl(")) {
+      const t = parseTplConstraint(line);
+      if (t) tplParsed.push(t);
     }
   }
-  if (!parsed.length && !plusParsed.length) {
+  if (!parsed.length && !plusParsed.length && !tplParsed.length) {
     console.log("(sem constraints)");
     return;
   }
@@ -826,12 +853,16 @@ function solve(input, quiet = false) {
     st._reg(xidx);
     st._reg(xresult);
   }
+  for (const { xexpr } of tplParsed) {
+    st._reg(xexpr);
+  }
 
   if (!quiet) {
     console.log("\nConstraints:");
     const allC = [
       ...parsed.map((c) => `${c.lhs} <= ${c.rhs}`),
       ...plusParsed.map((p) => `plus(${p.x1},${p.x2},${p.xr})`),
+      ...tplParsed.map((t) => `tpl(${t.xexpr})`),
     ];
     const pad = String(allC.length).length;
     allC.forEach((c, i) =>
@@ -851,10 +882,12 @@ function solve(input, quiet = false) {
 
     resolvePlus(st, plusParsed);
     resolveIndex(st, indexParsed);
+    resolveTpl(st, tplParsed);
   } else {
     for (const { lhs, rhs } of parsed) st.process(lhs, rhs);
     resolvePlus(st, plusParsed);
     resolveIndex(st, indexParsed);
+    resolveTpl(st, tplParsed);
   }
 
   console.log("\n" + SEP);
