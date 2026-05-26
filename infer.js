@@ -931,6 +931,39 @@ function inferExpr(node, env, scope) {
       return fnTV;
     }
 
+    case "AssignmentExpression": {
+      // Assignment used as an expression, e.g. var foo = exports.foo = 1.
+      // In JS, (lhs = rhs) evaluates to rhs, so we infer rhs, apply the
+      // side-effect, and return rhs's type variable.
+      if (node.operator !== "=") {
+        // compound (+=, -= …) — apply side-effect, return lhs TV
+        inferExprStmt(node, env, scope);
+        return inferExpr(node.left, env, scope);
+      }
+      const Xrhs = inferExpr(node.right, env, scope);
+      const lhs = node.left;
+      if (lhs.type === "Identifier") {
+        addCons(Xrhs, envGet(env, lhs.name, scope));
+      } else if (
+        lhs.type === "MemberExpression" &&
+        !lhs.computed &&
+        lhs.object.type !== "ThisExpression"
+      ) {
+        const Xobj = inferExpr(lhs.object, env, scope);
+        addCons(Xobj, `{${lhs.property.name}: ${Xrhs}}`);
+      } else if (
+        lhs.type === "MemberExpression" &&
+        !lhs.computed &&
+        lhs.object.type === "ThisExpression"
+      ) {
+        const attr = (classMethodThisAttrs.get(scope) ?? []).find(
+          (a) => a.name === lhs.property.name,
+        );
+        if (attr) addCons(Xrhs, attr.tv);
+      }
+      return Xrhs;
+    }
+
     default:
       return fresh();
   }
@@ -1304,7 +1337,11 @@ function inferExprStmt(node, env, scope) {
         return;
       }
 
-      if (lhs.type === "MemberExpression" && !lhs.computed && lhs.object.type !== "ThisExpression") {
+      if (
+        lhs.type === "MemberExpression" &&
+        !lhs.computed &&
+        lhs.object.type !== "ThisExpression"
+      ) {
         // x.p = e  or  a.b.c = e  (arbitrarily deep)
         const X1 = inferExpr(rhs, env, scope);
         const X2 = inferExpr(lhs.object, env, scope);
@@ -1321,7 +1358,9 @@ function inferExprStmt(node, env, scope) {
       ) {
         const fieldName = lhs.property.name;
         const X_rhs = inferExpr(rhs, env, scope);
-        const attr = (classMethodThisAttrs.get(scope) ?? []).find((a) => a.name === fieldName);
+        const attr = (classMethodThisAttrs.get(scope) ?? []).find(
+          (a) => a.name === fieldName,
+        );
         if (attr) addCons(X_rhs, attr.tv);
         return;
       }
