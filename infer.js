@@ -25,6 +25,10 @@ const indexConstraints = [];
 const addIndex = (obj, idx, result) =>
   indexConstraints.push(`index(${obj},${idx},${result})`);
 
+// deferred template constraints: tpl(Xexpr)
+const tplConstraints = [];
+const addTpl = (expr) => tplConstraints.push(`tpl(${expr})`);
+
 // build a Func type string: Func<qualName>{p1 -> p2 -> ... -> ret}
 const funcType = (qualName, paramTVs, retTV) =>
   paramTVs.length === 0
@@ -595,6 +599,10 @@ function inferExpr(node, env, scope) {
     case "TemplateLiteral": {
       const X = fresh();
       addCons(X, "str");
+      for (const expr of node.expressions) {
+        const Xexpr = inferExpr(expr, env, scope);
+        addTpl(Xexpr);
+      }
       return X;
     }
 
@@ -929,6 +937,39 @@ function inferExpr(node, env, scope) {
       const fnTV = mkTV(fnName, scope);
       inferFuncNode(node, fnName, scope, env, fnTV);
       return fnTV;
+    }
+
+    case "AssignmentExpression": {
+      // Assignment used as an expression, e.g. var foo = exports.foo = 1.
+      // In JS, (lhs = rhs) evaluates to rhs, so we infer rhs, apply the
+      // side-effect, and return rhs's type variable.
+      if (node.operator !== "=") {
+        // compound (+=, -= …) — apply side-effect, return lhs TV
+        inferExprStmt(node, env, scope);
+        return inferExpr(node.left, env, scope);
+      }
+      const Xrhs = inferExpr(node.right, env, scope);
+      const lhs = node.left;
+      if (lhs.type === "Identifier") {
+        addCons(Xrhs, envGet(env, lhs.name, scope));
+      } else if (
+        lhs.type === "MemberExpression" &&
+        !lhs.computed &&
+        lhs.object.type !== "ThisExpression"
+      ) {
+        const Xobj = inferExpr(lhs.object, env, scope);
+        addCons(Xobj, `{${lhs.property.name}: ${Xrhs}}`);
+      } else if (
+        lhs.type === "MemberExpression" &&
+        !lhs.computed &&
+        lhs.object.type === "ThisExpression"
+      ) {
+        const attr = (classMethodThisAttrs.get(scope) ?? []).find(
+          (a) => a.name === lhs.property.name,
+        );
+        if (attr) addCons(Xrhs, attr.tv);
+      }
+      return Xrhs;
     }
 
     default:
@@ -1304,7 +1345,11 @@ function inferExprStmt(node, env, scope) {
         return;
       }
 
-      if (lhs.type === "MemberExpression" && !lhs.computed && lhs.object.type !== "ThisExpression") {
+      if (
+        lhs.type === "MemberExpression" &&
+        !lhs.computed &&
+        lhs.object.type !== "ThisExpression"
+      ) {
         // x.p = e  or  a.b.c = e  (arbitrarily deep)
         const X1 = inferExpr(rhs, env, scope);
         const X2 = inferExpr(lhs.object, env, scope);
@@ -1321,7 +1366,9 @@ function inferExprStmt(node, env, scope) {
       ) {
         const fieldName = lhs.property.name;
         const X_rhs = inferExpr(rhs, env, scope);
-        const attr = (classMethodThisAttrs.get(scope) ?? []).find((a) => a.name === fieldName);
+        const attr = (classMethodThisAttrs.get(scope) ?? []).find(
+          (a) => a.name === fieldName,
+        );
         if (attr) addCons(X_rhs, attr.tv);
         return;
       }
@@ -1420,6 +1467,7 @@ const allConstraints = [
   ...constraints,
   ...plusConstraints,
   ...indexConstraints,
+  ...tplConstraints,
 ];
 if (allConstraints.length === 0) {
   console.log("  (no constraints generated)");
