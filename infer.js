@@ -25,6 +25,10 @@ const indexConstraints = [];
 const addIndex = (obj, idx, result) =>
   indexConstraints.push(`index(${obj},${idx},${result})`);
 
+// deferred template constraints: tpl(Xexpr)
+const tplConstraints = [];
+const addTpl = (expr) => tplConstraints.push(`tpl(${expr})`);
+
 // build a Func type string: Func<qualName>{p1 -> p2 -> ... -> ret}
 const funcType = (qualName, paramTVs, retTV) =>
   paramTVs.length === 0
@@ -595,6 +599,10 @@ function inferExpr(node, env, scope) {
     case "TemplateLiteral": {
       const X = fresh();
       addCons(X, "str");
+      for (const expr of node.expressions) {
+        const Xexpr = inferExpr(expr, env, scope);
+        addTpl(Xexpr);
+      }
       return X;
     }
 
@@ -1459,6 +1467,7 @@ const allConstraints = [
   ...constraints,
   ...plusConstraints,
   ...indexConstraints,
+  ...tplConstraints,
 ];
 if (allConstraints.length === 0) {
   console.log("  (no constraints generated)");
