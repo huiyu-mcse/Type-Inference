@@ -20,6 +20,11 @@ const addCons = (a, b) => constraints.push(`${a} <= ${b}`);
 const plusConstraints = [];
 const addPlus = (a, b, r) => plusConstraints.push(`plus(${a},${b},${r})`);
 
+// deferred index constraints: index(Xobj, Xidx, Xresult)
+const indexConstraints = [];
+const addIndex = (obj, idx, result) =>
+  indexConstraints.push(`index(${obj},${idx},${result})`);
+
 // build a Func type string: Func<qualName>{p1 -> p2 -> ... -> ret}
 const funcType = (qualName, paramTVs, retTV) =>
   paramTVs.length === 0
@@ -402,7 +407,8 @@ function inferClassNode(node, className, env) {
       methods.push(...classMethods.get(parentName));
     }
     // inherit parent ctor attrs
-    if (classCtorParams.has(parentName)) attrs.push(...classCtorParams.get(parentName));
+    if (classCtorParams.has(parentName))
+      attrs.push(...classCtorParams.get(parentName));
     const hasOwnCtor = node.body.body.some(
       (m) => m.type === "MethodDefinition" && m.key.name === "constructor",
     );
@@ -420,7 +426,8 @@ function inferClassNode(node, className, env) {
     if (methodName === "constructor") {
       const qualName = `constructor__${className}`;
       const fnEnv = new Map(env);
-      const paramNames = [], paramTVs = [];
+      const paramNames = [],
+        paramTVs = [];
       for (const p of m.value.params) {
         for (const { name: pn, tv } of declareParam(p, fnEnv, qualName)) {
           paramNames.push(pn);
@@ -434,7 +441,7 @@ function inferClassNode(node, className, env) {
 
       // Collect this.x = param patterns from the constructor body
       const ownAttrs = [];
-      for (const stmt of (m.value.body?.body ?? [])) {
+      for (const stmt of m.value.body?.body ?? []) {
         if (
           stmt.type === "ExpressionStatement" &&
           stmt.expression.type === "AssignmentExpression" &&
@@ -446,7 +453,9 @@ function inferClassNode(node, className, env) {
         ) {
           const attrName = stmt.expression.left.property.name;
           const paramName = stmt.expression.right.name;
-          const paramTV = fnEnv.has(paramName) ? fnEnv.get(paramName) : mkTV(paramName, qualName);
+          const paramTV = fnEnv.has(paramName)
+            ? fnEnv.get(paramName)
+            : mkTV(paramName, qualName);
           if (!ownAttrs.some((a) => a.name === attrName)) {
             ownAttrs.push({ name: attrName, tv: paramTV });
           }
@@ -462,7 +471,8 @@ function inferClassNode(node, className, env) {
       // Add/override with child's own attrs
       for (const a of ownAttrs) {
         const idx = attrs.findIndex((x) => x.name === a.name);
-        if (idx >= 0) attrs[idx] = a; else attrs.push(a);
+        if (idx >= 0) attrs[idx] = a;
+        else attrs.push(a);
       }
 
       methodEntries.push({ m, fnEnv, qualName, isCtor: true });
@@ -471,7 +481,8 @@ function inferClassNode(node, className, env) {
 
     const qualName = `${methodName}__${className}`;
     const fnEnv = new Map(env);
-    const paramNames = [], paramTVs = [];
+    const paramNames = [],
+      paramTVs = [];
     for (const p of m.value.params) {
       for (const { name: pn, tv } of declareParam(p, fnEnv, qualName)) {
         paramNames.push(pn);
@@ -484,7 +495,7 @@ function inferClassNode(node, className, env) {
 
     // Scan top-level body for this.x = e patterns; pre-allocate a field TV for each
     const thisAttrs = [];
-    for (const stmt of (m.value.body?.body ?? [])) {
+    for (const stmt of m.value.body?.body ?? []) {
       if (
         stmt.type === "ExpressionStatement" &&
         stmt.expression.type === "AssignmentExpression" &&
@@ -503,7 +514,8 @@ function inferClassNode(node, className, env) {
 
     const entry = { name: methodName, params: paramTVs, ret: retTV, qualName };
     const idx = methods.findIndex((x) => x.name === methodName);
-    if (idx >= 0) methods[idx] = entry; else methods.push(entry);
+    if (idx >= 0) methods[idx] = entry;
+    else methods.push(entry);
     methodEntries.push({ m, fnEnv, qualName, isCtor: false });
   }
 
@@ -513,7 +525,8 @@ function inferClassNode(node, className, env) {
   if (node.id?.name && node.id.name !== className) {
     classMethods.set(node.id.name, methods);
     classCtorParams.set(node.id.name, attrs);
-    if (classCtorQualName.has(className)) classCtorQualName.set(node.id.name, classCtorQualName.get(className));
+    if (classCtorQualName.has(className))
+      classCtorQualName.set(node.id.name, classCtorQualName.get(className));
   }
 
   // process method bodies
@@ -533,13 +546,19 @@ function inferClassNode(node, className, env) {
       m.value.body.type !== "BlockStatement"
     ) {
       const Xbody = inferExpr(m.value.body, fnEnv, qualName);
-      addCons(Xbody, m.value.async ? `async_inner__${qualName}` : `ret__${qualName}`);
+      addCons(
+        Xbody,
+        m.value.async ? `async_inner__${qualName}` : `ret__${qualName}`,
+      );
       hasReturn = true;
     } else {
       hasReturn = inferStmt(m.value.body, fnEnv, qualName);
     }
     if (!hasReturn) {
-      addCons("void", m.value.async ? `async_inner__${qualName}` : `ret__${qualName}`);
+      addCons(
+        "void",
+        m.value.async ? `async_inner__${qualName}` : `ret__${qualName}`,
+      );
     }
   }
 
@@ -672,23 +691,27 @@ function inferExpr(node, env, scope) {
       const Xobj = inferExpr(node.object, env, scope);
       const X3 = fresh();
 
-      if (
-        node.computed &&
-        !(
-          node.property.type === "Literal" &&
-          typeof node.property.value === "string"
-        )
+      if (!node.computed) {
+        // obj.prop
+        addCons(Xobj, `{${node.property.name}: ${X3}}`);
+      } else if (
+        node.property.type === "Literal" &&
+        typeof node.property.value === "string"
       ) {
-        // e.g. arr[i] or arr[0] → array index access
+        // obj["prop"] → known string key
+        addCons(Xobj, `{${node.property.value}: ${X3}}`);
+      } else if (
+        node.property.type === "Literal" &&
+        typeof node.property.value === "number"
+      ) {
+        // arr[0] → numeric literal index
         const Xidx = inferExpr(node.property, env, scope);
         addCons(Xidx, "num");
         addCons(Xobj, `Array<${X3}>`);
       } else {
-        // e.g. obj.prop or obj["prop"] → object property access
-        const prop = node.computed
-          ? String(node.property.value)
-          : node.property.name;
-        addCons(Xobj, `{${prop}: ${X3}}`);
+        // arr[i] or obj[key] with variable/expression key — defer to solver
+        const Xidx = inferExpr(node.property, env, scope);
+        addIndex(Xobj, Xidx, X3);
       }
       return X3;
     }
@@ -814,7 +837,9 @@ function inferExpr(node, env, scope) {
             });
             // Propagate this.x field assignments to the calling instance
             const mQualName = method.qualName ?? `${methodName}__${className}`;
-            for (const { name: fn, tv: fv } of (classMethodThisAttrs.get(mQualName) ?? [])) {
+            for (const { name: fn, tv: fv } of classMethodThisAttrs.get(
+              mQualName,
+            ) ?? []) {
               addCons(Xobj, `{${fn}: ${fv}}`);
             }
             return method.ret;
@@ -1203,7 +1228,10 @@ function inferStmt(node, env, scope) {
     case "ExportDefaultDeclaration": {
       // export default function f() {} / export default class C {}
       const decl = node.declaration;
-      if (decl.type === "FunctionDeclaration" || decl.type === "ClassDeclaration") {
+      if (
+        decl.type === "FunctionDeclaration" ||
+        decl.type === "ClassDeclaration"
+      ) {
         if (inferStmt(decl, env, scope)) hasReturn = true;
       } else {
         // export default <expr>  (literal, arrow, object, ...)
@@ -1388,7 +1416,11 @@ console.log(`\nType Inference Constraints`);
 console.log(`File : ${path.resolve(filePath)}`);
 console.log(SEP);
 
-const allConstraints = [...constraints, ...plusConstraints];
+const allConstraints = [
+  ...constraints,
+  ...plusConstraints,
+  ...indexConstraints,
+];
 if (allConstraints.length === 0) {
   console.log("  (no constraints generated)");
 } else {

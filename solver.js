@@ -68,7 +68,7 @@ function parseFunc(t) {
   }
   const parts = body.split(" -> ");
   return { name, params: parts.slice(0, -1), ret: parts[parts.length - 1] };
-  }
+}
 
 function parseClassOrInst(t) {
   const isCls = isClassType(t);
@@ -706,6 +706,13 @@ function parsePlusConstraint(line) {
   return { x1: m[1].trim(), x2: m[2].trim(), xr: m[3].trim() };
 }
 
+function parseIndexConstraint(line) {
+  const clean = line.replace(/^\s*C\d+:\s*/, "").trim();
+  const m = clean.match(/^index\(([^,]+),([^,]+),([^)]+)\)$/);
+  if (!m) return null;
+  return { xobj: m[1].trim(), xidx: m[2].trim(), xresult: m[3].trim() };
+}
+
 // ── Main ──────────────────────────────────────────────────────────────────────
 const STRUCTURAL = new Set(["obj", "arr", "func", "promise"]);
 
@@ -762,9 +769,32 @@ function resolvePlus(st, plusParsed) {
   }
 }
 
+function resolveIndex(st, indexParsed) {
+  for (const { xobj, xidx, xresult } of indexParsed) {
+    const robj = st.find(xobj);
+    if (st.isArr.get(robj)) {
+      // Array[i]: index must be num, result is the element type
+      st.process(xidx, "num");
+      const elemTV = st.arrElem.get(robj);
+      if (elemTV) st.union(xresult, elemTV);
+    } else if (st.isObj.get(robj)) {
+      // obj[key]: key must be str; if all fields share one type, propagate it
+      st.process(xidx, "str");
+      const shape = st.objShape.get(robj) ?? new Map();
+      const kinds = [...shape.values()]
+        .map((fv) => st.kindOf(st.find(fv)))
+        .filter(Boolean);
+      const unique = [...new Set(kinds)];
+      if (unique.length === 1) st.process(xresult, unique[0]);
+    }
+    // unknown object type — leave xresult as bot
+  }
+}
+
 function solve(input, quiet = false) {
   const parsed = [];
   const plusParsed = [];
+  const indexParsed = [];
   for (const line of input.split("\n")) {
     if (line.includes(" <= ")) {
       const c = parseConstraint(line);
@@ -772,6 +802,9 @@ function solve(input, quiet = false) {
     } else if (line.includes("plus(")) {
       const p = parsePlusConstraint(line);
       if (p) plusParsed.push(p);
+    } else if (line.includes("index(")) {
+      const ix = parseIndexConstraint(line);
+      if (ix) indexParsed.push(ix);
     }
   }
   if (!parsed.length && !plusParsed.length) {
@@ -787,6 +820,11 @@ function solve(input, quiet = false) {
     st._reg(x1);
     st._reg(x2);
     st._reg(xr);
+  }
+  for (const { xobj, xidx, xresult } of indexParsed) {
+    st._reg(xobj);
+    st._reg(xidx);
+    st._reg(xresult);
   }
 
   if (!quiet) {
@@ -812,9 +850,11 @@ function solve(input, quiet = false) {
     }
 
     resolvePlus(st, plusParsed);
+    resolveIndex(st, indexParsed);
   } else {
     for (const { lhs, rhs } of parsed) st.process(lhs, rhs);
     resolvePlus(st, plusParsed);
+    resolveIndex(st, indexParsed);
   }
 
   console.log("\n" + SEP);
@@ -851,3 +891,4 @@ if (fileArg) {
   process.stdin.on("data", (d) => chunks.push(d));
   process.stdin.on("end", () => solve(chunks.join(""), quiet));
 }
+
