@@ -7,6 +7,7 @@ const path = require("path");
 const Module = require("module");
 const stubs = require("./stubs");
 const { buildStub } = require("./gen_stubs");
+const summaries = require("./summaries");
 
 // fresh type variable
 let _cnt = 0;
@@ -14,7 +15,28 @@ const fresh = () => `T${++_cnt}`;
 
 // constraint
 const constraints = [];
-const addCons = (a, b) => constraints.push(`${a} <= ${b}`);
+// typeHints: TV → 'str' | 'num' | 'bool' | { kind: 'arr', elem: TV }
+// Populated eagerly so MemberExpression can dispatch built-in type methods.
+const typeHints = new Map();
+const typeMethodCache = new Map(); // `${TV}::${propName}` → methodTV
+const _isPlainTV = (t) =>
+  /^[A-Za-z_$][A-Za-z0-9_$]*$/.test(t) && t !== "void";
+function addCons(a, b) {
+  constraints.push(`${a} <= ${b}`);
+  if (b === "str" || b === "num" || b === "bool") {
+    if (!typeHints.has(a)) typeHints.set(a, b);
+    return;
+  }
+  const am = /^Array<(.+)>$/.exec(b);
+  if (am) {
+    if (!typeHints.has(a)) typeHints.set(a, { kind: "arr", elem: am[1] });
+    return;
+  }
+  if (_isPlainTV(b)) {
+    if (typeHints.has(b) && !typeHints.has(a)) typeHints.set(a, typeHints.get(b));
+    else if (typeHints.has(a) && !typeHints.has(b)) typeHints.set(b, typeHints.get(a));
+  }
+}
 
 // deferred plus constraints: plus(X1, X2, Xr)
 const plusConstraints = [];
@@ -54,6 +76,9 @@ const classCtorParams = new Map();
 const classCtorQualName = new Map();
 // this.x = e attrs in non-constructor methods: qualName -> [{name, tv}]
 const classMethodThisAttrs = new Map();
+// TV -> { modName: string, cache: Map<propName, methodTV> }
+// Records TVs that represent lazy-module require() results.
+const moduleTV = new Map();
 
 // environment
 const mkTV = (name, scope) => `${name}__${scope}`; //env = { "x" => "x__global" }
@@ -69,6 +94,186 @@ function envDeclare(env, name, scope) {
   const tv = mkTV(name, scope);
   env.set(name, tv);
   return tv;
+}
+
+// Lazily instantiate a single method from a known-module TV.
+// Returns the method's function TV (cached), or null if Xobj is not a lazy module
+// or the module has no summary for propName.
+function accessModuleProp(Xobj, propName) {
+  if (!moduleTV.has(Xobj)) return null;
+  const { modName, cache } = moduleTV.get(Xobj);
+  if (!summaries[modName]?.[propName]) return null;
+  if (cache.has(propName)) return cache.get(propName);
+  const tv = summaries.buildMethodTV(
+    modName,
+    propName,
+    summaries[modName][propName],
+    fresh,
+    addCons,
+  );
+  cache.set(propName, tv);
+  // Update the module object's structural type to include this property.
+  // Each first access to prop extends Xobj <= {prop: tv}.
+  addCons(Xobj, `{${propName}: ${tv}}`);
+  return tv;
+}
+
+// Dispatch a property/method access on a TV whose base type is known via typeHints.
+// Returns a fresh method TV (cached), or null if no type hint or method known.
+function accessTypeMethod(Xobj, propName) {
+  const hint = typeHints.get(Xobj);
+  if (!hint) return null;
+  const cacheKey = `${Xobj}::${propName}`;
+  if (typeMethodCache.has(cacheKey)) return typeMethodCache.get(cacheKey);
+  if (typeof hint === "object" && hint.kind === "arr") {
+    return _accessArrayMethod(propName, hint.elem, cacheKey);
+  }
+  // str / num / bool — non-callable properties
+  const props = summaries.__typeProps__?.[hint] ?? {};
+  if (propName in props) {
+    const tv = fresh();
+    addCons(tv, props[propName]);
+    typeMethodCache.set(cacheKey, tv);
+    return tv;
+  }
+  // str / num / bool — methods
+  const methods = summaries.__typeMethods__?.[hint];
+  if (!methods?.[propName]) return null;
+  const tv = summaries.buildMethodTV(
+    `__${hint}`,
+    propName,
+    methods[propName],
+    fresh,
+    addCons,
+  );
+  typeMethodCache.set(cacheKey, tv);
+  return tv;
+}
+
+function _accessArrayMethod(propName, elemTV, cacheKey) {
+  if (propName === "length") {
+    const tv = fresh();
+    addCons(tv, "num");
+    typeMethodCache.set(cacheKey, tv);
+    return tv;
+  }
+  const methodTV = fresh();
+  switch (propName) {
+    case "join": {
+      const p = fresh(); addCons(p, "str");
+      const r = fresh(); addCons(r, "str");
+      addCons(methodTV, `Func<arr_join>{${p} -> ${r}}`);
+      break;
+    }
+    case "push": case "unshift": {
+      const p = fresh(); addCons(p, elemTV);
+      const r = fresh(); addCons(r, "num");
+      addCons(methodTV, `Func<arr_${propName}>{${p} -> ${r}}`);
+      break;
+    }
+    case "pop": case "shift": {
+      const r = fresh(); addCons(r, elemTV);
+      addCons(methodTV, `Func<arr_${propName}>{() -> ${r}}`);
+      break;
+    }
+    case "includes": {
+      const p = fresh(); addCons(p, elemTV);
+      const r = fresh(); addCons(r, "bool");
+      addCons(methodTV, `Func<arr_includes>{${p} -> ${r}}`);
+      break;
+    }
+    case "indexOf": case "lastIndexOf": {
+      const p = fresh(); addCons(p, elemTV);
+      const r = fresh(); addCons(r, "num");
+      addCons(methodTV, `Func<arr_${propName}>{${p} -> ${r}}`);
+      break;
+    }
+    case "forEach": {
+      const cbR = fresh(); addCons(cbR, "void");
+      const cb = fresh(); addCons(cb, `Func<arr_forEach_cb>{${elemTV} -> ${cbR}}`);
+      const r = fresh(); addCons(r, "void");
+      addCons(methodTV, `Func<arr_forEach>{${cb} -> ${r}}`);
+      break;
+    }
+    case "some": case "every": {
+      const cbR = fresh(); addCons(cbR, "bool");
+      const cb = fresh(); addCons(cb, `Func<arr_${propName}_cb>{${elemTV} -> ${cbR}}`);
+      const r = fresh(); addCons(r, "bool");
+      addCons(methodTV, `Func<arr_${propName}>{${cb} -> ${r}}`);
+      break;
+    }
+    case "find": {
+      const cbR = fresh(); addCons(cbR, "bool");
+      const cb = fresh(); addCons(cb, `Func<arr_find_cb>{${elemTV} -> ${cbR}}`);
+      const r = fresh(); addCons(r, elemTV);
+      addCons(methodTV, `Func<arr_find>{${cb} -> ${r}}`);
+      break;
+    }
+    case "findIndex": {
+      const cbR = fresh(); addCons(cbR, "bool");
+      const cb = fresh(); addCons(cb, `Func<arr_findIndex_cb>{${elemTV} -> ${cbR}}`);
+      const r = fresh(); addCons(r, "num");
+      addCons(methodTV, `Func<arr_findIndex>{${cb} -> ${r}}`);
+      break;
+    }
+    case "map": case "flatMap": {
+      const retElem = fresh();
+      const cb = fresh(); addCons(cb, `Func<arr_${propName}_cb>{${elemTV} -> ${retElem}}`);
+      const r = fresh(); addCons(r, `Array<${retElem}>`);
+      addCons(methodTV, `Func<arr_${propName}>{${cb} -> ${r}}`);
+      break;
+    }
+    case "filter": {
+      const cbR = fresh(); addCons(cbR, "bool");
+      const cb = fresh(); addCons(cb, `Func<arr_filter_cb>{${elemTV} -> ${cbR}}`);
+      const r = fresh(); addCons(r, `Array<${elemTV}>`);
+      addCons(methodTV, `Func<arr_filter>{${cb} -> ${r}}`);
+      break;
+    }
+    case "slice": {
+      const p1 = fresh(); addCons(p1, "num");
+      const p2 = fresh(); addCons(p2, "num");
+      const r = fresh(); addCons(r, `Array<${elemTV}>`);
+      addCons(methodTV, `Func<arr_slice>{${p1} -> ${p2} -> ${r}}`);
+      break;
+    }
+    case "concat": {
+      const p = fresh(); addCons(p, `Array<${elemTV}>`);
+      const r = fresh(); addCons(r, `Array<${elemTV}>`);
+      addCons(methodTV, `Func<arr_concat>{${p} -> ${r}}`);
+      break;
+    }
+    case "reverse": {
+      const r = fresh(); addCons(r, `Array<${elemTV}>`);
+      addCons(methodTV, `Func<arr_reverse>{() -> ${r}}`);
+      break;
+    }
+    case "sort": {
+      const p1 = fresh(); addCons(p1, elemTV);
+      const p2 = fresh(); addCons(p2, elemTV);
+      const cbR = fresh(); addCons(cbR, "num");
+      const cb = fresh(); addCons(cb, `Func<arr_sort_cb>{${p1} -> ${p2} -> ${cbR}}`);
+      const r = fresh(); addCons(r, `Array<${elemTV}>`);
+      addCons(methodTV, `Func<arr_sort>{${cb} -> ${r}}`);
+      break;
+    }
+    case "reduce": {
+      const accTV = fresh();
+      const cb = fresh();
+      addCons(cb, `Func<arr_reduce_cb>{${accTV} -> ${elemTV} -> ${accTV}}`);
+      addCons(methodTV, `Func<arr_reduce>{${cb} -> ${accTV} -> ${accTV}}`);
+      break;
+    }
+    case "flat": {
+      const r = fresh(); addCons(r, "Array<{}>");
+      addCons(methodTV, `Func<arr_flat>{() -> ${r}}`);
+      break;
+    }
+    default:
+      return null;
+  }
+  typeMethodCache.set(cacheKey, methodTV);
+  return methodTV;
 }
 
 // -- parameter binding helper ------------------------------------------------
@@ -697,31 +902,45 @@ function inferExpr(node, env, scope) {
     case "MemberExpression": {
       // e.g. obj.prop, arr[index], ...
       const Xobj = inferExpr(node.object, env, scope);
-      const X3 = fresh();
 
       if (!node.computed) {
-        // obj.prop
+        // obj.prop — intercept lazy module access then built-in type methods
+        const propTV = accessModuleProp(Xobj, node.property.name);
+        if (propTV !== null) return propTV;
+        const typeTV = accessTypeMethod(Xobj, node.property.name);
+        if (typeTV !== null) return typeTV;
+        const X3 = fresh();
         addCons(Xobj, `{${node.property.name}: ${X3}}`);
+        return X3;
       } else if (
         node.property.type === "Literal" &&
         typeof node.property.value === "string"
       ) {
-        // obj["prop"] → known string key
+        // obj["prop"] → known string key — intercept lazy module access then type methods
+        const propTV = accessModuleProp(Xobj, node.property.value);
+        if (propTV !== null) return propTV;
+        const typeTV = accessTypeMethod(Xobj, node.property.value);
+        if (typeTV !== null) return typeTV;
+        const X3 = fresh();
         addCons(Xobj, `{${node.property.value}: ${X3}}`);
+        return X3;
       } else if (
         node.property.type === "Literal" &&
         typeof node.property.value === "number"
       ) {
         // arr[0] → numeric literal index
+        const X3 = fresh();
         const Xidx = inferExpr(node.property, env, scope);
         addCons(Xidx, "num");
         addCons(Xobj, `Array<${X3}>`);
+        return X3;
       } else {
         // arr[i] or obj[key] with variable/expression key — defer to solver
+        const X3 = fresh();
         const Xidx = inferExpr(node.property, env, scope);
         addIndex(Xobj, Xidx, X3);
+        return X3;
       }
-      return X3;
     }
 
     case "NewExpression": {
@@ -784,6 +1003,11 @@ function inferExpr(node, env, scope) {
         typeof node.arguments[0].value === "string"
       ) {
         const moduleName = node.arguments[0].value;
+        if (summaries[moduleName]) {
+          const T_mod = fresh();
+          moduleTV.set(T_mod, { modName: moduleName, cache: new Map() });
+          return T_mod;
+        }
         if (stubs[moduleName]) return stubs[moduleName](fresh, addCons);
 
         // Fallback: introspect from node_modules (file-relative first, then global)
@@ -802,6 +1026,9 @@ function inferExpr(node, env, scope) {
             Module.createRequire(path.resolve(filePath))(moduleName),
           ) ?? tryLoad(() => require(moduleName));
         if (tv) return tv;
+        // Unresolved local/unknown module — give each require() its own fresh TV
+        // so separate imports don't get merged via the shared ret__require__global.
+        return fresh();
       }
       // Static method call: ClassName.method(args)  — must come before the
       // generic MemberExpression fallback to avoid generating {method: T} on
@@ -951,7 +1178,9 @@ function inferExpr(node, env, scope) {
       const Xrhs = inferExpr(node.right, env, scope);
       const lhs = node.left;
       if (lhs.type === "Identifier") {
-        addCons(Xrhs, envGet(env, lhs.name, scope));
+        const xTarget = envGet(env, lhs.name, scope);
+        addCons(Xrhs, xTarget);
+        if (moduleTV.has(Xrhs)) moduleTV.set(xTarget, moduleTV.get(Xrhs));
       } else if (
         lhs.type === "MemberExpression" &&
         !lhs.computed &&
@@ -1024,10 +1253,20 @@ function handleRHS(name, rhs, env, scope) {
   }
 
   if (rhs.type === "MemberExpression" && !rhs.computed) {
-    // x = e.p
+    // x = e.p — intercept lazy module access then built-in type methods
     const X1 = inferExpr(rhs.object, env, scope);
-    const X3 = fresh();
     const prop = rhs.property.name;
+    const propTV = accessModuleProp(X1, prop);
+    if (propTV !== null) {
+      addCons(propTV, xTarget);
+      return;
+    }
+    const typeTV = accessTypeMethod(X1, prop);
+    if (typeTV !== null) {
+      addCons(typeTV, xTarget);
+      return;
+    }
+    const X3 = fresh();
     addCons(X3, xTarget);
     addCons(X1, `{${prop}: ${X3}}`);
     return;
@@ -1050,6 +1289,9 @@ function handleRHS(name, rhs, env, scope) {
 
   const X1 = inferExpr(rhs, env, scope); // Assign
   addCons(X1, xTarget);
+
+  // propagate lazy-module tracking through assignments (handles aliasing)
+  if (moduleTV.has(X1)) moduleTV.set(xTarget, moduleTV.get(X1));
 
   // connect TV to the responding class
   if (instanceClasses.has(X1)) {
@@ -1194,10 +1436,31 @@ function inferStmt(node, env, scope) {
 
     // -- Declarations --------------------------------------------------------
     case "VariableDeclaration": {
-      // e.g. kind identifier (= init)
       for (const decl of node.declarations) {
-        envDeclare(env, decl.id.name, scope);
-        if (decl.init) handleRHS(decl.id.name, decl.init, env, scope);
+        if (decl.id.type === "ObjectPattern") {
+          // const { a, b } = expr  — destructuring
+          const Xrhs = decl.init ? inferExpr(decl.init, env, scope) : fresh();
+          for (const prop of decl.id.properties) {
+            if (prop.type === "RestElement") continue;
+            const keyName =
+              prop.key.type === "Identifier"
+                ? prop.key.name
+                : String(prop.key.value);
+            const valName =
+              prop.value.type === "Identifier" ? prop.value.name : keyName;
+            const localTV = envDeclare(env, valName, scope);
+            const propTV = accessModuleProp(Xrhs, keyName);
+            if (propTV !== null) {
+              addCons(propTV, localTV);
+            } else {
+              addCons(Xrhs, `{${keyName}: ${localTV}}`);
+            }
+          }
+        } else {
+          // Identifier
+          envDeclare(env, decl.id.name, scope);
+          if (decl.init) handleRHS(decl.id.name, decl.init, env, scope);
+        }
       }
       break;
     }
@@ -1455,7 +1718,16 @@ try {
 }
 
 // Run inference on the whole program (top-level scope = 'global')
-if (ast) inferStmt(ast, new Map(), "global");
+// Pre-declare known JS globals so their methods resolve via accessModuleProp.
+// Use fixed names (no fresh()) so the TV counter is unaffected for files that
+// don't use these globals.
+const globalEnv = new Map();
+for (const name of summaries.__globals__ ?? []) {
+  const tv = `${name}__global`;
+  globalEnv.set(name, tv);
+  moduleTV.set(tv, { modName: name, cache: new Map() });
+}
+if (ast) inferStmt(ast, globalEnv, "global");
 
 // ── Output ────────────────────────────────────────────────────────────────────
 const SEP = "─".repeat(60);

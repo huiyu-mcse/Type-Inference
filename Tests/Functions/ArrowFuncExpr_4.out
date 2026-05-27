@@ -10,25 +10,25 @@ Constraints:
 
 ──────────────────────────────────────────────────────
 Inicio:
- T1:bot, num:bot, a__add__global:bot, T3:bot, ret__fun_T2__add__global:bot, fun_T2__add__global:bot, Func<fun_T2__add__global>{b__fun_T2__add__global -> ret__fun_T2__add__global}:bot, ret__add__global:bot, add__global:bot, Func<add__global>{a__add__global -> ret__add__global}:bot, b__fun_T2__add__global:bot
+ T1:bot, num:bot, a__add__global:bot, T3:bot, ret__fun_T2__add__global:bot, fun_T2__add__global:bot, Func<fun_T2__add__global>{b__fun_T2__add__global -> ret__fun_T2__add__global}:bot, b__fun_T2__add__global:bot, ret__add__global:bot, add__global:bot, Func<add__global>{a__add__global -> ret__add__global}:bot
 
 1: [T1 <= num]
- T1:num, a__add__global:bot, T3:bot, ret__fun_T2__add__global:bot, fun_T2__add__global:bot, Func<fun_T2__add__global>{b__fun_T2__add__global -> ret__fun_T2__add__global}:bot, ret__add__global:bot, add__global:bot, Func<add__global>{a__add__global -> ret__add__global}:bot, b__fun_T2__add__global:bot
+ T1:num, a__add__global:bot, T3:bot, ret__fun_T2__add__global:bot, fun_T2__add__global:bot, Func<fun_T2__add__global>{b__fun_T2__add__global -> ret__fun_T2__add__global}:bot, b__fun_T2__add__global:bot, ret__add__global:bot, add__global:bot, Func<add__global>{a__add__global -> ret__add__global}:bot
 
 2: [T1 <= a__add__global]
- T1:num, a__add__global:num, T3:bot, ret__fun_T2__add__global:bot, fun_T2__add__global:bot, Func<fun_T2__add__global>{b__fun_T2__add__global -> ret__fun_T2__add__global}:bot, ret__add__global:bot, add__global:bot, Func<add__global>{a__add__global -> ret__add__global}:bot, b__fun_T2__add__global:bot
+ T1:num, a__add__global:num, T3:bot, ret__fun_T2__add__global:bot, fun_T2__add__global:bot, Func<fun_T2__add__global>{b__fun_T2__add__global -> ret__fun_T2__add__global}:bot, b__fun_T2__add__global:bot, ret__add__global:bot, add__global:bot, Func<add__global>{a__add__global -> ret__add__global}:bot
 
 3: [T3 <= ret__fun_T2__add__global]
- T1:num, a__add__global:num, T3:bot, ret__fun_T2__add__global:bot, fun_T2__add__global:bot, Func<fun_T2__add__global>{b__fun_T2__add__global -> ret__fun_T2__add__global}:bot, ret__add__global:bot, add__global:bot, Func<add__global>{a__add__global -> ret__add__global}:bot, b__fun_T2__add__global:bot
+ T1:num, a__add__global:num, T3:bot, ret__fun_T2__add__global:bot, fun_T2__add__global:bot, Func<fun_T2__add__global>{b__fun_T2__add__global -> ret__fun_T2__add__global}:bot, b__fun_T2__add__global:bot, ret__add__global:bot, add__global:bot, Func<add__global>{a__add__global -> ret__add__global}:bot
 
 4: [fun_T2__add__global <= Func<fun_T2__add__global>{b__fun_T2__add__global -> ret__fun_T2__add__global}]
- T1:num, a__add__global:num, T3:bot, ret__fun_T2__add__global:bot, (fun_T2__add__global: Func<fun_T2__add__global>{b__fun_T2__add__global -> T3}), ret__add__global:bot, add__global:bot, Func<add__global>{a__add__global -> ret__add__global}:bot, b__fun_T2__add__global:bot
+ T1:num, a__add__global:num, T3:bot, ret__fun_T2__add__global:bot, (fun_T2__add__global: Func<fun_T2__add__global>{b__fun_T2__add__global -> T3}), b__fun_T2__add__global:bot, ret__add__global:bot, add__global:bot, Func<add__global>{a__add__global -> ret__add__global}:bot
 
 5: [fun_T2__add__global <= ret__add__global]
- T1:num, a__add__global:num, T3:bot, ret__fun_T2__add__global:bot, (fun_T2__add__global: Func<fun_T2__add__global>{b__fun_T2__add__global -> T3}), (ret__add__global: Func<fun_T2__add__global>{b__fun_T2__add__global -> T3}), add__global:bot, Func<add__global>{a__add__global -> ret__add__global}:bot, b__fun_T2__add__global:bot
+ T1:num, a__add__global:num, T3:bot, ret__fun_T2__add__global:bot, (fun_T2__add__global: Func<fun_T2__add__global>{b__fun_T2__add__global -> T3}), b__fun_T2__add__global:bot, (ret__add__global: Func<fun_T2__add__global>{b__fun_T2__add__global -> T3}), add__global:bot, Func<add__global>{a__add__global -> ret__add__global}:bot
 
 6: [add__global <= Func<add__global>{a__add__global -> ret__add__global}]
- T1:num, a__add__global:num, T3:bot, ret__fun_T2__add__global:bot, (fun_T2__add__global: Func<fun_T2__add__global>{b__fun_T2__add__global -> T3}), (ret__add__global: Func<fun_T2__add__global>{b__fun_T2__add__global -> T3}), (add__global: Func<add__global>{T1 -> fun_T2__add__global}), b__fun_T2__add__global:bot
+ T1:num, a__add__global:num, T3:bot, ret__fun_T2__add__global:bot, (fun_T2__add__global: Func<fun_T2__add__global>{b__fun_T2__add__global -> T3}), b__fun_T2__add__global:bot, (ret__add__global: Func<fun_T2__add__global>{b__fun_T2__add__global -> T3}), (add__global: Func<add__global>{T1 -> fun_T2__add__global})
 
 ──────────────────────────────────────────────────────
 ✓  Sem conflitos.
