@@ -169,6 +169,11 @@ class State {
   regConstraint(lhs, rhs) {
     this._reg(lhs);
     this._reg(rhs);
+    if (isFunc(rhs)) {
+      const { params, ret } = parseFunc(rhs);
+      for (const p of params) this._reg(p);
+      this._reg(ret);
+    }
   }
 
   // ── Union-Find ─────────────────────────────────────────────────────────────
@@ -237,14 +242,15 @@ class State {
       const sr = this.objShape.get(root);
 
       if (rootWasObj) {
-        // Both were already objects → intersection: keep only common fields
+        // Both were already objects → union all field requirements.
+        // Our constraints are "at least" bounds (open records), so the merged
+        // TV must satisfy every requirement from both sides: all fields are kept.
         for (const [f, tv] of sc) {
           if (sr.has(f)) {
             this.union(sr.get(f), tv);
+          } else {
+            sr.set(f, tv);
           }
-        }
-        for (const f of sr.keys()) {
-          if (!sc.has(f)) sr.delete(f);
         }
       } else {
         // Root was a plain type var → copy all fields from child
@@ -745,6 +751,8 @@ function resolvePlus(st, plusParsed) {
       const k2 = st.kindOf(st.find(x2));
       if (k1 === "str" || k2 === "str") {
         setResult(xr, "str");
+        if (k1 === "str" && !k2) st.process(x2, "str");
+        if (k2 === "str" && !k1) st.process(x1, "str");
         done.add(i);
         changed = true;
       } else if (k1 === "num" && k2 === "num") {
@@ -924,4 +932,3 @@ if (fileArg) {
   process.stdin.on("data", (d) => chunks.push(d));
   process.stdin.on("end", () => solve(chunks.join(""), quiet));
 }
-

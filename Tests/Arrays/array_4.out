@@ -37,17 +37,17 @@ Inicio:
  T4:str, (T3: {hello: T4}), (T1: {hello: T4}), T6:str, (T5: {hello: T6, olá: T7}), T7:str, T2:bot, Array<T1>:bot, a__global:bot
 
 8: [T5 <= T1]
- T4:str, (T3: {hello: T4}), (T1: {hello: T4}), T6:str, (T5: {hello: T4}), T7:str, T2:bot, Array<T1>:bot, a__global:bot
+ T4:str, (T3: {hello: T4, olá: T7}), (T1: {hello: T4, olá: T7}), T6:str, (T5: {hello: T4, olá: T7}), T7:str, T2:bot, Array<T1>:bot, a__global:bot
 
 9: [T2 <= Array<T1>]
- T4:str, (T3: {hello: T4}), (T1: {hello: T4}), T6:str, (T5: {hello: T4}), T7:str, (T2: Array<T3>), a__global:bot
+ T4:str, (T3: {hello: T4, olá: T7}), (T1: {hello: T4, olá: T7}), T6:str, (T5: {hello: T4, olá: T7}), T7:str, (T2: Array<T3>), a__global:bot
 
 10: [T2 <= a__global]
- T4:str, (T3: {hello: T4}), (T1: {hello: T4}), T6:str, (T5: {hello: T4}), T7:str, (T2: Array<T3>), (a__global: Array<T3>)
+ T4:str, (T3: {hello: T4, olá: T7}), (T1: {hello: T4, olá: T7}), T6:str, (T5: {hello: T4, olá: T7}), T7:str, (T2: Array<T3>), (a__global: Array<T3>)
 
 ──────────────────────────────────────────────────────
 ✓  Sem conflitos.
 
 FINAL:
-  a__global  :  Array<{hello: str}>
+  a__global  :  Array<{hello: str, olá: str}>
 
