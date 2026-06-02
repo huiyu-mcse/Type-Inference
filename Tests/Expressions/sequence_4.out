@@ -1,15 +1,14 @@
 
 Constraints:
-  C01: T1 <= num
-  C02: T1 <= x__global
-  C03: T2 <= str
-  C04: T2 <= y__global
-  C05: T3 <= bool
-  C06: T3 <= bool
-  C07: T4 <= str
-  C08: T4 <= z__global
-  C09: T5 <= str
-  C10: T5 <= t__global
+  C1: T1 <= num
+  C2: T1 <= x__global
+  C3: T2 <= str
+  C4: T2 <= y__global
+  C5: T3 <= bool
+  C6: T4 <= str
+  C7: T4 <= z__global
+  C8: T5 <= str
+  C9: T5 <= t__global
 
 ──────────────────────────────────────────────────────
 Inicio:
@@ -30,19 +29,16 @@ Inicio:
 5: [T3 <= bool]
  T1:num, x__global:num, T2:str, y__global:str, T3:bool, T4:bot, z__global:bot, T5:bot, t__global:bot
 
-6: [T3 <= bool]
- T1:num, x__global:num, T2:str, y__global:str, T3:bool, T4:bot, z__global:bot, T5:bot, t__global:bot
-
-7: [T4 <= str]
+6: [T4 <= str]
  T1:num, x__global:num, T2:str, y__global:str, T3:bool, T4:str, z__global:bot, T5:bot, t__global:bot
 
-8: [T4 <= z__global]
+7: [T4 <= z__global]
  T1:num, x__global:num, T2:str, y__global:str, T3:bool, T4:str, z__global:str, T5:bot, t__global:bot
 
-9: [T5 <= str]
+8: [T5 <= str]
  T1:num, x__global:num, T2:str, y__global:str, T3:bool, T4:str, z__global:str, T5:str, t__global:bot
 
-10: [T5 <= t__global]
+9: [T5 <= t__global]
  T1:num, x__global:num, T2:str, y__global:str, T3:bool, T4:str, z__global:str, T5:str, t__global:str
 
 ──────────────────────────────────────────────────────

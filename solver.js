@@ -247,7 +247,10 @@ class State {
         // TV must satisfy every requirement from both sides: all fields are kept.
         for (const [f, tv] of sc) {
           if (sr.has(f)) {
-            this.union(sr.get(f), tv);
+            const srv = sr.get(f);
+            if (isLiteral(tv)) this.process(srv, tv);
+            else if (isLiteral(srv)) this.process(tv, srv);
+            else this.union(srv, tv);
           } else {
             sr.set(f, tv);
           }
@@ -381,12 +384,17 @@ class State {
       return;
     }
     if (this.isFuncType.get(rx)) {
-      // Already a Func — unify params and ret pairwise
+      // Already a Func — unify common prefix of params and ret.
+      // If the new signature has more params, upgrade to the longer one so that
+      // a call with fewer args (e.g. early-return callback(err)) does not hide
+      // the full signature seen at a later call site (e.g. callback(null, result)).
       const existing = this.funcInfo.get(rx);
       const n = Math.min(existing.params.length, info.params.length);
       for (let i = 0; i < n; i++)
         this.union(existing.params[i], info.params[i]);
       this.union(existing.ret, info.ret);
+      if (info.params.length > existing.params.length)
+        this.funcInfo.set(rx, info);
       return;
     }
     this.isFuncType.set(rx, true);
@@ -518,7 +526,10 @@ class State {
         const shape = this.objShape.get(rx) ?? new Map();
         for (const [f, tv] of parseFields(rhs)) {
           if (shape.has(f)) {
-            this.union(shape.get(f), tv);
+            const existing = shape.get(f);
+            if (isLiteral(tv)) this.process(existing, tv);
+            else if (isLiteral(existing)) this.process(tv, existing);
+            else this.union(existing, tv);
           } else {
             shape.set(f, tv);
           }
@@ -712,6 +723,13 @@ function parsePlusConstraint(line) {
   return { x1: m[1].trim(), x2: m[2].trim(), xr: m[3].trim() };
 }
 
+function parseUnionConstraint(line) {
+  const clean = line.replace(/^\s*C\d+:\s*/, "").trim();
+  const m = clean.match(/^union\(([^,]+),([^,]+),([^)]+)\)$/);
+  if (!m) return null;
+  return { x1: m[1].trim(), x2: m[2].trim(), xr: m[3].trim() };
+}
+
 function parseIndexConstraint(line) {
   const clean = line.replace(/^\s*C\d+:\s*/, "").trim();
   const m = clean.match(/^index\(([^,]+),([^,]+),([^)]+)\)$/);
@@ -784,6 +802,40 @@ function resolvePlus(st, plusParsed) {
   }
 }
 
+function resolveUnion(st, unionParsed) {
+  const setResult = (xr, type) => {
+    st.process(xr, type);
+    const rep = st.find(xr);
+    if (!st.baseType.has(rep)) st.baseType.set(rep, type);
+  };
+
+  for (const { x1, x2, xr } of unionParsed) {
+    const k1 = st.kindOf(st.find(x1));
+    const k2 = st.kindOf(st.find(x2));
+    if (!k1 && !k2) continue; // both unresolved → xr stays bot
+    if (!k1) {
+      setResult(xr, k2);
+      continue;
+    } // only one branch known
+    if (!k2) {
+      setResult(xr, k1);
+      continue;
+    }
+    if (k1 === k2) {
+      setResult(xr, k1);
+      continue;
+    } // branches agree
+    // Different types: produce a union if both are base types
+    if (isBaseType(k1) && isBaseType(k2)) {
+      const components = [
+        ...new Set([...k1.split("|"), ...k2.split("|")]),
+      ].sort();
+      setResult(xr, components.join("|"));
+    }
+    // Structural types on different branches → xr stays bot
+  }
+}
+
 function resolveTpl(st, tplParsed) {
   for (const { xexpr } of tplParsed) {
     const r = st.find(xexpr);
@@ -817,14 +869,23 @@ function resolveIndex(st, indexParsed) {
         .filter(Boolean);
       const unique = [...new Set(kinds)];
       if (unique.length === 1) st.process(xresult, unique[0]);
+    } else {
+      // Unknown type being indexed by a str key → must be an object at minimum.
+      const ridx = st.find(xidx);
+      if (
+        st.baseType.get(ridx) === "str" ||
+        st.baseType.get(st.find(xidx)) === "str"
+      ) {
+        st.process(robj, "{}");
+      }
     }
-    // unknown object type — leave xresult as bot
   }
 }
 
 function solve(input, quiet = false) {
   const parsed = [];
   const plusParsed = [];
+  const unionParsed = [];
   const indexParsed = [];
   const tplParsed = [];
   for (const line of input.split("\n")) {
@@ -834,6 +895,9 @@ function solve(input, quiet = false) {
     } else if (line.includes("plus(")) {
       const p = parsePlusConstraint(line);
       if (p) plusParsed.push(p);
+    } else if (line.includes("union(")) {
+      const u = parseUnionConstraint(line);
+      if (u) unionParsed.push(u);
     } else if (line.includes("index(")) {
       const ix = parseIndexConstraint(line);
       if (ix) indexParsed.push(ix);
@@ -842,7 +906,12 @@ function solve(input, quiet = false) {
       if (t) tplParsed.push(t);
     }
   }
-  if (!parsed.length && !plusParsed.length && !tplParsed.length) {
+  if (
+    !parsed.length &&
+    !plusParsed.length &&
+    !unionParsed.length &&
+    !tplParsed.length
+  ) {
     console.log("(sem constraints)");
     return;
   }
@@ -852,6 +921,11 @@ function solve(input, quiet = false) {
 
   for (const c of parsed) st.regConstraint(c.lhs, c.rhs);
   for (const { x1, x2, xr } of plusParsed) {
+    st._reg(x1);
+    st._reg(x2);
+    st._reg(xr);
+  }
+  for (const { x1, x2, xr } of unionParsed) {
     st._reg(x1);
     st._reg(x2);
     st._reg(xr);
@@ -870,6 +944,7 @@ function solve(input, quiet = false) {
     const allC = [
       ...parsed.map((c) => `${c.lhs} <= ${c.rhs}`),
       ...plusParsed.map((p) => `plus(${p.x1},${p.x2},${p.xr})`),
+      ...unionParsed.map((u) => `union(${u.x1},${u.x2},${u.xr})`),
       ...tplParsed.map((t) => `tpl(${t.xexpr})`),
     ];
     const pad = String(allC.length).length;
@@ -889,11 +964,13 @@ function solve(input, quiet = false) {
     }
 
     resolvePlus(st, plusParsed);
+    resolveUnion(st, unionParsed);
     resolveIndex(st, indexParsed);
     resolveTpl(st, tplParsed);
   } else {
     for (const { lhs, rhs } of parsed) st.process(lhs, rhs);
     resolvePlus(st, plusParsed);
+    resolveUnion(st, unionParsed);
     resolveIndex(st, indexParsed);
     resolveTpl(st, tplParsed);
   }

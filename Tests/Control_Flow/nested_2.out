@@ -8,17 +8,15 @@ Constraints:
   C06: T3 <= delta__global
   C07: T4 <= bool
   C08: T4 <= flag__h__global
-  C09: flag__h__global <= bool
-  C10: flag__h__global <= bool
-  C11: T5 <= output__h__global
-  C12: T6 <= num
-  C13: T7 <= output__h__global
-  C14: T8 <= str
-  C15: T8 <= delta__h__global
-  C16: void <= ret__h__global
-  C17: h__global <= Func<h__global>{delta__h__global -> output__h__global -> ret__h__global}
-  C18: plus(output__h__global,delta__h__global,T5)
-  C19: plus(output__h__global,T6,T7)
+  C09: T5 <= output__h__global
+  C10: T6 <= num
+  C11: T7 <= output__h__global
+  C12: T8 <= str
+  C13: T8 <= delta__h__global
+  C14: void <= ret__h__global
+  C15: h__global <= Func<h__global>{delta__h__global -> output__h__global -> ret__h__global}
+  C16: plus(output__h__global,delta__h__global,T5)
+  C17: plus(output__h__global,T6,T7)
 
 ──────────────────────────────────────────────────────
 Inicio:
@@ -48,31 +46,25 @@ Inicio:
 8: [T4 <= flag__h__global]
  T1:bool, flag__global:bool, T2:num, output__global:num, T3:num, delta__global:num, T4:bool, flag__h__global:bool, T5:bot, output__h__global:bot, T6:bot, T7:bot, T8:bot, str:bot, delta__h__global:bot, void:bot, ret__h__global:bot, h__global:bot, Func<h__global>{delta__h__global -> output__h__global -> ret__h__global}:bot
 
-9: [flag__h__global <= bool]
+9: [T5 <= output__h__global]
  T1:bool, flag__global:bool, T2:num, output__global:num, T3:num, delta__global:num, T4:bool, flag__h__global:bool, T5:bot, output__h__global:bot, T6:bot, T7:bot, T8:bot, str:bot, delta__h__global:bot, void:bot, ret__h__global:bot, h__global:bot, Func<h__global>{delta__h__global -> output__h__global -> ret__h__global}:bot
 
-10: [flag__h__global <= bool]
- T1:bool, flag__global:bool, T2:num, output__global:num, T3:num, delta__global:num, T4:bool, flag__h__global:bool, T5:bot, output__h__global:bot, T6:bot, T7:bot, T8:bot, str:bot, delta__h__global:bot, void:bot, ret__h__global:bot, h__global:bot, Func<h__global>{delta__h__global -> output__h__global -> ret__h__global}:bot
-
-11: [T5 <= output__h__global]
- T1:bool, flag__global:bool, T2:num, output__global:num, T3:num, delta__global:num, T4:bool, flag__h__global:bool, T5:bot, output__h__global:bot, T6:bot, T7:bot, T8:bot, str:bot, delta__h__global:bot, void:bot, ret__h__global:bot, h__global:bot, Func<h__global>{delta__h__global -> output__h__global -> ret__h__global}:bot
-
-12: [T6 <= num]
+10: [T6 <= num]
  T1:bool, flag__global:bool, T2:num, output__global:num, T3:num, delta__global:num, T4:bool, flag__h__global:bool, T5:bot, output__h__global:bot, T6:num, T7:bot, T8:bot, str:bot, delta__h__global:bot, void:bot, ret__h__global:bot, h__global:bot, Func<h__global>{delta__h__global -> output__h__global -> ret__h__global}:bot
 
-13: [T7 <= output__h__global]
+11: [T7 <= output__h__global]
  T1:bool, flag__global:bool, T2:num, output__global:num, T3:num, delta__global:num, T4:bool, flag__h__global:bool, T5:bot, output__h__global:bot, T6:num, T7:bot, T8:bot, str:bot, delta__h__global:bot, void:bot, ret__h__global:bot, h__global:bot, Func<h__global>{delta__h__global -> output__h__global -> ret__h__global}:bot
 
-14: [T8 <= str]
+12: [T8 <= str]
  T1:bool, flag__global:bool, T2:num, output__global:num, T3:num, delta__global:num, T4:bool, flag__h__global:bool, T5:bot, output__h__global:bot, T6:num, T7:bot, T8:str, delta__h__global:bot, void:bot, ret__h__global:bot, h__global:bot, Func<h__global>{delta__h__global -> output__h__global -> ret__h__global}:bot
 
-15: [T8 <= delta__h__global]
+13: [T8 <= delta__h__global]
  T1:bool, flag__global:bool, T2:num, output__global:num, T3:num, delta__global:num, T4:bool, flag__h__global:bool, T5:bot, output__h__global:bot, T6:num, T7:bot, T8:str, delta__h__global:str, void:bot, ret__h__global:bot, h__global:bot, Func<h__global>{delta__h__global -> output__h__global -> ret__h__global}:bot
 
-16: [void <= ret__h__global]
+14: [void <= ret__h__global]
  T1:bool, flag__global:bool, T2:num, output__global:num, T3:num, delta__global:num, T4:bool, flag__h__global:bool, T5:bot, output__h__global:bot, T6:num, T7:bot, T8:str, delta__h__global:str, void:bot, ret__h__global:void, h__global:bot, Func<h__global>{delta__h__global -> output__h__global -> ret__h__global}:bot
 
-17: [h__global <= Func<h__global>{delta__h__global -> output__h__global -> ret__h__global}]
+15: [h__global <= Func<h__global>{delta__h__global -> output__h__global -> ret__h__global}]
  T1:bool, flag__global:bool, T2:num, output__global:num, T3:num, delta__global:num, T4:bool, flag__h__global:bool, T5:bot, output__h__global:bot, T6:num, T7:bot, T8:str, delta__h__global:str, void:bot, ret__h__global:void, (h__global: Func<h__global>{T8 -> T5 -> ret__h__global})
 
 ──────────────────────────────────────────────────────
