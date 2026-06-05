@@ -7,14 +7,13 @@ Constraints:
   C05: state__global <= {count: T2}
   C06: T3 <= flag__global
   C07: state__global <= {running: T3}
-  C08: flag__global <= bool
-  C09: T4 <= c__global
-  C10: state__global <= {count: T4}
-  C11: T5 <= num
-  C12: state__global <= {count: T6}
-  C13: T7 <= flag__global
-  C14: state__global <= {running: T7}
-  C15: plus(c__global,T5,T6)
+  C08: T4 <= c__global
+  C09: state__global <= {count: T4}
+  C10: T5 <= num
+  C11: state__global <= {count: T6}
+  C12: T7 <= flag__global
+  C13: state__global <= {running: T7}
+  C14: plus(c__global,T5,T6)
 
 ──────────────────────────────────────────────────────
 Inicio:
@@ -41,25 +40,22 @@ Inicio:
 7: [state__global <= {running: T3}]
  (state__global: {running: T3, count: T2}), T1:bool, T2:num, T3:bool, flag__global:bool, T4:bot, c__global:bot, {count: T4}:bot, T5:bot, {count: T6}:bot, T7:bot, {running: T7}:bot, T6:bot
 
-8: [flag__global <= bool]
+8: [T4 <= c__global]
  (state__global: {running: T3, count: T2}), T1:bool, T2:num, T3:bool, flag__global:bool, T4:bot, c__global:bot, {count: T4}:bot, T5:bot, {count: T6}:bot, T7:bot, {running: T7}:bot, T6:bot
 
-9: [T4 <= c__global]
- (state__global: {running: T3, count: T2}), T1:bool, T2:num, T3:bool, flag__global:bool, T4:bot, c__global:bot, {count: T4}:bot, T5:bot, {count: T6}:bot, T7:bot, {running: T7}:bot, T6:bot
-
-10: [state__global <= {count: T4}]
+9: [state__global <= {count: T4}]
  (state__global: {running: T3, count: T4}), T1:bool, T2:num, T3:bool, flag__global:bool, T4:num, c__global:num, T5:bot, {count: T6}:bot, T7:bot, {running: T7}:bot, T6:bot
 
-11: [T5 <= num]
+10: [T5 <= num]
  (state__global: {running: T3, count: T4}), T1:bool, T2:num, T3:bool, flag__global:bool, T4:num, c__global:num, T5:num, {count: T6}:bot, T7:bot, {running: T7}:bot, T6:bot
 
-12: [state__global <= {count: T6}]
+11: [state__global <= {count: T6}]
  (state__global: {running: T3, count: T4}), T1:bool, T2:num, T3:bool, flag__global:bool, T4:num, c__global:num, T5:num, T7:bot, {running: T7}:bot, T6:num
 
-13: [T7 <= flag__global]
+12: [T7 <= flag__global]
  (state__global: {running: T3, count: T4}), T1:bool, T2:num, T3:bool, flag__global:bool, T4:num, c__global:num, T5:num, T7:bool, {running: T7}:bot, T6:num
 
-14: [state__global <= {running: T7}]
+13: [state__global <= {running: T7}]
  (state__global: {running: T3, count: T4}), T1:bool, T2:num, T3:bool, flag__global:bool, T4:num, c__global:num, T5:num, T7:bool, T6:num
 
 ──────────────────────────────────────────────────────

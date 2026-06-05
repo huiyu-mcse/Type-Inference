@@ -13,4 +13,4 @@ function f(ok, response) {
   }
 }
 
-//TODO: global vs local
+// ok__f is bot because every type in JS is "falsy"

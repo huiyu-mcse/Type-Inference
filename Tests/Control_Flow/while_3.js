@@ -7,3 +7,5 @@ function g(valid) {
     state.count = state.count + 1;
   }
 }
+
+// Once againg, valid is `bot` because it can really be any type

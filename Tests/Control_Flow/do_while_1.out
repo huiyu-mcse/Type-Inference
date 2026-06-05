@@ -10,7 +10,6 @@ Constraints:
   C08: x__global <= T3
   C09: T3 <= x__global
   C10: T4 <= bool
-  C11: T4 <= bool
 
 ──────────────────────────────────────────────────────
 Inicio:
@@ -44,9 +43,6 @@ Inicio:
  T1:num, x__global:num, T2:num, T3:num, T4:bot, bool:bot
 
 10: [T4 <= bool]
- T1:num, x__global:num, T2:num, T3:num, T4:bool
-
-11: [T4 <= bool]
  T1:num, x__global:num, T2:num, T3:num, T4:bool
 
 ──────────────────────────────────────────────────────

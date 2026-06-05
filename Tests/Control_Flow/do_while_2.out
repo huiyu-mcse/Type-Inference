@@ -15,8 +15,6 @@ Constraints:
   C13: x__global <= T5
   C14: T5 <= x__global
   C15: T6 <= bool
-  C16: T6 <= bool
-  C17: y__global <= bool
 
 ──────────────────────────────────────────────────────
 Inicio:
@@ -65,12 +63,6 @@ Inicio:
  T1:bool, y__global:bool, T2:num, x__global:num, T3:num, T4:num, z__global:num, T5:num, T6:bot
 
 15: [T6 <= bool]
- T1:bool, y__global:bool, T2:num, x__global:num, T3:num, T4:num, z__global:num, T5:num, T6:bool
-
-16: [T6 <= bool]
- T1:bool, y__global:bool, T2:num, x__global:num, T3:num, T4:num, z__global:num, T5:num, T6:bool
-
-17: [y__global <= bool]
  T1:bool, y__global:bool, T2:num, x__global:num, T3:num, T4:num, z__global:num, T5:num, T6:bool
 
 ──────────────────────────────────────────────────────
