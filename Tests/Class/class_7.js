@@ -6,3 +6,4 @@ class Greeter {
 
 const g = new Greeter();
 g.greet("Alice");
+

@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 "use strict";
 
-const BASE_TYPES = new Set(["str", "num", "bool", "void"]);
+const BASE_TYPES = new Set(["str", "num", "bool", "void", "regexp"]);
 const isBaseType = (t) =>
   BASE_TYPES.has(t) ||
   (t.includes("|") && t.split("|").every((p) => BASE_TYPES.has(p)));
@@ -148,6 +148,7 @@ class State {
     this.classKind = new Map(); // rep → 'Class' | 'Obj'
     this.className = new Map(); // rep → string
     this.classMethods = new Map(); // rep → Map<methodName, TV[]>
+    this.baseAndArr = new Map(); // rep → true when TV has both a base type AND isArr
     this.errors = [];
 
     this.displayList = []; // todos os nós em ordem de aparição
@@ -314,7 +315,13 @@ class State {
     } else if (this.isObj.get(rx)) {
       this.errors.push(`CONFLICT: obj vs ${type}  (${ctx})`);
     } else if (this.isArr.get(rx)) {
-      this.errors.push(`CONFLICT: Array vs ${type}  (${ctx})`);
+      if (isBaseType(type)) {
+        // Array + base type → str|Array<T>, num|Array<T>, etc.
+        this.baseType.set(rx, type);
+        this.baseAndArr.set(rx, true);
+      } else {
+        this.errors.push(`CONFLICT: Array vs ${type}  (${ctx})`);
+      }
     } else if (this.isFuncType.get(rx)) {
       this.errors.push(`CONFLICT: Func vs ${type}  (${ctx})`);
     } else if (this.isPromiseType.get(rx)) {
@@ -348,8 +355,17 @@ class State {
   }
 
   _initArr(rx, elemTV) {
-    if (this.baseType.has(rx)) {
-      this.errors.push(`CONFLICT: ${this.baseType.get(rx)} vs Array`);
+    const bt = this.baseType.get(rx);
+    if (bt) {
+      if (isBaseType(bt)) {
+        // base type + Array → str|Array<T>, num|Array<T>, etc.
+        this.isArr.set(rx, true);
+        if (this.arrElem.has(rx)) this.union(this.arrElem.get(rx), elemTV);
+        else this.arrElem.set(rx, elemTV);
+        this.baseAndArr.set(rx, true);
+        return;
+      }
+      this.errors.push(`CONFLICT: ${bt} vs Array`);
       return;
     }
     if (this.isObj.get(rx)) {
@@ -568,7 +584,13 @@ class State {
     if (isBaseType(node)) return node;
     const rep = this.find(node);
     const bt = this.baseType.get(rep);
-    if (bt) return bt;
+    if (bt) {
+      if (this.baseAndArr.has(rep)) {
+        const elem = this.arrElem.get(rep);
+        return `${bt} | Array<${this.find(elem)}>`;
+      }
+      return bt;
+    }
     if (this.isArr.get(rep)) {
       const elem = this.arrElem.get(rep);
       return `Array<${this.find(elem)}>`;
@@ -619,7 +641,13 @@ class State {
     if (visited.has(rep)) return rep;
     visited.add(rep);
     const bt = this.baseType.get(rep);
-    if (bt) return bt;
+    if (bt) {
+      if (this.baseAndArr.has(rep)) {
+        const elem = this.arrElem.get(rep);
+        return `${bt} | Array<${this.resolveType(elem, new Set(visited))}>`;
+      }
+      return bt;
+    }
     if (this.isArr.get(rep)) {
       const elem = this.arrElem.get(rep);
       return `Array<${this.resolveType(elem, new Set(visited))}>`;
@@ -737,6 +765,13 @@ function parseIndexConstraint(line) {
   return { xobj: m[1].trim(), xidx: m[2].trim(), xresult: m[3].trim() };
 }
 
+function parseLogicalUnionConstraint(line) {
+  const clean = line.replace(/^\s*C\d+:\s*/, "").trim();
+  const m = clean.match(/^logical_union\(([^,]+),([^,]+),([^)]+)\)$/);
+  if (!m) return null;
+  return { x1: m[1].trim(), x2: m[2].trim(), xr: m[3].trim() };
+}
+
 function parseTplConstraint(line) {
   const clean = line.replace(/^\s*C\d+:\s*/, "").trim();
   const m = clean.match(/^tpl\(([^)]+)\)$/);
@@ -806,7 +841,7 @@ function resolveUnion(st, unionParsed) {
   const setResult = (xr, type) => {
     st.process(xr, type);
     const rep = st.find(xr);
-    if (!st.baseType.has(rep)) st.baseType.set(rep, type);
+    if (!st.baseType.has(rep) && isBaseType(type)) st.baseType.set(rep, type);
   };
 
   for (const { x1, x2, xr } of unionParsed) {
@@ -852,6 +887,33 @@ function resolveTpl(st, tplParsed) {
   }
 }
 
+function resolveLogicalUnion(st, logicalUnionParsed) {
+  const setResult = (xr, type) => {
+    st.process(xr, type);
+    const rep = st.find(xr);
+    if (!st.baseType.has(rep)) st.baseType.set(rep, type);
+  };
+  for (const { x1, x2, xr } of logicalUnionParsed) {
+    const k1 = st.kindOf(st.find(x1));
+    const k2 = st.kindOf(st.find(x2));
+    if (!k1 || !k2) {
+      // Backward: if xr already has a base type (from downstream usage) and x1
+      // is unknown, infer x1's type from xr — when x1 is truthy, result = x1,
+      // so x1 must be compatible with xr's type (e.g. delimiter || '.' → str|regexp)
+      if (!k1) {
+        const kr = st.kindOf(st.find(xr));
+        if (kr && isBaseType(kr)) setResult(x1, kr);
+      }
+      continue;
+    }
+    if (k1 === k2) { setResult(xr, k1); continue; }
+    if (isBaseType(k1) && isBaseType(k2)) {
+      const components = [...new Set([...k1.split("|"), ...k2.split("|")])].sort();
+      setResult(xr, components.join("|"));
+    }
+  }
+}
+
 function resolveIndex(st, indexParsed) {
   for (const { xobj, xidx, xresult } of indexParsed) {
     const robj = st.find(xobj);
@@ -886,6 +948,7 @@ function solve(input, quiet = false) {
   const parsed = [];
   const plusParsed = [];
   const unionParsed = [];
+  const logicalUnionParsed = [];
   const indexParsed = [];
   const tplParsed = [];
   for (const line of input.split("\n")) {
@@ -895,6 +958,9 @@ function solve(input, quiet = false) {
     } else if (line.includes("plus(")) {
       const p = parsePlusConstraint(line);
       if (p) plusParsed.push(p);
+    } else if (line.includes("logical_union(")) {
+      const lu = parseLogicalUnionConstraint(line);
+      if (lu) logicalUnionParsed.push(lu);
     } else if (line.includes("union(")) {
       const u = parseUnionConstraint(line);
       if (u) unionParsed.push(u);
@@ -930,6 +996,11 @@ function solve(input, quiet = false) {
     st._reg(x2);
     st._reg(xr);
   }
+  for (const { x1, x2, xr } of logicalUnionParsed) {
+    st._reg(x1);
+    st._reg(x2);
+    st._reg(xr);
+  }
   for (const { xobj, xidx, xresult } of indexParsed) {
     st._reg(xobj);
     st._reg(xidx);
@@ -945,6 +1016,7 @@ function solve(input, quiet = false) {
       ...parsed.map((c) => `${c.lhs} <= ${c.rhs}`),
       ...plusParsed.map((p) => `plus(${p.x1},${p.x2},${p.xr})`),
       ...unionParsed.map((u) => `union(${u.x1},${u.x2},${u.xr})`),
+      ...logicalUnionParsed.map((lu) => `logical_union(${lu.x1},${lu.x2},${lu.xr})`),
       ...tplParsed.map((t) => `tpl(${t.xexpr})`),
     ];
     const pad = String(allC.length).length;
@@ -965,12 +1037,14 @@ function solve(input, quiet = false) {
 
     resolvePlus(st, plusParsed);
     resolveUnion(st, unionParsed);
+    resolveLogicalUnion(st, logicalUnionParsed);
     resolveIndex(st, indexParsed);
     resolveTpl(st, tplParsed);
   } else {
     for (const { lhs, rhs } of parsed) st.process(lhs, rhs);
     resolvePlus(st, plusParsed);
     resolveUnion(st, unionParsed);
+    resolveLogicalUnion(st, logicalUnionParsed);
     resolveIndex(st, indexParsed);
     resolveTpl(st, tplParsed);
   }

@@ -3,3 +3,4 @@ const MyClass = class NamedClass {
     return x * 2;
   }
 };
+

@@ -1,33 +1,37 @@
 
 Constraints:
-  C1: T1 <= num
-  C2: x__compute__MyClass <= num
-  C3: T1 <= num
+  C1: T1 <= Func<compute__MyClass>{x__compute__MyClass -> ret__compute__MyClass}
+  C2: T2 <= num
+  C3: x__compute__MyClass <= num
   C4: T2 <= num
-  C5: T2 <= ret__compute__MyClass
-  C6: MyClass__global <= Class<MyClass>[compute: x__compute__MyClass -> ret__compute__MyClass]
+  C5: T3 <= num
+  C6: T3 <= ret__compute__MyClass
+  C7: MyClass__global <= Class<MyClass>[compute: x__compute__MyClass -> ret__compute__MyClass]
 
 ──────────────────────────────────────────────────────
 Inicio:
- T1:bot, num:bot, x__compute__MyClass:bot, T2:bot, ret__compute__MyClass:bot, MyClass__global:bot, Class<MyClass>[compute: x__compute__MyClass -> ret__compute__MyClass]:bot
+ T1:bot, Func<compute__MyClass>{x__compute__MyClass -> ret__compute__MyClass}:bot, x__compute__MyClass:bot, ret__compute__MyClass:bot, T2:bot, num:bot, T3:bot, MyClass__global:bot, Class<MyClass>[compute: x__compute__MyClass -> ret__compute__MyClass]:bot
 
-1: [T1 <= num]
- T1:num, x__compute__MyClass:bot, T2:bot, ret__compute__MyClass:bot, MyClass__global:bot, Class<MyClass>[compute: x__compute__MyClass -> ret__compute__MyClass]:bot
+1: [T1 <= Func<compute__MyClass>{x__compute__MyClass -> ret__compute__MyClass}]
+ (T1: Func<compute__MyClass>{x__compute__MyClass -> ret__compute__MyClass}), x__compute__MyClass:bot, ret__compute__MyClass:bot, T2:bot, num:bot, T3:bot, MyClass__global:bot, Class<MyClass>[compute: x__compute__MyClass -> ret__compute__MyClass]:bot
 
-2: [x__compute__MyClass <= num]
- T1:num, x__compute__MyClass:num, T2:bot, ret__compute__MyClass:bot, MyClass__global:bot, Class<MyClass>[compute: x__compute__MyClass -> ret__compute__MyClass]:bot
+2: [T2 <= num]
+ (T1: Func<compute__MyClass>{x__compute__MyClass -> ret__compute__MyClass}), x__compute__MyClass:bot, ret__compute__MyClass:bot, T2:num, T3:bot, MyClass__global:bot, Class<MyClass>[compute: x__compute__MyClass -> ret__compute__MyClass]:bot
 
-3: [T1 <= num]
- T1:num, x__compute__MyClass:num, T2:bot, ret__compute__MyClass:bot, MyClass__global:bot, Class<MyClass>[compute: x__compute__MyClass -> ret__compute__MyClass]:bot
+3: [x__compute__MyClass <= num]
+ (T1: Func<compute__MyClass>{x__compute__MyClass -> ret__compute__MyClass}), x__compute__MyClass:num, ret__compute__MyClass:bot, T2:num, T3:bot, MyClass__global:bot, Class<MyClass>[compute: x__compute__MyClass -> ret__compute__MyClass]:bot
 
 4: [T2 <= num]
- T1:num, x__compute__MyClass:num, T2:num, ret__compute__MyClass:bot, MyClass__global:bot, Class<MyClass>[compute: x__compute__MyClass -> ret__compute__MyClass]:bot
+ (T1: Func<compute__MyClass>{x__compute__MyClass -> ret__compute__MyClass}), x__compute__MyClass:num, ret__compute__MyClass:bot, T2:num, T3:bot, MyClass__global:bot, Class<MyClass>[compute: x__compute__MyClass -> ret__compute__MyClass]:bot
 
-5: [T2 <= ret__compute__MyClass]
- T1:num, x__compute__MyClass:num, T2:num, ret__compute__MyClass:num, MyClass__global:bot, Class<MyClass>[compute: x__compute__MyClass -> ret__compute__MyClass]:bot
+5: [T3 <= num]
+ (T1: Func<compute__MyClass>{x__compute__MyClass -> ret__compute__MyClass}), x__compute__MyClass:num, ret__compute__MyClass:bot, T2:num, T3:num, MyClass__global:bot, Class<MyClass>[compute: x__compute__MyClass -> ret__compute__MyClass]:bot
 
-6: [MyClass__global <= Class<MyClass>[compute: x__compute__MyClass -> ret__compute__MyClass]]
- T1:num, x__compute__MyClass:num, T2:num, ret__compute__MyClass:num, (MyClass__global: Class<MyClass>[compute: x__compute__MyClass -> T2])
+6: [T3 <= ret__compute__MyClass]
+ (T1: Func<compute__MyClass>{x__compute__MyClass -> T3}), x__compute__MyClass:num, ret__compute__MyClass:num, T2:num, T3:num, MyClass__global:bot, Class<MyClass>[compute: x__compute__MyClass -> ret__compute__MyClass]:bot
+
+7: [MyClass__global <= Class<MyClass>[compute: x__compute__MyClass -> ret__compute__MyClass]]
+ (T1: Func<compute__MyClass>{x__compute__MyClass -> T3}), x__compute__MyClass:num, ret__compute__MyClass:num, T2:num, T3:num, (MyClass__global: Class<MyClass>[compute: x__compute__MyClass -> T3])
 
 ──────────────────────────────────────────────────────
 ✓  Sem conflitos.

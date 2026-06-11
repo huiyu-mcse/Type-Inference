@@ -1,13 +1,12 @@
 class Animal {
-    constructor(name, age) {
-        this.name = name;
-        this.age = age;
-    }
+  constructor(name, age) {
+    this.name = name;
+    this.age = age;
+  }
 
-    cry() {
-        return "crying";
-    }
-
+  cry() {
+    return "crying";
+  }
 }
 
 class Dog extends Animal {
@@ -27,3 +26,4 @@ d.place_of_birth = "China";
 d.set_weight(30);
 
 //console.log(d);
+

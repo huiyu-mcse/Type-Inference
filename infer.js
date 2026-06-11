@@ -25,7 +25,7 @@ const methodSummaryMap = new Map();
 const _isPlainTV = (t) => /^[A-Za-z_$][A-Za-z0-9_$]*$/.test(t) && t !== "void";
 function addCons(a, b) {
   constraints.push(`${a} <= ${b}`);
-  if (b === "str" || b === "num" || b === "bool") {
+  if (b === "str" || b === "num" || b === "bool" || b === "regexp") {
     if (!typeHints.has(a)) typeHints.set(a, b);
     return;
   }
@@ -70,6 +70,23 @@ function addUnion(a, b, r) {
   }
 }
 
+// deferred logical-union constraints: logical_union(X1, X2, Xr) — && / || result
+// More conservative than union(): both sides must be known to resolve the result.
+const logicalUnionConstraints = [];
+function addLogicalUnion(a, b, r) {
+  logicalUnionConstraints.push(`logical_union(${a},${b},${r})`);
+  const ha = typeHints.get(a);
+  const hb = typeHints.get(b);
+  if (ha && hb) {
+    if (JSON.stringify(ha) === JSON.stringify(hb)) typeHints.set(r, ha);
+    else typeHints.set(r, { kind: "union", hints: [ha, hb] });
+  } else if (ha) {
+    typeHints.set(r, ha);
+  } else if (hb) {
+    typeHints.set(r, hb);
+  }
+}
+
 // deferred index constraints: index(Xobj, Xidx, Xresult)
 const indexConstraints = [];
 const addIndex = (obj, idx, result) =>
@@ -92,6 +109,8 @@ const functionTypes = new Map();
 // resolver/rejector TV → promise resolve/reject target TV
 const resolverTargets = new Map();
 const rejectorTargets = new Map();
+// typeof-guard: origTV → Set<jsType> — collected from typeof x === 'typename' guards
+const typeofGuardMap = new Map();
 // qualNames of async functions (return type is wrapped in Promise)
 const asyncScopes = new Set();
 // class methods: className -> [{name, params, ret}]
@@ -467,6 +486,39 @@ function _accessArrayMethod(propName, elemTV, cacheKey) {
   return methodTV;
 }
 
+// -- typeof-guard extraction -------------------------------------------------
+const TYPEOF_TYPE_MAP = { string: "str", number: "num", boolean: "bool" };
+function extractTypeofGuard(testNode) {
+  // Peel off && layers: `x && typeof x === 'str'`
+  if (testNode.type === "LogicalExpression" && testNode.operator === "&&") {
+    return extractTypeofGuard(testNode.right) ?? extractTypeofGuard(testNode.left);
+  }
+  if (testNode.type !== "BinaryExpression") return null;
+  if (testNode.operator !== "===" && testNode.operator !== "==") return null;
+  let typeofExpr, literalNode;
+  if (
+    testNode.left.type === "UnaryExpression" &&
+    testNode.left.operator === "typeof" &&
+    testNode.right.type === "Literal"
+  ) {
+    typeofExpr = testNode.left;
+    literalNode = testNode.right;
+  } else if (
+    testNode.right.type === "UnaryExpression" &&
+    testNode.right.operator === "typeof" &&
+    testNode.left.type === "Literal"
+  ) {
+    typeofExpr = testNode.right;
+    literalNode = testNode.left;
+  } else {
+    return null;
+  }
+  if (typeofExpr.argument.type !== "Identifier") return null;
+  const jsType = TYPEOF_TYPE_MAP[literalNode.value];
+  if (!jsType) return null;
+  return { ident: typeofExpr.argument.name, jsType };
+}
+
 // -- parameter binding helper ------------------------------------------------
 // Returns Array<{ name, tv }>.  ObjectPattern flattens to multiple entries.
 function declareParam(p, fnEnv, qualName) {
@@ -476,8 +528,12 @@ function declareParam(p, fnEnv, qualName) {
 
     case "AssignmentPattern": {
       if (p.left.type === "ObjectPattern") {
-        // e.g. { a = 0 } = {}
-        return declareParam(p.left, fnEnv, qualName);
+        // e.g. { registry = "", timeout = null } = {}
+        // The whole pattern is ONE object parameter; apply the outer default too.
+        const entries = declareParam(p.left, fnEnv, qualName);
+        const defTV = inferExpr(p.right, fnEnv, qualName);
+        if (entries.length === 1) addCons(defTV, entries[0].tv);
+        return entries;
       }
       // e.g.  x = 0
       const [{ name, tv }] = declareParam(p.left, fnEnv, qualName);
@@ -487,14 +543,46 @@ function declareParam(p, fnEnv, qualName) {
     }
 
     case "ObjectPattern": {
-      // e.g.  { a ...b = 0,}
-      // Each field becomes its own positional param; defaults add constraints.
-      const results = [];
+      // One object parameter destructured into named bindings.
+      // Create a single TV for the whole object, then add a structural field
+      // constraint for each property so the caller's object type is captured.
+      const optsTV = fresh();
+      addCons(optsTV, "{}");
       for (const prop of p.properties) {
         if (prop.type === "RestElement") continue;
-        results.push(...declareParam(prop.value, fnEnv, qualName));
+        const keyName = prop.key?.name ?? prop.key?.value;
+        if (!keyName) continue;
+        const fieldTV = fresh();
+        addCons(optsTV, `{${keyName}: ${fieldTV}}`);
+        if (prop.value.type === "Identifier") {
+          const localTV = envDeclare(fnEnv, prop.value.name, qualName);
+          addCons(fieldTV, localTV);
+        } else if (
+          prop.value.type === "AssignmentPattern" &&
+          prop.value.left.type === "Identifier"
+        ) {
+          const localTV = envDeclare(fnEnv, prop.value.left.name, qualName);
+          addCons(fieldTV, localTV);
+          const defTV = inferExpr(prop.value.right, fnEnv, qualName);
+          addCons(defTV, localTV);
+        }
       }
-      return results;
+      return [{ name: "_opts", tv: optsTV }];
+    }
+
+    case "ArrayPattern": {
+      // e.g.  function f([a, b]) — one array parameter; a,b are local element bindings
+      const arrTV = fresh();
+      const elemTV = fresh();
+      addCons(arrTV, `Array<${elemTV}>`);
+      for (const el of p.elements ?? []) {
+        if (!el || el.type === "RestElement") continue;
+        if (el.type === "Identifier") {
+          const localTV = envDeclare(fnEnv, el.name, qualName);
+          addCons(elemTV, localTV);
+        }
+      }
+      return [{ name: `_arr`, tv: arrTV }];
     }
 
     case "RestElement":
@@ -512,10 +600,24 @@ function declareParam(p, fnEnv, qualName) {
   }
 }
 
+// Walk up the scope chain (by stripping the innermost "name__" prefix) to find
+// the nearest scope that has a classMethodThisAttrs entry.  Returns the scope
+// string if found, null otherwise.
+function findMethodScope(scope) {
+  let s = scope;
+  while (s) {
+    if (classMethodThisAttrs.has(s)) return s;
+    const idx = s.indexOf("__");
+    if (idx < 0) return null;
+    s = s.slice(idx + 2);
+  }
+  return null;
+}
+
 // -- function node helper ----------------------------------------------------
 // for FunctionExpression, ArrowFunctionExpression,
 // and the FunctionExpression-as-property case inside ObjectExpression.
-function inferFuncNode(funcNode, fnName, fnScope, env, xTarget) {
+function inferFuncNode(funcNode, fnName, fnScope, env, xTarget, thisTV = null) {
   const qualName = `${fnName}__${fnScope}`;
 
   if (funcNode.async) {
@@ -525,6 +627,16 @@ function inferFuncNode(funcNode, fnName, fnScope, env, xTarget) {
   }
 
   const fnEnv = new Map(env);
+  // Bind `this` for regular (non-arrow) functions assigned to a property.
+  if (thisTV !== null && funcNode.type === "FunctionExpression") {
+    fnEnv.set("this", thisTV);
+  }
+  // `arguments` is implicitly available in every non-arrow function.
+  if (funcNode.type !== "ArrowFunctionExpression") {
+    const Xargs = fresh();
+    addCons(Xargs, `Array<{}>`);
+    fnEnv.set("arguments", Xargs);
+  }
   const paramNames = [];
   const paramTVs = [];
   for (const p of funcNode.params) {
@@ -643,7 +755,14 @@ function inferPromiseThen(node, env, scope) {
     X_cb_ret = `ret__${cbQualName}`;
     functionTypes.set(cbQualName, { params: paramTVs, ret: X_cb_ret });
   } else if (cb) {
-    inferExpr(cb, env, scope);
+    // Callback is a reference (identifier or expression), e.g. .then(buildCredential).
+    // Treat it as a 1-arg function: its param unifies with the upstream resolve type
+    // and its return type becomes the downstream resolve type.
+    const X_cb = inferExpr(cb, env, scope);
+    const X_param = fresh();
+    addCons(X_res, X_param);
+    X_cb_ret = fresh();
+    addCons(X_cb, `Func<then_ref>{${X_param} -> ${X_cb_ret}}`);
   }
 
   const X_result = fresh();
@@ -750,7 +869,8 @@ function inferObjectExpr(node, env, scope, ownerName) {
       const fnName = ownerName ? `${ownerName}.${localName}` : localName;
       const fnScope = scope;
       const Xval_fn = fresh();
-      inferFuncNode(p.value, fnName, fnScope, env, Xval_fn);
+      const objThisTV = p.value.type === "FunctionExpression" ? Xobj : null;
+      inferFuncNode(p.value, fnName, fnScope, env, Xval_fn, objThisTV);
       Xval = Xval_fn;
     } else {
       Xval = inferExpr(p.value, env, scope);
@@ -929,6 +1049,45 @@ function inferClassNode(node, className, env) {
       classCtorQualName.set(node.id.name, classCtorQualName.get(className));
   }
 
+  // Pre-seed each method's classMethodThisAttrs with:
+  //   - constructor attrs: links this.field in any method to the same TV as
+  //     the corresponding constructor param, so field-type constraints flow
+  //     between methods and the constructor.
+  //   - sibling method TVs: links this.method(args) calls inside one method
+  //     to the actual method signature, so argument types propagate correctly.
+  //     Getters are seeded with their return-value TV (property access = call).
+  const methodFieldTVs = new Map(); // methodName → TV for this.method reads
+  for (const { m, qualName: mq, isCtor: ic } of methodEntries) {
+    if (ic) continue;
+    const mName = m.key.name;
+    const mDef = methods.find((e) => e.name === mName);
+    if (!mDef) continue;
+    if (m.kind === "get") {
+      methodFieldTVs.set(mName, mDef.ret);
+    } else if (m.kind === "method") {
+      const mfv = fresh();
+      const sig =
+        mDef.params.length === 0
+          ? `Func<${mq}>{void -> ${mDef.ret}}`
+          : `Func<${mq}>{${[...mDef.params, mDef.ret].join(" -> ")}}`;
+      addCons(mfv, sig);
+      methodFieldTVs.set(mName, mfv);
+    }
+  }
+  for (const { qualName: mq, isCtor: ic } of methodEntries) {
+    if (ic) continue;
+    const thisAttrs = classMethodThisAttrs.get(mq) ?? [];
+    for (const ctorAttr of attrs) {
+      if (!thisAttrs.some((a) => a.name === ctorAttr.name))
+        thisAttrs.push({ name: ctorAttr.name, tv: ctorAttr.tv });
+    }
+    for (const [mName, mTV] of methodFieldTVs) {
+      if (!thisAttrs.some((a) => a.name === mName))
+        thisAttrs.push({ name: mName, tv: mTV });
+    }
+    classMethodThisAttrs.set(mq, thisAttrs);
+  }
+
   // process method bodies
   for (const { m, fnEnv, qualName, isCtor } of methodEntries) {
     if (isCtor) {
@@ -1051,11 +1210,12 @@ function inferExpr(node, env, scope) {
   switch (node.type) {
     // -- Primitives and Variables ----------------------------------
     case "Literal": {
-      // e.g. 3, "haha", true,...
+      // e.g. 3, "haha", true, /pattern/flags
       const X = fresh();
       if (typeof node.value === "number") addCons(X, "num");
       else if (typeof node.value === "string") addCons(X, "str");
       else if (typeof node.value === "boolean") addCons(X, "bool");
+      else if (node.regex) addCons(X, "regexp");
       return X;
     }
 
@@ -1076,6 +1236,9 @@ function inferExpr(node, env, scope) {
       // e.g. x, y,...
       return envGet(env, node.name, scope);
     }
+
+    case "ThisExpression":
+      return envGet(env, "this", scope);
 
     // -- Operations ------------------------------------------------
     case "BinaryExpression":
@@ -1099,9 +1262,8 @@ function inferExpr(node, env, scope) {
         addCons(X2, X1);
         addCons(Xr, "bool");
       } else if (["&&", "||"].includes(op)) {
-        // && and || work on any truthy/falsy value; operands are unconstrained.
-        // Result is one of the operands, which we can't express without unions,
-        // so leave Xr unconstrained.
+        // Result is one of the operands, but only resolvable when both sides are known.
+        addLogicalUnion(X1, X2, Xr);
       }
       return Xr;
     }
@@ -1162,6 +1324,21 @@ function inferExpr(node, env, scope) {
     }
 
     case "MemberExpression": {
+      // this.prop read inside a class method — use the shared field TV so reads
+      // and writes share one TV per field, even in nested arrow functions.
+      if (!node.computed && node.object.type === "ThisExpression") {
+        const methodScope = findMethodScope(scope);
+        if (methodScope) {
+          const fieldName = node.property.name;
+          const attrs = classMethodThisAttrs.get(methodScope);
+          let attr = attrs.find((a) => a.name === fieldName);
+          if (!attr) {
+            attr = { name: fieldName, tv: fresh() };
+            attrs.push(attr);
+          }
+          return attr.tv;
+        }
+      }
       // e.g. obj.prop, arr[index], ...
       const Xobj = inferExpr(node.object, env, scope);
 
@@ -1190,6 +1367,14 @@ function inferExpr(node, env, scope) {
           typeHints.set(Xobj, { kind: "arr", elem: elemTV });
           const cacheKey = `${Xobj}::${node.property.name}`;
           return _accessArrayMethod(node.property.name, elemTV, cacheKey);
+        }
+        // "length" is universal (present on both str and Array) — return num
+        // without adding a structural constraint that would force the receiver
+        // to be an object and block str|Array<T> union inference later.
+        if (!typeHints.has(Xobj) && node.property.name === "length") {
+          const Xlen = fresh();
+          addCons(Xlen, "num");
+          return Xlen;
         }
         const X3 = fresh();
         addCons(Xobj, `{${node.property.name}: ${X3}}`);
@@ -1221,8 +1406,18 @@ function inferExpr(node, env, scope) {
           const cacheKey = `${Xobj}::${node.property.value}`;
           return _accessArrayMethod(node.property.value, elemTV, cacheKey);
         }
+        if (!typeHints.has(Xobj) && node.property.value === "length") {
+          const Xlen = fresh();
+          addCons(Xlen, "num");
+          return Xlen;
+        }
         const X3 = fresh();
-        addCons(Xobj, `{${node.property.value}: ${X3}}`);
+        if (node.property.value !== "") {
+          addCons(Xobj, `{${node.property.value}: ${X3}}`);
+        } else {
+          // empty-string key: just an existence probe, don't add a named field
+          addIndex(Xobj, fresh(), X3);
+        }
         return X3;
       } else if (
         node.property.type === "Literal" &&
@@ -1255,12 +1450,51 @@ function inferExpr(node, env, scope) {
       ) {
         return inferNewInstance(node, env, scope);
       }
+      // Known built-in constructors: new Error(...), new TypeError(...), etc.
+      if (node.callee.type === "Identifier") {
+        const ctorSig = summaries.__globalConstructors__?.[node.callee.name];
+        if (ctorSig) {
+          node.arguments.forEach((arg, i) => {
+            const Xi = inferExpr(arg, env, scope);
+            const p = ctorSig.params[i];
+            if (p) addCons(Xi, typeof p === "string" ? p : p.type ?? "{}");
+          });
+          return summaries.buildTypeTV(ctorSig.ret, node.callee.name, fresh, addCons);
+        }
+      }
       for (const arg of node.arguments) inferExpr(arg, env, scope);
       return fresh();
     }
 
     case "CallExpression": {
       // ex: f(e1, e2, ..., en)
+
+      // fn.call(thisArg, a, b, ...) → fn(a, b, ...)
+      // Avoids adding a spurious {call: T} structural constraint to `fn`.
+      if (
+        node.callee.type === "MemberExpression" &&
+        !node.callee.computed &&
+        node.callee.property.name === "call"
+      ) {
+        return inferExpr(
+          { type: "CallExpression", callee: node.callee.object, arguments: node.arguments.slice(1) },
+          env, scope,
+        );
+      }
+
+      // fn.apply(thisArg, argsArray) → call fn as a generic function, infer argsArray
+      if (
+        node.callee.type === "MemberExpression" &&
+        !node.callee.computed &&
+        node.callee.property.name === "apply"
+      ) {
+        const Xcallee = inferExpr(node.callee.object, env, scope);
+        if (node.arguments.length >= 2) inferExpr(node.arguments[1], env, scope);
+        const Xret = fresh();
+        addCons(Xcallee, `Func<apply_ret>{() -> ${Xret}}`);
+        return Xret;
+      }
+
       if (
         node.callee.type === "MemberExpression" &&
         !node.callee.computed &&
@@ -1545,10 +1779,16 @@ function inferExpr(node, env, scope) {
         !lhs.computed &&
         lhs.object.type === "ThisExpression"
       ) {
-        const attr = (classMethodThisAttrs.get(scope) ?? []).find(
-          (a) => a.name === lhs.property.name,
-        );
-        if (attr) addCons(Xrhs, attr.tv);
+        const methodScope = findMethodScope(scope);
+        if (methodScope) {
+          const attrs = classMethodThisAttrs.get(methodScope);
+          let attr = attrs.find((a) => a.name === lhs.property.name);
+          if (!attr) {
+            attr = { name: lhs.property.name, tv: fresh() };
+            attrs.push(attr);
+          }
+          addCons(Xrhs, attr.tv);
+        }
       }
       return Xrhs;
     }
@@ -1669,9 +1909,20 @@ function inferStmt(node, env, scope) {
     }
 
     case "IfStatement": {
-      // e.g. if (test) {consequent} (else {alternate})
-      const Xcond = inferExpr(node.test, env, scope);
-      inferStmt(node.consequent, env, scope);
+      inferExpr(node.test, env, scope);
+      const guard = extractTypeofGuard(node.test);
+      if (guard) {
+        const origTV = envGet(env, guard.ident, scope);
+        const shadowTV = fresh();
+        typeHints.set(shadowTV, guard.jsType);
+        env.set(guard.ident, shadowTV);
+        inferStmt(node.consequent, env, scope);
+        env.set(guard.ident, origTV);
+        if (!typeofGuardMap.has(origTV)) typeofGuardMap.set(origTV, new Set());
+        typeofGuardMap.get(origTV).add(guard.jsType);
+      } else {
+        inferStmt(node.consequent, env, scope);
+      }
       if (node.alternate) inferStmt(node.alternate, env, scope);
       break;
     }
@@ -1802,6 +2053,18 @@ function inferStmt(node, env, scope) {
               addCons(propTV, localTV);
             } else {
               addCons(Xrhs, `{${keyName}: ${localTV}}`);
+            }
+          }
+        } else if (decl.id.type === "ArrayPattern") {
+          // const [a, b] = expr  — array destructuring
+          const Xrhs = decl.init ? inferExpr(decl.init, env, scope) : fresh();
+          const Xelem = fresh();
+          addCons(Xrhs, `Array<${Xelem}>`);
+          for (const el of decl.id.elements) {
+            if (!el || el.type === "RestElement") continue;
+            if (el.type === "Identifier") {
+              const localTV = envDeclare(env, el.name, scope);
+              addCons(Xelem, localTV);
             }
           }
         } else {
@@ -1966,25 +2229,39 @@ function inferExprStmt(node, env, scope) {
         lhs.object.type !== "ThisExpression"
       ) {
         // x.p = e  or  a.b.c = e  (arbitrarily deep)
-        const X1 = inferExpr(rhs, env, scope);
+        // Infer the object first so function RHS can bind `this` to it.
         const X2 = inferExpr(lhs.object, env, scope);
+        let X1;
+        if (rhs.type === "FunctionExpression") {
+          const fnName = rhs.id?.name ?? lhs.property.name;
+          X1 = mkTV(fnName, scope);
+          inferFuncNode(rhs, fnName, scope, env, X1, X2);
+        } else {
+          X1 = inferExpr(rhs, env, scope);
+        }
         const prop = lhs.property.name;
         addCons(X2, `{${prop}: ${X1}}`);
         return;
       }
 
       if (
-        // this.p = e  (inside a class method)
+        // this.p = e  (inside a class method or nested arrow function)
         lhs.type === "MemberExpression" &&
         !lhs.computed &&
         lhs.object.type === "ThisExpression"
       ) {
         const fieldName = lhs.property.name;
         const X_rhs = inferExpr(rhs, env, scope);
-        const attr = (classMethodThisAttrs.get(scope) ?? []).find(
-          (a) => a.name === fieldName,
-        );
-        if (attr) addCons(X_rhs, attr.tv);
+        const methodScope = findMethodScope(scope);
+        if (methodScope) {
+          const attrs = classMethodThisAttrs.get(methodScope);
+          let attr = attrs.find((a) => a.name === fieldName);
+          if (!attr) {
+            attr = { name: fieldName, tv: fresh() };
+            attrs.push(attr);
+          }
+          addCons(X_rhs, attr.tv);
+        }
         return;
       }
 
@@ -2090,6 +2367,11 @@ for (const name of summaries.__globals__ ?? []) {
 }
 if (ast) inferStmt(ast, globalEnv, "global");
 
+for (const [tv, types] of typeofGuardMap.entries()) {
+  const union = [...types].sort().join("|");
+  constraints.push(`${tv} <= ${union}`);
+}
+
 // ── Output ────────────────────────────────────────────────────────────────────
 const SEP = "─".repeat(60);
 console.log(`\nType Inference Constraints`);
@@ -2100,6 +2382,7 @@ const allConstraints = [
   ...constraints,
   ...plusConstraints,
   ...unionConstraints,
+  ...logicalUnionConstraints,
   ...indexConstraints,
   ...tplConstraints,
 ];
