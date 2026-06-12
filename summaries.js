@@ -334,6 +334,13 @@ summaries["semver"] = {
   minVersion: { params: ["str", SEMVER_OPTS], ret: "{}" },
 };
 
+summaries["shelljs"] = {
+  exec: {
+    params: ["str", { type: "{}", optional: true }],
+    ret: { kind: "struct", fields: { code: "num", output: "str" } },
+  },
+};
+
 summaries["http"] = {
   createServer: {
     params: [
@@ -395,7 +402,7 @@ summaries["https"] = {
 // These are pre-declared in the initial environment (not via require()).
 
 summaries["JSON"] = {
-  stringify: { params: ["{}"], ret: "str" },
+  stringify: { params: ["bot"], ret: "str" },
   parse: { params: ["str"], ret: "{}" },
 };
 
@@ -500,26 +507,19 @@ summaries.__globalCallables__ = {
   String: { params: ["{}"], ret: "str" },
   Number: { params: ["{}"], ret: "num" },
   Boolean: { params: ["{}"], ret: "bool" },
+  eval: { params: ["str"], ret: "bot" },
 };
 
-const ERROR_SHAPE = {
-  kind: "struct",
-  fields: { message: "str", stack: "str" },
-};
-
-// Built-in constructors: new Error(...) → {message: str, stack: str}, etc.
+// Built-in constructors: new Error(...) → error, etc.
 summaries.__globalConstructors__ = {
   RegExp: { params: ["str", { type: "str", optional: true }], ret: "regexp" },
-  Error: { params: [{ type: "str", optional: true }], ret: ERROR_SHAPE },
-  TypeError: { params: [{ type: "str", optional: true }], ret: ERROR_SHAPE },
-  RangeError: { params: [{ type: "str", optional: true }], ret: ERROR_SHAPE },
-  SyntaxError: { params: [{ type: "str", optional: true }], ret: ERROR_SHAPE },
-  ReferenceError: {
-    params: [{ type: "str", optional: true }],
-    ret: ERROR_SHAPE,
-  },
-  EvalError: { params: [{ type: "str", optional: true }], ret: ERROR_SHAPE },
-  URIError: { params: [{ type: "str", optional: true }], ret: ERROR_SHAPE },
+  Error: { params: [{ type: "str", optional: true }], ret: "error" },
+  TypeError: { params: [{ type: "str", optional: true }], ret: "error" },
+  RangeError: { params: [{ type: "str", optional: true }], ret: "error" },
+  SyntaxError: { params: [{ type: "str", optional: true }], ret: "error" },
+  ReferenceError: { params: [{ type: "str", optional: true }], ret: "error" },
+  EvalError: { params: [{ type: "str", optional: true }], ret: "error" },
+  URIError: { params: [{ type: "str", optional: true }], ret: "error" },
 };
 
 // ── Built-in type methods ─────────────────────────────────────────────────────
@@ -570,6 +570,9 @@ summaries.__typeMethods__ = {
     test: { params: ["str"], ret: "bool" },
     toString: { params: [], ret: "str" },
   },
+  error: {
+    toString: { params: [], ret: "str" },
+  },
 };
 
 // Non-callable properties on built-in types.
@@ -578,6 +581,11 @@ summaries.__typeProps__ = {
   arr: { length: "num" },
   num: {},
   bool: {},
+  error: {
+    message: "str",
+    stack: "str",
+    name: "str",
+  },
   regexp: {
     source: "str",
     flags: "str",

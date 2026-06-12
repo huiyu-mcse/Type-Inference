@@ -25,7 +25,7 @@ const methodSummaryMap = new Map();
 const _isPlainTV = (t) => /^[A-Za-z_$][A-Za-z0-9_$]*$/.test(t) && t !== "void";
 function addCons(a, b) {
   constraints.push(`${a} <= ${b}`);
-  if (b === "str" || b === "num" || b === "bool" || b === "regexp") {
+  if (b === "str" || b === "num" || b === "bool" || b === "regexp" || b === "error") {
     if (!typeHints.has(a)) typeHints.set(a, b);
     return;
   }
@@ -123,6 +123,8 @@ const classCtorParams = new Map();
 const classCtorQualName = new Map();
 // this.x = e attrs in non-constructor methods: qualName -> [{name, tv}]
 const classMethodThisAttrs = new Map();
+// pre-built fnEnvs for prototype-pattern methods: qualName -> fnEnv
+const protoMethodEnvs = new Map();
 // TV -> { modName: string, cache: Map<propName, methodTV> }
 // Records TVs that represent lazy-module require() results.
 const moduleTV = new Map();
@@ -301,6 +303,7 @@ const ARRAY_EXCLUSIVE_METHODS = new Set([
   "shift",
   "unshift",
   "splice",
+  "join",
   "forEach",
   "map",
   "filter",
@@ -674,6 +677,7 @@ function inferFuncNode(funcNode, fnName, fnScope, env, xTarget, thisTV = null) {
 
   if (xTarget) {
     addCons(xTarget, funcType(qualName, paramTVs, retTV));
+    typeHints.set(xTarget, "func");
   }
 
   return;
@@ -917,6 +921,139 @@ function inferNewInstance(node, env, scope) {
 }
 
 // -- Class node helper --------------------------------------------------------
+function setupProtoClasses(protoGroups, statements, env, scope) {
+  for (const [ctorName, methodList] of protoGroups) {
+    // Find the constructor body node
+    let ctorBody = null;
+    for (const s of statements) {
+      if (s.type === "FunctionDeclaration" && s.id?.name === ctorName) {
+        ctorBody = s.body;
+        break;
+      }
+      if (s.type === "VariableDeclaration") {
+        for (const d of s.declarations) {
+          if (
+            d.id?.name === ctorName &&
+            (d.init?.type === "FunctionExpression" ||
+              d.init?.type === "ArrowFunctionExpression")
+          ) {
+            ctorBody = d.init.body;
+            break;
+          }
+        }
+      }
+      if (ctorBody) break;
+    }
+
+    // Collect this.x = ... field names from constructor body
+    const ctorFields = [];
+    if (ctorBody?.type === "BlockStatement") {
+      for (const stmt of ctorBody.body) {
+        if (
+          stmt.type === "ExpressionStatement" &&
+          stmt.expression?.type === "AssignmentExpression" &&
+          stmt.expression.operator === "=" &&
+          stmt.expression.left?.type === "MemberExpression" &&
+          stmt.expression.left.object?.type === "ThisExpression" &&
+          !stmt.expression.left.computed
+        ) {
+          const fname = stmt.expression.left.property.name;
+          if (!ctorFields.includes(fname)) ctorFields.push(fname);
+        }
+      }
+    }
+
+    const ctorAttrs = ctorFields.map((name) => ({ name, tv: fresh() }));
+    classCtorParams.set(ctorName, ctorAttrs);
+
+    const ctorQualName = `${ctorName}__${scope}`;
+    classCtorQualName.set(ctorName, ctorQualName);
+    // Register ctor scope so this.x = ... writes in the ctor body share the TVs
+    classMethodThisAttrs.set(ctorQualName, ctorAttrs.map((a) => ({ ...a })));
+
+    // Declare params/ret TVs and scan this.x writes for each method
+    const methodDefs = [];
+    for (const { methodName, funcNode } of methodList) {
+      const qualName = `${methodName}__${ctorName}`;
+      const fnEnv = new Map(env);
+      const paramNames = [],
+        paramTVs = [];
+      for (const p of funcNode.params) {
+        for (const { name: pn, tv } of declareParam(p, fnEnv, qualName)) {
+          paramNames.push(pn);
+          paramTVs.push(tv);
+        }
+      }
+      functionParams.set(qualName, paramNames);
+      const retTV = `ret__${qualName}`;
+      functionTypes.set(qualName, { params: paramTVs, ret: retTV });
+
+      const thisAttrs = [];
+      for (const stmt of funcNode.body?.body ?? []) {
+        if (
+          stmt.type === "ExpressionStatement" &&
+          stmt.expression?.type === "AssignmentExpression" &&
+          stmt.expression.operator === "=" &&
+          stmt.expression.left?.type === "MemberExpression" &&
+          stmt.expression.left.object?.type === "ThisExpression" &&
+          !stmt.expression.left.computed
+        ) {
+          const fname = stmt.expression.left.property.name;
+          if (!thisAttrs.some((a) => a.name === fname))
+            thisAttrs.push({ name: fname, tv: fresh() });
+        }
+      }
+      classMethodThisAttrs.set(qualName, thisAttrs);
+
+      methodDefs.push({ name: methodName, params: paramTVs, ret: retTV, qualName, fnEnv });
+      protoMethodEnvs.set(qualName, fnEnv);
+    }
+    classMethods.set(
+      ctorName,
+      methodDefs.map((m) => ({ name: m.name, params: m.params, ret: m.ret })),
+    );
+
+    // Pre-seed: ctor attrs + sibling method TVs into each method's classMethodThisAttrs
+    const methodFieldTVs = new Map();
+    for (const mDef of methodDefs) {
+      const mfv = fresh();
+      const sig =
+        mDef.params.length === 0
+          ? `Func<${mDef.qualName}>{void -> ${mDef.ret}}`
+          : `Func<${mDef.qualName}>{${[...mDef.params, mDef.ret].join(" -> ")}}`;
+      addCons(mfv, sig);
+      methodFieldTVs.set(mDef.name, mfv);
+    }
+    for (const mDef of methodDefs) {
+      const thisAttrs = classMethodThisAttrs.get(mDef.qualName) ?? [];
+      for (const ctorAttr of ctorAttrs) {
+        if (!thisAttrs.some((a) => a.name === ctorAttr.name))
+          thisAttrs.push({ name: ctorAttr.name, tv: ctorAttr.tv });
+      }
+      for (const [mName, mTV] of methodFieldTVs) {
+        if (!thisAttrs.some((a) => a.name === mName))
+          thisAttrs.push({ name: mName, tv: mTV });
+      }
+      classMethodThisAttrs.set(mDef.qualName, thisAttrs);
+    }
+
+    // Generate Class<> constraint on the constructor TV, mirroring inferClassNode.
+    const attrSig = ctorAttrs.map((a) => `${a.name}: ${a.tv}`).join(", ");
+    const methodSig = methodDefs
+      .map((m) =>
+        m.params.length === 0
+          ? `${m.name}: void -> ${m.ret}`
+          : `${m.name}: ${[...m.params, m.ret].join(" -> ")}`,
+      )
+      .join(", ");
+    const classParts = [];
+    if (attrSig) classParts.push(attrSig);
+    if (methodSig) classParts.push(methodSig);
+    const ctorTV = mkTV(ctorName, scope);
+    addCons(ctorTV, `Class<${ctorName}>[${classParts.join(", ")}]`);
+  }
+}
+
 function inferClassNode(node, className, env) {
   const methods = [];
   const attrs = [];
@@ -1377,7 +1514,9 @@ function inferExpr(node, env, scope) {
           return Xlen;
         }
         const X3 = fresh();
-        addCons(Xobj, `{${node.property.name}: ${X3}}`);
+        if (typeHints.get(Xobj) !== "func") {
+          addCons(Xobj, `{${node.property.name}: ${X3}}`);
+        }
         return X3;
       } else if (
         node.property.type === "Literal" &&
@@ -1900,6 +2039,37 @@ function inferStmt(node, env, scope) {
     // -- Control Flow --------------------------------------------------------
     case "Program":
     case "BlockStatement": {
+      // Hoist function declarations so forward references resolve correctly.
+      for (const s of node.body) {
+        if (s.type === "FunctionDeclaration" && s.id) {
+          envDeclare(env, s.id.name, scope);
+        }
+      }
+      // Detect X.prototype.Y = function(...) patterns and set up class infrastructure.
+      const protoGroups = new Map();
+      for (const s of node.body) {
+        if (
+          s.type === "ExpressionStatement" &&
+          s.expression?.type === "AssignmentExpression" &&
+          s.expression.operator === "=" &&
+          s.expression.left?.type === "MemberExpression" &&
+          !s.expression.left.computed &&
+          s.expression.left.object?.type === "MemberExpression" &&
+          !s.expression.left.object.computed &&
+          s.expression.left.object.property?.name === "prototype" &&
+          s.expression.left.object.object?.type === "Identifier" &&
+          (s.expression.right?.type === "FunctionExpression" ||
+            s.expression.right?.type === "ArrowFunctionExpression")
+        ) {
+          const ctorName = s.expression.left.object.object.name;
+          const methodName = s.expression.left.property.name;
+          const funcNode = s.expression.right;
+          if (!protoGroups.has(ctorName)) protoGroups.set(ctorName, []);
+          protoGroups.get(ctorName).push({ methodName, funcNode });
+        }
+      }
+      if (protoGroups.size > 0) setupProtoClasses(protoGroups, node.body, env, scope);
+
       for (const s of node.body) {
         if (inferStmt(s, env, scope)) {
           hasReturn = true;
@@ -2120,6 +2290,7 @@ function inferStmt(node, env, scope) {
       });
 
       addCons(fnTV, funcType(qualName, paramTVs, retTV));
+      typeHints.set(fnTV, "func");
       break;
     }
 
@@ -2191,7 +2362,8 @@ function inferStmt(node, env, scope) {
       inferStmt(node.block, env, scope);
       if (node.handler) {
         if (node.handler.param) {
-          envDeclare(env, node.handler.param.name, scope);
+          const errTV = envDeclare(env, node.handler.param.name, scope);
+          addCons(errTV, "error");
         }
         inferStmt(node.handler.body, env, scope);
       }
@@ -2228,6 +2400,40 @@ function inferExprStmt(node, env, scope) {
         !lhs.computed &&
         lhs.object.type !== "ThisExpression"
       ) {
+        // X.prototype.Y = function(...) — prototype-pattern method definition
+        if (
+          lhs.object?.type === "MemberExpression" &&
+          !lhs.object.computed &&
+          lhs.object.property?.name === "prototype" &&
+          lhs.object.object?.type === "Identifier" &&
+          (rhs.type === "FunctionExpression" ||
+            rhs.type === "ArrowFunctionExpression")
+        ) {
+          const ctorName = lhs.object.object.name;
+          const methodName = lhs.property.name;
+          const qualName = `${methodName}__${ctorName}`;
+          if (protoMethodEnvs.has(qualName)) {
+            const fnEnv = protoMethodEnvs.get(qualName);
+            const { params: paramTVs, ret: retTV } = functionTypes.get(qualName);
+            if (rhs.async) asyncScopes.add(qualName);
+            let hasReturn;
+            if (
+              rhs.type === "ArrowFunctionExpression" &&
+              rhs.body.type !== "BlockStatement"
+            ) {
+              addCons(inferExpr(rhs.body, fnEnv, qualName), retTV);
+              hasReturn = true;
+            } else {
+              hasReturn = inferStmt(rhs.body, fnEnv, qualName);
+            }
+            if (!hasReturn) addCons("void", retTV);
+            const mfv = mkTV(methodName, scope);
+            addCons(mfv, funcType(qualName, paramTVs, retTV));
+            typeHints.set(mfv, "func");
+            return;
+          }
+        }
+
         // x.p = e  or  a.b.c = e  (arbitrarily deep)
         // Infer the object first so function RHS can bind `this` to it.
         const X2 = inferExpr(lhs.object, env, scope);

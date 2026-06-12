@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 "use strict";
 
-const BASE_TYPES = new Set(["str", "num", "bool", "void", "regexp"]);
+const BASE_TYPES = new Set(["str", "num", "bool", "void", "regexp", "error"]);
 const isBaseType = (t) =>
   BASE_TYPES.has(t) ||
   (t.includes("|") && t.split("|").every((p) => BASE_TYPES.has(p)));
@@ -660,31 +660,6 @@ class State {
         .join(", ");
       return `{${inner}}`;
     }
-    if (this.isFuncType.get(rep)) {
-      const { name, params, ret } = this.funcInfo.get(rep);
-      const resolvedRet = this.resolveType(ret, new Set(visited));
-      if (params.length === 0) return `Func<${name}>{() -> ${resolvedRet}}`;
-      const resolvedParams = params.map((p) =>
-        this.resolveType(p, new Set(visited)),
-      );
-      return `Func<${name}>{${[...resolvedParams, resolvedRet].join(" -> ")}}`;
-    }
-    if (this.isPromiseType.get(rep)) {
-      const res = this.resolveType(
-        this.promiseResolve.get(rep),
-        new Set(visited),
-      );
-      const rej = this.resolveType(
-        this.promiseReject.get(rep),
-        new Set(visited),
-      );
-      if (isPromise(res)) return res;
-      return `Promise<${res}, ${rej}>`;
-    }
-    if (this.isResolverType.get(rep))
-      return `Resolver<${this.resolveType(this.resolverInner.get(rep), new Set(visited))}>`;
-    if (this.isRejectorType.get(rep))
-      return `Rejector<${this.resolveType(this.rejectorInner.get(rep), new Set(visited))}>`;
     if (this.classKind.has(rep)) {
       const kind = this.classKind.get(rep);
       const name = this.className.get(rep);
@@ -702,6 +677,25 @@ class State {
         .join(", ");
       return `${kind}<${name}>[${inner}]`;
     }
+    if (this.isFuncType.get(rep)) {
+      const { name, params, ret } = this.funcInfo.get(rep);
+      const resolvedRet = this.resolveType(ret, new Set(visited));
+      if (params.length === 0) return `Func<${name}>{() -> ${resolvedRet}}`;
+      const resolvedParams = params.map((p) =>
+        this.resolveType(p, new Set(visited)),
+      );
+      return `Func<${name}>{${[...resolvedParams, resolvedRet].join(" -> ")}}`;
+    }
+    if (this.isPromiseType.get(rep)) {
+      const res = this.resolveType(this.promiseResolve.get(rep), new Set(visited));
+      const rej = this.resolveType(this.promiseReject.get(rep), new Set(visited));
+      if (isPromise(res)) return res;
+      return `Promise<${res}, ${rej}>`;
+    }
+    if (this.isResolverType.get(rep))
+      return `Resolver<${this.resolveType(this.resolverInner.get(rep), new Set(visited))}>`;
+    if (this.isRejectorType.get(rep))
+      return `Rejector<${this.resolveType(this.rejectorInner.get(rep), new Set(visited))}>`;
     return "bot";
   }
 
