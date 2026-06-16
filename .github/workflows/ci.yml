@@ -17,10 +17,8 @@ jobs:
 
       - name: Install dependencies
         run: npm install
-        working-directory: type_inference
 
       - name: Run type inference tests
-        working-directory: type_inference
         run: |
           PASS=0
           FAIL=0
